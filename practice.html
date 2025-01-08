@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body onload="onload()">
+    <!--  Exercise 1: Cart  -->
+    <div class="Exercise">
+      <button class="buttons" onclick="cart.Show()">
+        POP
+      </button>
+      <button class="buttons" onclick="cart.Increment(1)">
+        Add to Cart
+      </button>
+      <button class="buttons" onclick="cart.Increment(2)">
+        +2
+      </button>
+      <button class="buttons" onclick="cart.Increment(3)">
+        +3
+      </button>
+      <button class="buttons" onclick="cart.Reset()">
+        Reset Cart
+      </button>
+      <div id="display1"></div>
+    </div>
+
+    <!--  Exercise 2: Rock Paper Scissor  -->
+    <div class="Exercise">
+      <button class="buttons" onclick="RPS.StartGame()">
+        START GAME
+      </button>
+      <button class="buttons" onclick="RPS.Game(RPS.ROCK)">
+        Rock
+      </button>
+      <button class="buttons" onclick="RPS.Game(RPS.PAPER)">
+        Paper
+      </button>
+      <button class="buttons" onclick="RPS.Game(RPS.SCISSOR)">
+        Scissor
+      </button>
+      <button class="buttons" onclick="RPS.Display(false, true)">
+        POP
+      </button>
+      <button class="buttons" onclick="RPS.ResetScore()">
+        Reset Score
+      </button>
+      <div id="display2"></div>
+    </div>
+    
+    <!--  Exercise 3: Objects  -->
+    <div class="Exericse">
+
+    </div>
+
+  </body>
+  
+  <script src="script.js"></script>
+
+</html>

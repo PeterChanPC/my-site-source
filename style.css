@@ -1,0 +1,23 @@
+.buttons {
+  vertical-align: top;
+  width: 100px;
+  height: 100px;
+}
+
+.Exercise {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid;
+  border-bottom-color: black;
+  display: flex;
+}
+
+#display1 {
+  white-space: pre;
+  margin-left: 10px;
+}
+
+#display2 {
+  white-space: pre;
+  margin-left: 10px;
+}
