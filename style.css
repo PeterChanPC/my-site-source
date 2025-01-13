@@ -5,19 +5,23 @@
 }
 
 .Exercise {
+  height: 100px;
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: solid;
   border-bottom-color: black;
-  display: flex;
+  display: none;
 }
 
 #display1 {
-  white-space: pre;
   margin-left: 10px;
 }
 
 #display2 {
-  white-space: pre;
+  width: 180px;
   margin-left: 10px;
+}
+
+.result {
+  float: right;
 }

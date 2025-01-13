@@ -1,8 +1,3 @@
-//load everything when page is loaded
-function onload() {
-  cart.Display(); RPS.Display();
-}
-
 //Exercise 1
 function Cart() {
   this.quantity = 0;
@@ -27,7 +22,6 @@ function Cart() {
     document.getElementById('display1').textContent = s;
   }
 }
-let cart = new Cart();
 
 //Exercise 2
 class RockPaperScissor {
@@ -48,7 +42,8 @@ class RockPaperScissor {
 
   StartGame() {
     this.inputC = this.inputs[Math.floor(Math.random() * 3)];
-    console.log(`Computer chose ${this.inputC}`);
+    this.Display();
+    document.getElementById('display2').innerHTML += 'Game Started';
   }
 
   Game(input) {
@@ -56,7 +51,6 @@ class RockPaperScissor {
       console.log('Game not Started');
       return;
     }
-    console.log(`You chose ${input}`);
     this.inputP = input;
     this.GameEnd();
   }
@@ -75,32 +69,33 @@ class RockPaperScissor {
 
     localStorage.setItem('score', JSON.stringify(this.score));
     this.inputC = 0;
-    this.Display();
   }
 
   Wins() {
-    console.log('You Win!');
     this.score.win += 1;
+    this.Display(false, false, 'You Win');
   }
 
   Loses() {
-    console.log('You Lose!');
     this.score.lose += 1;
+    this.Display(false, false, 'You Lose');
   }
 
   Ties() {
-    console.log('Tie');
     this.score.tie += 1;
+    this.Display(false, false, 'It\'s a Tie');
   }
 
-  Display(reset = false, pop = false) {
-    let s1 = `Win: ${this.score.win}\nLose: ${this.score.lose}\nTie: ${this.score.tie}`;
-    let s2 = '\nScore Reset';
-    if (reset) {
-      s1 += s2;
-    }
+  Display(reset = false, pop = false, result = null) {
+    let s1 = `Win: ${this.score.win}<br>Lose: ${this.score.lose}<br>Tie: ${this.score.tie}<br>`;
+    let s2 = 'Score Reset';
+    let s3 = `Computer chose <span class="result">${this.inputC}</span><br>You chose <span class="result">${this.inputP}</span><br><span style="font-weight: bold;">${result}</span>`
+
+    if (reset) s1 += s2;
     if (pop) alert(s1);
-    document.getElementById('display2').textContent = s1;
+    if (result) s1 += s3;
+
+    document.getElementById('display2').innerHTML = s1;
   }
 
   ResetScore() {
@@ -110,6 +105,35 @@ class RockPaperScissor {
     this.Display(true);
   }
 }
-let RPS = new RockPaperScissor;
 
 //Exercise 3
+class DOM {
+  constructor() {
+
+  }
+
+  ShowExercise() {
+    cart = new Cart();
+    RPS = new RockPaperScissor;
+    document.querySelectorAll('.Exercise').forEach((elm) => elm.style.display = 'flex');
+    this.Display();
+    const buttonelm = document.querySelector('.ex3-button');
+    buttonelm.textContent = 'Hide Exercises';
+    buttonelm.setAttribute('onclick', 'ex3.HideExercise()')
+  }
+
+  HideExercise() {
+    document.querySelectorAll('.Exercise').forEach((elm) => elm.style.display = 'none');
+    const buttonelm = document.querySelector('.ex3-button');
+    buttonelm.textContent = 'Show Exercises';
+    buttonelm.setAttribute('onclick', 'ex3.ShowExercise()');
+  }
+
+  //load everything when page is loaded
+  Display() {
+    cart.Display(); RPS.Display();
+  }
+}
+let ex3 = new DOM;
+let cart = null;
+let RPS = null;
