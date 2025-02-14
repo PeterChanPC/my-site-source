@@ -13,23 +13,26 @@ class TodoList {
     }
 
     //Delete TodoItem from TodoList
-    deleteItem(targetIndex) {
-        this.list.forEach((item, i) => { //search item
-            if (item.index === targetIndex) {
-                this.list.splice(i, 1); //remove item
-                this.createDiv(); //update list container
-            }
-        });
+    deleteItem(index) {
+        this.list.splice(index, 1); //remove item
+        this.createDiv(); //update list container
+    }
+
+    checkCompletion(index) {
+        this.list[index].completion = (this.list[index].completion) ? false : true;
+        this.saveLocal();
     }
 
     //Create or refresh div elements in TodoList
     createDiv() {
+        console.log(this.list);
+
         const listContainerList = document.querySelectorAll(".TodoList");
         for (let listContainer of listContainerList) {
             listContainer.innerHTML = ""; //reset list
 
             let i = 0;
-            for (let item of this.list) {
+            for (const [index, item] of this.list.entries()) {
                 //check Div routine type
                 if (item.routine !== listContainer.id) continue;
 
@@ -37,7 +40,9 @@ class TodoList {
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.className = "Completion";
+                console.log(item.completion);
                 if (item.completion) checkbox.checked = true;;
+                checkbox.setAttribute("onchange", `todoList.checkCompletion('${index}')`);
 
                 //create index div
 
@@ -55,7 +60,7 @@ class TodoList {
                 //create the delete button for item
                 const deleteButton = document.createElement("button");
                 deleteButton.innerHTML = "<i class='fa fa-trash'></i>";
-                deleteButton.setAttribute("onclick", `todoList.deleteItem(${item.index})`);
+                deleteButton.setAttribute("onclick", `todoList.deleteItem('${index}')`);
                 deleteButton.className = "delete";
 
                 //create item container that holds the details
@@ -91,7 +96,6 @@ class TodoItem {
 
 //Initialize
 const todoList = new TodoList;
-let index = 0;
 
 function AddInput(id) {
     const listContainer = document.getElementById(id);
