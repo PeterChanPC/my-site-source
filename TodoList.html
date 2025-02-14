@@ -7,7 +7,7 @@
         <title>TodoLists</title>
     </head>
 
-    <body>
+    <body onload="todoList.createDiv()">
         <div id="SidebarContainer">
             <div class="Sidebar">
                 <i class="fa fa-home"></i>
@@ -43,7 +43,7 @@
             <div class="TodoListContainer">
                 <div class="TodoHeader">
                     <p class="HeaderTitle">Weekly</p>
-                    <button class="Add" onclick=""><i class="fa fa-plus"></i></button>
+                    <button class="Add" onclick="AddInput('Weekly')"><i class="fa fa-plus"></i></button>
                 </div>
                 <div id="Weekly" class="TodoList">
 
@@ -53,7 +53,7 @@
             <div class="TodoListContainer">
                 <div class="TodoHeader">
                     <p class="HeaderTitle">Monthly</p>
-                    <button class="Add" onclick=""><i class="fa fa-plus"></i></button>
+                    <button class="Add" onclick="AddInput('Monthly')"><i class="fa fa-plus"></i></button>
                 </div>
                 <div id="Monthly" class="TodoList">
 
@@ -63,7 +63,7 @@
             <div class="TodoListContainer">
                 <div class="TodoHeader">
                     <p class="HeaderTitle">Other</p>
-                    <button class="Add" onclick=""><i class="fa fa-plus"></i></button>
+                    <button class="Add" onclick="AddInput('Other')"><i class="fa fa-plus"></i></button>
                 </div>
                 <div id="Other" class="TodoList">
 

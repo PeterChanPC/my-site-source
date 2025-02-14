@@ -25,36 +25,50 @@ class TodoList {
     //Create or refresh div elements in TodoList
     createDiv() {
         const listContainerList = document.querySelectorAll(".TodoList");
-        console.log(listContainerList);
-        listContainerList.forEach((listContainer) => {
+        for (let listContainer of listContainerList) {
             listContainer.innerHTML = ""; //reset list
-            
 
-            this.list.forEach((item) => {
+            let i = 0;
+            for (let item of this.list) {
+                //check Div routine type
+                if (item.routine !== listContainer.id) continue;
+
+                //create checkbox
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "Completion";
+                if (item.completion) checkbox.checked = true;;
+
+                //create index div
+
+
                 //create item name div
-                const todoItem = document.createElement("div");
+                const todoItem = document.createElement("p");
                 todoItem.textContent = item.name;
                 todoItem.className = "TodoItem";
 
                 //create item deadline div
-                
+                if (item.ddl) {
+
+                }
 
                 //create the delete button for item
                 const deleteButton = document.createElement("button");
-                deleteButton.textContent = "Delete";
+                deleteButton.innerHTML = "<i class='fa fa-trash'></i>";
                 deleteButton.setAttribute("onclick", `todoList.deleteItem(${item.index})`);
                 deleteButton.className = "delete";
 
                 //create item container that holds the details
                 const todoItemContainer = document.createElement("div");
+                todoItemContainer.appendChild(checkbox);
                 todoItemContainer.appendChild(todoItem);
                 todoItemContainer.appendChild(deleteButton);
                 todoItemContainer.className = "TodoItemContainer";
 
                 //Push the item container into the list container
                 listContainer.appendChild(todoItemContainer);
-            });
-        });
+            };
+        };
         this.saveLocal();
     }
 
@@ -66,11 +80,12 @@ class TodoList {
 
 //Todo items
 class TodoItem {
-    constructor(name, index, ddl) {
+    constructor(name, routine, ddl, completion=false) {
         //Create item with attributes
         this.name = name;
-        this.index = index;
+        this.routine = routine;
         this.deadline = ddl;
+        this.completion = completion;
     }
 }
 
@@ -84,14 +99,13 @@ function AddInput(id) {
     input.className = "Input";
     listContainer.appendChild(input);
     input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") AddFromInput(input);
+        if (e.key === "Enter") AddFromInput(input, id);
     });
 }
 
 //Add item to list from input
-function AddFromInput(input) {
+function AddFromInput(input, routine) {
     if (!input.value) return; //cannot add empty object
-    let todoItem = new TodoItem(input.value, index++);
+    const todoItem = new TodoItem(input.value, routine);
     todoList.addItem(todoItem);
-    input.value = ""; //clear input
 }
