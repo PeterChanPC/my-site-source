@@ -25,8 +25,6 @@ class TodoList {
 
     //Create or refresh div elements in TodoList
     createDiv() {
-        console.log(this.list);
-
         const listContainerList = document.querySelectorAll(".TodoList");
         for (let listContainer of listContainerList) {
             listContainer.innerHTML = ""; //reset list
@@ -39,8 +37,7 @@ class TodoList {
                 //create checkbox
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.className = "Completion";
-                console.log(item.completion);
+                checkbox.className = "checkbox";
                 if (item.completion) checkbox.checked = true;;
                 checkbox.setAttribute("onchange", `todoList.checkCompletion('${index}')`);
 
@@ -101,10 +98,17 @@ function AddInput(id) {
     const listContainer = document.getElementById(id);
     const input = document.createElement("input");
     input.className = "Input";
-    listContainer.appendChild(input);
+    input.placeholder = "Enter your daily work ...";
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") AddFromInput(input, id);
+        if (e.key === "Escape") input.remove();
     });
+    listContainer.appendChild(input);
+    input.onload = AutoFocusInput();
+}
+
+function AutoFocusInput() {
+    document.querySelector(".Input").focus();
 }
 
 //Add item to list from input
