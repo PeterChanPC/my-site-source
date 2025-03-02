@@ -1,0 +1,64 @@
+<template>
+  <aside>
+    <div class="menu">
+      <router-link :to="{ name: 'home' }">
+        <i class="fi fi-rr-home"></i>
+      </router-link>
+
+      <router-link :to="{ name: 'todos' }">
+        <i class="fi fi-rr-list"></i>
+      </router-link>
+
+      <router-link :to="{ name: 'settings'}">
+        <i class="fi fi-rr-settings"></i>
+      </router-link>
+      
+    </div>
+  </aside>
+</template>
+
+<script setup>
+</script>
+
+<style scoped>
+  aside {
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+
+    a {
+      margin-top: 10px;
+      height: 50px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2c3e50;
+      text-decoration: none;
+
+      &:hover {
+        transition: .05s;
+        background: #ddd;
+      }
+    }
+
+    a.router-link-exact-active {
+      border-right: 3px solid #666;
+      background: #ccc;
+
+      &:hover {
+        transition: .05s;
+        background: #ddd;
+      }
+    }
+
+    
+    @media (max-width: 768px) {
+      position: fixed;
+      z-index: 99;
+    }
+    
+  }
+</style>
