@@ -5,14 +5,23 @@
     <title>Redirecting...</title>
     <script>
       const repoName = 'My-Practice';
+      const basePath = `/${repoName}/`;
       const currentPath = window.location.pathname;
-      
-      if (!currentPath.startsWith(`/${repoName}/`)) {
-        window.location.href = `/${repoName}/${currentPath}`;
+
+      // Preserve the original path
+      sessionStorage.redirectPath = currentPath;
+
+      // Redirect logic
+      if (currentPath.startsWith(basePath)) {
+        // Path already contains repo name - redirect to SPA entry
+        window.location.href = basePath + 'index.html';
+      } else {
+        // Path needs repo prefix
+        window.location.href = basePath;
       }
     </script>
   </head>
   <body>
-    <p>Redirecting to home page...</p>
+    <p>Redirecting to application...</p>
   </body>
 </html>
