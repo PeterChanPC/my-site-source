@@ -27,7 +27,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  sessionStorage.redirectPath = to.path
+  if (from.path) sessionStorage.redirectPath = to.path
 
   if (sessionStorage.redirectPath) {
     const path = sessionStorage.redirectPath
