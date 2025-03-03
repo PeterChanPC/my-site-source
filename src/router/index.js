@@ -5,17 +5,17 @@ import SettingView from '../views/SettingView.vue'
 
 const routes = [
   {
-    path: '/My-Practice/',
+    path: '/',
     name: 'home',
     component: HomeView
   },
   {
-    path: '/My-Practice/todos',
+    path: '/todos',
     name: 'todos',
     component: TodoView
   },
   {
-    path: '/My-Practice/settings',
+    path: '/settings',
     name: 'settings',
     component: SettingView
   }
