@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      const pathSegments = window.location.pathname.split('/');
-      const repoName = 'My-Practice'; // Match your repository name
-      const shouldRedirect = !pathSegments.includes(repoName);
+      const repoName = 'My-Practice';
+      const currentPath = window.location.pathname;
       
-      if (shouldRedirect) {
-        window.location.href = `/${repoName}/`;
+      if (!currentPath.startsWith(`/${repoName}/`)) {
+        window.location.href = `/${repoName}/${currentPath}`;
       }
     </script>
   </head>
