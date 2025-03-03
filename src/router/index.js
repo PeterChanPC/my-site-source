@@ -26,4 +26,14 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (sessionStorage.redirect) {
+    const path = sessionStorage.redirect
+    sessionStorage.removeItem('redirect')
+    next(path)
+  } else {
+    next()
+  }
+})
+
 export default router
