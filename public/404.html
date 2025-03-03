@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      sessionStorage.redirect = location.href
+      sessionStorage.redirect = location.pathname.replace('/My-Practice', '')
       location.href = '/My-Practice/'
     </script>
   </head>
