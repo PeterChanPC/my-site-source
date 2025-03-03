@@ -4,8 +4,16 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      sessionStorage.redirect = location.href;
+      const pathSegments = window.location.pathname.split('/');
+      const repoName = 'My-Practice'; // Match your repository name
+      const shouldRedirect = !pathSegments.includes(repoName);
+      
+      if (shouldRedirect) {
+        window.location.href = `/${repoName}/`;
+      }
     </script>
-    <meta http-equiv="refresh" content="0;URL='/'" />
   </head>
+  <body>
+    <p>Redirecting to home page...</p>
+  </body>
 </html>
