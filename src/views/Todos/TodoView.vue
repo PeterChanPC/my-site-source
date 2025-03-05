@@ -1,7 +1,18 @@
 <template>
   <div class="todo-view">
-    <TodoList @deleteTodo="deleteTodo" class="all-todos" key="all" :todoList="todos"/>
-    <TodoList @deleteTodo="deleteTodo" v-for="(todoList, index) in todoLists" :key="index" :todoList="todoList" :title="periodicities[index]"/>
+    <TodoList class="all-todos" 
+              key="all" 
+              :todoList="todos"
+              @deleteTodo="deleteTodo" 
+              @finishTodo="finishTodo">
+    </TodoList>
+    <TodoList v-for="(todoList, index) in todoLists" 
+              :key="index" 
+              :todoList="todoList" 
+              :title="periodicities[index]"
+              @deleteTodo="deleteTodo" 
+              @finishTodo="finishTodo">
+    </TodoList>
   </div>
 </template>
 
@@ -11,11 +22,11 @@ import TodoList from './TodoList.vue'
 
 // this todos will have to be moved to app.vue instead of this view
 let todos = ref([
-  { id: 0, text: 'todo 1', periodicity: 'others', repeat: ['none'], date: null, done: false},
+  { id: 0, text: 'todo 1', periodicity: 'others', repeat: ['none'], date: null, done: true},
   { id: 1, text: 'todo 2', periodicity: 'weekly', repeat: ['mon', 'fri', 'sat', 'sun', 'other'], date: null, done: false},
-  { id: 2, text: 'todo 3', periodicity: 'weekly', repeat: ['wed', 'thu', 'fri', 'sat'], date: null, done: false},
+  { id: 2, text: 'todo 3', periodicity: 'weekly', repeat: ['wed', 'thu', 'fri', 'sat'], date: null, done: true},
   { id: 3, text: 'todo 4', periodicity: 'monthly', repeat: ['month'], date: null, done: false},
-  { id: 4, text: 'todo 5', periodicity: 'daily', repeat: ['day'], date: null, done: false},
+  { id: 4, text: 'todo 5', periodicity: 'daily', repeat: ['day'], date: null, done: true},
   { id: 5, text: 'todo 6', periodicity: 'others', repeat: ['none'], date: null, done: false}
 ])
 
@@ -31,14 +42,18 @@ watchEffect(() => {
 const deleteTodo = (target) => {
   todos.value = todos.value.filter(todo => todo.id !== target.id )
 }
+const finishTodo = (target) => {
+  const foundTodo = todos.value.find(todo => todo.id === target.id)
+  foundTodo.done = !foundTodo.done
+}
 
 </script>
 
 <style scoped>
   .todo-view {
-    width: calc(100vw - 50px - 2.5em);
+    width: calc(100vw - 51px - 2em);
     height: calc(100vh - 2em);
-    padding: 1em 1em 1em 1.5em;
+    padding: 1em;
     display: grid;
     grid-template: "all . ." "all . ." / 1fr 1fr 1fr;
     gap: 1em;

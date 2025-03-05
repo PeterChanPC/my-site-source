@@ -27,11 +27,11 @@
     display: flex;
     flex-direction: column;
     background: #eee;
+    border-right: 1px solid #ddd;
 
     a {
       margin-top: 10px;
       height: 50px;
-      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -45,7 +45,7 @@
     }
 
     a.router-link-exact-active {
-      border-right: 3px solid #666;
+      border-right: 2px solid #777;
       background: #ccc;
 
       &:hover {
@@ -54,6 +54,9 @@
       }
     }
 
+    &:hover {
+      border-right: 1px solid #ccc;
+    }
     
     @media (max-width: 768px) {
       position: fixed;
