@@ -1,7 +1,7 @@
 <template>
   <div class="todo-list">
-    <div class="todo-header">
-      <div class="todo-list-name">{{ title }}</div>
+    <div class="todo-list-header">
+      <div class="todo-list-name">{{ name }}</div>
       <i class="fi fi-rr-pencil" @click="toggleEdit"></i>
     </div>
     <TodoItem v-bind="$attrs" 
@@ -10,16 +10,18 @@
               :todoItem="todoItem"
               :editMode="editMode">
     </TodoItem>
+    <NewTodo v-if="editMode"/>
   </div>
 </template>
 
 <script setup>
 import TodoItem from './TodoItem.vue'
+import NewTodo from './NewTodo.vue'
 import { defineProps, ref } from 'vue'
 
 const props = defineProps({
   todoList: Array,
-  title: {
+  name: {
     type: String,
     default: 'What to do next ...'
   }
@@ -37,11 +39,12 @@ const toggleEdit = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 320px;
     border-radius: 1em;
     border: 1px solid #ddd;
     background: #eee;
       
-    .todo-header {
+    .todo-list-header {
       display: flex;
       width: 100%;
       align-items: center;

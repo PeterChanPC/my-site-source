@@ -9,7 +9,7 @@
     <TodoList v-for="(todoList, index) in todoLists" 
               :key="index" 
               :todoList="todoList" 
-              :title="periodicities[index]"
+              :name="periodicities[index]"
               @deleteTodo="deleteTodo" 
               @finishTodo="finishTodo">
     </TodoList>
@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
 import TodoList from './TodoList.vue'
+import { ref, watchEffect } from 'vue'
 
 // this todos will have to be moved to app.vue instead of this view
 let todos = ref([
@@ -33,10 +33,15 @@ let todos = ref([
 const periodicities = ['daily', 'weekly', 'monthly', 'others']
 
 let todoLists = []
-watchEffect(() => {
+
+const refreshAllListsFromMainList = () => {
   periodicities.forEach((periodicity, i) => {
     todoLists[i] = todos.value.filter( todo => todo.periodicity === periodicity )
   })
+}
+
+watchEffect(() => {
+  refreshAllListsFromMainList()
 })
 
 const deleteTodo = (target) => {

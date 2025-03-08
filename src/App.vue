@@ -15,22 +15,9 @@ import Sidebar from './components/Sidebar.vue'
     background: #fff;
   }
 
-  button {
-    cursor: pointer;
-    appearance: none;
+  input {
     border: none;
     outline: none;
-    background: none;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-
-  h2 {
-    margin: 0;
   }
 
   #app {
