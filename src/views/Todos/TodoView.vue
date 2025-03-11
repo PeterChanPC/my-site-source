@@ -4,54 +4,66 @@
               key="all" 
               :todoList="todos"
               @deleteTodo="deleteTodo" 
-              @finishTodo="finishTodo">
+              @finishTodo="finishTodo"
+              @addTodo="addTodo">
     </TodoList>
     <TodoList v-for="(todoList, index) in todoLists" 
               :key="index" 
               :todoList="todoList" 
-              :name="periodicities[index]"
+              :listName="periodicities[index]"
               @deleteTodo="deleteTodo" 
-              @finishTodo="finishTodo">
+              @finishTodo="finishTodo"
+              @addTodo="addTodo">
     </TodoList>
   </div>
 </template>
 
 <script setup>
 import TodoList from './TodoList.vue'
-import { ref, watchEffect } from 'vue'
+import Todos from '@/Scripts/getTodosLocal'
+import { ref, watch, onBeforeMount } from 'vue'
 
-// this todos will have to be moved to app.vue instead of this view
-let todos = ref([
-  { id: 0, text: 'todo 1', periodicity: 'others', repeat: ['none'], date: null, done: true},
-  { id: 1, text: 'todo 2', periodicity: 'weekly', repeat: ['mon', 'fri', 'sat', 'sun', 'other'], date: null, done: false},
-  { id: 2, text: 'todo 3', periodicity: 'weekly', repeat: ['wed', 'thu', 'fri', 'sat'], date: null, done: true},
-  { id: 3, text: 'todo 4', periodicity: 'monthly', repeat: ['month'], date: null, done: false},
-  { id: 4, text: 'todo 5', periodicity: 'daily', repeat: ['day'], date: null, done: true},
-  { id: 5, text: 'todo 6', periodicity: 'others', repeat: ['none'], date: null, done: false}
-])
-
+const todos = ref(Todos.todos)
+const todoLists = ref([])
 const periodicities = ['daily', 'weekly', 'monthly', 'others']
-
-let todoLists = []
 
 const refreshAllListsFromMainList = () => {
   periodicities.forEach((periodicity, i) => {
-    todoLists[i] = todos.value.filter( todo => todo.periodicity === periodicity )
+    todoLists.value[i] = todos.value.filter( todo => todo.periodicity === periodicity )
   })
 }
-
-watchEffect(() => {
+onBeforeMount(() => refreshAllListsFromMainList())
+watch([todos, todos.value], () => {
   refreshAllListsFromMainList()
+  saveTodos()
 })
-
-const deleteTodo = (target) => {
-  todos.value = todos.value.filter(todo => todo.id !== target.id )
+const saveTodos = () => {
+  localStorage.setItem('todos', JSON.stringify(todos.value))
 }
-const finishTodo = (target) => {
-  const foundTodo = todos.value.find(todo => todo.id === target.id)
+
+const refreshId = () => {
+  todos.value.forEach((todo, id) => todo.id = id )
+}
+const deleteTodo = (id) => {
+  todos.value = todos.value.filter(todo => todo.id !== id )
+  refreshId()
+}
+const finishTodo = (id) => {
+  const foundTodo = todos.value.find(todo => todo.id === id)
   foundTodo.done = !foundTodo.done
 }
-
+const addTodo = () => {
+  const todo = {
+    id: todos.value.length,
+    task: '',
+    repeat: false,
+    periodicity: '',
+    days: [],
+    date: '',
+    done: false
+  }
+  todos.value.push(todo)
+}
 </script>
 
 <style scoped>
@@ -62,6 +74,7 @@ const finishTodo = (target) => {
     display: grid;
     grid-template: "all . ." "all . ." / 1fr 1fr 1fr;
     gap: 1em;
+    overflow-y: scroll;
 
     .all-todos {
       grid-area: all;

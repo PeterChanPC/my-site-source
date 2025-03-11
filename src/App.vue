@@ -20,6 +20,12 @@ import Sidebar from './components/Sidebar.vue'
     outline: none;
   }
 
+  select {
+    border: none;
+    outline: none;
+    appearance: none;
+  }
+
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

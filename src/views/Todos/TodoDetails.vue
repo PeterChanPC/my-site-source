@@ -1,17 +1,28 @@
 <template>
   <div class="todo-details">
-    <!-- Todo Repeat Setting -->
-    <TodoRepeat/>
-    <!-- Todo Sub Tasks -->
-    <TodoSublist/>
+    <TodoRepeat :todoItem="todoItem" v-if="editTodo">
+    </TodoRepeat>
+    <TodoSublist>
+    </TodoSublist>
   </div>
-  
 </template>
 
 <script setup>
-import TodoRepeat from './TodoRepeat.vue';
-import TodoSublist from './TodoSublist.vue';
+import TodoRepeat from './TodoRepeat.vue'
+import TodoSublist from './TodoSublist.vue'
 
+const props = defineProps({
+  todoItem: {
+    id: Number,
+    task: String,
+    repeat: Boolean,
+    periodicity: String,
+    days: Array,
+    date: Date,
+    done: Boolean
+  },
+  editTodo: Boolean
+})
 </script>
 
 <style scoped>

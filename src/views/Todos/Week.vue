@@ -56,9 +56,11 @@ const select = (day) => {
       cursor: pointer;
       text-transform: capitalize;
       user-select: none;
+      transition: .2s;
 
-      @media (max-width: 436px) {
-        padding: .4em;
+      @media (max-width: 436px) or ((min-width: 768px) and (max-width: 1117px)) {
+        padding-right: .1em;
+        padding-left: .1em;
       }
     }
 

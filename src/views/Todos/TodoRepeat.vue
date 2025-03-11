@@ -2,21 +2,25 @@
   <div class="todo-repeat">
     <div class="toggle-repeat">
       <span>Is repeating</span>
-      <ToggleButton @toggle="toggleRepeat"/>
+      <ToggleButton @toggle="toggleRepeat"
+                    :isToggled="todoItem.repeat">
+      </ToggleButton>
     </div>
 
-    <div class="repeat-setting" v-if="isRepeating">
+    <div class="repeat-setting" v-if="todoItem.repeat">
       <!-- after selecting repeat, give period options based on the repeat type -->
       <div class="todo-periodicity">
         <span>Repeat</span>
-        <select v-model="periodicity">
+        <select v-model="todoItem.periodicity">
           <option value="">---</option>
-          <option v-for="item in periodicities" :key="item">{{ item }}</option>
+          <option v-for="periodicity in periodicities" :key="periodicity">
+            {{ periodicity }}
+          </option>
         </select>
       </div>
 
-      <Week v-if="showWeek"/>
-      <Month v-if="showMonth"/>
+      <Week v-if="todoItem.periodicity === 'weekly'"/>
+      <Month v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'"/>
     </div>
   </div>
 </template>
@@ -25,34 +29,27 @@
 import ToggleButton from '@/components/ToggleButton.vue'
 import Week from './Week.vue'
 import Month from './Month.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
-const isRepeating = ref(false)
-const periodicities = ['daily', 'weekly', 'monthly', 'others']
-const periodicity = ref('')
-const showWeek = ref(false)
-const showMonth = ref(false)
-
-const toggleRepeat = () => {
-  isRepeating.value = !isRepeating.value
-}
-
-watch(periodicity, (periodicity) => {
-  switch(periodicity) {
-    case periodicities[1]:
-      showWeek.value = true
-      showMonth.value = false
-      break
-    case periodicities[2]:
-    case periodicities[3]:
-      showWeek.value = false
-      showMonth.value = true
-      break
-    default:
-      showWeek.value = false
-      showMonth.value = false
+const props = defineProps({
+  todoItem: {
+    id: Number,
+    task: String,
+    repeat: Boolean,
+    periodicity: String,
+    days: Array,
+    date: Date,
+    done: Boolean
   }
 })
+
+const periodicities = ['daily', 'weekly', 'monthly', 'others']
+
+const todoItem = ref(props.todoItem)
+const toggleRepeat = (repeat) => {
+  todoItem.value.repeat = repeat
+  todoItem.value.periodicity = ''
+}
 </script>
 
 <style scoped>
@@ -69,7 +66,7 @@ watch(periodicity, (periodicity) => {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
       width: auto;
       height: auto;
       padding: 0 10% 0 10%;
@@ -88,8 +85,26 @@ watch(periodicity, (periodicity) => {
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
         margin-bottom: 1em;
+
+        select {
+          position: relative;
+          flex: .6;
+          width: auto;
+          height: 2.5em;
+          padding: .5em;
+          border: 1px solid #ddd;
+          border-radius: 2em;
+          text-align: center;
+          appearance: auto;
+          transition: .2s;
+          
+          &:hover {
+            border: 1px solid #ccc;
+          }
+          
+        }
       }
     }
   }

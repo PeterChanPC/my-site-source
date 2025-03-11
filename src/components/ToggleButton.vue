@@ -10,12 +10,16 @@
 <script setup>
 import { computed, ref } from 'vue';
 
-const isToggled = ref(false)
+const props = defineProps({
+  isToggled: Boolean
+})
+
+const isToggled = ref(props.isToggled)
 const emit = defineEmits(['toggle'])
 
 const toggle = () => {
   isToggled.value = !isToggled.value
-  emit('toggle')
+  emit('toggle', isToggled.value)
 }
 
 const thumbPosition = computed(() => ({
