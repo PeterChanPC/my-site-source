@@ -26,12 +26,15 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
 .todo-details {
   position: relative;
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
   width: auto;
   height: auto;
+  -webkit-backface-visibility: hidden; /* Prevent rendering issues */
+  backface-visibility: hidden;
 }
 </style>

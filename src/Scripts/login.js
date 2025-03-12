@@ -21,7 +21,7 @@ const login = (username, password) => {
       if (!res.ok) throw Error('Login failed')
 
       data.value = await res.json()
-      auth.login(data.value, data.value.accessToken)
+      auth.login(data.value.email, data.value.accessToken)
 
       router.push(router.currentRoute.value.query.redirect || '/')
     }

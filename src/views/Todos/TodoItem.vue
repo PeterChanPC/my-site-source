@@ -58,65 +58,187 @@ const toggleEdit = () => {
 </script>
 
 <style scoped>
-  .todo-item-container {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    width: 90%;
-    min-height: 50px;
-    margin-bottom: 1em;
-    border-radius: .5em;
-    border: 1px solid #ddd;
-    background: #fff;
-    
-    .delete, .checkbox, .options {
-      position: absolute;
-      margin: .7em;
-      width: 20px;
-      height: 20px;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 99;
-    }
-    .delete, .checkbox {
-      left: 0;
-      top: 0;
-    }
-    .options {
-      right: 0;
-      top: 0;
-    }
+.todo-item-container {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  width: 90%;
+  min-height: 50px;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  border: 1px solid #ddd;
+  background: #fff;
+}
 
-    .todo-item {
-      position: relative;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      
-      .todo-item-header {
-        position: relative;
-        display: flex;
-        flex-direction: rows;
-        align-items: center;
-        width: auto;
-        height: 50px;
-        margin-left: 48px;
+.todo-item-container .delete,
+.todo-item-container .checkbox,
+.todo-item-container .options {
+  position: absolute;
+  margin: 0.7em;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 99;
+  -webkit-tap-highlight-color: transparent;
+}
 
-        input {
-          position: relative;
-          width: 65%;
-          height: auto;
-          padding: .3em 0;
-          border-bottom: 1px solid #ddd;
-          font-size: 1em;
-        }
-      }
-    }
+.todo-item-container .delete,
+.todo-item-container .checkbox {
+  left: 0;
+  top: 0;
+}
 
-    &:hover {
-     border-color: #ccc;
+.todo-item-container .options {
+  right: 0;
+  top: 0;
+}
+
+.todo-item-container .todo-item {
+  position: relative;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.todo-item-container .todo-item .todo-item-header {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  width: auto;
+  height: 50px;
+  margin-left: 48px;
+}
+
+.todo-item-container .todo-item .todo-item-header input {
+  position: relative;
+  width: 65%;
+  height: auto;
+  padding: 0.3em 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1em;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.todo-item-container:hover {
+  border-color: #ccc;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+}
+
+/* Safari-specific media query if needed */
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .todo-item-container .todo-item .todo-item-header {
+      margin-left: 44px; /* Adjust if needed for Safari spacing */
     }
   }
+}
+</style><style scoped>
+.todo-item-container {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  width: 90%;
+  min-height: 50px;
+  margin-bottom: 1em;
+  border-radius: 0.5em;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.todo-item-container .delete,
+.todo-item-container .checkbox,
+.todo-item-container .options {
+  position: absolute;
+  margin: 0.7em;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 99;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.todo-item-container .delete,
+.todo-item-container .checkbox {
+  left: 0;
+  top: 0;
+}
+
+.todo-item-container .options {
+  right: 0;
+  top: 0;
+}
+
+.todo-item-container .todo-item {
+  position: relative;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.todo-item-container .todo-item .todo-item-header {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  width: auto;
+  height: 50px;
+  margin-left: 48px;
+}
+
+.todo-item-container .todo-item .todo-item-header input {
+  position: relative;
+  width: 65%;
+  height: auto;
+  padding: 0.3em 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1em;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.todo-item-container:hover {
+  border-color: #ccc;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+}
+
+/* Safari-specific media query if needed */
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .todo-item-container .todo-item .todo-item-header {
+      margin-left: 44px; /* Adjust if needed for Safari spacing */
+    }
+  }
+}
 </style>

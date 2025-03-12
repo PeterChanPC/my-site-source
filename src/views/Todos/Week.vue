@@ -30,52 +30,67 @@ const select = (day) => {
 </script>
 
 <style scoped>
+.week {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  width: auto;
+  height: 3em;
+  border: 1px solid #ddd;
+  border-radius: 0.5em;
+  background: #eee;
+}
+
+.week .day {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  max-width: 1em;
+  max-height: 1em;
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-transform: capitalize;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-transition: padding 200ms ease;
+  transition: padding 200ms ease;
+}
+
+.week .selected {
+  border: 1px solid #ddd;
+  background: #fff;
+  box-shadow: 0 1px 1px #777777;
+}
+
+.week .selected:hover {
+  border: 1px solid #ccc;
+}
+
+.week:hover {
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 436px), (min-width: 870px) and (max-width: 1117px) {
   .week {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    width: auto;
-    height: 3em;
-    border: 1px solid #ddd;
-    border-radius: .5em;
-    background: #eee;
-
-    .day {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      max-width: 1em;
-      max-height: 1em;
-      padding: .5em;
-      border-radius: 5px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      text-transform: capitalize;
-      user-select: none;
-      transition: .2s;
-
-      @media (max-width: 436px) or ((min-width: 768px) and (max-width: 1117px)) {
-        padding-right: .1em;
-        padding-left: .1em;
-      }
-    }
-
-    .selected {
-      border: 1px solid #ddd;
-      background: #fff;
-      box-shadow: 0 1px 1px #777;
-
-      &:hover {
-        border: 1px solid #ccc;
-      }
-    }
-
-    &:hover {
-      border: 1px solid #ccc;
-    }
+    height: 2.5em;
   }
+
+  .week .day {
+    font-size: .8em;
+  }
+}
 </style>

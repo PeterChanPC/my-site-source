@@ -67,23 +67,28 @@ const addTodo = () => {
 </script>
 
 <style scoped>
+.todo-view {
+  width: calc(100vw - 51px - 2em);
+  height: calc(100vh - 2em);
+  padding: 1em;
+  display: grid;
+  grid-template-areas: "all . ."
+                       "all . .";
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+  overflow-y: auto;
+}
+
+.todo-view .all-todos {
+  grid-area: all;
+}
+
+@media (max-width: 870px) {
   .todo-view {
-    width: calc(100vw - 51px - 2em);
-    height: calc(100vh - 2em);
-    padding: 1em;
-    display: grid;
-    grid-template: "all . ." "all . ." / 1fr 1fr 1fr;
-    gap: 1em;
-    overflow-y: scroll;
-
-    .all-todos {
-      grid-area: all;
-    }
-
-    @media (max-width: 768px) {
-      width: calc(100vw - 5em);
-      padding-left: 4.1875em;
-      grid-template: "all" / 1fr;
-    }
+    width: calc(100vw - 5em);
+    padding-left: 4.1875em;
+    grid-template-areas: "all";
+    grid-template-columns: 1fr;
   }
+}
 </style>

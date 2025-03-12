@@ -29,36 +29,62 @@ const thumbPosition = computed(() => ({
 </script>
 
 <style scoped>
-  input {
-    display: none;
-  }
+input {
+  display: none;
+}
 
-  .slider {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 42px;
-    height: 26px;
-    border-radius: 26px;
-    border: 1px solid #ddd;
-    background-color: #eee;
-    cursor: pointer;
-    transition: .2s;
-    
+.slider {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  width: 42px;
+  height: 26px;
+  border-radius: 26px;
+  border: 1px solid #ddd;
+  background-color: #eee;
+  cursor: pointer;
+  -webkit-transition: background-color 200ms ease;
+  transition: background-color 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.slider .thumb {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin: 3px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 2px #777777;
+  -webkit-transition: all 200ms ease;
+  transition: all 200ms ease;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.toggled {
+  background-color: #2196F3;
+}
+
+.toggled .thumb {
+  -webkit-transform: translateX(16px);
+  transform: translateX(16px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Safari specific adjustments */
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .slider {
+      -webkit-appearance: none;
+      background-clip: padding-box;
+    }
     .thumb {
-      position: relative;
-      width: 20px;
-      height: 20px;
-      margin: 3px;
-      border-radius: 50%;
-      background-color: #fff;
-      box-shadow: 0 1px 2px #777;
-      transition: .2s;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
   }
-  
-  .toggled {
-    background-color: #2196F3;
-  }
-
+}
 </style>

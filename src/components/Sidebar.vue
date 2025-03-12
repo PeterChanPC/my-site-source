@@ -38,97 +38,101 @@ import auth from '@/Scripts/auth'
 </script>
 
 <style scoped>
-  aside {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 50px;
-    height: 100%;
-    border-right: 1px solid #ddd;
-    background: #eee;
+.menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50px;
+  height: 100%;
+  border-right: 1px solid #ddd;
+  background: #eee;
+}
 
-    .menu-upper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
+.menu:hover {
+  border-right: 1px solid #ccc;
+}
 
-      a {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 50px;
-        margin-top: 10px;
-        color: #2c3e50;
-        text-decoration: none;
+.menu .menu-upper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 
-        &:hover {
-          background: #ddd;
-          transition: .05s;
-        }
-      }
-      a.router-link-exact-active {
-        border-right: 2px solid #777;
-        background: #ccc;
+.menu .menu-upper a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin-top: 10px;
+  color: #2c3e50;
+  text-decoration: none;
+  -webkit-transition: background 100ms ease;
+  transition: background 100ms ease;
+}
 
-        &:hover {
-          background: #ddd;
-          transition: .05s;
-        }
-      }
-    }
+.menu .menu-upper a:hover {
+  background: #ddd;
+}
 
-    .menu-lower {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      
-      .lang-setting {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 50px;
-        margin-bottom: 10px;
-        font-size: 14px;
-        user-select: none;
+.menu .menu-upper a.router-link-exact-active {
+  border-right: 2px solid #777;
+  background: #ccc;
+}
 
-        span {
-          cursor: pointer;
+.menu .menu-upper a.router-link-exact-active:hover {
+  background: #ddd;
+}
 
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
+.menu .menu-lower {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 
-      .logout {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 50px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        color: #2c3e50;
-        text-decoration: none;
+.menu .menu-lower .lang-setting {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
-        &:hover {
-          background: #ddd;
-          transition: .05s;
-        }
-      }
-    }
+.menu .menu-lower .lang-setting span {
+  cursor: pointer;
+}
 
-    &:hover {
-      border-right: 1px solid #ccc;
-    }
-    
-    @media (max-width: 768px) {
-      position: fixed;
-      z-index: 99;
-    }
-    
+.menu .menu-lower .lang-setting span:hover {
+  text-decoration: underline;
+}
+
+.menu .menu-lower .logout {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: #2c3e50;
+  text-decoration: none;
+  -webkit-transition: background 100ms ease;
+  transition: background 100ms ease;
+}
+
+.menu .menu-lower .logout:hover {
+  background: #ddd;
+}
+
+@media (max-width: 870px) {
+  .menu {
+    position: fixed;
+    z-index: 99;
   }
+}
 </style>

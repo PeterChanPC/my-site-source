@@ -3,10 +3,10 @@
     <h1>Login</h1>
     <div>
       <span>Username: </span>
-      <input type="text" v-model="username" placeholder="emilys">
+      <input type="text" v-model="username"/>
       <br>
       <span>Password: </span>
-      <input type="text" v-model="password" placeholder="milyspass">
+      <input type="text" v-model="password"/>
       <br>
       <button @click="handleLogin">Login</button>
     </div>
@@ -34,7 +34,7 @@ const { data, error, handleLogin } = login(username.value, password.value)
     align-items: center;
     justify-content: center;
     width: 500px;
-    height: 500px;
+    height: 300px;
     border-radius: 1em;
     border: 1px solid #777;
 
