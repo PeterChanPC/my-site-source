@@ -3,6 +3,7 @@ import auth from '@/Scripts/auth'
 import LoginView from '@/views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import TodoView from '../views/Todos/TodoView.vue'
+import CalendarView from '../views/CalendarView.vue'
 import SettingView from '../views/SettingView.vue'
 
 const routes = [
@@ -16,6 +17,12 @@ const routes = [
     path: '/todos',
     name: 'todos',
     component: TodoView,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: CalendarView,
     meta: {requiresAuth: true}
   },
   {
@@ -42,7 +49,7 @@ router.beforeEach((to, from, next) => {
     sessionStorage.removeItem('redirect')
     next(path)
   }
-  if (to.meta.requiresAuth && !auth.isAuthenticated()) {
+  else if (to.meta.requiresAuth && !auth.isAuthenticated()) {
     next({
       name: 'login',
       query: { redirect: to.fullPath }

@@ -1,3 +1,4 @@
+import router from '@/router'
 import { reactive } from 'vue'
 
 const auth = reactive({
@@ -14,6 +15,7 @@ const auth = reactive({
     this.user = null
     this.token = null
     localStorage.removeItem('token')
+    router.go()
   },
 
   isAuthenticated() {
