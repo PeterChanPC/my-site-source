@@ -82,7 +82,7 @@ const addTodo = () => {
 
     @media (max-width: 768px) {
       width: calc(100vw - 5em);
-      padding-left: 4.5em;
+      padding-left: 4.1875em;
       grid-template: "all" / 1fr;
     }
   }

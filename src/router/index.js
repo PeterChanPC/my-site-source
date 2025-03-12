@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import auth from '@/Scripts/auth'
+import LoginView from '@/views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import TodoView from '../views/Todos/TodoView.vue'
 import SettingView from '../views/SettingView.vue'
@@ -7,17 +9,25 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {requiresAuth: false}
   },
   {
     path: '/todos',
     name: 'todos',
-    component: TodoView
+    component: TodoView,
+    meta: {requiresAuth: true}
   },
   {
     path: '/settings',
     name: 'settings',
-    component: SettingView
+    component: SettingView,
+    meta: {requiresAuth: false}
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   }
 ]
 
@@ -31,6 +41,12 @@ router.beforeEach((to, from, next) => {
     const path = sessionStorage.redirect
     sessionStorage.removeItem('redirect')
     next(path)
+  }
+  if (to.meta.requiresAuth && !auth.isAuthenticated()) {
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    })
   } else {
     next()
   }

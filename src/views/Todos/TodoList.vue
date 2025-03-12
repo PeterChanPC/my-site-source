@@ -83,7 +83,7 @@ const addTodo = () => {
       justify-content: center;
       width: 90%;
       height: 50px;
-      border-radius: 1em;
+      border-radius: .5em;
       border: 1px dashed #aaa;
       cursor: pointer;
       transition: border .1s ease-out;
