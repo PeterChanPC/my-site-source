@@ -34,7 +34,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 const { locale } = useI18n({ useScope: 'global' })
-import auth from '@/Scripts/auth'
+import auth from '@/stores/auth.store'
 </script>
 
 <style scoped>

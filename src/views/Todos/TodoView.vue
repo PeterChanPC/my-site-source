@@ -20,7 +20,7 @@
 
 <script setup>
 import TodoList from './TodoList.vue'
-import Todos from '@/Scripts/getTodosLocal'
+import Todos from '@/services/todosLocalStorage.service'
 import { ref, watch, onBeforeMount } from 'vue'
 
 const todos = ref(Todos.todos)

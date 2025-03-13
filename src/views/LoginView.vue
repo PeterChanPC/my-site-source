@@ -10,18 +10,18 @@
       <br>
       <button @click="handleLogin">Login</button>
     </div>
-    <p>{{ error }}</p>
+    <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <script setup>
-import login from '@/Scripts/login'
+import useLogin from '@/composables/useLogin.composable'
 import { ref } from 'vue'
 
 const username = ref('emilys')
 const password = ref('emilyspass')
 
-const { data, error, handleLogin } = login(username.value, password.value)
+const { error, handleLogin } = useLogin(username.value, password.value)
 </script>
 
 <style>

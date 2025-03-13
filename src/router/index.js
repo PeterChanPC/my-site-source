@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import auth from '@/Scripts/auth'
-import LoginView from '@/views/LoginView.vue'
+import auth from '../stores/auth.store'
+import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
 import TodoView from '../views/Todos/TodoView.vue'
 import CalendarView from '../views/CalendarView.vue'
@@ -43,14 +43,15 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (sessionStorage.redirect) {
     const path = sessionStorage.redirect
     sessionStorage.removeItem('redirect')
     next(path)
   }
-  else if (to.meta.requiresAuth && !auth.isAuthenticated()) {
-    next({
+  else if (to.meta.requiresAuth) {
+    const authenticated = await auth.isAuthenticated()
+    next(authenticated || {
       name: 'login',
       query: { redirect: to.fullPath }
     })

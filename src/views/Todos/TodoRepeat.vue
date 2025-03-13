@@ -27,8 +27,8 @@
 
 <script setup>
 import ToggleButton from '@/components/ToggleButton.vue'
-import Week from './Week.vue'
-import Month from './Month.vue'
+import Week from './TodoWeek.vue'
+import Month from './TodoMonth.vue'
 import { ref } from 'vue'
 
 const props = defineProps({
