@@ -1,8 +1,9 @@
 import router from '@/router'
-import authCheck from '../composables/useAuthCheck.composable'
-import { reactive } from 'vue'
+import useAuthCheck from '@/composables/useAuthCheck.composable'
+import { reactive, toRaw } from 'vue'
 
 const auth = reactive({
+  user: localStorage.getItem('user') || null,
   token: localStorage.getItem('token') || null,
 
   login(token) {
@@ -13,17 +14,17 @@ const auth = reactive({
   logout() {
     // not the best approach to remove token only, 
     // but dummyJSON doesn't have remove active token function
+    this.user = null
     this.token = null
+    localStorage.removeItem('user')
     localStorage.removeItem('token')
     router.go()
   },
 
-  async isAuthenticated() {
+  isAuthenticated() {
     if (!this.token) return false
-    
-    const { data, error, handleAuthCheck } = await authCheck(this.token)
+    const { data, error, handleAuthCheck } = useAuthCheck(this.token)
     const isValid = handleAuthCheck()
-
     return isValid
   }
 })

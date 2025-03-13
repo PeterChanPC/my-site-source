@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import auth from '../stores/auth.store'
-import LoginView from '../views/LoginView.vue'
-import HomeView from '../views/HomeView.vue'
-import TodoView from '../views/Todos/TodoView.vue'
-import CalendarView from '../views/CalendarView.vue'
-import SettingView from '../views/SettingView.vue'
+import auth from '@/stores/auth.store'
+import LoginView from '@/views/LoginView.vue'
+import HomeView from '@/views/HomeView.vue'
+import TodoView from '@/views/Todos/TodoView.vue'
+import CalendarView from '@/views/CalendarView.vue'
+import SettingView from '@/views/SettingView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: {requiresAuth: false}
+    meta: {requiresAuth: true}
   },
   {
     path: '/todos',
@@ -50,8 +50,8 @@ router.beforeEach(async (to, from, next) => {
     next(path)
   }
   else if (to.meta.requiresAuth) {
-    const authenticated = await auth.isAuthenticated()
-    next(authenticated || {
+    next(await auth.isAuthenticated() || {
+      // direct to login page if user is not authenticated
       name: 'login',
       query: { redirect: to.fullPath }
     })

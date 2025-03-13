@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = (url = 'https://dummyjson.com/auth/') => {
+const dummyJsonAPI = (url = 'https://dummyjson.com/auth/') => {
   return axios.create({
     baseURL: url,
   })
@@ -8,9 +8,9 @@ const API = (url = 'https://dummyjson.com/auth/') => {
 
 export default {
   getTokenFromLogin(data, interfaces) {
-    return API().post('/login', data, interfaces)
+    return dummyJsonAPI().post('/login', data, interfaces)
   },
-  getCurrentAuthByToken(token, interfaces) {
-    return API().get('/me', token, interfaces)
+  getCurrentAuthByToken(interfaces) {
+    return dummyJsonAPI().get('/me', interfaces)
   }
 }

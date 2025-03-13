@@ -13,7 +13,7 @@ const useLogin = (username, password) => {
         password: password,
         expiresponseInMins: 1,
       }, {
-        header: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' }
       })
 
       auth.login(res.data.accessToken)

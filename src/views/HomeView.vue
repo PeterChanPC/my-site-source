@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>{{ t('user', { user: user }) }}</h1>
+    <h1>{{ t('user', { user: username }) }}</h1>
+    <h3 v-if="!isLogin">
+      <span>You are not </span>
+      <router-link to="/login">login</router-link>
+    </h3>
     <h2>{{ d(new Date(), 'short', 'en-US') }}</h2>
     <h2>{{ d(new Date(), 'long') }}</h2>
     <h3>{{ n(8888.88, 'currency') }}</h3>
@@ -17,20 +21,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import authCheck from '@/composables/useAuthCheck.composable'
-import auth from '@/stores/auth.store'
 
 const { t, d, n } = useI18n()
-const { data, error, handleAuthCheck } = authCheck(auth.token)
-const user = ref('User')
-
-onMounted(async () => {
-  const isLogin = await handleAuthCheck()
-  if (isLogin) user.value = JSON.parse(JSON.stringify(data.value)).firstName
-})
-
+const user = JSON.parse(localStorage.getItem('user'))
+const username = ref(user.username)
+const isLogin = ref(user)
 
 </script>
 

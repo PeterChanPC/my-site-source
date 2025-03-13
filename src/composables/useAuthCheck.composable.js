@@ -1,27 +1,27 @@
+import authApi from '@/api/authApi.service'
+import auth from '@/stores/auth.store'
 import { ref } from 'vue'
 
-const authCheck = (token) => {
+const useAuthCheck = (token) => {
   const data = ref(null)
   const error = ref(null)
 
   const handleAuthCheck = async () => {
     try {
-      let res = await fetch('https://dummyjson.com/auth/me', {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${ token }` }
+      const res = await authApi.getCurrentAuthByToken({
+        headers: { 'Authorization': `Bearer ${ token }`}
       })
-
-      if (res.status === 401) {
-        auth.logout()
-        throw Error('Session Expired')
-      }
-      if (!res.ok) throw Error('Authentication failed')
       
-      data.value = await res.json()
+      data.value = res.data
+      localStorage.setItem('user', JSON.stringify(res.data))
       return true
     }
     catch (err) {
-      error.value = err.message
+      if (err.status === 401) {
+        auth.logout()
+        error.value = 'Session Expired'
+      }
+      else error.value = 'Authentication failed'
       return false
     }
   }
@@ -29,4 +29,4 @@ const authCheck = (token) => {
   return { data, error, handleAuthCheck }
 }
 
-export default authCheck
+export default useAuthCheck
