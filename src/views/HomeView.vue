@@ -10,7 +10,6 @@
     <h3>{{ n(8888.88, 'currency') }}</h3>
     <h3>{{ n(8888.88, 'decimal') }}</h3>
     <h3>{{ n(8888.88, 'percent') }}</h3>
-    <span>Helloworld</span>
     <i18n-n tag="h3" :value="8888.88" format="currency" scope="global">
       <template #currency="props">
         <span style="color: orange; font-weight: bold;">
