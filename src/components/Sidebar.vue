@@ -5,12 +5,8 @@
         <i class="fi fi-rr-home"></i>
       </router-link>
 
-      <router-link :to="{ name: 'todos' }">
+      <router-link :to="{ name: 'projects' }">
         <i class="fi fi-rr-list"></i>
-      </router-link>
-
-      <router-link :to="{ name: 'calendar' }">
-        <i class="fi fi-rr-calendar"></i>
       </router-link>
 
       <router-link :to="{ name: 'settings'}">
@@ -24,7 +20,7 @@
         <span v-else @click="locale = 'zh-TW'">Eng</span>
       </div>
 
-      <div class="logout" @click="auth.logout">
+      <div class="logout" @click="logout">
         <i class="fi fi-rr-sign-out-alt"></i>
       </div>
     </div>
@@ -33,8 +29,17 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-const { locale } = useI18n({ useScope: 'global' })
 import auth from '@/stores/auth.store'
+import router from '@/router'
+
+const { locale } = useI18n({ useScope: 'global' })
+const logout = () => {
+  // not the best approach to remove token only, 
+  // but dummyJSON doesn't have remove active token function
+  auth.localRemoveAccessToken()
+  auth.localRemoveUser()
+  router.go()
+}
 </script>
 
 <style scoped>

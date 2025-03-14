@@ -7,10 +7,16 @@ const dummyJsonAPI = (url = 'https://dummyjson.com/auth/') => {
 }
 
 export default {
-  getTokenFromLogin(data, interfaces) {
-    return dummyJsonAPI().post('/login', data, interfaces)
+  getTokenFromLogin(userData) {
+    // userData = { username, password }
+    return dummyJsonAPI().post('/login', userData, {
+      headers: { 'Content-Type': 'application/json' }
+    })
   },
-  getCurrentAuthByToken(interfaces) {
-    return dummyJsonAPI().get('/me', interfaces)
-  }
+  getCurrentAuthByToken(accessToken) {
+    return dummyJsonAPI().get('/me', {
+      headers: { 'Authorization': `Bearer ${ accessToken }` }
+    })
+  },
+
 }

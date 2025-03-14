@@ -1,32 +1,29 @@
-import router from '@/router'
-import useAuthCheck from '@/composables/useAuthCheck.composable'
-import { reactive, toRaw } from 'vue'
+import { reactive } from 'vue'
 
 const auth = reactive({
   user: localStorage.getItem('user') || null,
-  token: localStorage.getItem('token') || null,
+  accessToken: localStorage.getItem('accessToken') || null,
 
-  login(token) {
-    this.token = token
-    localStorage.setItem('token', token)
+  localStoreAccessToken(accessToken) {
+    this.accessToken = accessToken
+    localStorage.setItem('accessToken', accessToken)
   },
 
-  logout() {
-    // not the best approach to remove token only, 
-    // but dummyJSON doesn't have remove active token function
+  localStoreUser(user) {
+    this.user = user
+    localStorage.setItem('user', user)
+  },
+
+  localRemoveAccessToken() {
+    this.accessToken = null
+    localStorage.removeItem('accessToken')
+  },
+
+  localRemoveUser() {
     this.user = null
-    this.token = null
     localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    router.go()
   },
 
-  isAuthenticated() {
-    if (!this.token) return false
-    const { data, error, handleAuthCheck } = useAuthCheck(this.token)
-    const isValid = handleAuthCheck()
-    return isValid
-  }
 })
 
 export default auth

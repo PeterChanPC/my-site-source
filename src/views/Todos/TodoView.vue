@@ -68,15 +68,15 @@ const addTodo = () => {
 
 <style scoped>
 .todo-view {
-  width: calc(100vw - 51px - 2em);
-  height: calc(100vh - 2em);
-  padding: 1em;
   display: grid;
   grid-template-areas: "all . ."
                        "all . .";
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1em;
   overflow-y: auto;
+  width: calc(100vw - 51px - 2em);
+  height: calc(100vh - 2em);
+  padding: 1em;
 }
 
 .todo-view .all-todos {

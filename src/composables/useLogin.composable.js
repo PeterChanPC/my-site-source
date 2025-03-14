@@ -12,15 +12,12 @@ const useLogin = (username, password) => {
         username: username,
         password: password,
         expiresponseInMins: 1,
-      }, {
-        headers: { 'Content-Type': 'application/json' }
       })
-
-      auth.login(res.data.accessToken)
-      router.push(router.currentRoute.value.query.redirect || '/')
-
+      auth.localStoreAccessToken(res.data.accessToken)
+      return true
     } catch (err) {
       if (err.status !== 200) error.value = 'Login failed'
+      return false
     }
   }
 

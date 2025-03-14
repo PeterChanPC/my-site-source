@@ -8,7 +8,7 @@
       <span>Password: </span>
       <input type="text" v-model="password"/>
       <br>
-      <button @click="handleLogin">Login</button>
+      <button @click="login">Login</button>
     </div>
     <p v-if="error">{{ error }}</p>
   </div>
@@ -16,12 +16,18 @@
 
 <script setup>
 import useLogin from '@/composables/useLogin.composable'
+import router from '@/router'
 import { ref } from 'vue'
 
 const username = ref('emilys')
 const password = ref('emilyspass')
 
 const { error, handleLogin } = useLogin(username.value, password.value)
+
+const login = async () => {
+  await handleLogin()
+  router.push(router.currentRoute.value.query.redirect || { name: 'authdocs' })
+}
 </script>
 
 <style>

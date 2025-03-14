@@ -25,7 +25,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, d, n } = useI18n()
-const user = JSON.parse(localStorage.getItem('user'))
+const user = JSON.parse(localStorage.getItem('user')) || { username: 'User' }
 const username = ref(user.username)
 const isLogin = ref(user)
 
