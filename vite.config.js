@@ -5,8 +5,10 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: "/My-Practice",
   resolve: {
-    alias: {
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
+    alias: { 
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   }

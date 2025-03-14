@@ -1,5 +1,6 @@
 {
-  "name": "todo-vue",
+  "name": "my-practice",
+  "homepage": "https://peterchanpc.github.io/My-Practice/",
   "version": "0.1.0",
   "private": true,
   "scripts": {
