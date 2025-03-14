@@ -1,4 +1,3 @@
-import router from '@/router'
 import auth from '../stores/auth.store'
 import authApi from '../api/authApi.service'
 import { ref } from 'vue'
