@@ -18,10 +18,12 @@
       <i class="fi fi-rr-sign-out-alt"></i>
       <span>Login</span>
     </router-link>
+
     <router-link :to="{ name: 'auth' }">
       <i class="fi fi-rr-user-key"></i>
       <span>Can only<br>access after login</span>
     </router-link>
+
     <button @click="Authentication">
       <i class="fi fi-rr-unlock"></i>
       <span>Authenticate</span>
@@ -31,24 +33,30 @@
 
 <script setup>
 import useAuth from '@/composables/useAuth.composable';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 const { error, handleAuth } = useAuth()
-const user = JSON.parse(localStorage.getItem('user'))
+const user = ref(null)
 const isAuthing = ref(false)
+const isAuth = ref(false)
 const showAuth = ref(false)
 const showError = ref(false)
 const timeout = ref(null)
 const duration = 3000
 
+onBeforeMount(async () => {
+  await handleAuth()
+  user.value = JSON.parse(localStorage.getItem('user'))
+})
+
 const Authentication = async () => {
   isAuthing.value = true
   showError.value = false
   showAuth.value = false
-  const isAuthenticated = await handleAuth()
+  isAuth.value = await handleAuth()
   isAuthing.value = false
 
-  if (!isAuthenticated) {
+  if (!isAuth.value) {
     if (timeout.value) clearTimeout(timeout.value)
     showError.value = true
     timeout.value = setTimeout(() => {
@@ -68,11 +76,13 @@ const showLogin = ref(false)
 const loginTimeout = ref(null)
 const login = () => {
   showLogin.value = false
-  if (loginTimeout.value) clearTimeout(loginTimeout.value)
-  if (user) showLogin.value = true
-  loginTimeout.value = setTimeout(() => {
-    showLogin.value = false
-  }, duration)
+  if (user.value) {
+    if (loginTimeout.value) clearTimeout(loginTimeout.value)
+    showLogin.value = true
+    loginTimeout.value = setTimeout(() => {
+      showLogin.value = false
+    }, duration)
+  }
 }
 </script>
 
@@ -88,6 +98,7 @@ const login = () => {
 .authdocs .auth-details {
   position: absolute;
   top: 1em;
+
 }
 
 .authdocs a,

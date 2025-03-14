@@ -78,6 +78,7 @@ router.beforeEach(async (to, from, next) => {
     })
   } else if (to.meta.requiresGuest && await handleAuth()) {
     // direct login user back to Auth Docs View
+    // becuz users can only access login view from there
     next({ name: 'authdocs' })
   } else {
     next()
