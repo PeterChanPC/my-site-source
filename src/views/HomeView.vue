@@ -1,22 +1,8 @@
 <template>
-  <div>
+  <div class="home">
     <h1>{{ t('user', { user: username }) }}</h1>
-    <h3 v-if="!isLogin">
-      <span>You are not </span>
-      <router-link to="/login">login</router-link>
-    </h3>
     <h2>{{ d(new Date(), 'short', 'en-US') }}</h2>
     <h2>{{ d(new Date(), 'long') }}</h2>
-    <h3>{{ n(8888.88, 'currency') }}</h3>
-    <h3>{{ n(8888.88, 'decimal') }}</h3>
-    <h3>{{ n(8888.88, 'percent') }}</h3>
-    <i18n-n tag="h3" :value="8888.88" format="currency" scope="global">
-      <template #currency="props">
-        <span style="color: orange; font-weight: bold;">
-          {{ props.currency }}
-        </span>
-      </template>
-    </i18n-n>
   </div>
 </template>
 
@@ -24,13 +10,22 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const { t, d, n } = useI18n()
-const user = JSON.parse(localStorage.getItem('user')) || { username: 'User' }
-const username = ref(user.username)
-const isLogin = ref(user)
+const { t, d } = useI18n()
+const username = ref('World')
 
 </script>
 
-<style>
+<style scoped>
+.home {
+  position: relative;
+  width: calc(100vw - 51px - 2em);
+  height: calc(100vh - 2em);
+}
 
+@media (max-width: 870px) {
+  .home {
+    width: calc(100vw - 5em);
+    padding-left: 4.1875em;
+  }
+}
 </style>

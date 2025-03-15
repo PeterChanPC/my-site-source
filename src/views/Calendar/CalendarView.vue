@@ -1,5 +1,5 @@
 <template>
-  Calendar
+  Calendar (after learning pinia)
 </template>
 
 <script setup>

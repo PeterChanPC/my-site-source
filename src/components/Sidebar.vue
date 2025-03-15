@@ -36,8 +36,8 @@ const { locale } = useI18n({ useScope: 'global' })
 const logout = () => {
   // not the best approach to remove token only, 
   // but dummyJSON doesn't have remove active token function
-  auth.localRemoveAccessToken()
-  auth.localRemoveUser()
+  auth.RemoveAccessToken()
+  auth.RemoveUser()
   router.go()
 }
 </script>

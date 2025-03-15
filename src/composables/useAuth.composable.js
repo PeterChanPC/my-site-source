@@ -3,24 +3,25 @@ import auth from '@/stores/auth.store'
 import { ref } from 'vue'
 
 const useAuth = () => {
+  const data = ref(null)
   const error = ref(null)
 
   const handleAuth = async () => {
     try {
-      const accessToken = localStorage.getItem('accessToken')
+      const accessToken = auth.accessToken
       const res = await authApi.getCurrentAuthByToken(accessToken)
-      auth.localStoreUser(JSON.stringify(res.data))
+      data.value = res.data
       return true
     }
     catch (err) {
       error.value = err.status
-      auth.localRemoveAccessToken()
-      auth.localRemoveUser()
+      auth.RemoveAccessToken()
+      auth.RemoveUser()
       return false
     }
   }
 
-  return { error, handleAuth }
+  return { data, error, handleAuth }
 }
 
 export default useAuth

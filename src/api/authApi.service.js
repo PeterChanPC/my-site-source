@@ -1,21 +1,26 @@
 import axios from 'axios'
 
-const dummyJsonAPI = (url = 'https://dummyjson.com/auth/') => {
+const dummyJsonAPI = () => {
   return axios.create({
-    baseURL: url,
+    baseURL: 'https://dummyjson.com/auth/',
+    timeout: 1000,
   })
 }
 
 export default {
-  getTokenFromLogin(userData) {
-    // userData = { username, password }
+  getUserFromLogin(userData) { // userData = { username, password }
     return dummyJsonAPI().post('/login', userData, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json'
+      },
     })
   },
+
   getCurrentAuthByToken(accessToken) {
     return dummyJsonAPI().get('/me', {
-      headers: { 'Authorization': `Bearer ${ accessToken }` }
+      headers: {
+        'Authorization': `Bearer ${ accessToken }`
+      }
     })
   },
 

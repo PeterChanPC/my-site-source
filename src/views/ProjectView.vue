@@ -10,9 +10,9 @@
       <span>Calendar</span>
     </router-link>
 
-    <router-link :to="{ name: 'authdocs' }">
+    <router-link :to="{ name: 'auth' }">
       <i class="fi fi-rr-user"></i>
-      <span>Auth Docs</span>
+      <span>Authentication</span>
     </router-link>
   </div>
 </template>
@@ -21,7 +21,7 @@
 
 </script>
 
-<style>
+<style scoped>
 .project-grid {
   position: relative;
   display: grid;
@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 10em;
+  height: 100%;
   border-radius: 1em;
   border: 1px solid #ddd;
   text-decoration: none;

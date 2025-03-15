@@ -1,27 +1,23 @@
 import { reactive } from 'vue'
 
 const auth = reactive({
-  user: localStorage.getItem('user') || null,
-  accessToken: localStorage.getItem('accessToken') || null,
+  user: null,
+  accessToken: null,
 
-  localStoreAccessToken(accessToken) {
+  StoreAccessToken(accessToken) {
     this.accessToken = accessToken
-    localStorage.setItem('accessToken', accessToken)
   },
 
-  localStoreUser(user) {
+  StoreUser(user) {
     this.user = user
-    localStorage.setItem('user', user)
   },
 
-  localRemoveAccessToken() {
+  RemoveAccessToken() {
     this.accessToken = null
-    localStorage.removeItem('accessToken')
   },
 
-  localRemoveUser() {
+  RemoveUser() {
     this.user = null
-    localStorage.removeItem('user')
   },
 
 })

@@ -1,16 +1,26 @@
 <template>
-  <div class="authdocs">
+  <div class="auth">
     <div class="auth-details">
       <span v-if="user">
         Username: {{ user.username }} <br>
         Email: {{ user.email }} <br>
       </span>
-      <span v-if="showLogin">You are login<br></span>
-      <span v-if="isAuthing">Authenticating<br></span>
-      <span v-if="showAuth">Authentication success<br></span>
+
+      <span v-if="isAuthing">
+        Authenticating<br>
+      </span>
+
+      <span v-if="showAuth">
+        Authentication success<br>
+      </span>
+      
       <span v-if="showError">
         Authentication failed <br>
         Status Code: {{ error }} <br>
+      </span>
+
+      <span v-if="showLogin">
+        You are login<br>
       </span>
     </div>
 
@@ -19,7 +29,7 @@
       <span>Login</span>
     </router-link>
 
-    <router-link :to="{ name: 'auth' }">
+    <router-link :to="{ name: 'auth-content' }">
       <i class="fi fi-rr-user-key"></i>
       <span>Can only<br>access after login</span>
     </router-link>
@@ -35,18 +45,20 @@
 import useAuth from '@/composables/useAuth.composable';
 import { onBeforeMount, ref } from 'vue';
 
-const { error, handleAuth } = useAuth()
+const { data, error, handleAuth } = useAuth()
 const user = ref(null)
 const isAuthing = ref(false)
 const isAuth = ref(false)
 const showAuth = ref(false)
 const showError = ref(false)
-const timeout = ref(null)
+const showLogin = ref(false)
+const showAuthTimeout = ref(null)
+const showLoginTimeout = ref(null)
 const duration = 3000
 
 onBeforeMount(async () => {
   await handleAuth()
-  user.value = JSON.parse(localStorage.getItem('user'))
+  user.value = data.value
 })
 
 const Authentication = async () => {
@@ -57,52 +69,52 @@ const Authentication = async () => {
   isAuthing.value = false
 
   if (!isAuth.value) {
-    if (timeout.value) clearTimeout(timeout.value)
+    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value)
     showError.value = true
-    timeout.value = setTimeout(() => {
+    showAuthTimeout.value = setTimeout(() => {
       showError.value = false
     }, duration)
   }
   else {
-    if (timeout.value) clearTimeout(timeout.value)
+    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value)
     showAuth.value = true
-    timeout.value = setTimeout(() => {
+    showAuthTimeout.value = setTimeout(() => {
       showAuth.value = false
     }, duration)
   }
 }
 
-const showLogin = ref(false)
-const loginTimeout = ref(null)
 const login = () => {
   showLogin.value = false
   if (user.value) {
-    if (loginTimeout.value) clearTimeout(loginTimeout.value)
+    if (showLoginTimeout.value) clearTimeout(showLoginTimeout.value)
     showLogin.value = true
-    loginTimeout.value = setTimeout(() => {
+    showLoginTimeout.value = setTimeout(() => {
       showLogin.value = false
     }, duration)
   }
 }
 </script>
 
-<style>
-.authdocs {
+<style scoped>
+.auth {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
   align-items: center;
   justify-content: center;
+  width: calc(100vw - 51px - 2em);
+  height: calc(100vh - 2em);
 }
 
-.authdocs .auth-details {
+.auth .auth-details {
   position: absolute;
   top: 1em;
-
 }
 
-.authdocs a,
-.authdocs button {
+.auth a,
+.auth button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,38 +129,47 @@ const login = () => {
   transition: border-color 200ms ease;
 }
 
-.authdocs button {
+.auth button {
   padding: none;
   font-size: 16px;
   cursor: pointer;
 }
 
-.authdocs a i,
-.authdocs button i {
+.auth a i,
+.auth button i {
   color: #bbb;
   font-size: 5em;
   transition: color 200ms ease;
 }
 
-.authdocs a span,
-.authdocs button span {
+.auth a span,
+.auth button span {
   color: #bbb;
   font-weight: bold;
   transition: color 200ms ease;
 }
 
-.authdocs a:hover,
-.authdocs button:hover {
+.auth a:hover,
+.auth button:hover {
   border-color: #777;
 }
 
-.authdocs a:hover i,
-.authdocs button:hover i {
+.auth a:hover i,
+.auth button:hover i {
   color: #777;
 }
 
-.authdocs a:hover span,
-.authdocs button:hover span {
+.auth a:hover span,
+.auth button:hover span {
   color: #777;
+}
+
+@media (max-width: 870px) {
+  .auth {
+    flex-direction: column;
+    width: calc(100vw - 5em);
+    padding-top: 5em;
+    padding-left: 4.1875em;
+  }
 }
 </style>

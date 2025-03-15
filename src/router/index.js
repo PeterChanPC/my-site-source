@@ -4,9 +4,9 @@ import HomeView from '@/views/HomeView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import TodoView from '@/views/Todos/TodoView.vue'
 import CalendarView from '@/views/Calendar/CalendarView.vue'
-import AuthDocsView from '@/views/AuthDocs/AuthDocsView.vue'
-import LoginView from '@/views/AuthDocs/LoginView.vue'
-import AuthView from '@/views/AuthDocs/AuthView.vue'
+import AuthView from '@/views/Auth/AuthView.vue'
+import LoginView from '@/views/Auth/LoginView.vue'
+import AuthContentView from '@/views/Auth/AuthContentView.vue'
 import SettingView from '@/views/SettingView.vue'
 
 
@@ -32,9 +32,9 @@ const routes = [
     component: CalendarView,
   },
   {
-    path: '/authdocs',
-    name: 'authdocs',
-    component: AuthDocsView
+    path: '/auth',
+    name: 'auth',
+    component: AuthView
   },
   {
     path: '/login',
@@ -43,9 +43,9 @@ const routes = [
     meta: { requiresGuest: true }
   },
   {
-    path: '/auth',
-    name: 'auth',
-    component: AuthView,
+    path: '/auth-content',
+    name: 'auth-content',
+    component: AuthContentView,
     meta: { requiresAuth: true }
   },
   {
@@ -60,7 +60,7 @@ const router = createRouter({
   routes
 })
 
-const { error, handleAuth } = useAuth()
+const { data, error, handleAuth } = useAuth()
 
 router.beforeEach(async (to, from, next) => {
   // authentication await is put in if statements
@@ -77,9 +77,9 @@ router.beforeEach(async (to, from, next) => {
       query: { redirect: to.fullPath }
     })
   } else if (to.meta.requiresGuest && await handleAuth()) {
-    // direct login user back to Auth Docs View
-    // becuz users can only access login view from there
-    next({ name: 'authdocs' })
+    // direct login user back to Auth View
+    // becuz users can only access Login View from there
+    next({ name: 'auth' })
   } else {
     next()
   }

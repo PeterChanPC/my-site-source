@@ -22,15 +22,15 @@ import { ref } from 'vue'
 const username = ref('emilys')
 const password = ref('emilyspass')
 
-const { error, handleLogin } = useLogin(username.value, password.value)
+const { data, error, handleLogin } = useLogin(username.value, password.value)
 
 const login = async () => {
   await handleLogin()
-  router.push(router.currentRoute.value.query.redirect || { name: 'authdocs' })
+  router.push(router.currentRoute.value.query.redirect || { name: 'auth' })
 }
 </script>
 
-<style>
+<style scoped>
   .login {
     position: absolute;
     left: calc(50vw - 250px);

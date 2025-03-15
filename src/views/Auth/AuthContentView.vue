@@ -1,20 +1,20 @@
 <template>
-  <div class="auth">
+  <div class="auth-content">
     <span>You have successfully login</span>
-    <button @click="toAuthdocs">Back to Auth Docs</button>
+    <button @click="toAuth">Back to Authentication Page</button>
   </div>
 </template>
 
 <script setup>
 import router from '@/router';
 
-const toAuthdocs = () => {
-  router.push({ name: 'authdocs' })
+const toAuth = () => {
+  router.push({ name: 'auth' })
 }
 </script>
 
-<style>
-.auth {
+<style scoped>
+.auth-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@ const toAuthdocs = () => {
   height: 100%;
 }
 
-.auth span {
+.auth-content span {
   margin: 2em;
 }
 </style>
