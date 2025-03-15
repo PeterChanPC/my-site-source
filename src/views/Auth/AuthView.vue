@@ -1,9 +1,9 @@
 <template>
   <div class="auth">
     <div class="auth-details">
-      <span v-if="user">
-        Username: {{ user.username }} <br>
-        Email: {{ user.email }} <br>
+      <span v-if="userStore.user">
+        Username: {{ userStore.user.username }} <br>
+        Email: {{ userStore.user.email }} <br>
       </span>
 
       <span v-if="isAuthing">
@@ -16,7 +16,7 @@
       
       <span v-if="showError">
         Authentication failed <br>
-        Status Code: {{ error }} <br>
+        Status Code: {{ userStore.authErr }} <br>
       </span>
 
       <span v-if="showLogin">
@@ -42,11 +42,10 @@
 </template>
 
 <script setup>
-import useAuth from '@/composables/useAuth.composable';
 import { onBeforeMount, ref } from 'vue';
+import { useUserStore } from '@/stores/user.store';
 
-const { data, error, handleAuth } = useAuth()
-const user = ref(null)
+const userStore = useUserStore()
 const isAuthing = ref(false)
 const isAuth = ref(false)
 const showAuth = ref(false)
@@ -57,15 +56,14 @@ const showLoginTimeout = ref(null)
 const duration = 3000
 
 onBeforeMount(async () => {
-  await handleAuth()
-  user.value = data.value
+  await userStore.handleAuth()
 })
 
 const Authentication = async () => {
   isAuthing.value = true
   showError.value = false
   showAuth.value = false
-  isAuth.value = await handleAuth()
+  isAuth.value = await userStore.handleAuth()
   isAuthing.value = false
 
   if (!isAuth.value) {
@@ -86,7 +84,7 @@ const Authentication = async () => {
 
 const login = () => {
   showLogin.value = false
-  if (user.value) {
+  if (userStore.user) {
     if (showLoginTimeout.value) clearTimeout(showLoginTimeout.value)
     showLogin.value = true
     showLoginTimeout.value = setTimeout(() => {

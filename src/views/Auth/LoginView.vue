@@ -10,23 +10,20 @@
       <br>
       <button @click="login">Login</button>
     </div>
-    <p v-if="error">{{ error }}</p>
+    <p v-if="userStore.loginErr">{{ userStore.loginErr }}</p>
   </div>
 </template>
 
 <script setup>
-import useLogin from '@/composables/useLogin.composable'
-import router from '@/router'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/user.store'
 
 const username = ref('emilys')
 const password = ref('emilyspass')
-
-const { data, error, handleLogin } = useLogin(username.value, password.value)
+const userStore = useUserStore()
 
 const login = async () => {
-  await handleLogin()
-  router.push(router.currentRoute.value.query.redirect || { name: 'auth' })
+  await userStore.handleLogin(username.value, password.value)
 }
 </script>
 

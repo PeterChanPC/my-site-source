@@ -7,11 +7,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/stores/user.store'
 
 const { t, d } = useI18n()
+const userStore = useUserStore()
 const username = ref('World')
+
+watchEffect(() => {
+  if (userStore.user) username.value = userStore.user.username
+})
 
 </script>
 

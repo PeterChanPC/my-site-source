@@ -29,15 +29,15 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import auth from '@/stores/auth.store'
+import { useUserStore } from '@/stores/user.store'
 import router from '@/router'
 
 const { locale } = useI18n({ useScope: 'global' })
+const userStore = useUserStore()
 const logout = () => {
   // not the best approach to remove token only, 
   // but dummyJSON doesn't have remove active token function
-  auth.RemoveAccessToken()
-  auth.RemoveUser()
+  userStore.$reset()
   router.go()
 }
 </script>
