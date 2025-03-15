@@ -1,32 +1,32 @@
-const todos = JSON.parse(localStorage.getItem('todos')) || [
+const todos = [
   { id: 0,
     task: 'todo 1',
-    repeat: false,
-    periodicity: '',
+    repeat: true,
+    periodicity: 'daily',
     days: [],
     date: '',
     done: false
   },
   { id: 1,
     task: 'todo 2',
-    repeat: false,
-    periodicity: '',
+    repeat: true,
+    periodicity: 'weekly',
     days: [],
     date: '',
     done: false
   },
   { id: 2,
     task: 'todo 3',
-    repeat: false,
-    periodicity: '',
+    repeat: true,
+    periodicity: 'monthly',
     days: [],
     date: '',
     done: false
   },
   { id: 3,
     task: 'todo 4',
-    repeat: false,
-    periodicity: '',
+    repeat: true,
+    periodicity: 'others',
     days: [],
     date: '',
     done: false
@@ -41,4 +41,4 @@ const todos = JSON.parse(localStorage.getItem('todos')) || [
   }
 ]
 
-export default { todos }
+export default todos

@@ -1,18 +1,17 @@
 <template>
   <div class="todo-list">
     <div class="todo-list-header">
-      <div class="todo-list-name">{{ listName }}</div>
-      <i class="fi fi-rr-pencil" @click="toggleEdit"></i>
+      <div class="todo-list-name">{{ periodicity }}</div>
+      <i class="fi fi-rr-plus" @click="toggleEdit"></i>
     </div>
-    <TodoItem v-bind="$attrs" 
-              v-for="todoItem in todoList" 
-              :key="todoItem" 
-              :todoItem="todoItem"
-              :editList="editList">
-    </TodoItem>
+
+    <TodoItem v-for="todoItem in todoList"
+              :key="todoItem"
+              :todoItem="todoItem"/>
+
     <div class="add-todo"
-        v-if="editList"
-        @click="addTodo">
+        v-if="edit"
+        @click="todoStore.addTodo">
       <i class="fi fi-rr-plus"></i>
     </div>
   </div>
@@ -20,24 +19,39 @@
 
 <script setup>
 import TodoItem from './TodoItem.vue'
+import { useTodoStore } from '@/stores/todos.store'
 import { ref } from 'vue'
 
 const props = defineProps({
-  todoList: Array,
-  listName: {
+  periodicity: {
     type: String,
-    default: 'What to do next ...'
+    default: 'What to do next ...',
   }
 })
+const todoStore = useTodoStore()
+const todoList = ref([])
 
-const editList = ref(false)
-const toggleEdit = () => {
-  editList.value = !editList.value
+switch(props.periodicity) {
+  case todoStore.periodicities[0]:
+    todoList.value = todoStore.dailyTodos
+    break
+  case todoStore.periodicities[1]:
+    todoList.value = todoStore.weeklyTodos
+    break
+  case todoStore.periodicities[2]:
+    todoList.value = todoStore.monthlyTodos
+    break
+  case todoStore.periodicities[3]:
+    todoList.value = todoStore.othersTodos
+    break
+  default:
+    todoList.value = todoStore.allTodos
+    break
 }
 
-const emit = defineEmits(['addTodo'])
-const addTodo = () => {
-  emit('addTodo')
+const edit = ref(false)
+const toggleEdit = () => {
+  edit.value = !edit.value
 }
 </script>
 

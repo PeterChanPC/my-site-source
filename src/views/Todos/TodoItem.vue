@@ -1,21 +1,26 @@
 <template>
   <div class="todo-item-container">
-    <div class="delete" @click="deleteTodo" v-if="editList || editTodo">
+    <div class="delete" @click="" v-if="edit">
       <i class="fi fi-rr-minus-circle"></i>
     </div>
-    <div class="checkbox" v-else>
-      <i class="fi fi-rr-check-circle" v-if="todoItem.done" @click="finishTodo"></i>
-      <i class="fi fi-rr-circle" v-else @click="finishTodo"></i>
+
+    <div class="checkbox" v-else @click="finishTodo">
+      <i class="fi fi-rr-check-circle" v-if="todoItem.done"></i>
+      <i class="fi fi-rr-circle" v-else></i>
     </div>
     
     <div class="todo-item">
       <div class="todo-item-header">
-        <input type="text" placeholder="Type your todo ..." v-model="todoItem.task" v-if="editTodo"/>
-        <div class="todo-task" v-else>{{ todoItem.task }}</div>
+        <input type="text"
+               placeholder="Type your todo ..."
+               v-model="todoItem.task"
+               v-if="edit"/>
+        <div class="todo-task" v-else>
+          {{ todoItem.task }}
+        </div>
       </div>
 
-      <TodoDetails :todoItem="todoItem" :editTodo="editTodo">
-      </TodoDetails>
+      <TodoDetails :todoItem="todoItem" :edit="edit"/>
     </div>
   
     <div class="options" @click="toggleEdit">
@@ -37,23 +42,16 @@ const props = defineProps({
     days: Array, 
     date: Date, 
     done: Boolean
-  },
-  editList: Boolean
+  }
 })
 
-const todo = ref(props.todoItem)
-
-const emit = defineEmits(['deleteTodo', 'finishTodo'])
-const deleteTodo = () => {
-  emit('deleteTodo', props.todoItem.id)
-}
 const finishTodo = () => {
-  todo.value.done = !todo.value.done
+  props.todoItem.done = !props.todoItem.done
 }
 
-const editTodo = ref(false)
+const edit = ref(false)
 const toggleEdit = () => {
-  editTodo.value = !editTodo.value
+  edit.value = !edit.value
 }
 </script>
 

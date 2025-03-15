@@ -1,81 +1,30 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export const useTodoStore = defineStore('todos', () => {
-  const todos = JSON.parse(localStorage.getItem('todos')) || []
   const periodicities = ['daily', 'weekly', 'monthly', 'others']
 
-  const allTodos = ref({name: 'all', list: todos })
-  
-  const dailyTodos = ref({
-    name: 'daily',
-    list: todos.filter((todo) => {
-      todo.periodicity === periodicities[0]
-    })
+  const allTodos = ref(JSON.parse(localStorage.getItem('todos')) || [])
+
+  const dailyTodos = computed(() => {
+    return allTodos.value.filter((todo) => todo.periodicity === periodicities[0])
   })
 
-  const weeklyTodos = ref({
-    name: 'weekly',
-    list: todos.filter((todo) => {
-      todo.periodicity === periodicities[1]
-    })
-  })
-z
-  const monthlyTodos = ref({
-    name: 'monthly',
-    list: todos.filter((todo) => {
-      todo.periodicity === periodicities[2]
-    })
+  const weeklyTodos = computed(() => {
+    return allTodos.value.filter((todo) => todo.periodicity === periodicities[1])
   })
 
-  const othersTodos = ref({
-    name: 'others',
-    list: todos.filter((todo) => {
-      todo.periodicity === periodicities[3]
-    })
-  })  
-
-  
-  watch(state, () => {
-    refreshId()
-    saveTodos()
+  const monthlyTodos = computed(() => {
+    return allTodos.value.filter((todo) => todo.periodicity === periodicities[2])
   })
 
-  function getTodos(type) {
-    switch(type) {
-      case 'all':
-        return allTodos
-      case 'daily':
-        return dailyTodos
-      case 'weekly':
-        return weeklyTodos
-      case 'monthly':
-        return monthlyTodos
-      case 'others':
-        return othersTodos
-    }
-  }
-
-  function saveTodos() {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }
-
-  function refreshId() {
-    todos.forEach( (todo, id) => todo.id = id )
-  }
-
-  function deleteTodo(id) {
-    todos = todos.filter( todo => todo.id !== id )
-  }
-
-  function finishTodo(id) {
-    const finishItem = todos.find(todo => todo.id === id)
-    finishItem.done = !finishItem.done
-  }
+  const othersTodos = computed(() => {
+    return allTodos.value.filter((todo) => todo.periodicity === periodicities[3])
+  })
 
   function addTodo() {
-    todos.push({
-      id: todos.length,
+    allTodos.value.push({
+      id: allTodos.value.length,
       task: '',
       repeat: false,
       periodicity: '',
@@ -84,6 +33,11 @@ z
       done: false
     })
   }
+
+  watch(allTodos.value, () => {
+    console.log('update')
+    localStorage.setItem('todos', JSON.stringify(allTodos.value))
+  })
   
-  return { periodicities, allTodos, dailyTodos, weeklyTodos, monthlyTodos, othersTodos, getTodos, deleteTodo, finishTodo, addTodo }
+  return { periodicities, allTodos, dailyTodos, weeklyTodos, monthlyTodos, othersTodos, addTodo }
 })

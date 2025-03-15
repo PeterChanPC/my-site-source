@@ -1,6 +1,6 @@
 <template>
   <div class="todo-details">
-    <TodoRepeat :todoItem="todoItem" v-if="editTodo">
+    <TodoRepeat :todoItem="todoItem" v-if="edit">
     </TodoRepeat>
     <TodoSublist>
     </TodoSublist>
@@ -21,7 +21,7 @@ const props = defineProps({
     date: Date,
     done: Boolean
   },
-  editTodo: Boolean
+  edit: Boolean
 })
 </script>
 
