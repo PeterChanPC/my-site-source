@@ -24,14 +24,7 @@ watchEffect(() => {
 <style scoped>
 .home {
   position: relative;
-  width: calc(100vw - 51px - 2em);
-  height: calc(100vh - 2em);
-}
-
-@media (max-width: 870px) {
-  .home {
-    width: calc(100vw - 5em);
-    padding-left: 4.1875em;
-  }
+  flex: 1;
+  height: 100vh;
 }
 </style>

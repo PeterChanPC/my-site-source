@@ -79,6 +79,7 @@ input {
   @supports (-webkit-appearance: none) {
     .slider {
       -webkit-appearance: none;
+      appearance: none;
       background-clip: padding-box;
     }
     .thumb {

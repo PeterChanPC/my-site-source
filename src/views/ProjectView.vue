@@ -1,40 +1,48 @@
 <template>
-  <div class="project-grid">
-    <router-link :to="{ name: 'todos' }">
-      <i class="fi fi-rr-web-test"></i>
-      <span>TodoList</span>
-    </router-link>
-    
-    <router-link :to="{ name: 'calendar' }">
-      <i class="fi fi-rr-calendar"></i>
-      <span>Calendar</span>
-    </router-link>
+  <div class="project-view">
+    <Header/>
+    <div class="project">
+      <router-link :to="{ name: 'todos' }">
+        <i class="fi fi-rr-web-test"></i>
+        <span>TodoList</span>
+      </router-link>
+      
+      <router-link :to="{ name: 'calendar' }">
+        <i class="fi fi-rr-calendar"></i>
+        <span>Calendar</span>
+      </router-link>
 
-    <router-link :to="{ name: 'auth' }">
-      <i class="fi fi-rr-user"></i>
-      <span>Authentication</span>
-    </router-link>
+      <router-link :to="{ name: 'auth' }">
+        <i class="fi fi-rr-user"></i>
+        <span>Authentication</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script setup>
-
+import Header from '@/components/Header.vue';
 </script>
 
 <style scoped>
-.project-grid {
+.project-view {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
-  grid-template-rows: repeat(auto-fill, minmax(10em, 1fr));
-  grid-auto-flow: row;
-  gap: 1em;
-  width: calc(100vw - 51px - 2em);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   height: calc(100vh - 2em);
   padding: 1em;
 }
 
-.project-grid a {
+.project {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(10em, 1fr));
+  gap: 1em;
+  margin-top: 1em;
+}
+
+.project a {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -48,35 +56,28 @@
   transition: border-color 200ms ease;
 }
 
-.project-grid a i {
+.project a i {
   position: relative;
   color: #bbb;
   font-size: 5em;
   transition: color 200ms ease;
 }
 
-.project-grid a span {
+.project a span {
   color: #bbb;
   font-weight: bold;
   transition: color 200ms ease;
 }
 
-.project-grid a:hover {
+.project a:hover {
   border: 1px solid #777;
 }
 
-.project-grid a:hover i {
+.project a:hover i {
   color: #777;
 }
 
-.project-grid a:hover span {
+.project a:hover span {
   color: #777;
-}
-
-@media (max-width: 870px) {
-  .project-grid {
-    width: calc(100vw - 5em);
-    padding-left: 4.1875em;
-  }
 }
 </style>

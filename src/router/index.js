@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/projects',
     name: 'projects',
-    component: ProjectView
+    component: ProjectView,
   },
   {
     path: '/todos',

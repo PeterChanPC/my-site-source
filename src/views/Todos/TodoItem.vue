@@ -1,6 +1,6 @@
 <template>
   <div class="todo-item-container">
-    <div class="delete" @click="" v-if="edit">
+    <div class="delete" @click="todoStore.deleteTodo(todoItem.id)" v-if="edit">
       <i class="fi fi-rr-minus-circle"></i>
     </div>
 
@@ -11,7 +11,8 @@
     
     <div class="todo-item">
       <div class="todo-item-header">
-        <input type="text"
+        <input ref=""
+               type="text"
                placeholder="Type your todo ..."
                v-model="todoItem.task"
                v-if="edit"/>
@@ -31,6 +32,7 @@
 
 <script setup>
 import TodoDetails from './TodoDetails.vue'
+import { useTodoStore } from '@/stores/todos.store'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -44,6 +46,8 @@ const props = defineProps({
     done: Boolean
   }
 })
+
+const todoStore = useTodoStore()
 
 const finishTodo = () => {
   props.todoItem.done = !props.todoItem.done

@@ -2,24 +2,68 @@ import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 
 export const useTodoStore = defineStore('todos', () => {
-  const periodicities = ['daily', 'weekly', 'monthly', 'others']
-
   const allTodos = ref(JSON.parse(localStorage.getItem('todos')) || [])
 
-  const dailyTodos = computed(() => {
-    return allTodos.value.filter((todo) => todo.periodicity === periodicities[0])
+  const todayTodos = computed(() => {
+    return allTodos.value.filter((todo) => {
+      const fullDateNow = new Date()
+      const dateNow = fullDateNow.getDate()
+      const monthNow = fullDateNow.getMonth()
+      const yearNow = fullDateNow.getFullYear()
+
+      const todoFullDate = new Date(todo.date)
+      const todoDate = todoFullDate.getDate()
+      const todoMonth = todoFullDate.getMonth()
+      const todoYear = todoFullDate.getFullYear()
+      // check for date
+      if (todoDate === dateNow &&
+      // check for month
+      todoMonth === monthNow &&
+      // check for year
+      todoYear === yearNow) return true
+
+      return false
+    })
   })
 
-  const weeklyTodos = computed(() => {
-    return allTodos.value.filter((todo) => todo.periodicity === periodicities[1])
+  const weekTodos = computed(() => {
+    return allTodos.value.filter((todo) => {
+      const fullDateNow = new Date()
+      const dateNow = fullDateNow.getDate()
+      const dayNow = fullDateNow.getDay()
+      const monthNow = fullDateNow.getMonth()
+      const yearNow = fullDateNow.getFullYear()
+      const startDateofWeek = dateNow - dayNow
+      
+      const todoFullDate = new Date(todo.date)
+      const todoDate = todoFullDate.getDate()
+      const todoMonth = todoFullDate.getMonth()
+      const todoYear = todoFullDate.getFullYear()
+      // check for week
+      if (7 > (todoDate - startDateofWeek) > 0 &&
+      // check for month
+      todoMonth === monthNow &&
+      // check for year
+      todoYear === yearNow) return true
+      return false
+    })
   })
 
-  const monthlyTodos = computed(() => {
-    return allTodos.value.filter((todo) => todo.periodicity === periodicities[2])
-  })
-
-  const othersTodos = computed(() => {
-    return allTodos.value.filter((todo) => todo.periodicity === periodicities[3])
+  const monthTodos = computed(() => {
+    return allTodos.value.filter((todo) => {
+      const fullDateNow = new Date()
+      const monthNow = fullDateNow.getMonth()
+      const yearNow = fullDateNow.getFullYear()
+      
+      const todoFullDate = new Date(todo.date)
+      const todoMonth = todoFullDate.getMonth()
+      const todoYear = todoFullDate.getFullYear()
+      //check for month
+      if (todoMonth === monthNow &&
+      // check for year
+      todoYear === yearNow) return true
+      return false
+    })
   })
 
   function addTodo() {
@@ -27,17 +71,31 @@ export const useTodoStore = defineStore('todos', () => {
       id: allTodos.value.length,
       task: '',
       repeat: false,
-      periodicity: '',
+      periodicity: null,
       days: [],
-      date: '',
+      date: null,
       done: false
     })
   }
 
-  watch(allTodos.value, () => {
-    console.log('update')
+  function deleteTodo(id) {
+    allTodos.value = allTodos.value.filter((todo) => todo.id !== id)
+  }
+
+  function refreshId() {
+    allTodos.value.forEach((todo, index) => {
+      todo.id = index
+    })
+  }
+
+  function getTodoList() {
+
+  }
+
+  watch([allTodos, allTodos.value], () => {
+    refreshId()
     localStorage.setItem('todos', JSON.stringify(allTodos.value))
   })
-  
-  return { periodicities, allTodos, dailyTodos, weeklyTodos, monthlyTodos, othersTodos, addTodo }
+
+  return { allTodos, todayTodos, weekTodos, monthTodos, addTodo, deleteTodo }
 })

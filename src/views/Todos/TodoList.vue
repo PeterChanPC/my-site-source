@@ -1,58 +1,44 @@
 <template>
   <div class="todo-list">
     <div class="todo-list-header">
-      <div class="todo-list-name">{{ periodicity }}</div>
-      <i class="fi fi-rr-plus" @click="toggleEdit"></i>
+      <div class="todo-list-name">{{ name }}</div>
     </div>
 
     <TodoItem v-for="todoItem in todoList"
               :key="todoItem"
               :todoItem="todoItem"/>
-
-    <div class="add-todo"
-        v-if="edit"
-        @click="todoStore.addTodo">
-      <i class="fi fi-rr-plus"></i>
-    </div>
   </div>
 </template>
 
 <script setup>
 import TodoItem from './TodoItem.vue'
 import { useTodoStore } from '@/stores/todos.store'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const props = defineProps({
-  periodicity: {
+  name: {
     type: String,
-    default: 'What to do next ...',
   }
 })
 const todoStore = useTodoStore()
 const todoList = ref([])
 
-switch(props.periodicity) {
-  case todoStore.periodicities[0]:
-    todoList.value = todoStore.dailyTodos
-    break
-  case todoStore.periodicities[1]:
-    todoList.value = todoStore.weeklyTodos
-    break
-  case todoStore.periodicities[2]:
-    todoList.value = todoStore.monthlyTodos
-    break
-  case todoStore.periodicities[3]:
-    todoList.value = todoStore.othersTodos
-    break
-  default:
-    todoList.value = todoStore.allTodos
-    break
-}
-
-const edit = ref(false)
-const toggleEdit = () => {
-  edit.value = !edit.value
-}
+watchEffect(() => {
+  switch(props.name) {
+    case 'Today':
+      todoList.value = todoStore.todayTodos
+      break
+    case 'This Week':
+      todoList.value = todoStore.weekTodos
+      break
+    case 'This Month':
+      todoList.value = todoStore.monthTodos
+      break
+    default:
+      todoList.value = todoStore.allTodos
+      break
+  }
+})
 </script>
 
 <style scoped>

@@ -1,16 +1,24 @@
 <template>
-  <aside class="menu">
+  <aside ref="menu" class="menu" :class="{ 'show' : showMenu }">
     <div class="menu-upper">
-      <router-link :to="{ name: 'home' }">
+      <div class="toggle-menu" @click="toggleMenu">
+        <i class="fi fi-rr-angle-double-right" :class="{ 'close' : showMenu }"></i>
+        <span v-if="showMenu">Menu</span>
+      </div>
+
+      <router-link active-class="active-link" :to="{ name: 'home' }">
         <i class="fi fi-rr-home"></i>
+        <span v-if="showMenu">Home</span>
       </router-link>
 
-      <router-link :to="{ name: 'projects' }">
+      <router-link active-class="active-link" :to="{ name: 'projects' }">
         <i class="fi fi-rr-list"></i>
+        <span v-if="showMenu">Projects</span>
       </router-link>
 
-      <router-link :to="{ name: 'settings'}">
+      <router-link active-class="active-link" :to="{ name: 'settings'}">
         <i class="fi fi-rr-settings"></i>
+        <span v-if="showMenu">Settings</span>
       </router-link>
     </div>
 
@@ -22,12 +30,14 @@
 
       <div class="logout" @click="logout">
         <i class="fi fi-rr-sign-out-alt"></i>
+        <span v-if="showMenu">Logout</span>
       </div>
     </div>
   </aside>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user.store'
 import router from '@/router'
@@ -39,6 +49,11 @@ const logout = () => {
   // but dummyJSON doesn't have remove active token function
   userStore.$reset()
   router.go()
+}
+
+const showMenu = ref(false)
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value
 }
 </script>
 
@@ -52,86 +67,114 @@ const logout = () => {
   height: 100%;
   border-right: 1px solid #ddd;
   background: #eee;
+  transition: width 200ms ease;
 }
 
-.menu:hover {
-  border-right: 1px solid #ccc;
+.show {
+  width: 200px;
 }
 
-.menu .menu-upper {
-  position: relative;
+.menu-upper {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.menu .menu-upper a {
-  position: relative;
+a,
+.toggle-menu,
+.logout {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  height: 50px;
-  margin-top: 10px;
-  color: #2c3e50;
+  width: 100%;
+  height: 3em;
+  margin-top: 1em;
+  transition: background-color 200ms ease;
+  color: #000;
   text-decoration: none;
-  -webkit-transition: background 100ms ease;
-  transition: background 100ms ease;
-}
-
-.menu .menu-upper a:hover {
-  background: #ddd;
-}
-
-.menu .menu-upper a.router-link-exact-active {
-  border-right: 2px solid #777;
-  background: #ccc;
-}
-
-.menu .menu-upper a.router-link-exact-active:hover {
-  background: #ddd;
-}
-
-.menu .menu-lower {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.menu .menu-lower .lang-setting {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.menu .menu-lower .lang-setting span {
   cursor: pointer;
 }
 
-.menu .menu-lower .lang-setting span:hover {
+a:hover {
+  background-color: #ddd;
+}
+
+a span {
+  margin-left: 50px;
+}
+
+a i {
+  position: absolute;
+  left: 1em;
+}
+
+a.router-link-exact-active {
+  background-color: #ccc;
+}
+
+a.router-link-exact-active:hover {
+  background-color: #ddd;
+}
+
+
+.toggle-menu i {
+  position: absolute;
+  right: 1em;
+  transition: transform 200ms ease;
+}
+
+.close {
+  transform: rotate(180deg);
+}
+
+.toggle-menu span {
+  margin-left: 1rem;
+  font-size: 2em;
+  
+}
+
+.menu-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lang-setting {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  height: 3em;
+  margin-top: 1em;
+}
+
+.lang-setting span {
+  position: absolute;
+  left: 1em;
+  cursor: pointer;
+}
+
+.lang-setting span:hover {
+  color: blue;
   text-decoration: underline;
 }
 
-.menu .menu-lower .logout {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  margin-bottom: 10px;
+.logout {
   cursor: pointer;
-  color: #2c3e50;
-  text-decoration: none;
-  -webkit-transition: background 100ms ease;
-  transition: background 100ms ease;
+  transition: background-color 200ms ease;
 }
 
-.menu .menu-lower .logout:hover {
-  background: #ddd;
+.logout:hover {
+  background-color: #ddd;
+}
+
+.logout i {
+  position: absolute;
+  left: 1em;
+}
+
+.logout span {
+  margin-left: 50px;
 }
 
 @media (max-width: 870px) {
