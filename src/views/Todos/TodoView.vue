@@ -1,11 +1,19 @@
 <template>
   <div class="todo-view">
-    <Header/>
+    <ViewHeader/>
     <div class="options">
       <span>What to do next ...</span>
-      <div class="add-todo" @click="todoStore.addTodo">
-        <span class="add-todo-text">Create</span>
-        <i class="fi fi-rr-plus"></i>
+
+      <div class="todo-options">
+        <div class="create-todo" @click="todoStore.addTodo">
+          <span class="create-todo-span">Create</span>
+          <i class="fi fi-rr-plus"></i>
+        </div>
+
+        <div class="edit-todo" @click="">
+          <span class="edit-todo-span">Edit</span>
+          <i class="fi fi-rr-pencil"></i>
+        </div>
       </div>
     </div>
 
@@ -19,7 +27,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
 import TodoList from './TodoList.vue'
 import { useTodoStore } from '@/stores/todos.store';
 
@@ -42,30 +50,12 @@ const todoStore = useTodoStore()
   justify-content: space-between;
 }
 
-.add-todo {
+.todo-options {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 6em;
-  height: 3em;
-  border-radius: 2em;
+  flex-wrap: wrap;
+  margin-top: 1em;
   margin-right: 1em;
-  cursor: pointer;
-  transition: background-color 200ms ease;
-}
-
-.add-todo i {
-  margin-top: 4px;
-}
-
-.add-todo:hover {
-  background-color: #eee;
-}
-
-.add-todo-text {
-  margin: 0 5px;
-  font-size: 1em;
-  font-weight: 100;
 }
 
 span {
@@ -73,6 +63,32 @@ span {
   font-size: 3em;  
   font-weight: bold;
   text-align: start;
+}
+
+.todo-options span {
+  margin: 0;
+  margin-right: 5px;
+  font-size: 1em;
+  font-weight: 100;
+}
+
+.create-todo,
+.edit-todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6em;
+  height: 2em;
+  margin-right: 1em;
+  border-radius: 3em;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 200ms ease;
+}
+
+.create-todo:hover,
+.edit-todo:hover {
+  background-color: #eee;
 }
 
 .todo-lists {

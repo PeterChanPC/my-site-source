@@ -98,12 +98,10 @@ const login = () => {
 .auth {
   position: relative;
   display: flex;
-  width: 100%;
-  height: 100%;
   align-items: center;
   justify-content: center;
-  width: calc(100vw - 51px - 2em);
-  height: calc(100vh - 2em);
+  flex-wrap: wrap;
+  flex: 1;
 }
 
 .auth .auth-details {
@@ -160,14 +158,5 @@ const login = () => {
 .auth a:hover span,
 .auth button:hover span {
   color: #777;
-}
-
-@media (max-width: 870px) {
-  .auth {
-    flex-direction: column;
-    width: calc(100vw - 5em);
-    padding-top: 5em;
-    padding-left: 4.1875em;
-  }
 }
 </style>

@@ -88,10 +88,6 @@ export const useTodoStore = defineStore('todos', () => {
     })
   }
 
-  function getTodoList() {
-
-  }
-
   watch([allTodos, allTodos.value], () => {
     refreshId()
     localStorage.setItem('todos', JSON.stringify(allTodos.value))

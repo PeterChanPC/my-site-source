@@ -37,10 +37,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user.store'
 import router from '@/router'
+
+const props = defineProps({
+  showMenu: Boolean
+})
 
 const { locale } = useI18n({ useScope: 'global' })
 const userStore = useUserStore()
@@ -51,9 +54,9 @@ const logout = () => {
   router.go()
 }
 
-const showMenu = ref(false)
+const emit = defineEmits(['toggleMenu'])
 const toggleMenu = () => {
-  showMenu.value = !showMenu.value
+  emit('toggleMenu', !props.showMenu)
 }
 </script>
 
@@ -65,12 +68,15 @@ const toggleMenu = () => {
   justify-content: space-between;
   width: 50px;
   height: 100%;
+  scale: 1;
   border-right: 1px solid #ddd;
   background: #eee;
-  transition: width 200ms ease;
+  transform-origin: top left;
+  transition: all 200ms ease;
 }
 
 .show {
+  scale: 1;
   width: 200px;
 }
 
@@ -177,10 +183,16 @@ a.router-link-exact-active:hover {
   margin-left: 50px;
 }
 
-@media (max-width: 870px) {
+@media (max-width: 780px) {
   .menu {
     position: fixed;
+    scale: 0;
     z-index: 99;
+  }
+
+  .show {
+    scale: 1;
+    width: 200px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="project-view">
-    <Header/>
+    <ViewHeader/>
     <div class="project">
       <router-link :to="{ name: 'todos' }">
         <i class="fi fi-rr-web-test"></i>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import ViewHeader from '@/components/ViewHeader.vue';
 </script>
 
 <style scoped>
