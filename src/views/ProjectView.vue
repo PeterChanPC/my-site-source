@@ -1,6 +1,6 @@
 <template>
   <div class="project-view">
-    <ViewHeader/>
+    <ViewHeader routeName="home"/>
     <div class="project">
       <router-link :to="{ name: 'todos' }">
         <i class="fi fi-rr-web-test"></i>
@@ -12,7 +12,7 @@
         <span>Calendar</span>
       </router-link>
 
-      <router-link :to="{ name: 'auth' }">
+      <router-link :to="{ name: 'authentication' }">
         <i class="fi fi-rr-user"></i>
         <span>Authentication</span>
       </router-link>
@@ -54,30 +54,24 @@ import ViewHeader from '@/components/ViewHeader.vue';
   border: 1px solid #ddd;
   text-decoration: none;
   transition: border-color 200ms ease;
+  transition: background-color 200ms ease;
 }
 
 .project a i {
   position: relative;
-  color: #bbb;
+  color: #777;
   font-size: 5em;
   transition: color 200ms ease;
 }
 
 .project a span {
-  color: #bbb;
+  color: #777;
   font-weight: bold;
   transition: color 200ms ease;
 }
 
 .project a:hover {
-  border: 1px solid #777;
-}
-
-.project a:hover i {
-  color: #777;
-}
-
-.project a:hover span {
-  color: #777;
+  background-color: #eee;
+  border-color: #ccc;
 }
 </style>

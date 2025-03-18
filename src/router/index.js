@@ -17,8 +17,8 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/projects',
-    name: 'projects',
+    path: '/my-practice',
+    name: 'my practices',
     component: ProjectView,
   },
   {
@@ -33,7 +33,7 @@ const routes = [
   },
   {
     path: '/auth',
-    name: 'auth',
+    name: 'authentication',
     component: AuthView
   },
   {
@@ -79,7 +79,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (to.meta.requiresGuest && await userStore.handleAuth()) {
     // direct login user back to Auth View
     // becuz users can only access Login View from there
-    next({ name: 'auth' })
+    next({ name: 'authentication' })
   } else {
     next()
   }

@@ -1,7 +1,7 @@
 const zhTW = {
   messages: {
-    greet: '你好',
-    user: '@:greet {user}'
+    greet: '你好!',
+    greetCap: '@.capitalize:greet',
   },
   dateTimeFormats: {
     short: {

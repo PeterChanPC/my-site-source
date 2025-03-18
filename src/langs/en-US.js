@@ -1,7 +1,7 @@
 const enUS = {
   messages: {
-    greet: 'hello',
-    user: '@.capitalize:greet {user}'
+    greet: 'hello!',
+    greetCap: '@.capitalize:greet',
   },
   dateTimeFormats: {
     short: {

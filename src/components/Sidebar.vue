@@ -11,9 +11,9 @@
         <span v-if="showMenu">Home</span>
       </router-link>
 
-      <router-link active-class="active-link" :to="{ name: 'projects' }">
+      <router-link active-class="active-link" :to="{ name: 'my practices' }">
         <i class="fi fi-rr-list"></i>
-        <span v-if="showMenu">Projects</span>
+        <span v-if="showMenu">My Practices</span>
       </router-link>
 
       <router-link active-class="active-link" :to="{ name: 'settings'}">
@@ -75,6 +75,10 @@ const toggleMenu = () => {
   transition: all 200ms ease;
 }
 
+.menu:hover {
+  border-right-color: #ccc;
+}
+
 .show {
   scale: 1;
   width: 200px;
@@ -107,6 +111,7 @@ a:hover {
 
 a span {
   margin-left: 50px;
+  white-space: nowrap;
 }
 
 a i {
@@ -156,7 +161,7 @@ a.router-link-exact-active:hover {
 
 .lang-setting span {
   position: absolute;
-  left: 1em;
+  left: .7em;
   cursor: pointer;
 }
 

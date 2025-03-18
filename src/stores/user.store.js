@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', () => {
         expiresponseInMins: 1,
       })
       accessToken.value = res.data.accessToken
-      router.push(router.currentRoute.value.query.redirect || { name: 'auth' })
+      router.push(router.currentRoute.value.query.redirect || { name: 'authentication' })
 
     } catch (err) {
       loginErr.value = 'Login failed'

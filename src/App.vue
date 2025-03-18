@@ -1,9 +1,9 @@
 <template>
-  <div class="menu-header">
+  <nav class="menu-header">
     <div class="menu-button" @click="toggleMenu">
       <i class="fi fi-rr-menu-burger"></i>
     </div>
-  </div>
+  </nav>
   <Sidebar :showMenu="toggled" @toggleMenu="toggleMenu"/>
   <router-view/>
 </template>
@@ -51,16 +51,14 @@ select {
 
 .menu-header {
   position: absolute;
+  top: -41px;
   display: flex;
   align-items: center;
   width: 100vw;
   height: 40px;
-  scale: 0;
   border-bottom: 1px solid #ddd;
   background-color: #eee;
-  transform-origin: top;
   transition: border-bottom-color 200ms ease;
-  transition: scale 200ms ease;
 }
 
 .menu-header:hover {
@@ -87,8 +85,6 @@ select {
 
   .menu-header {
     position: sticky;
-    top: 0;
-    scale: 1;
     z-index: 98;
   }
 }

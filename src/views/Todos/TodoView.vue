@@ -1,11 +1,11 @@
 <template>
   <div class="todo-view">
-    <ViewHeader/>
+    <ViewHeader routeName="my practices"/>
     <div class="options">
       <span>What to do next ...</span>
 
       <div class="todo-options">
-        <div class="create-todo" @click="todoStore.addTodo">
+        <div class="create-todo" @click="createTodo">
           <span class="create-todo-span">Create</span>
           <i class="fi fi-rr-plus"></i>
         </div>
@@ -23,25 +23,34 @@
       <TodoList name="This Week"/>
       <TodoList name="This Month"/>
     </div>
+
+    <NewTodo :showNewTodo="showNewTodo" @showNewTodo="createTodo"/>
   </div>
 </template>
 
 <script setup>
 import ViewHeader from '@/components/ViewHeader.vue';
 import TodoList from './TodoList.vue'
-import { useTodoStore } from '@/stores/todos.store';
+import NewTodo from './NewTodo.vue';
+import { ref } from 'vue';
 
-const todoStore = useTodoStore()
+const showNewTodo = ref(false)
+const createTodo = () => {
+  showNewTodo.value = !showNewTodo.value
+}
 
 </script>
 
 <style scoped>
 .todo-view {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
   height: calc(100vh - 2em);
   padding: 1em;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .options {
@@ -99,7 +108,7 @@ span {
   margin-top: 1em;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 1300px) {
   .todo-lists {
     grid-template-columns: 1fr 1fr;
   }

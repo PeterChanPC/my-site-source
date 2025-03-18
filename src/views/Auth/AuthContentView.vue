@@ -9,7 +9,7 @@
 import router from '@/router';
 
 const toAuth = () => {
-  router.push({ name: 'auth' })
+  router.push({ name: 'authentication' })
 }
 </script>
 

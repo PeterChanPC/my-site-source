@@ -1,49 +1,67 @@
 <template>
-  <div class="auth">
-    <div class="auth-details">
-      <span v-if="userStore.user">
-        Username: {{ userStore.user.username }} <br>
-        Email: {{ userStore.user.email }} <br>
-      </span>
+  <div class="auth-view">
+    <ViewHeader routeName="my practices"/>
+    <div class="auth">
+      <div class="auth-details">
+        <!-- show user details -->
+        <span v-if="userStore.user">
+          Username: {{ userStore.user.username }} <br>
+          Email: {{ userStore.user.email }} <br>
+        </span>
+        <span v-else>You are not login</span>
 
-      <span v-if="isAuthing">
-        Authenticating<br>
-      </span>
+        <!-- show authentication process -->
+        <span v-if="isAuthing">
+          Authenticating<br>
+        </span>
 
-      <span v-if="showAuth">
-        Authentication success<br>
-      </span>
-      
-      <span v-if="showError">
-        Authentication failed <br>
-        Status Code: {{ userStore.authErr }} <br>
-      </span>
+        <!-- show authentication result -->
+        <span v-if="showAuth">
+          Authentication success<br>
+        </span>
+        <span v-if="showError">
+          Authentication failed <br>
+          Status Code: {{ userStore.authErr }} <br>
+          <span v-if="userStore.user">Session expired</span>
+        </span>
 
-      <span v-if="showLogin">
-        You are login<br>
-      </span>
+        <!-- show login status -->
+        <span v-if="showLogin">
+          You are login<br>
+        </span>
+      </div>
+
+      <div class="auth-button">
+        <router-link :to="{ name: 'login' }" @click="login">
+          <i class="fi fi-rr-sign-out-alt"></i>
+          <span>Login</span>
+        </router-link>
+        <span>Direct to login page if you are not login</span>
+      </div>
+
+      <div class="auth-button">
+        <router-link :to="{ name: 'auth-content' }">
+          <i class="fi fi-rr-user-key"></i>
+          <span>Can only<br>access after login</span>
+        </router-link>
+        <span>Direct to content page if you are login <br> else will direct you to login page</span>
+      </div>
+
+      <div class="auth-button">
+        <button @click="Authentication">
+          <i class="fi fi-rr-unlock"></i>
+          <span>Authenticate</span>
+        </button>
+        <span>Check for authentication</span>
+      </div>
     </div>
-
-    <router-link :to="{ name: 'login' }" @click="login">
-      <i class="fi fi-rr-sign-out-alt"></i>
-      <span>Login</span>
-    </router-link>
-
-    <router-link :to="{ name: 'auth-content' }">
-      <i class="fi fi-rr-user-key"></i>
-      <span>Can only<br>access after login</span>
-    </router-link>
-
-    <button @click="Authentication">
-      <i class="fi fi-rr-unlock"></i>
-      <span>Authenticate</span>
-    </button>
   </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import { useUserStore } from '@/stores/user.store';
+import ViewHeader from '@/components/ViewHeader.vue';
 
 const userStore = useUserStore()
 const isAuthing = ref(false)
@@ -95,27 +113,58 @@ const login = () => {
 </script>
 
 <style scoped>
+.auth-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100vh - 2em);
+  padding: 1em;
+  overflow-y: scroll;
+}
+
 .auth {
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  flex: 1;
+  flex-direction: column;
+  padding-top: 4em;
 }
 
-.auth .auth-details {
+.auth-button {
+  display: flex;
+  align-items: center;
+}
+
+.auth-button span {
+  flex: 1;
+  text-align: start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.auth-details {
   position: absolute;
   top: 1em;
-}
-
-.auth a,
-.auth button {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 11em;
+  width: 100%;
+}
+
+.auth-details span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.auth-button a,
+.auth-button button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 11em;
   height: 11em;
   margin: 1em;
   border-radius: 1em;
@@ -125,38 +174,41 @@ const login = () => {
   transition: border-color 200ms ease;
 }
 
-.auth button {
+.auth-button button {
   padding: none;
   font-size: 16px;
   cursor: pointer;
 }
 
-.auth a i,
-.auth button i {
+.auth-button a i,
+.auth-button button i {
   color: #bbb;
   font-size: 5em;
   transition: color 200ms ease;
 }
 
-.auth a span,
-.auth button span {
+.auth-button a span,
+.auth-button button span {
+  flex: 0;
   color: #bbb;
   font-weight: bold;
+  text-align: center;
+  overflow: visible;
   transition: color 200ms ease;
 }
 
-.auth a:hover,
-.auth button:hover {
+.auth-button a:hover,
+.auth-button button:hover {
   border-color: #777;
 }
 
-.auth a:hover i,
-.auth button:hover i {
+.auth-button a:hover i,
+.auth-button button:hover i {
   color: #777;
 }
 
-.auth a:hover span,
-.auth button:hover span {
+.auth-button a:hover span,
+.auth-button button:hover span {
   color: #777;
 }
 </style>

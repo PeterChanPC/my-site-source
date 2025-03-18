@@ -1,8 +1,13 @@
 <template>
   <div class="home">
-    <h1>{{ t('user', { user: username }) }}</h1>
-    <h2>{{ d(new Date(), 'short', 'en-US') }}</h2>
-    <h2>{{ d(new Date(), 'long') }}</h2>
+    <div class="intro">
+      <div class="intro-text">
+        <h1>{{ t('greetCap') }} <br>
+          I'm Peter <br>
+        </h1>
+        <h3>This is my personal website...</h3>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +29,26 @@ watchEffect(() => {
 <style scoped>
 .home {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  height: 100vh;
+  height: calc(100vh - 2em);
+  padding: 1em;
+  overflow: scroll;
+}
+
+.intro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: start;
+}
+
+.intro h1 {
+  font-size: 5em;
 }
 </style>

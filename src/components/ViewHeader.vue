@@ -1,14 +1,18 @@
 <template>
-  <div class="header">
-    <div class="last-page" @click="router.go(-1)">
+  <header class="header">
+    <div class="last-page" @click="router.push({ name: routeName })">
       <i class="fi fi-rr-arrow-left-from-line"></i>
     </div>
     <span>{{ $route.name }}</span>
-  </div>
+  </header>
 </template>
 
 <script setup>
 import router from '@/router';
+
+const props = defineProps({
+  routeName: String,
+})
 </script>
 
 <style scoped>
