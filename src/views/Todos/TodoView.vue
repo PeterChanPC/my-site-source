@@ -53,6 +53,11 @@ const createTodo = () => {
   overflow-y: scroll;
 }
 
+.todo-view::-webkit-scrollbar { 
+  /* hide scroll bar */
+  display: none;
+}
+
 .options {
   display: flex;
   align-items: center;

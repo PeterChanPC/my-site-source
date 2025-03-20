@@ -59,6 +59,7 @@ select {
   border-bottom: 1px solid #ddd;
   background-color: #eee;
   transition: border-bottom-color 200ms ease;
+  z-index: 97;
 }
 
 .menu-header:hover {
@@ -85,7 +86,6 @@ select {
 
   .menu-header {
     position: sticky;
-    z-index: 98;
   }
 }
 </style>

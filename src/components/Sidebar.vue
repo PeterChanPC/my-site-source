@@ -68,11 +68,10 @@ const toggleMenu = () => {
   justify-content: space-between;
   width: 50px;
   height: 100%;
-  scale: 1;
   border-right: 1px solid #ddd;
   background: #eee;
-  transform-origin: top left;
   transition: all 200ms ease;
+  z-index: 98;
 }
 
 .menu:hover {
@@ -80,7 +79,6 @@ const toggleMenu = () => {
 }
 
 .show {
-  scale: 1;
   width: 200px;
 }
 
@@ -191,12 +189,11 @@ a.router-link-exact-active:hover {
 @media (max-width: 780px) {
   .menu {
     position: fixed;
-    scale: 0;
-    z-index: 99;
+    left: -51px;
   }
 
   .show {
-    scale: 1;
+    left: 0;
     width: 200px;
   }
 }

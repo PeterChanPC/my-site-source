@@ -40,8 +40,9 @@ const select = (day) => {
   align-items: center;
   -webkit-justify-content: space-around;
   justify-content: space-around;
-  width: auto;
+  width: 80%;
   height: 3em;
+  margin: 1em;
   border: 1px solid #ddd;
   border-radius: 0.5em;
   background: #eee;
@@ -68,6 +69,7 @@ const select = (day) => {
   user-select: none;
   -webkit-transition: padding 200ms ease;
   transition: padding 200ms ease;
+  transition: border-color 200ms ease;
 }
 
 .week .selected {
