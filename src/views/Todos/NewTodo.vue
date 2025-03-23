@@ -1,5 +1,5 @@
 <template>
-  <div class="new-todo-background" :class="{ 'active-background' : showNewTodo }" @click="createTodo"></div>
+  <div class="new-todo-background" :class="{ 'active-background' : showNewTodo }" @click="toggleCreate"></div>
 
   <div class="new-todo" :class="{ 'active-box' : showNewTodo }">
     <header class="new-todo-header">
@@ -7,23 +7,39 @@
     </header>
 
     <div class="new-todo-details">
-      <!-- task, repeat, deadline, description -->
-        <div class="new-task">
+      <!-- task -->
+      <div class="new-task">
         <input type="text" placeholder="type your task here..." v-model="todoItem.task">
-        </div>
+      </div>
+    
+      <!-- repeat -->
+      <div class="new-repeat">
+        <span>Is repeating</span>
+        <ToggleButton class="toggle-button" @toggle="toggleRepeat" :isToggled="todoItem.repeat"/>
+      </div>
 
-        <div class="new-repeat">
-          <span>Is repeating</span>
-          <ToggleButton class="toggle-button" @toggle="toggleRepeat" :isToggled="todoItem.repeat"/>
-        </div>
+      <div class="new-periodicity" :class="{ 'active-new-periodicity' : todoItem.repeat }">
+        <span>Repeat</span>
 
-        <div class="new-periodicity" :class="{ 'active-new-periodicity' : todoItem.repeat }">
-          <span>Repeat</span>
-          repeat options
+        <div class="repeat-selector">
+          <div class="selector-icon left" @click="selectLeft">
+            <i class="fi fi-rr-angle-small-left"></i>
+          </div>
+
+          <div class="selector-content">
+            <div class="selector-options" v-for="period in periodicities" :key="period" :class="{ 'active-option' : (period === periodicities[selectedPeriod])}">
+              {{ period }}
+            </div>
+          </div>
+
+          <div class="selector-icon right" @click="selectRight">
+            <i class="fi fi-rr-angle-small-right"></i>
+          </div>
         </div>
+      </div>
        
-       <TodoWeek v-if="todoItem.periodicity === 'weekly'"/>
-       <TodoMonth v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'"/>
+      <TodoWeek v-if="todoItem.periodicity === 'weekly'"/>
+      <TodoMonth v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'"/>
     </div>
 
     <div class="new-todo-sublist">
@@ -43,13 +59,13 @@ import ToggleButton from '@/components/ToggleButton.vue'
 import TodoWeek from './TodoWeek.vue'
 import TodoMonth from './TodoMonth.vue'
 import { useTodoStore } from '@/stores/todos.store'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const props = defineProps({
   showNewTodo: Boolean,
 })
 
-const periodicities = ['daily', 'weekly', 'monthly']
+const periodicities = ['daily', 'weekly', 'monthly', 'select']
 const todoStore = useTodoStore()
 
 const todoItem = ref({
@@ -63,14 +79,30 @@ const todoItem = ref({
 })
 
 const emit = defineEmits(['showNewTodo'])
-const createTodo = () => {
+const toggleCreate = () => {
   emit('showNewTodo', !props.showNewTodo)
 }
 
+const selectedPeriod = ref(3)
 const toggleRepeat = () => {
   todoItem.value.repeat = !todoItem.value.repeat
-  todoItem.value.periodicity = null
+  selectedPeriod.value = 3
 }
+const selectLeft = () => {
+  selectedPeriod.value--
+  if (selectedPeriod.value < 0) selectedPeriod.value = 3
+}
+const selectRight = () => {
+  selectedPeriod.value++
+  if (selectedPeriod.value > 3) selectedPeriod.value = 0
+}
+const setPeriodicity = (period) => {
+  todoItem.value.periodicity = period
+}
+watchEffect(() => {
+  if (selectedPeriod.value === 3) setPeriodicity(null)
+  else setPeriodicity(periodicities[selectedPeriod.value])
+})
 </script>
 
 <style scoped>
@@ -163,7 +195,7 @@ const toggleRepeat = () => {
   border-bottom: 1px solid #ddd;
   background-color: #fff;
   transition: border-bottom-color 200ms ease;
-  z-index: 1;
+  z-index: 2;
 }
 
 .new-repeat:hover {
@@ -181,9 +213,9 @@ const toggleRepeat = () => {
   width: calc(100% - 2em);
   height: 0;
   border-bottom: 1px solid #ddd;
+  opacity: 0;
+  transition: all 100ms ease;
   visibility: hidden;
-  transition: border-bottom-color 200ms ease;
-  transition: height 200ms ease;
 }
 
 .new-periodicity:hover {
@@ -192,16 +224,67 @@ const toggleRepeat = () => {
 
 .active-new-periodicity {
   height: 4em;
+  opacity: 1;
   visibility: visible;
 }
 
-.new-periodicity select {
-  width: 7em;
+.repeat-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 10em;
   height: 2.5em;
-  font-size: 16px;
-  text-align: center;
+  margin-right: 4em;
+  border-radius: 2.5em;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 0 3px #ddd;
+  transition: all 100ms ease;
+}
+
+.repeat-selector:hover {
+  border-color: #ccc;
+}
+
+.selector-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 100%;
+  padding-top: 4px;
+  transition: all 100ms ease;
   cursor: pointer;
-  appearance: auto;
+}
+
+.left:hover {
+  transform: translateX(-3px);
+}
+
+.right:hover {
+  transform: translateX(3px);
+}
+
+.selector-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+.selector-options {
+  width: 0;
+  opacity: 0;
+  transition: all 100ms ease;
+  text-transform: capitalize;
+}
+
+.active-option {
+  width: 100%;
+  opacity: 1;
 }
 
 @media (max-width: 480px) {
@@ -221,6 +304,11 @@ const toggleRepeat = () => {
 
   .new-repeat .toggle-button {
     margin-right: 2em;
+  }
+
+  .new-periodicity .repeat-selector {
+    width: 9em;
+    margin-right: 1em;
   }
 }
 </style>

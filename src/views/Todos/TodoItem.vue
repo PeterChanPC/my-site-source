@@ -20,8 +20,6 @@
           {{ todoItem.task }}
         </div>
       </div>
-
-      <TodoDetails :todoItem="todoItem" :edit="edit"/>
     </div>
   
     <div class="options" @click="toggleEdit">
@@ -31,7 +29,6 @@
 </template>
 
 <script setup>
-import TodoDetails from './TodoDetails.vue'
 import { useTodoStore } from '@/stores/todos.store'
 import { ref } from 'vue'
 
