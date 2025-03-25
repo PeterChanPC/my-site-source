@@ -40,16 +40,14 @@
        
       <TodoWeek v-if="todoItem.periodicity === 'weekly'"/>
       <TodoMonth v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'"/>
-    </div>
 
-    <div class="new-todo-sublist">
       <!-- todo's sublist -->
-      sublist
+      <TodoSublist/>
     </div>
 
-    <div class="save-todo" @click="todoStore.addTodo">
+    <div class="todo-save" @click="saveTodo">
       <!-- saving into the list -->
-      save
+      <span>Save</span>
     </div>
   </div>
 </template>
@@ -59,7 +57,8 @@ import ToggleButton from '@/components/ToggleButton.vue'
 import TodoWeek from './TodoWeek.vue'
 import TodoMonth from './TodoMonth.vue'
 import { useTodoStore } from '@/stores/todos.store'
-import { ref, watchEffect } from 'vue'
+import { ref, unref, watchEffect } from 'vue'
+import TodoSublist from './TodoSublist.vue'
 
 const props = defineProps({
   showNewTodo: Boolean,
@@ -69,7 +68,7 @@ const periodicities = ['daily', 'weekly', 'monthly', 'select']
 const todoStore = useTodoStore()
 
 const todoItem = ref({
-  id: todoStore.allTodos.length,
+  id: 999,
   task: '',
   repeat: false,
   periodicity: null,
@@ -80,6 +79,8 @@ const todoItem = ref({
 
 const emit = defineEmits(['showNewTodo'])
 const toggleCreate = () => {
+  selectedPeriod.value = 3
+  todoItem.value.repeat = false
   emit('showNewTodo', !props.showNewTodo)
 }
 
@@ -103,6 +104,10 @@ watchEffect(() => {
   if (selectedPeriod.value === 3) setPeriodicity(null)
   else setPeriodicity(periodicities[selectedPeriod.value])
 })
+
+const saveTodo = () => {
+  todoStore.addTodo(todoItem.value)
+}
 </script>
 
 <style scoped>
@@ -114,7 +119,7 @@ watchEffect(() => {
   width: calc(100% + 1em);
   height: calc(100% + 1em);
   background-color: rgba(0, 0, 0, .5);
-  z-index: 98;
+  z-index: 96;
 }
 
 .active-background {
@@ -128,14 +133,14 @@ watchEffect(() => {
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 50%;
+  max-height: 70%;
   scale: 0;
   border-radius: 1em;
   background-color: #fff;
   box-shadow: inset 0 0 .3em #777;
   transition: scale 200ms ease;
   overflow-y: scroll;
-  z-index: 99;
+  z-index: 97;
 }
 
 .new-todo::-webkit-scrollbar {
@@ -285,6 +290,25 @@ watchEffect(() => {
 .active-option {
   width: 100%;
   opacity: 1;
+}
+
+.todo-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.5em;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  height: 2.5em;
+  border-top: 1px solid #ddd;
+  transition: all 100ms ease;
+  cursor: pointer;
+}
+
+.todo-save:hover {
+  background-color: #ddd;
+  border-color: #ccc;
 }
 
 @media (max-width: 480px) {

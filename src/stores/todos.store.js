@@ -66,15 +66,15 @@ export const useTodoStore = defineStore('todos', () => {
     })
   })
 
-  function addTodo() {
+  function addTodo(todo) {
     allTodos.value.push({
       id: allTodos.value.length,
-      task: '',
-      repeat: false,
-      periodicity: null,
-      days: [],
-      date: null,
-      done: false
+      task: todo.task,
+      repeat: todo.repeat,
+      periodicity: todo.periodicity,
+      days: todo.days,
+      date: todo.date,
+      done: todo.done
     })
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="toggle-button" @click="toggle">
-    <input type="checkbox" v-model="isToggled">
+    <input type="checkbox" v-model="props.isToggled">
     <div class="slider" :class="{ 'toggled' : isToggled }">
       <div class="thumb" :style="thumbPosition"></div>
     </div>
@@ -14,16 +14,14 @@ const props = defineProps({
   isToggled: Boolean
 })
 
-const isToggled = ref(props.isToggled)
 const emit = defineEmits(['toggle'])
 
 const toggle = () => {
-  isToggled.value = !isToggled.value
-  emit('toggle', isToggled.value)
+  emit('toggle')
 }
 
 const thumbPosition = computed(() => ({
-  transform: isToggled.value ? 'translateX(16px)' : ''
+  transform: props.isToggled ? 'translateX(16px)' : ''
 }))
 
 </script>
