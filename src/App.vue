@@ -4,11 +4,11 @@
 </template>
 
 <script setup lang="ts">
-import GlobalHeader from './components/global-header/global-header.vue';
+import GlobalHeader from '@/components/global-header/global-header.vue';
 </script>
 
 <style lang="scss">
-@forward './theme.scss';
+@forward '@/styles/theme.scss';
 
 body {
   margin: 0;

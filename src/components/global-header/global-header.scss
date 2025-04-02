@@ -1,5 +1,5 @@
-@use '@/layout.scss' as layout;
-@use '@/border.scss' as border;
+@use '@/styles/layout.scss' as layout;
+@use '@/styles/border.scss' as border;
 
 .global-header {
   @include layout.flex-between;

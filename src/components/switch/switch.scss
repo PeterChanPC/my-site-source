@@ -1,4 +1,4 @@
-@use '@/layout.scss' as layout;
+@use '@/styles/layout.scss' as layout;
 
 .switch {
   @include layout.flex-center;

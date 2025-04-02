@@ -20,5 +20,5 @@ const themeStore = useThemeStore();
 </script>
 
 <style scoped lang="scss">
-@forward './home.scss';
+@forward './homepage.scss';
 </style>
