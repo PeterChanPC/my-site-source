@@ -6,11 +6,6 @@
         <i class="fi fi-rr-web-test"></i>
         <span>TodoList</span>
       </router-link>
-      
-      <router-link :to="{ name: 'calendar' }">
-        <i class="fi fi-rr-calendar"></i>
-        <span>Calendar</span>
-      </router-link>
 
       <router-link :to="{ name: 'authentication' }">
         <i class="fi fi-rr-user"></i>

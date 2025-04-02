@@ -1,5 +1,5 @@
 <template>
-  <GlobalHeader theme="dark"/>
+  <GlobalHeader/>
   <router-view/>
 </template>
 

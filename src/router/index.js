@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/home/home.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import TodoView from '@/views/todo-list/TodoView.vue'
-import CalendarView from '@/views/calendar/CalendarView.vue'
 import AuthView from '@/views/auth/AuthView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import AuthContentView from '@/views/auth/AuthContentView.vue'
@@ -24,11 +23,6 @@ const routes = [
     path: '/todos',
     name: 'todos',
     component: TodoView,
-  },
-  {
-    path: '/calendar',
-    name: 'calendar',
-    component: CalendarView,
   },
   {
     path: '/auth',
