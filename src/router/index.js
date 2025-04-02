@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/home/home.vue'
-import ProjectView from '../views/ProjectView.vue'
-import TodoView from '../views/todo-list/TodoView.vue'
-import AuthView from '../views/auth/AuthView.vue'
-import LoginView from '../views/auth/LoginView.vue'
-import AuthContentView from '../views/auth/AuthContentView.vue'
-import { useUserStore } from '../stores/user.store'
+import HomeView from '@/views/home/home.vue'
+import ProjectView from '@/views/ProjectView.vue'
+import TodoView from '@/views/todo-list/TodoView.vue'
+import AuthView from '@/views/auth/AuthView.vue'
+import LoginView from '@/views/auth/LoginView.vue'
+import AuthContentView from '@/views/auth/AuthContentView.vue'
+import { useUserStore } from '@/stores/user.store'
 
 
 const routes = [
