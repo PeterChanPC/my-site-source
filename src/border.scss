@@ -1,0 +1,24 @@
+@mixin all {
+  border-width: 1px;
+  border-style: solid;
+}
+
+@mixin top {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+@mixin right {
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+@mixin bottom {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+@mixin left {
+  border-left-width: 1px;
+  border-left-style: solid;
+}

@@ -1,7 +1,18 @@
-const zhTW = {
+import {
+  DefineLocaleMessage,
+  DefineDateTimeFormat,
+  DefineNumberFormat,
+} from 'vue-i18n';
+
+const zhTW: {
+  messages: DefineLocaleMessage;
+  dateTimeFormats: DefineDateTimeFormat;
+  numberFormats: DefineNumberFormat;
+} = {
   messages: {
-    greet: '你好!',
-    greetCap: '@.capitalize:greet',
+    hello: '你好!',
+    helloCap: '@.capitalize:hello',
+    selfIntro: '我是{name}',
   },
   dateTimeFormats: {
     short: {

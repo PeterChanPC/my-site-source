@@ -6,19 +6,14 @@
         <span v-if="showMenu">Menu</span>
       </div>
 
-      <router-link active-class="active-link" :to="{ name: 'home' }">
+      <router-link :to="{ name: 'home' }">
         <i class="fi fi-rr-home"></i>
         <span v-if="showMenu">Home</span>
       </router-link>
 
-      <router-link active-class="active-link" :to="{ name: 'my practices' }">
+      <router-link :to="{ name: 'my practices' }">
         <i class="fi fi-rr-list"></i>
         <span v-if="showMenu">My Practices</span>
-      </router-link>
-
-      <router-link active-class="active-link" :to="{ name: 'settings'}">
-        <i class="fi fi-rr-settings"></i>
-        <span v-if="showMenu">Settings</span>
       </router-link>
     </div>
 

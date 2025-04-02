@@ -1,0 +1,60 @@
+$bg-light: #fff;
+$bg-dark: #333;
+$border-light: #ddd;
+$border-dark: #555;
+$text-light: #fff;
+$text-dark: #333;
+$btn-light: #ddd;
+$btn-dark: #111;
+$btn-active-light: #eee;
+$btn-active-dark: #222;
+
+.theme-light {
+  background-color: $bg-light;
+  color: $text-dark;
+  border-color: $border-light;
+  transition-property: background-color, color, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+
+  button,
+  a {
+    background-color: inherit;
+    color: inherit;
+    border-color: inherit;
+  }
+
+  a.router-link-exact-active {
+    background-color: $btn-active-light;
+  }
+
+  button:hover,
+  a:hover {
+    background-color: $btn-light;
+  }
+}
+
+.theme-dark {
+  background-color: $bg-dark;
+  color: $text-light;
+  border-color: $border-dark;
+  transition-property: background-color, color, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+  
+  button,
+  a {
+    background-color: inherit;
+    color: inherit;
+    border-color: inherit;
+  }
+
+  a.router-link-exact-active {
+    background-color: $btn-active-dark;
+  }
+
+  button:hover,
+  a:hover {
+    background-color: $btn-dark;
+  }
+}

@@ -1,7 +1,18 @@
-const enUS = {
+import {
+  DefineLocaleMessage,
+  DefineDateTimeFormat,
+  DefineNumberFormat,
+} from 'vue-i18n';
+
+const enUS: {
+  messages: DefineLocaleMessage;
+  dateTimeFormats: DefineDateTimeFormat;
+  numberFormats: DefineNumberFormat;
+} = {
   messages: {
-    greet: 'hello!',
-    greetCap: '@.capitalize:greet',
+    hello: 'hello!',
+    helloCap: '@.capitalize:hello',
+    selfIntro: 'I\'m {name}',
   },
   dateTimeFormats: {
     short: {

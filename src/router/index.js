@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
+import HomeView from '@/views/home/home.vue'
 import ProjectView from '@/views/ProjectView.vue'
-import TodoView from '@/views/Todos/TodoView.vue'
-import CalendarView from '@/views/Calendar/CalendarView.vue'
-import AuthView from '@/views/Auth/AuthView.vue'
-import LoginView from '@/views/Auth/LoginView.vue'
-import AuthContentView from '@/views/Auth/AuthContentView.vue'
-import SettingView from '@/views/SettingView.vue'
+import TodoView from '@/views/todo-list/TodoView.vue'
+import CalendarView from '@/views/calendar/CalendarView.vue'
+import AuthView from '@/views/auth/AuthView.vue'
+import LoginView from '@/views/auth/LoginView.vue'
+import AuthContentView from '@/views/auth/AuthContentView.vue'
 import { useUserStore } from '@/stores/user.store'
 
 
@@ -47,11 +46,6 @@ const routes = [
     name: 'auth-content',
     component: AuthContentView,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/settings',
-    name: 'settings',
-    component: SettingView,
   },
 ]
 

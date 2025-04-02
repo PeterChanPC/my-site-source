@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import i18n from './langs/i18n'
+import i18n from './lang/i18n'
 import pinia from './stores/pinia'
 import './assets/uicons-regular-rounded/css/uicons-regular-rounded.css'
 

@@ -1,0 +1,12 @@
+@use '@/layout.scss' as layout;
+
+.home {
+  @include layout.flex-col-center;
+  width: 100%;
+  height: calc(100vh - 50px);
+  
+  .intro {
+    @include layout.flex-col-center;
+    text-align: start;
+  }
+}

@@ -1,0 +1,38 @@
+@use '@/layout.scss' as layout;
+@use '@/border.scss' as border;
+
+.global-header {
+  @include layout.flex-between;
+  @include border.bottom;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 49px;
+  z-index: 99;
+
+  h1 {
+    width: calc(150px - 32px);
+    margin: 0 16px;
+    font-style: italic;
+    text-align: start;
+    user-select: none;
+  }
+
+  .header-mid {
+    @include layout.flex-center;
+    height: 100%;
+    
+    a {
+      @include layout.flex-center;
+      width: 80px;
+      height: 100%;
+      padding: 0 5px;
+      font-size: small;
+    }
+  }
+
+  .functions {
+    @include layout.flex-evenly;
+    width: 150px;
+  }
+}
