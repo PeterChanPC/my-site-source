@@ -1,5 +1,5 @@
 <template>
-  Calendar (after learning pinia)
+  Calendar (after learning vue Calendar)
 </template>
 
 <script setup>
