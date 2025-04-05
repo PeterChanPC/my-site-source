@@ -1,0 +1,21 @@
+@use '@/styles/layout.scss' as layout;
+@use '@/styles/border.scss' as border;
+
+$sidebar-width: 200px;
+
+.global-sidebar {
+  @include border.left;
+  @include border.right;
+  position: absolute;
+  left: 100%;
+  width: $sidebar-width;
+  height: 100%;
+  transition-property: left;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+  z-index: 99;
+}
+
+.active {
+  left: calc(100% - $sidebar-width);
+}

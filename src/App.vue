@@ -1,10 +1,13 @@
 <template>
-  <GlobalHeader/>
+  <GlobalHeader :display="showHeader"/>
   <router-view/>
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from '@/components/global-header/global-header.vue';
+import { ref } from 'vue';
+
+const showHeader = ref(true);
 </script>
 
 <style lang="scss">
@@ -15,6 +18,12 @@ body {
   padding: 0;
   box-sizing: border-box;
   background: #fff;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 input,
@@ -50,9 +59,10 @@ span {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  position: relative;
   display: flex;
   width: 100vw;
   height: auto;
-  padding-top: 50px;
+  overflow: hidden;
 }
 </style>

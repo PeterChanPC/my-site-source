@@ -1,14 +1,10 @@
 <template>
-  <header
-    v-if="display"
-    :class="[
-      'global-header',
+  <aside :class="[
+      'global-sidebar',
       `theme-${themeStore.theme}`,
+      {'active' : display},
     ]">
-
-    <h1>Pc</h1>
-
-    <nav class="header-mid">
+    <nav class="menu">
       <router-link :to="{name: 'home'}">
         <span>HOME</span>
       </router-link>
@@ -37,32 +33,21 @@
         </template>
       </Switch>
     </div>
-
-    <button class="toggle-sidebar" @click="toggleSidebar">
-      <i class="fi fi-rr-menu-burger"></i>
-    </button>
-  </header>
-
-  <!-- <Sidebar :display="showSidebar"/> -->
+  </aside> 
 </template>
 
 <script lang="ts">
 import Switch from '@/components/switch/switch.vue';
-import Sidebar from '@/components/global-sidebar/global-sidebar.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  name: 'global-header',
-  components: {
-    Switch,
-    Sidebar,
-  },
+  name: 'global-sidebar',
   props: {
     display: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup() {
@@ -83,16 +68,11 @@ export default defineComponent({
       langStore.changeLang();
     };
 
-    const showSidebar = ref(false);
-    const toggleSidebar = () => {
-      showSidebar.value = !showSidebar.value;
-    };
-
-    return {themeStore, isDark, changeTheme, isEnUS, changeLang, showSidebar, toggleSidebar };
+    return {themeStore, isDark, changeTheme, isEnUS, changeLang };
   },
 });
 </script>
 
 <style scoped lang="scss">
-@forward './global-header.scss';
+@forward './global-sidebar.scss';
 </style>

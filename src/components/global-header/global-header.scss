@@ -1,18 +1,30 @@
 @use '@/styles/layout.scss' as layout;
 @use '@/styles/border.scss' as border;
 
+$header-width: 100vw;
+$header-height: 49px;
+$logo-width: calc(150px - 32px);
+$logo-margin: 16px;
+$no-of-button: 4;
+$button-width: 80px;
+$button-margin: 5px;
+$header-mid-width: calc($no-of-button * ($button-width + $button-margin * 2));
+$functions-width: 150px;
+$toggle-width: $header-height;
+$toggle-size: 20px;
+
 .global-header {
   @include layout.flex-between;
   @include border.bottom;
   position: fixed;
   top: 0;
-  width: 100vw;
-  height: 49px;
-  z-index: 99;
+  width: $header-width;
+  height: $header-height;
+  z-index: 98;
 
   h1 {
-    width: calc(150px - 32px);
-    margin: 0 16px;
+    width: $logo-width;
+    margin: 0 $logo-margin;
     font-style: italic;
     text-align: start;
     user-select: none;
@@ -24,15 +36,40 @@
     
     a {
       @include layout.flex-center;
-      width: 80px;
+      width: $button-width;
       height: 100%;
-      padding: 0 5px;
+      margin: 0 $button-margin;
       font-size: small;
     }
   }
 
   .functions {
     @include layout.flex-evenly;
-    width: 150px;
+    width: $functions-width;
+  }
+
+  .toggle-sidebar {
+    display: none;
+  }
+
+  @media (max-width: calc($logo-width + $logo-margin * 2 + $header-mid-width + $functions-width)) {
+    .header-mid {
+      display: none;
+    }
+
+    .functions {
+      display: none;
+    }
+
+    .toggle-sidebar {
+      @include layout.flex-center;
+      width: $toggle-width;
+      height: 100%;
+      cursor: pointer;
+      i {
+        font-size: $toggle-size;
+        height: $toggle-size;
+      }
+    }
   }
 }
