@@ -72,7 +72,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emit: [
+  emits: [
     'toggle',
   ],
   setup(_, { emit }) {

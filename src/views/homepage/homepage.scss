@@ -3,11 +3,55 @@
 .home {
   @include layout.flex-col-center;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: auto;
   padding-top: 50px;
   
   .intro {
     @include layout.flex-col-center;
-    text-align: start;
+    align-items: start;
+    height: calc(100vh - 50px);
+    width: 100%;
+    background-image: url("@/../public/homepage-bg.png");
+
+    .intro-text {
+      @include layout.flex-col-between;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding-left: 10%;
+      text-align: start;
+      z-index: 1;
+
+      @keyframes appear {
+        from {
+          left: -50%;
+          opacity: 0;
+        }
+        to {
+          left: 0;
+          opacity: 1;
+        }
+      }
+
+      .intro-up {
+        @include layout.flex-col-center;
+        position: relative;
+        align-items: start;
+        width: 100%;
+        height: 50%;
+        font-size: clamp(1rem, 1vw + 1rem, 10rem);
+        animation: appear 1500ms ease;
+      }
+
+      .intro-down {
+        @include layout.flex-col-center;
+        position: relative;
+        align-items: start;
+        width: 100%;
+        height: 50%;
+        font-size: clamp(1rem, 1vw + 1rem, 10rem);
+        animation: appear 1300ms ease;
+      }
+    }
   }
 }
