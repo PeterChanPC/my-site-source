@@ -1,4 +1,6 @@
-<template>
+<!-- previous sidebar design -->
+
+<!-- <template>
   <aside ref="menu" class="menu" :class="{ 'show' : showMenu }">
     <div class="menu-upper">
       <div class="toggle-menu" @click="toggleMenu">
@@ -192,4 +194,4 @@ a.router-link-exact-active:hover {
     width: 200px;
   }
 }
-</style>
+</style> -->

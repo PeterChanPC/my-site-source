@@ -1,4 +1,9 @@
 <template>
+  <div :class="['sidebar-bg', 
+      {'active-bg' : display}]"
+      @click="toggleSidebar">
+  </div>
+
   <aside :class="[
       'global-sidebar',
       `theme-${themeStore.theme}`,
