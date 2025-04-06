@@ -1,21 +1,69 @@
+@use '@/styles/variables' as var;
 @use '@/styles/layout.scss' as layout;
 @use '@/styles/border.scss' as border;
 
-$sidebar-width: 200px;
-
 .global-sidebar {
+  @include layout.flex-col-between;
   @include border.left;
   @include border.right;
   position: absolute;
   left: 100%;
-  width: $sidebar-width;
+  width: var.$sidebar-width;
   height: 100%;
   transition-property: left;
-  transition-duration: 200ms;
+  transition-duration: 150ms;
   transition-timing-function: ease;
   z-index: 99;
-}
 
-.active {
-  left: calc(100% - $sidebar-width);
+  .sidebar-up {
+    @include layout.flex-col-center;
+    align-items: end;
+    width: 100%;
+    height: auto;
+
+    .toggle-sidebar {
+      @include layout.flex-center;
+      width: var.$button-height;
+      height: var.$button-height;
+      cursor: pointer;
+
+      i {
+        height: var.$toggle-size;
+        font-size: var.$toggle-size;
+      }
+    }
+
+    .menu {
+      @include layout.flex-col-evenly;
+      width: 100%;
+      height: var.$menu-height;
+
+      a {
+        @include layout.flex-center;
+        justify-content: start;
+        width: 100%;
+        height: var.$button-height;
+        margin: 0 0 var.$button-margin 0;
+        
+        i {
+          width: var.$button-height;
+        }
+
+        span {
+          line-height: 1.1em;
+        }
+      }
+    }
+  }
+
+  .functions {
+    @include layout.flex-col-evenly;
+    height: var.$functions-width;
+  }
+
+  @media (max-width: var.$sidebarToggleMaxWidth) {
+    &.active { 
+      left: calc(100% - var.$sidebar-width);
+    }
+  }
 }

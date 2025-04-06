@@ -4,16 +4,30 @@
       `theme-${themeStore.theme}`,
       {'active' : display},
     ]">
-    <nav class="menu">
-      <router-link :to="{name: 'home'}">
-        <span>HOME</span>
-      </router-link>
-      <router-link :to="{name: 'my practices'}">
-        <span>PROJECT</span>
-      </router-link>
-      <a href="#">XXX</a>
-      <a href="#">XXX</a>
-    </nav>
+    <div class="sidebar-up">
+      <button class="toggle-sidebar" @click="toggleSidebar">
+        <i class="fi fi-rr-menu-burger"></i>
+      </button>
+
+      <nav class="menu">
+        <router-link :to="{name: 'home'}">
+          <i class="fi fi-rr-home"></i>
+          <span>Home</span>
+        </router-link>
+        <router-link :to="{name: 'my practices'}">
+          <i class="fi fi-rr-list"></i>
+          <span>Project</span>
+        </router-link>
+        <a href="#">
+          <i class="fi fi-rr-home"></i>
+          <span>XXX</span>
+        </a>
+        <a href="#">
+          <i class="fi fi-rr-home"></i>
+          <span>XXX</span>
+        </a>
+      </nav>
+    </div>
 
     <div class="functions">
       <Switch @change="changeTheme" :isActive="isDark">
@@ -37,20 +51,26 @@
 </template>
 
 <script lang="ts">
-import Switch from '@/components/switch/switch.vue';
+import Switch from '../switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'global-sidebar',
+  components: {
+    Switch,
+  },
   props: {
     display: {
       type: Boolean,
       default: false,
     },
   },
-  setup() {
+  emit: [
+    'toggle',
+  ],
+  setup(_, { emit }) {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
 
@@ -68,7 +88,11 @@ export default defineComponent({
       langStore.changeLang();
     };
 
-    return {themeStore, isDark, changeTheme, isEnUS, changeLang };
+    const toggleSidebar = () => {
+      emit('toggle');
+    };
+
+    return {themeStore, isDark, changeTheme, isEnUS, changeLang, toggleSidebar };
   },
 });
 </script>

@@ -1,30 +1,19 @@
-@use '@/styles/layout.scss' as layout;
-@use '@/styles/border.scss' as border;
-
-$header-width: 100vw;
-$header-height: 49px;
-$logo-width: calc(150px - 32px);
-$logo-margin: 16px;
-$no-of-button: 4;
-$button-width: 80px;
-$button-margin: 5px;
-$header-mid-width: calc($no-of-button * ($button-width + $button-margin * 2));
-$functions-width: 150px;
-$toggle-width: $header-height;
-$toggle-size: 20px;
+@use '@/styles/variables' as var;
+@use '@/styles/layout' as layout;
+@use '@/styles/border' as border;
 
 .global-header {
   @include layout.flex-between;
   @include border.bottom;
   position: fixed;
   top: 0;
-  width: $header-width;
-  height: $header-height;
+  width: var.$header-width;
+  height: var.$header-height;
   z-index: 98;
 
   h1 {
-    width: $logo-width;
-    margin: 0 $logo-margin;
+    width: var.$logo-width;
+    margin: 0 var.$logo-margin;
     font-style: italic;
     text-align: start;
     user-select: none;
@@ -36,23 +25,23 @@ $toggle-size: 20px;
     
     a {
       @include layout.flex-center;
-      width: $button-width;
+      width: var.$button-width;
       height: 100%;
-      margin: 0 $button-margin;
+      margin: 0 var.$button-margin;
       font-size: small;
     }
   }
 
   .functions {
     @include layout.flex-evenly;
-    width: $functions-width;
+    width: var.$functions-width;
   }
 
   .toggle-sidebar {
     display: none;
   }
 
-  @media (max-width: calc($logo-width + $logo-margin * 2 + $header-mid-width + $functions-width)) {
+  @media (max-width: var.$sidebarToggleMaxWidth) {
     .header-mid {
       display: none;
     }
@@ -63,12 +52,12 @@ $toggle-size: 20px;
 
     .toggle-sidebar {
       @include layout.flex-center;
-      width: $toggle-width;
+      width: var.$toggle-width;
       height: 100%;
       cursor: pointer;
       i {
-        font-size: $toggle-size;
-        height: $toggle-size;
+        height: var.$toggle-size;
+        font-size: var.$toggle-size;
       }
     }
   }

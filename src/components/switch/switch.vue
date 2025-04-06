@@ -13,6 +13,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'switch-button',
   props: {
     isActive: {
       type: Boolean,

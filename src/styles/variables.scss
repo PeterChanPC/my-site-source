@@ -1,0 +1,18 @@
+// styles for global-header
+$header-width: 100vw;
+$header-height: 49px;
+$logo-width: calc(150px - 32px);
+$logo-margin: 16px;
+$no-of-button: 4;
+$button-height: 50px;
+$button-width: 80px;
+$button-margin: 5px;
+$header-mid-width: calc($no-of-button * ($button-width + $button-margin * 2));
+$functions-width: 150px;
+$toggle-width: $header-height;
+$toggle-size: 20px;
+
+// styles for global-sidebar
+$sidebar-width: 200px;
+$sidebarToggleMaxWidth: calc($logo-width + $logo-margin * 2 + $header-mid-width + $functions-width);
+$menu-height: calc($no-of-button * $button-height);

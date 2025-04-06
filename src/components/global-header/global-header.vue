@@ -43,7 +43,7 @@
     </button>
   </header>
 
-  <!-- <Sidebar :display="showSidebar"/> -->
+  <Sidebar :display="showSidebar" @toggle="toggleSidebar"/>
 </template>
 
 <script lang="ts">
