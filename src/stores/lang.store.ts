@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
 import { useI18n } from 'vue-i18n';
 
 type SupportedLang = 'en-US' | 'zh-TW';
@@ -16,6 +16,10 @@ export const useLangStore = defineStore('lang', () => {
     localStorage.setItem('lang', locale.value);
   });
 
+  const isEnUS = computed((): boolean => {
+    return locale.value === 'en-US';
+  });
+
   function changeLang() {
     switch(locale.value) {
       case 'en-US':
@@ -27,5 +31,5 @@ export const useLangStore = defineStore('lang', () => {
     };
   };
 
-  return { locale, changeLang };
+  return { locale, isEnUS, changeLang };
 });

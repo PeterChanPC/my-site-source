@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 
 export const useThemeStore = defineStore('theme', () => {
   const storedTheme = localStorage.getItem('theme');
@@ -7,6 +7,10 @@ export const useThemeStore = defineStore('theme', () => {
   
   watchEffect(() => {
     localStorage.setItem('theme', theme.value)
+  })
+
+  const isDark = computed((): boolean => {
+    return theme.value === 'dark';
   })
 
   function changeTheme() {
@@ -20,5 +24,5 @@ export const useThemeStore = defineStore('theme', () => {
     };
   };
 
-  return { theme, changeTheme };
+  return { theme, isDark, changeTheme };
 });

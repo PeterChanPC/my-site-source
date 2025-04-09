@@ -19,11 +19,10 @@ $btn-active-dark: #222;
 
   button,
   a {
-    background-color: inherit;
     color: inherit;
     border-color: inherit;
   }
-
+  
   a.router-link-exact-active {
     background-color: $btn-active-light;
   }
@@ -44,7 +43,6 @@ $btn-active-dark: #222;
   
   button,
   a {
-    background-color: inherit;
     color: inherit;
     border-color: inherit;
   }

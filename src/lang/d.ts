@@ -8,8 +8,6 @@ declare module 'vue-i18n' {
   // define the locale messages schemav
   export interface DefineLocaleMessage {
     hello: string,
-    helloCap: string,
-    selfIntro: string,
   }
 
   // define the datetime format schema

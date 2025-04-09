@@ -4,54 +4,97 @@
   @include layout.flex-col-center;
   width: 100%;
   height: auto;
-  padding-top: 50px;
-  
+
   .intro {
     @include layout.flex-col-center;
-    align-items: start;
-    height: calc(100vh - 50px);
+    position: relative;
     width: 100%;
+    height: calc(100vh - 50px);
+    background-color: inherit;
+    background-position: center;
+    background-size: cover;
     background-image: url("@/../public/homepage-bg.png");
+    background-attachment: fixed;
+    overflow: hidden;
 
-    .intro-text {
-      @include layout.flex-col-between;
+    .text-up {
       position: relative;
-      width: 100%;
-      height: 100%;
-      padding-left: 10%;
-      text-align: start;
-      z-index: 1;
+      width: auto;
+      height: 1.5em;
+      visibility: hidden;
+      animation: fadein 2000ms ease-in forwards;
+      font-size: clamp(2rem, 2vw + 1rem, 4rem);
+      text-align: center;
+      text-transform: capitalize;
+      letter-spacing: .2em;
+      user-select: none;
+    }
 
-      @keyframes appear {
-        from {
-          left: -50%;
-          opacity: 0;
-        }
-        to {
-          left: 0;
-          opacity: 1;
+    .text-down {
+      @include layout.flex-center;
+      flex-wrap: wrap;
+      position: relative;
+      width: 80%;
+      height: auto;
+      text-align: center;
+      text-transform: uppercase;
+      user-select: none;
+
+      .name-1,
+      .name-2 {
+        @include layout.flex-evenly;
+        flex: 1;
+        flex-wrap: nowrap;
+
+        span {
+          position: relative;
+          width: 1em;
+          height: 1em;
+          visibility: hidden;
+          font-size: clamp(3rem, 3vw + 1rem, 10rem);
+          animation: fadein 2000ms ease-in forwards;
         }
       }
+      
+      @for $i from 1 through 5 {
+        .name-1 span:nth-child(#{$i}) {
+          animation-delay: $i * 200ms;
+        }
 
-      .intro-up {
-        @include layout.flex-col-center;
-        position: relative;
-        align-items: start;
-        width: 100%;
-        height: 50%;
-        font-size: clamp(1rem, 1vw + 1rem, 10rem);
-        animation: appear 1500ms ease;
-      }
-
-      .intro-down {
-        @include layout.flex-col-center;
-        position: relative;
-        align-items: start;
-        width: 100%;
-        height: 50%;
-        font-size: clamp(1rem, 1vw + 1rem, 10rem);
-        animation: appear 1300ms ease;
+        .name-2 span:nth-child(#{$i}) {
+          animation-delay: ($i + 5) * 200ms;
+        }
       }
     }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    .social-media {
+      @include layout.flex-evenly;
+      flex-wrap: wrap;
+      width: max(300px, 50%);
+      height: 50px;
+      margin-top: 10%;
+      background-color: inherit;
+      background: none;
+    }
+  }
+
+  .about {
+    width: 100%;
+    height: calc(100vh - 50px);
+  }
+
+  .project {
+    width: 100%;
+    height: calc(100vh - 50px);
   }
 }

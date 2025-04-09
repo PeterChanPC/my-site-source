@@ -1,6 +1,5 @@
 <template>
   <header
-    v-if="display"
     :class="[
       'global-header',
       `theme-${themeStore.theme}`,
@@ -20,7 +19,7 @@
     </nav>
 
     <div class="functions">
-      <Switch @change="changeTheme" :isActive="isDark">
+      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark">
         <template #left>
           <i class="fi fi-rr-sun"></i>
         </template>
@@ -28,7 +27,7 @@
           <i class="fi fi-rr-moon"></i>
         </template>
       </Switch>
-      <Switch @change="changeLang" :isActive="isEnUS">
+      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS">
         <template #left>
           <span>中</span>
         </template>
@@ -42,8 +41,6 @@
       <i class="fi fi-rr-menu-burger"></i>
     </button>
   </header>
-
-  <Sidebar :display="showSidebar" @toggle="toggleSidebar"/>
 </template>
 
 <script lang="ts">
@@ -51,7 +48,7 @@ import Switch from '@/components/switch/switch.vue';
 import Sidebar from '@/components/global-sidebar/global-sidebar.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
-import { computed, defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'global-header',
@@ -59,36 +56,18 @@ export default defineComponent({
     Switch,
     Sidebar,
   },
-  props: {
-    display: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup() {
+  emits: [
+    'toggleSidebar',
+  ],
+  setup(_, { emit }) {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
 
-    const isDark = computed(() => {
-      return themeStore.theme === 'dark';
-    })
-    const changeTheme = () => {
-      themeStore.changeTheme();
-    };
-
-    const isEnUS = computed(() => {
-      return langStore.locale === 'en-US';
-    })
-    const changeLang = () => {
-      langStore.changeLang();
-    };
-
-    const showSidebar = ref(false);
     const toggleSidebar = () => {
-      showSidebar.value = !showSidebar.value;
+      emit('toggleSidebar');
     };
 
-    return {themeStore, isDark, changeTheme, isEnUS, changeLang, showSidebar, toggleSidebar };
+    return {themeStore, langStore, toggleSidebar };
   },
 });
 </script>

@@ -1,13 +1,13 @@
 <template>
   <div :class="['sidebar-bg', 
-      {'active-bg' : display}]"
+      {'active-bg' : toggled}]"
       @click="toggleSidebar">
   </div>
 
   <aside :class="[
       'global-sidebar',
       `theme-${themeStore.theme}`,
-      {'active' : display},
+      {'active' : toggled},
     ]">
     <div class="sidebar-up">
       <button class="toggle-sidebar" @click="toggleSidebar">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="functions">
-      <Switch @change="changeTheme" :isActive="isDark">
+      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark">
         <template #left>
           <i class="fi fi-rr-sun"></i>
         </template>
@@ -43,7 +43,7 @@
           <i class="fi fi-rr-moon"></i>
         </template>
       </Switch>
-      <Switch @change="changeLang" :isActive="isEnUS">
+      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS">
         <template #left>
           <span>中</span>
         </template>
@@ -59,7 +59,7 @@
 import Switch from '../switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'global-sidebar',
@@ -67,7 +67,7 @@ export default defineComponent({
     Switch,
   },
   props: {
-    display: {
+    toggled: {
       type: Boolean,
       default: false,
     },
@@ -78,26 +78,12 @@ export default defineComponent({
   setup(_, { emit }) {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
-
-    const isDark = computed(() => {
-      return themeStore.theme === 'dark';
-    })
-    const changeTheme = () => {
-      themeStore.changeTheme();
-    };
-
-    const isEnUS = computed(() => {
-      return langStore.locale === 'en-US';
-    })
-    const changeLang = () => {
-      langStore.changeLang();
-    };
-
+    
     const toggleSidebar = () => {
       emit('toggle');
     };
 
-    return {themeStore, isDark, changeTheme, isEnUS, changeLang, toggleSidebar };
+    return {themeStore, langStore, toggleSidebar };
   },
 });
 </script>

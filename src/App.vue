@@ -1,13 +1,18 @@
 <template>
-  <GlobalHeader :display="showHeader"/>
+  <GlobalHeader @toggleSidebar="toggleSidebar"/>
+  <GlobalSidebar :toggled="showSidebar" @toggle="toggleSidebar"/>
   <router-view/>
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from '@/components/global-header/global-header.vue';
-import { ref } from 'vue';
+import GlobalSidebar from '@/components/global-sidebar/global-sidebar.vue';
+import { type Ref, ref } from 'vue';
 
-const showHeader = ref(true);
+const showSidebar: Ref<boolean> = ref(false);
+const toggleSidebar = () => {
+  showSidebar.value = !showSidebar.value;
+};
 </script>
 
 <style lang="scss">
@@ -17,13 +22,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: #fff;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 input,
@@ -36,13 +34,12 @@ a {
   outline: none;
   appearance: none;
   text-decoration: none;
-  transition: all 100ms ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   margin: 0;
-  line-height: 1.5em;
+  line-height: 1em;
 }
 
 i,
@@ -61,8 +58,6 @@ span {
   color: #2c3e50;
   position: relative;
   display: flex;
-  width: 100vw;
-  height: auto;
-  overflow: hidden;
+  flex-direction: column;
 }
 </style>

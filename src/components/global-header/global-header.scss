@@ -5,7 +5,7 @@
 .global-header {
   @include layout.flex-between;
   @include border.bottom;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: var.$header-width;
   height: var.$header-height;
@@ -53,6 +53,7 @@
       @include layout.flex-center;
       width: var.$toggle-width;
       height: 100%;
+      background-color: inherit;
       cursor: pointer;
       i {
         height: var.$toggle-size;
