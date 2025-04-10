@@ -24,7 +24,7 @@
 }
 
 .global-sidebar {
-  @include layout.flex-col-between;
+  @include layout.flex-col-start;
   @include border.left;
   @include border.right;
   position: fixed;
@@ -83,6 +83,7 @@
     @include layout.flex-evenly;
     width: 100%;
     height: var.$button-height;
+    margin-top: 15px;
   }
 
   @media (max-width: var.$sidebarToggleMaxWidth) {

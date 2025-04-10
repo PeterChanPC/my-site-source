@@ -1,3 +1,10 @@
+@mixin flex-start {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
 @mixin flex-center {
   display: flex;
   flex-direction: row;
@@ -24,6 +31,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+}
+
+@mixin flex-col-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
 }
 
 @mixin flex-col-center {
