@@ -1,9 +1,14 @@
 import { defineStore } from "pinia";
-import { computed, ref, watchEffect } from "vue";
+import { type Ref, ref, computed, watchEffect } from "vue";
+
+type SupportedTheme = 'light' | 'dark';
+const SUPPORTED_THEMES: SupportedTheme[] = ['light', 'dark'];
 
 export const useThemeStore = defineStore('theme', () => {
-  const storedTheme = localStorage.getItem('theme');
-  const theme = ref(storedTheme !== null ? storedTheme : 'light');
+  const storedTheme = localStorage.getItem('theme') as SupportedTheme | null;
+  const theme: Ref<SupportedTheme> = ref(SUPPORTED_THEMES.includes(storedTheme as SupportedTheme)
+    ? (storedTheme as SupportedTheme)
+    : 'light');
   
   watchEffect(() => {
     localStorage.setItem('theme', theme.value);
@@ -13,7 +18,7 @@ export const useThemeStore = defineStore('theme', () => {
     return theme.value === 'dark';
   })
 
-  function changeTheme() {
+  function changeTheme(): void {
     switch(theme.value) {
       case 'light':
         theme.value = 'dark';

@@ -1,18 +1,14 @@
 <template>
-  <GlobalHeader @toggleSidebar="toggleSidebar"/>
-  <GlobalSidebar :toggled="showSidebar" @toggle="toggleSidebar"/>
+  <GlobalSidebar ref="sidebar"/>
+  <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar"/>
   <router-view/>
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from '@/components/global-header/global-header.vue';
 import GlobalSidebar from '@/components/global-sidebar/global-sidebar.vue';
-import { type Ref, ref } from 'vue';
-
-const showSidebar: Ref<boolean> = ref(false);
-const toggleSidebar = () => {
-  showSidebar.value = !showSidebar.value;
-};
+import { useTemplateRef } from 'vue';
+const sidebar = useTemplateRef('sidebar');
 </script>
 
 <style lang="scss">

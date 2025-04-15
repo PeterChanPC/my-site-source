@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'switch-button',
@@ -35,15 +35,12 @@ export default defineComponent({
     },
     textR: {
       type: String,
-      default: ''
-,   },
-  },
-  emits: ['change'],
-  setup(_, { emit }) {
-    const change = () => {
-      emit('change');
-    };
-    return { change };
+      default: '',
+    },
+    change: {
+      type: Function as PropType<(event: MouseEvent) => void>,
+      default: () => {},
+    },
   },
 });
 </script>

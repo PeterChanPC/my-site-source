@@ -20,7 +20,7 @@ export const useLangStore = defineStore('lang', () => {
     return locale.value === 'en-US';
   });
 
-  function changeLang() {
+  function changeLang(): void {
     switch(locale.value) {
       case 'en-US':
         locale.value = 'zh-TW';

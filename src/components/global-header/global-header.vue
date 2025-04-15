@@ -14,8 +14,8 @@
     </nav>
 
     <div class="functions">
-      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
-      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
+      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
+      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
     </div>
 
     <button class="toggle-sidebar" @click="toggleSidebar">
@@ -26,29 +26,25 @@
 
 <script lang="ts">
 import Switch from '@/components/switch/switch.vue';
-import Sidebar from '@/components/global-sidebar/global-sidebar.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'global-header',
   components: {
     Switch,
-    Sidebar,
   },
-  emits: [
-    'toggleSidebar',
-  ],
-  setup(_, { emit }) {
+  props: {
+    toggleSidebar: {
+      type: Function as PropType<(event: MouseEvent) => void>,
+      default: () => {},
+    },
+  },
+  setup() {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
-
-    const toggleSidebar = () => {
-      emit('toggleSidebar');
-    };
-
-    return { themeStore, langStore, toggleSidebar };
+    return { themeStore, langStore };
   },
 });
 </script>
