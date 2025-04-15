@@ -3,7 +3,7 @@
 @use '@/styles/border' as border;
 
 .global-header {
-  @include layout.flex-between;
+  @include layout.flex-row-between;
   @include border.bottom;
   position: sticky;
   top: 0;
@@ -20,19 +20,19 @@
   }
 
   .header-mid {
-    @include layout.flex-center;
+    @include layout.flex-row-center;
     height: 100%;
     
     a {
-      @include layout.flex-center;
-      width: var.$button-width;
+      @include layout.flex-row-center;
+      width: var.$btn-width;
       height: 100%;
       font-size: small;
     }
   }
 
   .functions {
-    @include layout.flex-evenly;
+    @include layout.flex-row-evenly;
     width: var.$functions-width;
   }
 
@@ -50,7 +50,7 @@
     }
 
     .toggle-sidebar {
-      @include layout.flex-center;
+      @include layout.flex-row-center;
       width: var.$toggle-width;
       height: 100%;
       background-color: inherit;

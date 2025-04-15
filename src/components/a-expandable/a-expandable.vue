@@ -1,9 +1,5 @@
 <template>
-  <a
-  :class="['a-expandable', `theme-${theme}`]"
-  :href="link"
-  target="_blank"
-  >
+  <a :class="['a-expandable', `theme-${theme}`]" :href="link" target="_blank">
     <div class="icon">
       <slot name="icon">icon</slot>
     </div>

@@ -1,21 +1,11 @@
-$bg-light: #fff;
-$bg-dark: #111;
-$border-light: #ddd;
-$border-dark: #333;
-$text-light: #fff;
-$text-dark: #111;
-$btn-light: #ddd;
-$btn-dark: #333;
-$btn-active-light: #eee;
-$btn-active-dark: #222;
+@use '@/styles/variables.scss' as var;
+@use '@/styles/transition.scss' as t;
 
 .theme-light {
-  background-color: $bg-light;
-  color: $text-dark;
-  border-color: $border-light;
-  transition-property: background-color, color, border-color;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  @include t.transition((background-color, color, border-color));
+  background-color: var.$bg-light;
+  color: var.$text-dark;
+  border-color: var.$border-light;
 
   button,
   a {
@@ -24,22 +14,20 @@ $btn-active-dark: #222;
   }
   
   a.router-link-exact-active {
-    background-color: $btn-active-light;
+    background-color: var.$btn-active-light;
   }
 
   button:hover,
   a:hover {
-    background-color: $btn-light;
+    background-color: var.$btn-light;
   }
 }
 
 .theme-dark {
-  background-color: $bg-dark;
-  color: $text-light;
-  border-color: $border-dark;
-  transition-property: background-color, color, border-color;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  @include t.transition((background-color, color, border-color));
+  background-color: var.$bg-dark;
+  color: var.$text-light;
+  border-color: var.$border-dark;
   
   button,
   a {
@@ -48,11 +36,11 @@ $btn-active-dark: #222;
   }
 
   a.router-link-exact-active {
-    background-color: $btn-active-dark;
+    background-color: var.$btn-active-dark;
   }
 
   button:hover,
   a:hover {
-    background-color: $btn-dark;
+    background-color: var.$btn-dark;
   }
 }

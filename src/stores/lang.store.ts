@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { computed, watchEffect } from "vue";
 import { useI18n } from 'vue-i18n';
+import { computed, watchEffect } from "vue";
 
 type SupportedLang = 'en-US' | 'zh-TW';
 const SUPPORTED_LANGS: SupportedLang[] = ["en-US", "zh-TW"];

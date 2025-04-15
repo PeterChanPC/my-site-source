@@ -14,30 +14,30 @@ const zhTW: {
   },
   dateTimeFormats: {
     short: {
-      year: 'numeric', month: 'short', day: 'numeric'
+      year: 'numeric', month: 'short', day: 'numeric',
     },
     long: {
       year: 'numeric', month: 'short', day: 'numeric',
-      weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: true
-    }
+      weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: true,
+    },
   },
   numberFormats: {
     currency: {
       style: 'currency',
       currency: 'HKD',
       useGrouping: true,
-      notation: 'standard'
+      notation: 'standard',
     },
     decimal: {
       style: 'decimal',
       minimumFractionDigits: 1,
-      maximumFractionDigits: 1
+      maximumFractionDigits: 1,
     },
     percent: {
       style: 'percent',
-      useGrouping: true
-    }
-  }
-}
+      useGrouping: true,
+    },
+  },
+};
 
-export default zhTW
+export default zhTW;

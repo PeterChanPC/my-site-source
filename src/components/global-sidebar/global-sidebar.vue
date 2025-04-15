@@ -21,36 +21,22 @@
         </router-link>
         <router-link :to="{name: 'my practices'}">
           <i class="fi fi-rr-list"></i>
-          <span>Project</span>
+          <span>Work</span>
         </router-link>
         <a href="#">
           <i class="fi fi-rr-home"></i>
-          <span>XXX</span>
+          <span>Blog</span>
         </a>
         <a href="#">
           <i class="fi fi-rr-home"></i>
-          <span>XXX</span>
+          <span>Resume</span>
         </a>
       </nav>
     </div>
 
     <div class="functions">
-      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark">
-        <template #left>
-          <i class="fi fi-rr-sun"></i>
-        </template>
-        <template #right>
-          <i class="fi fi-rr-moon"></i>
-        </template>
-      </Switch>
-      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS">
-        <template #left>
-          <span>中</span>
-        </template>
-        <template #right>
-          <span>Eng</span>
-        </template>
-      </Switch>
+      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
+      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
     </div>
   </aside> 
 </template>

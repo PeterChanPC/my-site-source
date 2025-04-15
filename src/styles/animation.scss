@@ -1,0 +1,27 @@
+@mixin animate($name: fadein, $duration: 100ms, $tfunc: ease, $mode: forwards, $delay: 0ms) {
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-timing-function: $tfunc;
+  animation-fill-mode: $mode;
+  animation-delay: $delay;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes fadeinbottom {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}

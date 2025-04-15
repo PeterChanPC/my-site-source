@@ -6,8 +6,8 @@ export const useThemeStore = defineStore('theme', () => {
   const theme = ref(storedTheme !== null ? storedTheme : 'light');
   
   watchEffect(() => {
-    localStorage.setItem('theme', theme.value)
-  })
+    localStorage.setItem('theme', theme.value);
+  });
 
   const isDark = computed((): boolean => {
     return theme.value === 'dark';

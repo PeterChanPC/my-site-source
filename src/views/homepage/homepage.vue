@@ -1,6 +1,6 @@
 <template>
   <div :class="['home', `theme-${themeStore.theme}`]">
-    <div :class="['intro', `bg-theme-${themeStore.theme}`]">
+    <div class="intro">
       <span class="text-up">{{ t('hello') }}</span>
       <div class="text-down">
         <div class="name-1">
@@ -17,39 +17,15 @@
           <span>n</span>
         </div>
       </div>
-      <div class="social-media">
-        <AExpandable link="https://github.com/PeterChanPC/" :theme="themeStore.theme">
-          <template #icon>
-            <i class="fi fi-brands-github"></i>
-          </template>
-          <template #text>
-            <span>github</span>
-          </template>
-        </AExpandable>
-        <AExpandable link="https://www.linkedin.com/in/peter-chan-17939a262" :theme="themeStore.theme">
-          <template #icon>
-            <i class="fi fi-brands-linkedin"></i>
-          </template>
-          <template #text>
-            <span>linkedin</span>
-          </template>
-        </AExpandable>
-        <AExpandable link="mailto:nmchan04@gmail.com" :theme="themeStore.theme">
-          <template #icon>
-            <i class="fi fi-rr-envelope"></i>
-          </template>
-          <template #text>
-            <span>gmail</span>
-          </template>
-        </AExpandable>
-        <AExpandable link="https://youtube.com/@peterchanpc4657?si=bITaJnzAbMoYT4DZ" :theme="themeStore.theme">
-          <template #icon>
-            <i class="fi fi-brands-youtube"></i>
-          </template>
-          <template #text>
-            <span>youtube</span>
-          </template>
-        </AExpandable>
+
+      <div class="scroll-btn-container">
+        <ScrollBtn text="About" :theme="themeStore.theme" :to="{top: height, left: 0}"/>|
+        <ScrollBtn text="Work" :theme="themeStore.theme" :to="{top: 2 * height, left: 0}"/>|
+        <ScrollBtn text="Contact" :theme="themeStore.theme" :to="{top: 3 * height, left: 0}"/>
+      </div>
+
+      <div class="scroll-down">
+        <ScrollBtn icon="fi fi-rr-angle-down" :theme="themeStore.theme"/>
       </div>
     </div>
 
@@ -60,23 +36,24 @@
     <div class="project">
       project
     </div>
+
+    <div class="contact">
+      contact
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import AExpandable from '@/components/a-expandable/a-expandable.vue';
-import { useThemeStore } from '@/stores/theme.store';
+import ScrollBtn from '@/components/scroll-btn/scroll-btn.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useThemeStore } from '@/stores/theme.store';
+
 const { t } = useI18n();
 const themeStore = useThemeStore();
 
-const scrollToHome = () => {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: "smooth",
-  })
-}
+const height = ref<number>(window.innerHeight - 50);
 </script>
 
 <style scoped lang="scss">

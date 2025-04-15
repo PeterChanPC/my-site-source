@@ -1,32 +1,32 @@
-@mixin flex-start {
+@mixin flex-row-start {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
 }
 
-@mixin flex-center {
+@mixin flex-row-center {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-@mixin flex-around {
+@mixin flex-row-around {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
 }
 
-@mixin flex-between {
+@mixin flex-row-between {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
-@mixin flex-evenly {
+@mixin flex-row-evenly {
   display: flex;
   flex-direction: row;
   align-items: center;

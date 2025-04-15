@@ -1,40 +1,21 @@
 <template>
-  <header
-    :class="[
-      'global-header',
-      `theme-${themeStore.theme}`,
-    ]">
-
+  <header :class="['global-header', `theme-${themeStore.theme}`,]">
     <h1>Pc</h1>
 
     <nav class="header-mid">
       <router-link :to="{name: 'home'}">
-        <span>HOME</span>
+        <span>Home</span>
       </router-link>
       <router-link :to="{name: 'my practices'}">
-        <span>PROJECT</span>
+        <span>Work</span>
       </router-link>
-      <a href="#">XXX</a>
-      <a href="#">XXX</a>
+      <a href="#" style="text-decoration: line-through;">Blog</a>
+      <a href="#" style="text-decoration: line-through;">Resume</a>
     </nav>
 
     <div class="functions">
-      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark">
-        <template #left>
-          <i class="fi fi-rr-sun"></i>
-        </template>
-        <template #right>
-          <i class="fi fi-rr-moon"></i>
-        </template>
-      </Switch>
-      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS">
-        <template #left>
-          <span>中</span>
-        </template>
-        <template #right>
-          <span>Eng</span>
-        </template>
-      </Switch>
+      <Switch @change="themeStore.changeTheme()" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
+      <Switch @change="langStore.changeLang()" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
     </div>
 
     <button class="toggle-sidebar" @click="toggleSidebar">
@@ -67,7 +48,7 @@ export default defineComponent({
       emit('toggleSidebar');
     };
 
-    return {themeStore, langStore, toggleSidebar };
+    return { themeStore, langStore, toggleSidebar };
   },
 });
 </script>

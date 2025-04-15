@@ -1,18 +1,44 @@
+// styles for color theme
+$bg-light: #fff;
+$bg-dark: #111;
+
+$border-light: #ddd;
+$border-dark: #333;
+
+$text-light: #fff;
+$text-dark: #111;
+
+$btn-light: #ddd;
+$btn-dark: #333;
+$btn-active-light: #eee;
+$btn-active-dark: #222;
+
+// styles for transition
+$default-duration: 100ms;
+
 // styles for global-header
 $header-width: 100%;
 $header-height: 49px;
 $logo-width: calc(150px - 32px);
 $logo-margin: 16px;
-$no-of-button: 4;
-$button-height: 50px;
-$button-width: 100px;
-$button-margin: 5px;
-$header-mid-width: calc($no-of-button * ($button-width + $button-margin * 2));
+$no-of-btn: 4;
+
+$btn-height: 50px;
+$btn-width: 100px;
+$btn-margin: 5px;
+
+$header-mid-width: calc($no-of-btn * ($btn-width + $btn-margin * 2));
 $functions-width: 150px;
+
 $toggle-width: $header-height;
 $toggle-size: 20px;
 
 // styles for global-sidebar
 $sidebar-width: 200px;
 $sidebarToggleMaxWidth: calc($logo-width + $logo-margin * 2 + $header-mid-width + $functions-width);
-$menu-height: calc($no-of-button * $button-height);
+$menu-height: calc($no-of-btn * $btn-height);
+
+// styles for homepage
+
+
+// styles for scroll btn

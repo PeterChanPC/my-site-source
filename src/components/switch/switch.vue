@@ -1,10 +1,12 @@
 <template>
   <button class="switch" @click="change">
     <div :class="['option', {'active': !isActive}]">
-      <slot name="left">1</slot>
+      <i v-if="iconL" :class="iconL"></i>
+      <span v-if="textL">{{ textL }}</span>
     </div>
     <div :class="['option', {'active': isActive}]">
-      <slot name="right">2</slot>
+      <i v-if="iconR" :class="iconR"></i>
+      <span v-if="textR">{{ textR }}</span>
     </div>
   </button>
 </template>
@@ -19,6 +21,22 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    iconL: {
+      type: String,
+      default: '',
+    },
+    iconR: {
+      type: String,
+      default: '',
+    },
+    textL: {
+      type: String,
+      default: '',
+    },
+    textR: {
+      type: String,
+      default: ''
+,   },
   },
   emits: ['change'],
   setup(_, { emit }) {

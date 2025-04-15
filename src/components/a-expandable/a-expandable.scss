@@ -1,8 +1,8 @@
-@use '@/styles/layout.scss' as layout;
-@use '@/styles/border.scss' as border;
+@use "@/styles/layout.scss" as layout;
+@use "@/styles/border.scss" as border;
 
 .a-expandable {
-  @include layout.flex-center;
+  @include layout.flex-row-center;
   position: relative;
   width: 50px;
   height: 50px;
@@ -10,9 +10,9 @@
   cursor: pointer;
   filter: invert(100%);
   overflow: hidden;
-  
+
   .icon {
-    @include layout.flex-center;
+    @include layout.flex-row-center;
     width: 100%;
     height: 100%;
     scale: 1.7;

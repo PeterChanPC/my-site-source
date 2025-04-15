@@ -1,7 +1,8 @@
 @use '@/styles/layout.scss' as layout;
+@use '@/styles/transition.scss' as t;
 
 .switch {
-  @include layout.flex-center;
+  @include layout.flex-row-center;
   width: 36px;
   height: 36px;
   font-size: 1rem;
@@ -9,13 +10,11 @@
   cursor: pointer;
 
   .option {
-    @include layout.flex-center;
+    @include layout.flex-row-center;
+    @include t.transition((width, color, opacity));
     width: 0px;
     height: 100%;
     opacity: 0;
-    transition-property: width, color, opacity;
-    transition-duration: 200ms;
-    transition-timing-function: ease;
 
     &.active {
       width: 100%;

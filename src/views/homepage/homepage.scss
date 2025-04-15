@@ -1,3 +1,5 @@
+@use '@/styles/variables.scss' as var;
+@use '@/styles/animation.scss' as animation;
 @use '@/styles/layout.scss' as layout;
 
 .home {
@@ -10,7 +12,6 @@
     position: relative;
     width: 100%;
     height: calc(100vh - 50px);
-    background-color: inherit;
     background-position: center;
     background-size: cover;
     background-image: url("@/../public/homepage-bg.png");
@@ -18,11 +19,11 @@
     overflow: hidden;
 
     .text-up {
+      @include animation.animate(fadein, 2000ms, ease-in, forwards);
+      visibility: hidden;
       position: relative;
       width: auto;
       height: 1.5em;
-      visibility: hidden;
-      animation: fadein 2000ms ease-in forwards;
       font-size: clamp(2rem, 2vw + 1rem, 4rem);
       text-align: center;
       text-transform: capitalize;
@@ -31,7 +32,7 @@
     }
 
     .text-down {
-      @include layout.flex-center;
+      @include layout.flex-row-center;
       flex-wrap: wrap;
       position: relative;
       width: 80%;
@@ -42,17 +43,17 @@
 
       .name-1,
       .name-2 {
-        @include layout.flex-evenly;
+        @include layout.flex-row-evenly;
         flex: 1;
         flex-wrap: nowrap;
 
         span {
+          @include animation.animate(fadein, 2000ms, ease-in, forwards);
+          visibility: hidden;
           position: relative;
           width: 1em;
           height: 1em;
-          visibility: hidden;
           font-size: clamp(3rem, 3vw + 1rem, 10rem);
-          animation: fadein 2000ms ease-in forwards;
         }
       }
       
@@ -67,24 +68,17 @@
       }
     }
 
-    @keyframes fadein {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
-    .social-media {
-      @include layout.flex-evenly;
+    .scroll-btn-container {
+      // redesign for 3 buttons in smartphone
+      @include layout.flex-row-evenly;
+      @include animation.animate(fadeinbottom, 2000ms, ease-in, forwards);
+      position: relative;
       flex-wrap: wrap;
-      width: max(300px, 50%);
+      width: max(300px, 30%);
       height: 50px;
-      margin-top: 10%;
-      background-color: inherit;
-      background: none;
+      margin-top: 5%;
+      font-size: 20px;
+      user-select: none;
     }
   }
 
@@ -94,6 +88,11 @@
   }
 
   .project {
+    width: 100%;
+    height: calc(100vh - 50px);
+  }
+
+  .contact {
     width: 100%;
     height: calc(100vh - 50px);
   }
