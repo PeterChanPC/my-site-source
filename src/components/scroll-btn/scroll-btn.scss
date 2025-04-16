@@ -1,46 +1,80 @@
 @use '@/styles/variables.scss' as var;
 @use '@/styles/transition.scss' as t;
+@use '@/styles/animation.scss' as animation;
 
 .scroll-btn {
   position: relative;
-  width: var.$btn-width;
-  height: var.$btn-height;
   background: none;
   cursor: pointer;
 
-  span {
-    font-size: 20px;
-    letter-spacing: 2px;
-  }
-
-  &::after {
-    @include t.transition((width, left));
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 0;
-    height: 1px;
-  }
-
-  &.scroll-btn-dark::after {
+  &.dark::after {
     background-color: var.$btn-active-light;
   }
   
-  &.scroll-btn-light::after {
+  &.light::after {
     background-color: var.$btn-active-dark;
+  }
+
+  &.pill {
+    width: var.$btn-width;
+    height: var.$btn-height;
+    
+    span {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    &::after {
+      @include t.transition((width, left));
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+    }
+  }
+
+  &.round {
+    width: var.$btn-height;
+    height: var.$btn-height;
+
+    .icon {
+      @include t.transition(transform);
+    }
+
+    .text {
+      position: absolute;
+      width: var.$btn-width;
+      top: 100%;
+      left: -50%;
+      visibility: hidden;
+      user-select: none;
+    }
   }
 
   &:hover {
     background: none;
 
-    span {
-      letter-spacing: 3px;
+    &.pill {
+      span {
+        letter-spacing: 3px;
+      }
+
+      &::after {
+        left: 0;
+        width: var.$btn-width;
+      }
     }
 
-    &::after {
-      left: 0;
-      width: var.$btn-width;
+    &.round {
+      .icon {
+        transform: translateY(.5em);
+      }
+
+      .text {
+        @include animation.animate(fadein, 500ms);
+      }
     }
   }
 }

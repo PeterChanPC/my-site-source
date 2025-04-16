@@ -19,17 +19,16 @@
       </div>
 
       <div class="scroll-btn-container">
-        <ScrollBtn text="About" :theme="themeStore.theme" :to="{top: height, left: 0}"/>|
-        <ScrollBtn text="Work" :theme="themeStore.theme" :to="{top: 2 * height, left: 0}"/>|
-        <ScrollBtn text="Contact" :theme="themeStore.theme" :to="{top: 3 * height, left: 0}"/>
+        <ScrollBtn text="About" :theme="themeStore.theme" :to="about"/>|
+        <ScrollBtn text="Contact" :theme="themeStore.theme" :to="contact"/>
       </div>
 
       <div class="scroll-down">
-        <ScrollBtn icon="fi fi-rr-angle-down" :theme="themeStore.theme"/>
+        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="about"/>
       </div>
     </div>
 
-    <div class="about">
+    <div ref="about" class="about">
       about
     </div>
 
@@ -37,7 +36,7 @@
       project
     </div>
 
-    <div class="contact">
+    <div ref="contact" class="contact">
       contact
     </div>
   </div>
@@ -46,14 +45,15 @@
 <script setup lang="ts">
 import AExpandable from '@/components/a-expandable/a-expandable.vue';
 import ScrollBtn from '@/components/scroll-btn/scroll-btn.vue';
-import { ref } from 'vue';
+import { useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
 
 const { t } = useI18n();
 const themeStore = useThemeStore();
 
-const height = ref<number>(window.innerHeight - 50);
+const about = useTemplateRef('about');
+const contact = useTemplateRef('contact');
 </script>
 
 <style scoped lang="scss">

@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import Switch from '../switch/switch.vue';
+import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { type Ref, ref, defineComponent } from 'vue';

@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import GlobalHeader from '@/components/global-header/global-header.vue';
-import GlobalSidebar from '@/components/global-sidebar/global-sidebar.vue';
+import GlobalHeader from '@/layout/global-header/global-header.vue';
+import GlobalSidebar from '@/layout/global-sidebar/global-sidebar.vue';
 import { useTemplateRef } from 'vue';
 const sidebar = useTemplateRef('sidebar');
 </script>

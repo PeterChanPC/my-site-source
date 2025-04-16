@@ -1,7 +1,11 @@
 <template>
-  <button :class="['scroll-btn', `scroll-btn-${theme}`]" @click="scroll">
-    <i v-if="icon" :class="icon"></i>
-    <span v-if="text">{{ text }}</span>
+  <button :class="['scroll-btn', theme, shape]" @click="scroll">
+    <div class="icon">
+      <i v-if="icon" :class="icon"></i>
+    </div>
+    <div class="text">
+      <span v-if="text">{{ text }}</span>
+    </div>
   </button>
 </template>
 
@@ -25,11 +29,8 @@ export default defineComponent({
       default: '',
     },
     to: {
-      type: Object as PropType<To>,
-      default: {
-        top: 0,
-        left: 0,
-      },
+      type: Object as PropType<HTMLDivElement | null>,
+      default: null,
     },
     behavior: {
       type: String as PropType<ScrollBehavior>,
@@ -38,14 +39,17 @@ export default defineComponent({
     theme: {
       type: String,
       default: 'light',
-    }
+    },
+    shape: {
+      type: String,
+      default: 'pill',
+    },
   },
   setup(props) {
     const scroll = () => {
-      window.scrollTo({
-        top: props.to.top,
-        left: props.to.left,
+      props.to?.scrollIntoView({
         behavior: props.behavior,
+        block: 'end',
       });
     };
 
