@@ -8,7 +8,7 @@
   height: auto;
 
   .intro {
-    @include layout.flex-col-center;
+    @include layout.flex-col-evenly;
     position: relative;
     width: 100%;
     height: calc(100vh - 50px);
@@ -19,12 +19,12 @@
     overflow: hidden;
 
     .text-up {
-      @include animation.animate(fadein, 2000ms, ease-in, forwards);
+      @include animation.animate(fadeIn, 2000ms, ease-in, forwards);
       visibility: hidden;
       position: relative;
       width: auto;
-      height: 1.5em;
-      font-size: clamp(2rem, 2vw + 1rem, 4rem);
+      height: auto;
+      font-size: clamp(2rem, 2vw + 1rem, 5rem);
       text-align: center;
       text-transform: capitalize;
       letter-spacing: .2em;
@@ -38,7 +38,6 @@
       width: 80%;
       height: auto;
       text-align: center;
-      text-transform: uppercase;
       user-select: none;
 
       .name-1,
@@ -46,50 +45,26 @@
         @include layout.flex-row-evenly;
         flex: 1;
         flex-wrap: nowrap;
-
-        span {
-          @include animation.animate(fadein, 2000ms, ease-in, forwards);
-          visibility: hidden;
-          position: relative;
-          width: 1em;
-          height: 1em;
-          font-size: clamp(3rem, 3vw + 1rem, 10rem);
-        }
-      }
-      
-      @for $i from 1 through 5 {
-        .name-1 span:nth-child(#{$i}) {
-          animation-delay: $i * 200ms;
-        }
-
-        .name-2 span:nth-child(#{$i}) {
-          animation-delay: ($i + 5) * 200ms;
-        }
       }
     }
 
     .scroll-btn-container {
-      // redesign for 3 buttons in smartphone
       @include layout.flex-row-evenly;
-      @include animation.animate(fadeinbottom, 2000ms, ease-in, forwards);
+      @include animation.animate(fadeInBottom, 2000ms, ease, forwards);
+      visibility: hidden;
       position: relative;
       flex-wrap: wrap;
       width: max(300px, 30%);
       height: 50px;
-      margin-top: 5%;
       font-size: 20px;
       user-select: none;
-    }
-
-    .scroll-down {
-      position: absolute;
-      bottom: 10%;
     }
   }
 
   .about {
     width: 100%;
     height: calc(100vh - 50px);
+    padding-top: 1px;
   }
 
   .project {

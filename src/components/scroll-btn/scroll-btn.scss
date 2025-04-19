@@ -73,7 +73,7 @@
       }
 
       .text {
-        @include animation.animate(fadein, 500ms);
+        @include animation.animate(fadeIn, 500ms);
       }
     }
   }

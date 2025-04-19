@@ -4,17 +4,19 @@
       <span class="text-up">{{ t('hello') }}</span>
       <div class="text-down">
         <div class="name-1">
-          <span>p</span>
-          <span>e</span>
-          <span>t</span>
-          <span>e</span>
-          <span>r</span>
+          <animatedTxt
+            text="peter"
+            fontSize="clamp(3rem, 3vw + 2rem, 12rem)"
+            textTransform="uppercase"
+          />
         </div>
         <div class="name-2">
-          <span>c</span>
-          <span>h</span>
-          <span>a</span>
-          <span>n</span>
+          <animatedTxt
+            text="chan"
+            fontSize="clamp(3rem, 3vw + 2rem, 12rem)"
+            textTransform="uppercase"
+            delay="1000ms"
+          />
         </div>
       </div>
 
@@ -23,13 +25,11 @@
         <ScrollBtn text="Contact" :theme="themeStore.theme" :to="contact"/>
       </div>
 
-      <div class="scroll-down">
-        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="about"/>
-      </div>
+      <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="about"/>
     </div>
 
     <div ref="about" class="about">
-      about
+      <span>About Me</span>
     </div>
 
     <div class="project">
@@ -45,15 +45,29 @@
 <script setup lang="ts">
 import AExpandable from '@/components/a-expandable/a-expandable.vue';
 import ScrollBtn from '@/components/scroll-btn/scroll-btn.vue';
-import { useTemplateRef } from 'vue';
+import animatedTxt from '@/components/animated-txt/animated-txt.vue';
+import { onMounted, Ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
 
 const { t } = useI18n();
 const themeStore = useThemeStore();
 
-const about = useTemplateRef('about');
-const contact = useTemplateRef('contact');
+const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
+const contact: Ref<HTMLDivElement | null> = useTemplateRef('contact');
+
+const observer: IntersectionObserver | null = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    };
+  });
+}, { threshold: .2, });
+
+onMounted(() => {
+  observer.observe(about.value!);
+  observer.observe(contact.value!);
+})
 </script>
 
 <style scoped lang="scss">
