@@ -46,7 +46,7 @@
 import AExpandable from '@/components/a-expandable/a-expandable.vue';
 import ScrollBtn from '@/components/scroll-btn/scroll-btn.vue';
 import animatedTxt from '@/components/animated-txt/animated-txt.vue';
-import { onMounted, Ref, useTemplateRef } from 'vue';
+import { onMounted, onUnmounted, Ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
 
@@ -67,6 +67,10 @@ const observer: IntersectionObserver | null = new IntersectionObserver((entries)
 onMounted(() => {
   observer.observe(about.value!);
   observer.observe(contact.value!);
+})
+
+onUnmounted(() => {
+  observer.disconnect();
 })
 </script>
 
