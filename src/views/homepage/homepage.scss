@@ -1,22 +1,31 @@
 @use '@/styles/variables.scss' as var;
 @use '@/styles/animation.scss' as animation;
 @use '@/styles/layout.scss' as layout;
+@use '@/styles/transition.scss' as t;
 
 .home {
   @include layout.flex-col-center;
+  position: relative;
   width: 100%;
   height: auto;
 
-  .intro {
-    @include layout.flex-col-evenly;
-    position: relative;
+  .bg {
+    position: fixed;
+    top: calc(var.$header-height + 1px);
+    left: 0;
     width: 100%;
     height: calc(100vh - 50px);
     background-position: center;
     background-size: cover;
     background-image: url("@/../public/homepage-bg.png");
     background-attachment: fixed;
-    overflow: hidden;
+  }
+
+  .intro {
+    @include layout.flex-col-evenly;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 50px);
 
     .text-up {
       @include animation.animate(fadeIn, 2000ms, ease-in, forwards);
@@ -61,10 +70,24 @@
     }
   }
 
-  .about {
+  .about-container {
+    position: relative;
     width: 100%;
     height: calc(100vh - 50px);
-    padding-top: 1px;
+    overflow: hidden;
+
+    .about {
+      @include t.transition(left, 300ms);
+      position: relative;
+      left: calc(80% - 50px);
+      width: 80%;
+      height: calc(100vh - 50px);
+      padding-top: 1px;
+    }
+    
+    .show {
+      left: 10%;
+    }
   }
 
   .project {
