@@ -16,6 +16,28 @@
   }
 }
 
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    left: -5em;
+    opacity: 0;
+  }
+  to {
+    left: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 @keyframes fadeInBottom {
   from {
     bottom: -5em;
@@ -28,12 +50,33 @@
   }
 }
 
-@keyframes fadeInTop {
+@keyframes fadeInRight {
   from {
+    right: -5em;
     opacity: 0;
   }
   to {
+    right: 0;
     opacity: 1;
     visibility: visible;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes test {
+  from {
+    top: 50%;
+  }
+  to {
+    top: 10%;
   }
 }

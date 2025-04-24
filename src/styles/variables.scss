@@ -39,6 +39,14 @@ $sidebarToggleMaxWidth: calc($logo-width + $logo-margin * 2 + $header-mid-width 
 $menu-height: calc($no-of-btn * $btn-height);
 
 // styles for homepage
-
+$homepage-height: calc(100vh - 50px);
+$font-size-xs: clamp(0.75rem, 0.8vw, 0.875rem);
+$font-size-sm: clamp(0.875rem, 1vw, 1rem);
+$font-size-md: clamp(1rem, 1.5vw, 1.25rem);
+$font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
+$font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
+$font-size-2xl: clamp(2rem, 3vw, 3rem);
+$font-size-4xl: clamp(2rem, 4vw, 6rem);
+$font-size-giant: clamp(2rem, 5vw, 12rem);
 
 // styles for scroll btn

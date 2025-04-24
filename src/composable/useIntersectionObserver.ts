@@ -8,7 +8,7 @@ export function useIntersectionObserver(
   onMounted(() => {
     observer = new IntersectionObserver(entries => {
       entries.forEach((entry) => {
-        entry.target.classList.toggle("show", entry.isIntersecting);
+        if (entry.isIntersecting) entry.target.classList.add("show");
       });
     }, options);
   });

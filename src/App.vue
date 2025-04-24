@@ -18,12 +18,10 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font: inherit;
 }
 
-input,
-select,
-button,
-a {
+input, select, button, a {
   border: none;
   padding: 0;
   margin: 0;
@@ -38,12 +36,16 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
 }
 
-i,
-span {
+i, span {
   width: auto;
   height: 16px;
   font-size: 16px;
   line-height: 1em;
+}
+
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
 }
 
 #app {

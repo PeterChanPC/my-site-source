@@ -1,20 +1,62 @@
+@use '@/styles/variables.scss' as var;
 @use '@/styles/layout.scss' as layout;
 @use '@/styles/animation.scss' as animation;
 
 .animated-txt {
-  @include layout.flex-row-evenly;
   position: relative;
   width: 100%;
   height: 100%;
-  $max-length: 100;
+  
+  &.flex-letters-center {
+    @include layout.flex-row-center;
+  }
+
+  &.flex-letters-evenly {
+    @include layout.flex-row-evenly;
+  }
 
   span {
-    @include animation.animate(fadeIn, 2000ms, ease-in, forwards);
     visibility: hidden;
     position: relative;
     width: 1.5em;
     height: 1.3em;
     text-align: center;
     text-shadow: 2px 2px 2px rgb(0, 0, 0, .5);
+
+    &.text-transform-capitalize:nth-child(1) {
+      text-transform: capitalize;
+    }
+
+    &.text-transform-uppercase {
+      text-transform: uppercase;
+    }
+
+    &.text-transform-lowercase {
+      text-transform: lowercase;
+    }
+
+    &.font-size-small {
+      font-size: var.$font-size-sm;
+    }
+
+    &.font-size-medium {
+      font-size: var.$font-size-4xl;
+    }
+
+    &.font-size-large {
+      font-size: var.$font-size-giant;
+    }
+
+    &.animation-fade-in {
+      @include animation.animate(fadeIn, 2000ms, ease, forwards);
+    }
+
+    &.animation-fade-in-left {
+      @include animation.animate(fadeInLeft, 2000ms, ease, forwards);
+    }
+
+    &.animation-fade-in-right {
+      @include animation.animate(fadeInRight, 2000ms, ease, forwards);
+    }
   }
 }
