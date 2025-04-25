@@ -126,7 +126,7 @@ const workContainer: Ref<HTMLDivElement | null> = useTemplateRef('workContainer'
 const contactContainer: Ref<HTMLDivElement | null> = useTemplateRef('contactContainer');
 
 const { observe } = useIntersectionObserver({
-  rootMargin: "-250px",
+  rootMargin: "-25%",
 });
 
 

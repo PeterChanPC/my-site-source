@@ -80,12 +80,13 @@
     overflow: hidden;
 
     .about, .work, .contact {
-      @include t.transition((opacity, top));
+      @include t.transition(opacity);
       position: relative;
       display: none;
       width: 80%;
       height: calc(var.$homepage-height - 10%);
       padding-bottom: 10%;
+      opacity: 1;
 
       .title {
         width: 100%;
