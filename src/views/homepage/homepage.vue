@@ -129,7 +129,6 @@ const { observe } = useIntersectionObserver({
   rootMargin: "-25%",
 });
 
-
 observe(introContainer);
 observe(aboutContainer);
 observe(workContainer);

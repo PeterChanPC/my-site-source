@@ -9,7 +9,6 @@ export function useIntersectionObserver(
     observer = new IntersectionObserver(entries => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) entry.target.classList.add("show");
-        entry.target.classList.toggle('hidden', !entry.isIntersecting);
       });
     }, options);
   });
