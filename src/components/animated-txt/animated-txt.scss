@@ -7,6 +7,10 @@
   width: 100%;
   height: 100%;
   
+  &.flex-letters-start {
+    @include layout.flex-row-start;
+  }
+
   &.flex-letters-center {
     @include layout.flex-row-center;
   }
@@ -15,48 +19,60 @@
     @include layout.flex-row-evenly;
   }
 
+  &.flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  &.flex-nowrap {
+    flex-wrap: nowrap;
+  }
+
   span {
     visibility: hidden;
     position: relative;
-    width: 1.5em;
-    height: 1.3em;
     text-align: center;
-    text-shadow: 2px 2px 2px rgb(0, 0, 0, .5);
+    text-shadow: 1px 1px 1px rgb(0, 0, 0, .5);
 
-    &.text-transform-capitalize:nth-child(1) {
+    &.text-transform-cap:nth-child(1) {
       text-transform: capitalize;
     }
 
-    &.text-transform-uppercase {
+    &.text-transform-uc {
       text-transform: uppercase;
     }
 
-    &.text-transform-lowercase {
+    &.text-transform-lc {
       text-transform: lowercase;
     }
 
-    &.font-size-small {
-      font-size: var.$font-size-sm;
+    &.font-size-sm {
+      font-size: var.$font-size-md;
+      width: 1em;
+      height: 1em;
     }
 
-    &.font-size-medium {
+    &.font-size-md {
       font-size: var.$font-size-4xl;
+      width: 1.1em;
+      height: 1.2em;
     }
 
-    &.font-size-large {
+    &.font-size-lg {
       font-size: var.$font-size-giant;
+      width: 1.5em;
+      height: 1.3em;
     }
 
-    &.animation-fade-in {
-      @include animation.animate(fadeIn, 2000ms, ease, forwards);
+    &.animation-fadeIn {
+      @include animation.animate(fadeIn, ease, forwards);
     }
 
-    &.animation-fade-in-left {
-      @include animation.animate(fadeInLeft, 2000ms, ease, forwards);
+    &.animation-fadeInLeft {
+      @include animation.animate(fadeInLeft, ease, forwards);
     }
 
-    &.animation-fade-in-right {
-      @include animation.animate(fadeInRight, 2000ms, ease, forwards);
+    &.animation-fadeInRight {
+      @include animation.animate(fadeInRight, ease, forwards);
     }
   }
 }

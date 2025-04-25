@@ -3,18 +3,20 @@
     :class="[
       'animated-txt',
       `flex-letters-${justify}`,
+      `flex-${wrap}`,
     ]"
   >
     <span
       :class="[
-        `font-size-${fontSize}`,
         `animation-${animation}`,
+        `font-size-${fontSize}`,
         `text-transform-${textTransform}`,
       ]"
       v-for="(char, id) in text"
       :key="id"
       :style="{
-        animationDelay: `calc(${delay} + ${id} * 200ms)`,
+        animationDelay: `calc(${delay} + ${id} * ${stagger})`,
+        animationDuration: duration,
       }"
     >
       {{ char }}
@@ -25,11 +27,12 @@
 <script lang="ts">
 import { PropType, CSSProperties, defineComponent } from 'vue';
 
-type FontSize = 'small' | 'medium' | 'large';
-type Justify = 'center' | 'evenly';
-type Animation = 'fade-in' | 'fade-in-left' | 'fade-in-right';
-type TextTransform = 'capitalize' | 'uppercase' | 'lowercase';
-// capitalize supports 1 word only
+type Animation = 'fadeIn' | 'fadeInLeft' | 'fadeInRight' | '';
+type FontSize = 'sm' | 'md' | 'lg' | '';
+type Justify = 'start' | 'center' | 'evenly' | '';
+type Wrap = 'wrap' | 'nowrap' | '';
+type TextTransform = 'cap' | 'uc' | 'lc' | '';
+// capitalize supports single word only
 
 export default defineComponent({
   name: 'animated-txt',
@@ -40,22 +43,34 @@ export default defineComponent({
     },
     fontSize: {
       type: String as PropType<FontSize>,
-      default: '16px',
+      default: '',
     },
     textTransform: {
       type: String as PropType<TextTransform>,
-      default: 'none'
+      default: ''
     },
     justify: {
       type: String as PropType<Justify>,
+      default: '',
+    },
+    wrap: {
+      type: String as PropType<Wrap>,
       default: '',
     },
     animation: {
       type: String as PropType<Animation>,
       default: '',
     },
+    duration: {
+      type: String as PropType<CSSProperties['animation-duration']>,
+      default: '0ms',
+    },
     delay: {
-      type: String as PropType<CSSProperties['animationDelay']>,
+      type: String as PropType<CSSProperties['animation-delay']>,
+      default: '0ms',
+    },
+    stagger: {
+      type: String as PropType<CSSProperties['animation-delay']>,
       default: '0ms',
     },
   },

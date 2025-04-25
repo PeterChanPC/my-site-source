@@ -2,26 +2,30 @@
   <div :class="['home', `theme-${themeStore.theme}`]">
     <div class="bg"></div>
 
-    <div class="intro">
-      <span class="text-up">{{ t('hello') }}</span>
-      <div class="text-down">
+    <div ref="introContainer" class="intro-container">
+      <span class="intro-up">{{ t('hello') }}</span>
+      <div class="intro-down">
         <div class="name-1">
           <AnimatedTxt
             text="peter"
-            fontSize="large"
-            textTransform="uppercase"
+            fontSize="lg"
+            textTransform="uc"
             justify="evenly"
-            animation="fade-in"
+            animation="fadeIn"
+            duration="1500ms"
+            stagger="200ms"
           />
         </div>
         <div class="name-2">
           <AnimatedTxt
             text="chan"
-            fontSize="large"
-            textTransform="uppercase"
+            fontSize="lg"
+            textTransform="uc"
             justify="evenly"
-            animation="fade-in"
+            animation="fadeIn"
+            duration="1500ms"
             delay="1000ms"
+            stagger="200ms"
           />
         </div>
       </div>
@@ -39,14 +43,25 @@
         <div class="title">
           <AnimatedTxt
             text="About Me"
-            fontSize="medium"
+            fontSize="md"
             justify="evenly"
-            animation="fade-in-left"
+            animation="fadeInRight"
+            duration="500ms"
+            stagger="100ms"
           />
         </div>
 
         <div class="about-details">
-          <span>details - temporary design</span>
+          <AnimatedTxt
+            text="Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies."
+            fontSize="sm"
+            justify="start"
+            wrap="wrap"
+            animation="fadeIn"
+            duration="500ms"
+            stagger="5ms"
+            delay="1000ms"
+          />
         </div>
       </div>
     </div>
@@ -56,10 +71,12 @@
         <div class="title">
           <AnimatedTxt
             text="portfolio"
-            fontSize="medium"
-            textTransform="capitalize"
+            fontSize="md"
+            textTransform="cap"
             justify="evenly"
-            animation="fade-in-left"
+            animation="fadeInRight"
+            duration="500ms"
+            stagger="100ms"
           />
         </div>
 
@@ -74,10 +91,12 @@
         <div class="title">
           <AnimatedTxt
             text="contact"
-            fontSize="medium"
-            textTransform="capitalize"
+            fontSize="md"
+            textTransform="cap"
             justify="evenly"
-            animation="fade-in-left"
+            animation="fadeInRight"
+            duration="500ms"
+            stagger="100ms"
           />
         </div>
 
@@ -101,14 +120,17 @@ import { useIntersectionObserver } from '@/composable/useIntersectionObserver';
 const { t } = useI18n();
 const themeStore = useThemeStore();
 
+const introContainer: Ref<HTMLDivElement | null> = useTemplateRef('introContainer');
 const aboutContainer: Ref<HTMLDivElement | null> = useTemplateRef('aboutContainer');
 const workContainer: Ref<HTMLDivElement | null> = useTemplateRef('workContainer');
 const contactContainer: Ref<HTMLDivElement | null> = useTemplateRef('contactContainer');
 
 const { observe } = useIntersectionObserver({
-  rootMargin: "-150px",
+  rootMargin: "-250px",
 });
 
+
+observe(introContainer);
 observe(aboutContainer);
 observe(workContainer);
 observe(contactContainer);

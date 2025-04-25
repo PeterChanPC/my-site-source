@@ -10,25 +10,24 @@
   height: auto;
 
   .bg {
-    position: fixed;
-    top: calc(var.$header-height + 1px);
+    position: absolute;
+    top: 0;
     left: 0;
     width: 100%;
-    height: calc(100vh - 50px);
+    height: 100%;
     background-position: center;
     background-size: cover;
     background-image: url("@/../public/homepage-bg.png");
     background-attachment: fixed;
   }
 
-  .intro {
-    @include layout.flex-col-evenly;
+  .intro-container {
+    @include layout.flex-col-around;
     position: relative;
     width: 100%;
     height: calc(100vh - 50px);
-    text-shadow: 2px 2px rgba($color: #000, $alpha: .5);
 
-    .text-up {
+    .intro-up {
       @include animation.animate(fadeIn, 2000ms, ease-in, forwards);
       visibility: hidden;
       position: relative;
@@ -41,7 +40,7 @@
       user-select: none;
     }
 
-    .text-down {
+    .intro-down {
       @include layout.flex-row-center;
       flex-wrap: wrap;
       position: relative;
@@ -77,47 +76,40 @@
     @include layout.flex-row-center;
     position: relative;
     width: 100%;
-    height: calc(100vh - 50px);
+    height: var.$homepage-height;
     overflow: hidden;
 
     .about, .work, .contact {
+      @include t.transition((opacity, top));
       position: relative;
       display: none;
       width: 80%;
-      height: var.$homepage-height;
-      overflow: hidden;
+      height: calc(var.$homepage-height - 10%);
+      padding-bottom: 10%;
 
       .title {
-        @include animation.animate(test, 500ms, ease, forwards, 2000ms);
-        position: absolute;
-        top: 50%;
-        left: 0;
         width: 100%;
       }
 
       .about-details, .work-details, .contact-details {
-        @include animation.animate(scaleIn, 500ms, ease, forwards, 2000ms);
+        @include animation.animate(fadeInTop, 500ms, ease, forwards, 500ms);
         visibility: hidden;
+        position: relative;
         width: 100%;
-        height: 400px;
-        background-color: #000;
+        height: 300px;
       }
     }
     
-    &.show{
+    &.show {
       .about, .work, .contact {
-        @include layout.flex-col-center;
+        @include layout.flex-col-evenly;
       }
     }
-  }
 
-  .project {
-    width: 100%;
-    height: calc(100vh - 50px);
-  }
-
-  .contact {
-    width: 100%;
-    height: calc(100vh - 50px);
+    &.hidden {
+      .about, .work, .contact {
+        opacity: 0;
+      }
+    }
   }
 }

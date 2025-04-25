@@ -18,9 +18,11 @@
 
 @keyframes fadeInTop {
   from {
+    top: -5em;
     opacity: 0;
   }
   to {
+    top: 0;
     opacity: 1;
     visibility: visible;
   }
