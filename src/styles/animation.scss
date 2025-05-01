@@ -1,9 +1,18 @@
-@mixin animate($name: fadeIn, $duration: 100ms, $tfunc: ease, $mode: forwards, $delay: 0ms) {
+@mixin animate($name: fadeIn, $duration: 0ms, $tfunc: ease, $mode: forwards, $delay: 0ms) {
   animation-name: $name;
   animation-duration: $duration;
   animation-timing-function: $tfunc;
   animation-fill-mode: $mode;
   animation-delay: $delay;
+}
+
+@keyframes spawnIn {
+  from {
+    display: none;
+  }
+  to {
+    display: flex;
+  }
 }
 
 @keyframes fadeIn {

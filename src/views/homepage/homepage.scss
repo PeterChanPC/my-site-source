@@ -45,16 +45,9 @@
       flex-wrap: wrap;
       position: relative;
       width: 80%;
-      height: auto;
+      height: 20%;
       text-align: center;
       user-select: none;
-
-      .name-1,
-      .name-2 {
-        @include layout.flex-row-evenly;
-        flex: 1;
-        flex-wrap: nowrap;
-      }
     }
 
     .scroll-btn-container {

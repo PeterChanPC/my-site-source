@@ -2,37 +2,48 @@
   <div
     :class="[
       'animated-txt',
-      `flex-letters-${justify}`,
       `flex-${wrap}`,
+      `flex-letters-${justify}`,
+      `font-size-${fontSize}`,
     ]"
+    :length="text.length"
   >
-    <span
+    <div
       :class="[
-        `animation-${animation}`,
-        `font-size-${fontSize}`,
-        `text-transform-${textTransform}`,
+        'word',
+        {'whitespace' : whiteSpace}
       ]"
-      v-for="(char, id) in text"
-      :key="id"
-      :style="{
-        animationDelay: `calc(${delay} + ${id} * ${stagger})`,
-        animationDuration: duration,
-      }"
+      v-for="(word, wordId) in words"
+      :key="wordId"
     >
-      {{ char }}
-    </span>
+      <span
+        ref="char"
+        :class="[
+          'char',
+          `animation-${animation}`,
+          `text-transform-${textTransform}`,
+        ]"
+        v-for="(char, charId) in word"
+        :key="charId"
+        :style="{
+          animationDelay: `calc(${delay} + ${stepDelay += stagger}ms)`,
+          animationDuration: duration,
+        }"
+      >
+        {{ char }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent } from 'vue';
+import { PropType, CSSProperties, defineComponent, ref, Ref } from 'vue';
 
 type Animation = 'fadeIn' | 'fadeInLeft' | 'fadeInRight' | '';
 type FontSize = 'sm' | 'md' | 'lg' | '';
 type Justify = 'start' | 'center' | 'evenly' | '';
 type Wrap = 'wrap' | 'nowrap' | '';
 type TextTransform = 'cap' | 'uc' | 'lc' | '';
-// capitalize supports single word only
 
 export default defineComponent({
   name: 'animated-txt',
@@ -70,9 +81,21 @@ export default defineComponent({
       default: '0ms',
     },
     stagger: {
-      type: String as PropType<CSSProperties['animation-delay']>,
-      default: '0ms',
+      type: Number,
+      default: 0,
     },
+    whiteSpace: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props, { expose }) {
+    const words: Ref<String[]> = ref(['']);
+    words.value = props.text.split(' ');
+    let stepDelay = 0;
+
+    expose();
+    return { words, stepDelay };
   },
 });
 </script>

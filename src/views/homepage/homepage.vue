@@ -5,29 +5,15 @@
     <div ref="introContainer" class="intro-container">
       <span class="intro-up">{{ t('hello') }}</span>
       <div class="intro-down">
-        <div class="name-1">
-          <AnimatedTxt
-            text="peter"
-            fontSize="lg"
-            textTransform="uc"
-            justify="evenly"
-            animation="fadeIn"
-            duration="1500ms"
-            stagger="200ms"
-          />
-        </div>
-        <div class="name-2">
-          <AnimatedTxt
-            text="chan"
-            fontSize="lg"
-            textTransform="uc"
-            justify="evenly"
-            animation="fadeIn"
-            duration="1500ms"
-            delay="1000ms"
-            stagger="200ms"
-          />
-        </div>
+        <AnimatedTxt
+          text="peter chan"
+          fontSize="lg"
+          textTransform="uc"
+          justify="evenly"
+          animation="fadeIn"
+          duration="1500ms"
+          :stagger="200"
+        />
       </div>
 
       <div class="scroll-btn-container">
@@ -42,12 +28,14 @@
       <div class="about">
         <div class="title">
           <AnimatedTxt
-            text="About Me"
+            text="about me"
             fontSize="md"
-            justify="evenly"
+            textTransform="cap"
+            justify="center"
             animation="fadeInRight"
             duration="500ms"
-            stagger="100ms"
+            :stagger="100"
+            :whiteSpace="true"
           />
         </div>
 
@@ -59,8 +47,9 @@
             wrap="wrap"
             animation="fadeIn"
             duration="500ms"
-            stagger="5ms"
-            delay="1000ms"
+            delay="500ms"
+            :stagger="5"
+            :whiteSpace="true"
           />
         </div>
       </div>
@@ -70,13 +59,13 @@
       <div class="work">
         <div class="title">
           <AnimatedTxt
-            text="portfolio"
+            text="experience"
             fontSize="md"
             textTransform="cap"
             justify="evenly"
             animation="fadeInRight"
             duration="500ms"
-            stagger="100ms"
+            :stagger="100"
           />
         </div>
 
@@ -96,7 +85,7 @@
             justify="evenly"
             animation="fadeInRight"
             duration="500ms"
-            stagger="100ms"
+            :stagger="100"
           />
         </div>
 
