@@ -20,8 +20,26 @@
     font-size: var.$font-size-md;
     
     .word .char {
-      width: 1em;
+      width: .8em;
       height: 1em;
+    }
+  }
+  
+  &.font-size-md {
+    font-size: var.$font-size-4xl;
+    
+    .word .char {
+      width: 1.1em;
+      height: 1.2em;
+    }
+  }
+
+  &.font-size-lg {
+    font-size: var.$font-size-giant;
+
+    .word .char {
+      width: 1.5em;
+      height: 1.3em;
     }
   }
   
@@ -50,25 +68,9 @@
     }
   }
   
-  &.font-size-md {
-    font-size: var.$font-size-4xl;
-    
-    .word .char {
-      width: 1.1em;
-      height: 1.2em;
-    }
-  }
-
-  &.font-size-lg {
-    font-size: var.$font-size-giant;
-
-    .word .char {
-      width: 1.5em;
-      height: 1.3em;
-    }
-  }
-  
   .word {
+    width: auto;
+    height: auto;
     font-size: inherit;
 
     &.whitespace:not(:last-child) {

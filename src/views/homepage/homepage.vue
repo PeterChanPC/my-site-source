@@ -10,6 +10,7 @@
           fontSize="lg"
           textTransform="uc"
           justify="evenly"
+          wrap="wrap"
           animation="fadeIn"
           duration="1500ms"
           :stagger="200"
@@ -52,6 +53,8 @@
             :whiteSpace="true"
           />
         </div>
+
+        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="workContainer"/>
       </div>
     </div>
 
@@ -70,8 +73,10 @@
         </div>
 
         <div class="work-details">
-          <span>details - temporary design</span>
+          
         </div>
+        
+        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="contactContainer"/>
       </div>
     </div>
 

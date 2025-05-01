@@ -76,9 +76,8 @@
       @include t.transition(opacity);
       position: relative;
       display: none;
-      width: 80%;
-      height: calc(var.$homepage-height - 10%);
-      padding-bottom: 10%;
+      width: 90%;
+      height: var.$homepage-height;
       opacity: 1;
 
       .title {
@@ -97,12 +96,6 @@
     &.show {
       .about, .work, .contact {
         @include layout.flex-col-evenly;
-      }
-    }
-
-    &.hidden {
-      .about, .work, .contact {
-        opacity: 0;
       }
     }
   }

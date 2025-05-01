@@ -66,7 +66,7 @@ export default defineComponent({
     },
     wrap: {
       type: String as PropType<Wrap>,
-      default: '',
+      default: 'nowrap',
     },
     animation: {
       type: String as PropType<Animation>,
