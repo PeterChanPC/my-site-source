@@ -2,9 +2,8 @@
   <div
     :class="[
       'animated-txt',
-      `flex-${wrap}`,
-      `flex-letters-${justify}`,
-      `font-size-${fontSize}`,
+      `text-${wrap}`,
+      `justify-${justify}`,
     ]"
     :length="text.length"
   >
@@ -21,7 +20,9 @@
         :class="[
           'char',
           `animation-${animation}`,
+          `font-size-${fontSize}`,
           `text-transform-${textTransform}`,
+          `letter-spacing-${letterSpacing}`,
         ]"
         v-for="(char, charId) in word"
         :key="charId"
@@ -37,13 +38,14 @@
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent, ref, Ref } from 'vue';
+import { PropType, CSSProperties, defineComponent, ref, Ref, Prop } from 'vue';
 
-type Animation = 'fadeIn' | 'fadeInLeft' | 'fadeInRight' | '';
-type FontSize = 'sm' | 'md' | 'lg' | '';
+type FontSize = 'md' | '4xl' | 'giant' | '';
+type TextTransform = 'cap' | 'uc' | 'lc' | '';
+type LetterSpacing = 'sm' | 'md' | 'lg' | '';
 type Justify = 'start' | 'center' | 'evenly' | '';
 type Wrap = 'wrap' | 'nowrap' | '';
-type TextTransform = 'cap' | 'uc' | 'lc' | '';
+type Animation = 'fadeIn' | 'fadeInLeft' | 'fadeInRight' | '';
 
 export default defineComponent({
   name: 'animated-txt',
@@ -58,7 +60,11 @@ export default defineComponent({
     },
     textTransform: {
       type: String as PropType<TextTransform>,
-      default: ''
+      default: '',
+    },
+    letterSpacing: {
+      type: String as PropType<LetterSpacing>,
+      default: '',
     },
     justify: {
       type: String as PropType<Justify>,
@@ -67,6 +73,10 @@ export default defineComponent({
     wrap: {
       type: String as PropType<Wrap>,
       default: 'nowrap',
+    },
+    whiteSpace: {
+      type: Boolean,
+      default: false,
     },
     animation: {
       type: String as PropType<Animation>,
@@ -83,10 +93,6 @@ export default defineComponent({
     stagger: {
       type: Number,
       default: 0,
-    },
-    whiteSpace: {
-      type: Boolean,
-      default: false,
     },
   },
   setup(props, { expose }) {

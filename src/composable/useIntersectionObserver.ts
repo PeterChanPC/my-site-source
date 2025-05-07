@@ -35,3 +35,5 @@ export function useIntersectionObserver(
 
   return { observe };
 }
+
+// not used in the project currently

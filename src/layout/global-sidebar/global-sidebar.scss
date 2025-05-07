@@ -1,6 +1,5 @@
-@use '@/styles/variables' as var;
 @use '@/styles/layout.scss' as layout;
-@use '@/styles/border.scss' as border;
+@use '@/styles/variables.scss' as var;
 @use '@/styles/transition.scss' as t;
 
 .sidebar-bg {
@@ -24,14 +23,13 @@
 
 .global-sidebar {
   @include layout.flex-col-start;
-  @include border.left;
-  @include border.right;
-  @include t.transition(left, 200ms);
+  @include t.transition((background-color, color, left));
   position: fixed;
   top: 0;
   left: 100%;
   width: var.$sidebar-width;
   height: 100vh;
+  background-color: var(--bg-color);
   z-index: 99;
 
   .sidebar-up {
@@ -48,28 +46,31 @@
       cursor: pointer;
 
       i {
-        height: var.$toggle-size;
-        font-size: var.$toggle-size;
+        font-size: 20px;
+        margin-bottom: 4px;
+        color: var(--txt-color);
       }
     }
 
     .menu {
       @include layout.flex-col-evenly;
       width: 100%;
-      height: var.$menu-height;
+      height: auto;
 
       a {
         @include layout.flex-row-center;
         justify-content: start;
         width: 100%;
         height: var.$btn-height;
-        margin: 0 0 var.$btn-margin 0;
+        margin: 0 0 16px 0;
         
         i {
+          color: var(--txt-color);
           width: var.$btn-height;
         }
 
         span {
+          color: var(--txt-color);
           line-height: 1.1em;
         }
       }
@@ -81,6 +82,7 @@
     width: 100%;
     height: var.$btn-height;
     margin-top: 15px;
+    color: var(--txt-color);
   }
 
   @media (max-width: var.$sidebarToggleMaxWidth) {

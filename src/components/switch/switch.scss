@@ -7,6 +7,7 @@
   height: 36px;
   font-size: 1rem;
   background: none;
+  color: inherit;
   cursor: pointer;
 
   .option {
@@ -14,6 +15,7 @@
     @include t.transition((width, color, opacity));
     width: 0px;
     height: 100%;
+    color: inherit;
     opacity: 0;
 
     &.active {

@@ -1,36 +1,46 @@
 <template>
   <div :class="['home', `theme-${themeStore.theme}`]">
-    <div class="bg"></div>
-
-    <div ref="introContainer" class="intro-container">
-      <span class="intro-up">{{ t('hello') }}</span>
-      <div class="intro-down">
+    <div ref="intro" class="container show">
+      <div class="intro">
+        <div style="height: 2.5em;">
+          <AnimatedTxt
+            :text="t('hello')"
+            fontSize="md"
+            textTransform="cap"
+            justify="start"
+            wrap="wrap"
+            :whiteSpace="true"
+            animation="fadeIn"
+            duration="1000ms"
+            :stagger="50"
+          />
+        </div>
         <AnimatedTxt
           text="peter chan"
-          fontSize="lg"
+          fontSize="4xl"
           textTransform="uc"
-          justify="evenly"
+          letterSpacing="md"
+          justify="start"
           wrap="wrap"
           animation="fadeIn"
-          duration="1500ms"
-          :stagger="200"
+          duration="1000ms"
+          :stagger="100"
         />
+        <div class="contacts">
+          <AExpandable/>
+          <AExpandable/>
+          <AExpandable/>
+          <AExpandable/>
+        </div>
       </div>
-
-      <div class="scroll-btn-container">
-        <ScrollBtn text="About" :theme="themeStore.theme" :to="aboutContainer"/>|
-        <ScrollBtn text="Contact" :theme="themeStore.theme" :to="contactContainer"/>
-      </div>
-
-      <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="aboutContainer"/>
     </div>
 
-    <div ref="aboutContainer" class="about-container">
+    <div ref="about" class="container">
       <div class="about">
         <div class="title">
           <AnimatedTxt
             text="about me"
-            fontSize="md"
+            fontSize="4xl"
             textTransform="cap"
             justify="center"
             animation="fadeInRight"
@@ -43,7 +53,7 @@
         <div class="about-details">
           <AnimatedTxt
             text="Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies."
-            fontSize="sm"
+            fontSize="md"
             justify="start"
             wrap="wrap"
             animation="fadeIn"
@@ -53,17 +63,15 @@
             :whiteSpace="true"
           />
         </div>
-
-        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="workContainer"/>
       </div>
     </div>
 
-    <div ref="workContainer" class="work-container">
+    <div ref="work" class="container">
       <div class="work">
         <div class="title">
           <AnimatedTxt
             text="experience"
-            fontSize="md"
+            fontSize="4xl"
             textTransform="cap"
             justify="evenly"
             animation="fadeInRight"
@@ -75,28 +83,6 @@
         <div class="work-details">
           
         </div>
-        
-        <ScrollBtn icon="fi fi-rr-angle-down" text="Scroll Down" :theme="themeStore.theme" shape="round" :to="contactContainer"/>
-      </div>
-    </div>
-
-    <div ref="contactContainer" class="contact-container">
-      <div class="contact">
-        <div class="title">
-          <AnimatedTxt
-            text="contact"
-            fontSize="md"
-            textTransform="cap"
-            justify="evenly"
-            animation="fadeInRight"
-            duration="500ms"
-            :stagger="100"
-          />
-        </div>
-
-        <div class="contact-details">
-          <span>details - temporary design</span>
-        </div>
       </div>
     </div>
   </div>
@@ -104,30 +90,17 @@
 
 <script setup lang="ts">
 import AExpandable from '@/components/a-expandable/a-expandable.vue';
-import ScrollBtn from '@/components/scroll-btn/scroll-btn.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
 import { type Ref, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
-import { useIntersectionObserver } from '@/composable/useIntersectionObserver';
 
 const { t } = useI18n();
 const themeStore = useThemeStore();
 
-const introContainer: Ref<HTMLDivElement | null> = useTemplateRef('introContainer');
-const aboutContainer: Ref<HTMLDivElement | null> = useTemplateRef('aboutContainer');
-const workContainer: Ref<HTMLDivElement | null> = useTemplateRef('workContainer');
-const contactContainer: Ref<HTMLDivElement | null> = useTemplateRef('contactContainer');
-
-const { observe } = useIntersectionObserver({
-  rootMargin: "-25%",
-});
-
-observe(introContainer);
-observe(aboutContainer);
-observe(workContainer);
-observe(contactContainer);
-
+const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
+const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
+const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
 </script>
 
 <style scoped lang="scss">

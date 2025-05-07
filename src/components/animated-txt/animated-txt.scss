@@ -3,63 +3,23 @@
 @use '@/styles/animation.scss' as animation;
 
 .animated-txt {
-  @include layout.flex-row-center;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  
-  &.flex-wrap {
+  &.text-wrap {
     flex-wrap: wrap;
   }
   
-  &.flex-nowrap {
+  &.text-nowrap {
     flex-wrap: nowrap;
   }
-
-  &.font-size-sm {
-    font-size: var.$font-size-md;
-    
-    .word .char {
-      width: .8em;
-      height: 1em;
-    }
-  }
   
-  &.font-size-md {
-    font-size: var.$font-size-4xl;
-    
-    .word .char {
-      width: 1.1em;
-      height: 1.2em;
-    }
-  }
-
-  &.font-size-lg {
-    font-size: var.$font-size-giant;
-
-    .word .char {
-      width: 1.5em;
-      height: 1.3em;
-    }
-  }
-  
-  &.flex-letters-start {
+  &.justify-start {
     @include layout.flex-row-start;
-    
-    .word {
-      @include layout.flex-row-start;
-    }
   }
   
-  &.flex-letters-center {
+  &.justify-center {
     @include layout.flex-row-center;
-
-    .word {
-      @include layout.flex-row-center;
-    }
   }
   
-  &.flex-letters-evenly {
+  &.justify-evenly {
     @include layout.flex-row-evenly;
 
     .word {
@@ -69,20 +29,31 @@
   }
   
   .word {
-    width: auto;
-    height: auto;
-    font-size: inherit;
+    display: flex;
 
     &.whitespace:not(:last-child) {
-      margin-right: 1em;
+      &::after {
+        content: "\00a0";
+      }
     }
     
     .char {
       visibility: hidden;
       position: relative;
-      font-size: inherit;
-      text-align: center;
+      text-align: left;
       text-shadow: 1px 1px 1px rgb(0, 0, 0, .5);
+
+      &.font-size-md {
+        font-size: var.$font-size-md;
+      }
+      
+      &.font-size-4xl {
+        font-size: var.$font-size-4xl;
+      }
+    
+      &.font-size-giant {
+        font-size: var.$font-size-giant;
+      }
       
       &.text-transform-cap:nth-child(1) {
         text-transform: capitalize;
@@ -94,6 +65,21 @@
   
       &.text-transform-lc {
         text-transform: lowercase;
+      }
+
+      &.letter-spacing-sm {
+        width: .8em;
+        height: 1em;
+      }
+
+      &.letter-spacing-md {
+        width: 1.1em;
+        height: 1.2em;
+      }
+
+      &.letter-spacing-lg {
+        width: 1.5em;
+        height: 1.3em;
       }
   
       &.animation-fadeIn {

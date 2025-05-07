@@ -10,7 +10,7 @@ const enUS: {
   numberFormats: DefineNumberFormat;
 } = {
   messages: {
-    hello: 'hello i am',
+    hello: 'hello, i am',
   },
   dateTimeFormats: {
     short: {

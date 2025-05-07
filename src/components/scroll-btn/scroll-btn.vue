@@ -12,11 +12,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-interface To {
-  top: number;
-  left: number;
-};
-
 export default defineComponent({
   name: 'scroll-btn',
   props: {
@@ -29,7 +24,7 @@ export default defineComponent({
       default: '',
     },
     to: {
-      type: Object as PropType<HTMLDivElement | null>,
+      type: Object as PropType<HTMLElement | null>,
       default: null,
     },
     behavior: {
@@ -49,7 +44,7 @@ export default defineComponent({
     const scroll = () => {
       props.to?.scrollIntoView({
         behavior: props.behavior,
-        block: 'end',
+        block: 'center',
       });
     };
 

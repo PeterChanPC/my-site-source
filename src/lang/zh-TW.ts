@@ -10,7 +10,7 @@ const zhTW: {
   numberFormats: DefineNumberFormat;
 } = {
   messages: {
-    hello: '你好 我是',
+    hello: '你好, 我是',
   },
   dateTimeFormats: {
     short: {

@@ -1,22 +1,26 @@
 <template>
-  <header :class="['global-header', `theme-${themeStore.theme}`,]">
-    <h1>Pc</h1>
+  <header class="global-header">
+    <h1 class="header-left">Pc</h1>
 
-    <nav class="header-mid">
+    <nav class="header-right">
       <router-link :to="{name: 'home'}">
         <span>Home</span>
       </router-link>
-      <router-link :to="{name: 'my practices'}">
+      <router-link :to="{name: 'home'}">
         <span>Work</span>
       </router-link>
-      <a href="#" style="text-decoration: line-through;">Blog</a>
-      <a href="#" style="text-decoration: line-through;">Resume</a>
-    </nav>
+      <a href="#" style="text-decoration: line-through;">
+        <span>Blog</span>
+      </a>
+      <a href="#" style="text-decoration: line-through;">
+        <span>Resume</span>
+      </a>
 
-    <div class="functions">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
-      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
-    </div>
+      <div class="functions">
+        <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
+        <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
+      </div>
+    </nav>
 
     <button class="toggle-sidebar" @click="toggleSidebar">
       <i class="fi fi-rr-menu-burger"></i>

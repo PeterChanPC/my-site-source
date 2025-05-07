@@ -1,39 +1,69 @@
-@use '@/styles/variables' as var;
 @use '@/styles/layout' as layout;
-@use '@/styles/border' as border;
+@use '@/styles/variables' as var;
+@use '@/styles/transition' as t;
 
 .global-header {
   @include layout.flex-row-between;
-  @include border.bottom;
-  position: sticky;
-  top: 0;
+  @include t.transition((background-color, color));
+  position: fixed;
   width: var.$header-width;
   height: var.$header-height;
   z-index: 97;
 
-  h1 {
-    width: var.$logo-width;
-    margin: 0 var.$logo-margin;
+  .header-left {
+    position: relative;
+    width: var.$header-left-width;
+    height: auto;
+    margin: 0 var.$header-left-margin;
+    color: var(--txt-color);
     font-style: italic;
     text-align: start;
     user-select: none;
   }
 
-  .header-mid {
+  .header-right {
     @include layout.flex-row-center;
+    position: relative;
+    width: auto;
     height: 100%;
     
     a {
       @include layout.flex-row-center;
+      position: relative;
       width: var.$btn-width;
-      height: 100%;
+      height: var.$btn-height;
+      margin: 0 var.$btn-margin;
       font-size: small;
-    }
-  }
+      color: var(--txt-color);
+      
+      span {
+        position: relative;
+      }
 
-  .functions {
-    @include layout.flex-row-evenly;
-    width: var.$functions-width;
+      span::after {
+        @include t.transition((width, left));
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -8px;
+        width: 0;
+        height: 1px;
+        background-color: var(--bg-color);
+        filter: invert(1);
+      }
+  
+      &:hover span::after {
+        left: -5px;
+        width: calc(100% + 10px);
+      }
+    }
+
+    .functions {
+      @include layout.flex-row-evenly;
+      width: var.$functions-width;
+      height: auto;
+      color: var(--txt-color);
+    }
   }
 
   .toggle-sidebar {
@@ -41,23 +71,21 @@
   }
 
   @media (max-width: var.$sidebarToggleMaxWidth) {
-    .header-mid {
-      display: none;
-    }
-
-    .functions {
+    .header-right {
       display: none;
     }
 
     .toggle-sidebar {
       @include layout.flex-row-center;
-      width: var.$toggle-width;
+      width: var.$header-height;
       height: 100%;
       background-color: inherit;
       cursor: pointer;
+
       i {
-        height: var.$toggle-size;
-        font-size: var.$toggle-size;
+        color: var(--txt-color);
+        font-size: 20px;
+        margin-bottom: 4px;
       }
     }
   }

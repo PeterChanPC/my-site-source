@@ -5,8 +5,8 @@ $bg-dark: #111;
 $border-light: #ddd;
 $border-dark: #333;
 
-$text-light: #fff;
-$text-dark: #111;
+$txt-light: #111;
+$txt-dark: #fff;
 
 $btn-light: #ddd;
 $btn-dark: #333;
@@ -16,37 +16,29 @@ $btn-active-dark: #222;
 // styles for transition
 $default-duration: 100ms;
 
-// styles for global-header
+// styles for global-sidebar + global-header
 $header-width: 100%;
-$header-height: 49px;
-$logo-width: calc(150px - 32px);
-$logo-margin: 16px;
+$header-height: 50px;
+$header-left-width: 128px;
+$header-left-margin: 16px;
 $no-of-btn: 4;
-
 $btn-height: 50px;
-$btn-width: 100px;
-$btn-margin: 5px;
-
-$header-mid-width: calc($no-of-btn * ($btn-width + $btn-margin * 2));
+$btn-width: 80px;
+$btn-margin: 2.5vw;
+$header-right-width: calc($no-of-btn * ($btn-width + 2 * $btn-margin));
 $functions-width: 150px;
-
-$toggle-width: $header-height;
-$toggle-size: 20px;
-
-// styles for global-sidebar
+$sidebarToggleMaxWidth: calc($header-left-width + $header-left-margin * 2 + $header-right-width + $functions-width);
 $sidebar-width: 200px;
-$sidebarToggleMaxWidth: calc($logo-width + $logo-margin * 2 + $header-mid-width + $functions-width);
-$menu-height: calc($no-of-btn * $btn-height);
 
 // styles for homepage
-$homepage-height: calc(100vh - 50px);
+$homepage-height: 100vh;
 $font-size-xs: clamp(0.75rem, 0.8vw, 0.875rem);
 $font-size-sm: clamp(0.875rem, 1vw, 1rem);
-$font-size-md: clamp(1rem, 1.5vw, 1.25rem);
+$font-size-md: clamp(1rem, 1.5vw + 2rem, 1.25rem);
 $font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
 $font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
 $font-size-2xl: clamp(2rem, 3vw, 3rem);
-$font-size-4xl: clamp(2rem, 4vw, 6rem);
+$font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
 $font-size-giant: clamp(2rem, 5vw, 12rem);
 
 // styles for scroll btn

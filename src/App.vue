@@ -1,6 +1,8 @@
 <template>
-  <GlobalSidebar ref="sidebar"/>
-  <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar"/>
+  <div :class="`theme-${themeStore.theme}`">
+    <GlobalSidebar ref="sidebar"/>
+    <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar"/>
+  </div>
   <router-view/>
 </template>
 
@@ -8,7 +10,9 @@
 import GlobalHeader from '@/layout/global-header/global-header.vue';
 import GlobalSidebar from '@/layout/global-sidebar/global-sidebar.vue';
 import { useTemplateRef } from 'vue';
+import { useThemeStore } from './stores/theme.store';
 const sidebar = useTemplateRef('sidebar');
+const themeStore = useThemeStore();
 </script>
 
 <style lang="scss">
