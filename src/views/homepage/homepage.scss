@@ -32,7 +32,8 @@
       height: auto;
 
       .contacts {
-        @include layout.flex-row-center;
+        @include layout.flex-row-between;
+        width: var.$contact-width;
       }
     }
   }

@@ -27,6 +27,18 @@
       flex: 1;
     }
   }
+
+  &.font-size-md {
+    font-size: var.$font-size-md;
+  }
+  
+  &.font-size-4xl {
+    font-size: var.$font-size-4xl;
+  }
+
+  &.font-size-giant {
+    font-size: var.$font-size-giant;
+  }
   
   .word {
     display: flex;
@@ -34,26 +46,41 @@
     &.whitespace:not(:last-child) {
       &::after {
         content: "\00a0";
+        font-size: inherit;
+        width: auto;
+        height: 1em;
+      }
+    }
+
+    &.letter-spacing-sm {
+      .char, &::after {
+        width: .8em;
+        height: 1em;
+      }
+    }
+
+    &.letter-spacing-md {
+      .char, &::after {
+        width: 1.1em;
+        height: 1.2em;
+      }
+    }
+
+    &.letter-spacing-lg {
+      .char, &::after {
+        width: 1.5em;
+        height: 1.3em;
       }
     }
     
     .char {
       visibility: hidden;
       position: relative;
-      text-align: left;
+      text-align: start;
+      width: auto;
+      height: 1em;
       text-shadow: 1px 1px 1px rgb(0, 0, 0, .5);
-
-      &.font-size-md {
-        font-size: var.$font-size-md;
-      }
-      
-      &.font-size-4xl {
-        font-size: var.$font-size-4xl;
-      }
-    
-      &.font-size-giant {
-        font-size: var.$font-size-giant;
-      }
+      font-size: inherit;
       
       &.text-transform-cap:nth-child(1) {
         text-transform: capitalize;
@@ -65,21 +92,6 @@
   
       &.text-transform-lc {
         text-transform: lowercase;
-      }
-
-      &.letter-spacing-sm {
-        width: .8em;
-        height: 1em;
-      }
-
-      &.letter-spacing-md {
-        width: 1.1em;
-        height: 1.2em;
-      }
-
-      &.letter-spacing-lg {
-        width: 1.5em;
-        height: 1.3em;
       }
   
       &.animation-fadeIn {

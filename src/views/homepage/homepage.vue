@@ -27,10 +27,26 @@
           :stagger="100"
         />
         <div class="contacts">
-          <AExpandable/>
-          <AExpandable/>
-          <AExpandable/>
-          <AExpandable/>
+          <AHoverable
+            href="https://github.com/PeterChanPC"
+            icon="fi fi-brands-github"
+            text="Github"
+          />
+          <AHoverable
+            href="www.linkedin.com/in/peter-chan-17939a262"
+            icon="fi fi-brands-linkedin"
+            text="Linkedin"
+            />
+          <AHoverable
+            href="mailto:nmchan04@gmail.com"
+            icon="fi fi-rr-envelope"
+            text="Email"
+          />
+          <AHoverable
+            href="https://www.youtube.com/@peterchanpc4657"
+            icon="fi fi-brands-youtube"
+            text="Youtube"
+          />
         </div>
       </div>
     </div>
@@ -89,7 +105,7 @@
 </template>
 
 <script setup lang="ts">
-import AExpandable from '@/components/a-expandable/a-expandable.vue';
+import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
 import { type Ref, ref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';

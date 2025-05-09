@@ -85,9 +85,9 @@
 
 @keyframes test {
   from {
-    top: 50%;
+    width: 0;
   }
   to {
-    top: 10%;
+    width: auto;
   }
 }

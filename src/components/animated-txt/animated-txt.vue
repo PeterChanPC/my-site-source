@@ -4,13 +4,15 @@
       'animated-txt',
       `text-${wrap}`,
       `justify-${justify}`,
+      `font-size-${fontSize}`,
     ]"
     :length="text.length"
   >
     <div
       :class="[
         'word',
-        {'whitespace' : whiteSpace}
+        {'whitespace' : whiteSpace},
+        `letter-spacing-${letterSpacing}`,
       ]"
       v-for="(word, wordId) in words"
       :key="wordId"
@@ -20,9 +22,7 @@
         :class="[
           'char',
           `animation-${animation}`,
-          `font-size-${fontSize}`,
           `text-transform-${textTransform}`,
-          `letter-spacing-${letterSpacing}`,
         ]"
         v-for="(char, charId) in word"
         :key="charId"

@@ -1,0 +1,27 @@
+@use "@/styles/animation.scss" as animation;
+@use "@/styles/layout.scss" as layout;
+@use "@/styles/variables.scss" as var;
+
+.a-expandable {
+  @include layout.flex-row-center;
+  position: relative;
+  color: var(--txt-color);
+  width: var.$contact-btn-width;
+  height: var.$contact-btn-width;
+
+  i {
+    @include layout.flex-row-center;
+    font-size: var.$font-size-lg;
+  }
+
+  span {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    font-size: var.$font-size-md;
+  }
+
+  &:hover span{
+    @include animation.animate(fadeIn, 100ms);
+  }
+}

@@ -21,17 +21,19 @@ $header-width: 100%;
 $header-height: 50px;
 $header-left-width: 128px;
 $header-left-margin: 16px;
-$no-of-btn: 4;
+
+$no-of-header-btn: 4;
 $btn-height: 50px;
 $btn-width: 80px;
 $btn-margin: 2.5vw;
-$header-right-width: calc($no-of-btn * ($btn-width + 2 * $btn-margin));
+
+$header-right-width: calc($no-of-header-btn * ($btn-width + 2 * $btn-margin));
 $functions-width: 150px;
+
 $sidebarToggleMaxWidth: calc($header-left-width + $header-left-margin * 2 + $header-right-width + $functions-width);
 $sidebar-width: 200px;
 
-// styles for homepage
-$homepage-height: 100vh;
+// styles for font sizes
 $font-size-xs: clamp(0.75rem, 0.8vw, 0.875rem);
 $font-size-sm: clamp(0.875rem, 1vw, 1rem);
 $font-size-md: clamp(1rem, 1.5vw + 2rem, 1.25rem);
@@ -41,4 +43,9 @@ $font-size-2xl: clamp(2rem, 3vw, 3rem);
 $font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
 $font-size-giant: clamp(2rem, 5vw, 12rem);
 
-// styles for scroll btn
+// styles for homepage
+$homepage-height: 100vh;
+$no-of-contact-btn: 4;
+$contact-margin: 1vw;
+$contact-btn-width: calc($font-size-lg + 18px);
+$contact-width: calc($no-of-contact-btn * ($contact-btn-width + 2 * $contact-margin));
