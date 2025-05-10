@@ -101,6 +101,17 @@
         </div>
       </div>
     </div>
+
+    <div class="page-select">
+      <button :class="['btn', {'show': containerList[currentPage - 1]}]" @click="show(--currentPage)">
+        <i class="fi fi-rr-arrow-small-left"></i>
+        {{ containerNameList[currentPage - 1] }}
+      </button>
+      <button :class="['btn', {'show': containerList[currentPage + 1]}]" @click="show(++currentPage)">
+        {{ containerNameList[currentPage + 1] }}
+        <i class="fi fi-rr-arrow-small-right"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -117,6 +128,18 @@ const themeStore = useThemeStore();
 const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
 const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
 const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
+
+const containerList = [intro, about, work];
+const containerNameList = ['Introduction', 'About Me', 'Experience'];
+const currentPage: Ref<number> = ref(0);
+const show = (pageNum: number) => {
+  currentPage.value = pageNum;
+  containerList[pageNum].value?.classList.add('show');
+  for (let i = 0; i < containerList.length; i++) {
+    if (i !== pageNum) containerList[i].value?.classList.remove('show');
+  };
+}
+
 </script>
 
 <style scoped lang="scss">

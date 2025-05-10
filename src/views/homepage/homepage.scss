@@ -5,7 +5,7 @@
 @use '@/styles/transition.scss' as t;
 
 .home {
-  @include layout.flex-col-center;
+  @include layout.flex-row-center;
   position: relative;
   width: 100%;
   height: var.$homepage-height;
@@ -18,6 +18,7 @@
 
   .container {
     display: none;
+    position: relative;
     width: 100%;
     height: var.$homepage-height;
 
@@ -34,6 +35,34 @@
       .contacts {
         @include layout.flex-row-between;
         width: var.$contact-width;
+      }
+    }
+
+    .about {
+
+    }
+  }
+  
+  .page-select {
+    @include layout.flex-row-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 10vh;
+
+    .btn {
+      @include layout.flex-row-between;
+      visibility: hidden;
+      background-color: transparent;
+      color: inherit;
+      width: var.$btn-width;
+      height: var.$btn-height;
+      margin: 0 var.$btn-margin;
+      font-size: var.$font-size-sm;
+      cursor: pointer;
+
+      &.show {
+        visibility: visible;
       }
     }
   }
