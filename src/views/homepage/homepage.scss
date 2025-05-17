@@ -38,8 +38,20 @@
       }
     }
 
-    .about {
+    .title {
+      margin-bottom: 10vh;
+    }
 
+    .about {
+      @include layout.flex-col-center;
+      width: 80%;
+      height: auto;
+    }
+
+    .work {
+      @include layout.flex-col-center;
+      width: 80%;
+      height: auto;
     }
   }
   
