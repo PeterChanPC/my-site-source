@@ -22,6 +22,6 @@
   }
 
   &:hover span{
-    @include animation.animate(fadeIn, 100ms);
+    @include animation.animate(scaleIn, 100ms);
   }
 }

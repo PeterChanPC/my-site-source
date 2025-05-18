@@ -1,36 +1,24 @@
 <template>
-  <div
-    :class="[
-      'animated-txt',
-      `text-${wrap}`,
-      `justify-${justify}`,
-      `font-size-${fontSize}`,
-    ]"
-    :length="text.length"
-  >
-    <div
-      :class="[
-        'word',
-        {'whitespace' : whiteSpace},
-        `letter-spacing-${letterSpacing}`,
-      ]"
-      v-for="(word, wordId) in words"
-      :key="wordId"
-    >
-      <span
-        ref="char"
-        :class="[
-          'char',
-          `animation-${animation}`,
-          `text-transform-${textTransform}`,
-        ]"
-        v-for="(char, charId) in word"
-        :key="charId"
-        :style="{
-          animationDelay: `calc(${delay} + ${stepDelay += stagger}ms)`,
-          animationDuration: duration,
-        }"
-      >
+  <div :class="[
+    'animated-txt',
+    `text-${wrap}`,
+    `justify-${justify}`,
+    `font-size-${fontSize}`,
+  ]">
+    <div :class="[
+      'word',
+      { 'whitespace': whiteSpace },
+      `letter-spacing-${letterSpacing}`,
+      `line-height-${lineHeight}`,
+    ]" v-for="(word, wordId) in words" :key="wordId">
+      <span ref="char" :class="[
+        'char',
+        `animation-${animation}`,
+        `text-transform-${textTransform}`,
+      ]" v-for="(char, charId) in word" :key="charId" :style="{
+        animationDelay: `calc(${delay} + ${stepDelay += stagger}ms)`,
+        animationDuration: duration,
+      }">
         {{ char }}
       </span>
     </div>
@@ -38,11 +26,12 @@
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent, ref, Ref, Prop } from 'vue';
+import { PropType, CSSProperties, defineComponent, ref, Ref } from 'vue';
 
 type FontSize = 'md' | '4xl' | 'giant' | '';
 type TextTransform = 'cap' | 'uc' | 'lc' | '';
 type LetterSpacing = 'sm' | 'md' | 'lg' | '';
+type lineHeight = 'sm' | 'md' | 'lg' | 'xl';
 type Justify = 'start' | 'center' | 'evenly' | '';
 type Wrap = 'wrap' | 'nowrap' | '';
 type Animation = 'fadeIn' | 'fadeInLeft' | 'fadeInRight' | '';
@@ -65,6 +54,10 @@ export default defineComponent({
     letterSpacing: {
       type: String as PropType<LetterSpacing>,
       default: '',
+    },
+    lineHeight: {
+      type: String as PropType<lineHeight>,
+      default: 'sm',
     },
     justify: {
       type: String as PropType<Justify>,

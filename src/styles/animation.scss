@@ -76,9 +76,11 @@
 @keyframes scaleIn {
   from {
     scale: 0;
+    opacity: 0;
   }
   to {
     scale: 1;
+    opacity: 1;
     visibility: visible;
   }
 }

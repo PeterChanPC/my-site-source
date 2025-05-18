@@ -48,28 +48,48 @@
         content: "\00a0";
         font-size: inherit;
         width: auto;
-        height: 1em;
       }
     }
 
     &.letter-spacing-sm {
       .char, &::after {
         width: .8em;
-        height: 1em;
       }
     }
 
     &.letter-spacing-md {
       .char, &::after {
         width: 1.1em;
-        height: 1.2em;
       }
     }
 
     &.letter-spacing-lg {
       .char, &::after {
         width: 1.5em;
+      }
+    }
+
+    &.line-height-sm {
+      .char, &::after {
+        height: 1em;
+      }
+    }
+
+    &.line-height-md {
+      .char, &::after {
         height: 1.3em;
+      }
+    }
+
+    &.line-height-lg {
+      .char, &::after {
+        height: 1.5em;
+      }
+    }
+
+    &.line-height-xl {
+      .char, &::after {
+        height: 2em;
       }
     }
     
