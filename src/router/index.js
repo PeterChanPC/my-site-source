@@ -53,14 +53,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
+  const path = sessionStorage.redirect;
   
-  // authentication await is put in if statements
-  // for faster load time for no require auth routes
-  if (sessionStorage.redirect) {
+  if (path) {
     // handle github pages 404 redirect
-    const path = sessionStorage.redirect;
-    sessionStorage.removeItem('redirect');
-    next(path);
+    routes.forEach((route) => {
+      if (path === route.path) {
+        sessionStorage.removeItem('redirect');
+        next(path);
+      };
+    });
+    next();
   } else if (to.meta.requiresAuth) {
     // direct to login page if user is not authenticated
     next(await userStore.handleAuth() || {
@@ -69,7 +72,7 @@ router.beforeEach(async (to, from, next) => {
     })
   } else if (to.meta.requiresGuest && await userStore.handleAuth()) {
     // direct login user back to Auth View
-    // becuz users can only access Login View from there
+    // because users can only access Login View from there
     next({ name: 'authentication' })
   } else {
     next()
