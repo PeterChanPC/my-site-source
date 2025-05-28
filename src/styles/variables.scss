@@ -44,7 +44,7 @@ $font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
 $font-size-giant: clamp(2rem, 5vw, 12rem);
 
 // styles for homepage
-$homepage-height: 100vh;
+$homepage-height: 100dvh;
 $no-of-contact-btn: 4;
 $contact-margin: 2vw;
 $contact-btn-width: calc($font-size-xl + 18px);
