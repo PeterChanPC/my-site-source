@@ -13,6 +13,10 @@
           <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin" text="Linkedin" />
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
+          <a class="resume" href="@/../public/CV.pdf" target="_blank">
+            <span>Get resume</span>
+            <i class="fi fi-rr-angle-double-small-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -65,7 +69,8 @@
 
     <div class="page-select">
       <button :class="['btn', 'left', { 'show': containerList[currentPage - 1] }]" @click="show(--currentPage)">
-        <i class="fi fi-rr-arrow-small-left"></i>
+        <i class="fi fi-rr-angle-left"></i>
+        <i class="fi fi-rr-angle-left faint"></i>
         <span>
           {{ containerNameList[currentPage - 1] }}
         </span>
@@ -74,7 +79,8 @@
         <span>
           {{ containerNameList[currentPage + 1] }}
         </span>
-        <i class="fi fi-rr-arrow-small-right"></i>
+        <i class="fi fi-rr-angle-right"></i>
+        <i class="fi fi-rr-angle-right faint"></i>
       </button>
     </div>
   </div>

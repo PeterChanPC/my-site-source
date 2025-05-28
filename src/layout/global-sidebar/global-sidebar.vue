@@ -27,10 +27,6 @@
           <i class="fi fi-rr-home"></i>
           <span>Blog</span>
         </a>
-        <a href="#">
-          <i class="fi fi-rr-home"></i>
-          <span>Resume</span>
-        </a>
       </nav>
     </div>
 

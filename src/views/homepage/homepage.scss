@@ -31,10 +31,43 @@
       align-items: start;
       width: 80%;
       height: auto;
+      user-select: none;
 
       .contacts {
         @include layout.flex-row-between;
+        position: relative;
         width: var.$contact-width;
+        margin-top: 2dvh;
+
+        .resume {
+          @include layout.flex-row-center;
+          position: absolute;
+          top: 0;
+          left: calc(100% + 10px);
+          width: 130px;
+          height: calc(100% - 2px);
+          margin: 0 var.$btn-margin;
+          border: 1px solid;
+          border-color: invert(var(--bg-color));
+          border-radius: 40px;
+          color: inherit;
+          
+          i {
+            margin-left: 5px;
+          }
+
+          &:hover i {
+            @include animation.animate(fadeToRight, 1000ms, ease, $iteration: infinite);
+          }
+
+          @media (max-width: var.$sidebarToggleMaxWidth) {
+            & {
+              top: calc(100% + 8dvh);
+              left: 0;
+              margin: 0;
+            }
+          }
+        }
       }
     }
 
@@ -87,7 +120,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 10vh;
+    height: 12vh;
 
     .btn {
       @include layout.flex-row-center;
@@ -97,7 +130,7 @@
       color: inherit;
       width: auto;
       height: var.$btn-height;
-      margin: 0 var.$btn-margin;
+      margin: 0 calc(var.$btn-margin + 8vw);
       font-size: var.$font-size-sm;
       cursor: pointer;
 
@@ -106,24 +139,21 @@
       }
       
       i {
-        @include t.transition(transform, 100ms, linear);
-        margin: 0 10px;
+        position: absolute;
       }
 
-      span {
-        @include t.transition(transform, 100ms, linear);
+      &.right i {
+        @include animation.animate(infiniteFadeToRight, 2000ms, ease, none, 0ms, infinite);
+        left: calc(100% + 10px);
       }
 
-      &.right:hover {
-        span, i {
-          transform: translateX(8px);
-        }
+      &.left i {
+        @include animation.animate(infiniteFadeToLeft, 2000ms, ease, none, 0ms, infinite);
+        right: calc(100% + 10px);
       }
-
-      &.left:hover {
-        span, i {
-          transform: translateX(-8px);
-        }
+      
+      i.faint {
+        animation-delay: 450ms;
       }
     }
   }

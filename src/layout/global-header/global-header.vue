@@ -12,9 +12,6 @@
       <a href="#" style="text-decoration: line-through;">
         <span>Blog</span>
       </a>
-      <a href="#" style="text-decoration: line-through;">
-        <span>Resume</span>
-      </a>
 
       <div class="functions">
         <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
