@@ -10,7 +10,7 @@
           animation="fadeIn" duration="1000ms" :stagger="100" />
         <div class="contacts">
           <AHoverable href="https://github.com/PeterChanPC" icon="fi fi-brands-github" text="Github" />
-          <AHoverable href="www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin" text="Linkedin" />
+          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin" text="Linkedin" />
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
         </div>
