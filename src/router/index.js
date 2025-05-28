@@ -25,7 +25,7 @@ const routes = [
     component: TodoView,
   },
   {
-    path: '/auth',
+    path: '/authentication',
     name: 'authentication',
     component: AuthView
   },
@@ -44,7 +44,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/My-Practice/'),
+  history: createWebHistory('/'),
   scrollBehavior(to, from, savedPosition) {
     return {top: 0};
   },
