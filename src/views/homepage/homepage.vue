@@ -14,7 +14,7 @@
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
           <a class="resume" href="./CV.pdf" target="_blank">
-            <span>Get resume</span>
+            <span>Get my resume</span>
             <i class="fi fi-rr-angle-double-small-right"></i>
           </a>
         </div>

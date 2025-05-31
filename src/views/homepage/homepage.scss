@@ -44,7 +44,7 @@
           position: absolute;
           top: 0;
           left: calc(100% + 10px);
-          width: 130px;
+          width: 150px;
           height: calc(100% - 2px);
           margin: 0 var.$btn-margin;
           border: 1px solid;
@@ -59,13 +59,17 @@
           &:hover i {
             @include animation.animate(fadeToRight, 1000ms, ease, $iteration: infinite);
           }
+        }
+      }
+      
+      @media (max-width: var.$sidebarToggleMaxWidth) {
+        & {
+          margin-top: -10dvh;
 
-          @media (max-width: var.$sidebarToggleMaxWidth) {
-            & {
-              top: calc(100% + 8dvh);
-              left: 0;
-              margin: 0;
-            }
+          .contacts .resume {
+            top: calc(100% + 5dvh);
+            left: 0;
+            margin: 0;
           }
         }
       }
