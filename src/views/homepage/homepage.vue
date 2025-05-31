@@ -48,20 +48,14 @@
           <router-link :to="{name: 'todos'}">
             <span>Todo List</span>
           </router-link>
-          <router-link :to="{name: 'todos'}">
-            <span>Todo List</span>
-          </router-link>
-          <router-link :to="{name: 'todos'}">
-            <span>Todo List</span>
-          </router-link>
-          <router-link :to="{name: 'todos'}">
-            <span>Todo List</span>
-          </router-link>
-          <router-link :to="{name: 'todos'}">
-            <span>Todo List</span>
-          </router-link>
           <router-link :to="{name: 'authentication'}">
             <span>Authentication</span>
+          </router-link>
+          <router-link :to="{name: 'home'}">
+            <span>test</span>
+          </router-link>
+          <router-link :to="{name: 'home'}">
+            <span>test</span>
           </router-link>
         </div>
       </div>

@@ -38,6 +38,7 @@
         position: relative;
         width: var.$contact-width;
         margin-top: 2dvh;
+        z-index: 10;
 
         .resume {
           @include layout.flex-row-center;
@@ -76,7 +77,7 @@
     }
 
     .title {
-      margin-bottom: 10vh;
+      margin-bottom: 10dvh;
     }
 
     .about {
@@ -96,17 +97,15 @@
 
       .details {
         width: 100%;
-        height: 50vh;
+        height: 50dvh;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        gap: 10px;
+        gap: 5dvh;
 
         a {
           @include layout.flex-col-center;
           position: relative;
-          width: 100%;
-          height: 100%;
           border-radius: 10px;
           border: 1px solid;
           text-decoration: none;

@@ -62,8 +62,4 @@ img, picture, svg, video {
   display: flex;
   flex-direction: column;
 }
-
-@viewport {
-  viewport-fit: contain;
-}
 </style>
