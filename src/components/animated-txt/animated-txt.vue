@@ -10,13 +10,13 @@
       { 'whitespace': whiteSpace },
       `letter-spacing-${letterSpacing}`,
       `line-height-${lineHeight}`,
-    ]" v-for="(word, wordId) in words" :key="wordId">
-      <span ref="char" :class="[
+    ]" v-for="(word) in text.split(' ')" :key="word">
+      <span :class="[
         'char',
         `animation-${animation}`,
         `text-transform-${textTransform}`,
-      ]" v-for="(char, charId) in word" :key="charId" :style="{
-        animationDelay: `calc(${delay} + ${stepDelay += stagger}ms)`,
+      ]" v-for="(char) in word" :key="char" :style="{
+        animationDelay: `calc(${delay} + ${getStepDelay()}ms)`,
         animationDuration: duration,
       }">
         {{ char }}
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent, ref, Ref } from 'vue';
+import { PropType, CSSProperties, defineComponent, Ref, watch, useTemplateRef } from 'vue';
 
 type FontSize = 'md' | '4xl' | 'giant' | '';
 type TextTransform = 'cap' | 'uc' | 'lc' | '';
@@ -89,12 +89,17 @@ export default defineComponent({
     },
   },
   setup(props, { expose }) {
-    const words: Ref<String[]> = ref(['']);
-    words.value = props.text.split(' ');
     let stepDelay = 0;
+    watch(props, () => {
+      stepDelay = 0;
+    });
+
+    const getStepDelay = () => {
+      return stepDelay += props.stagger;
+    }
 
     expose();
-    return { words, stepDelay };
+    return { getStepDelay };
   },
 });
 </script>

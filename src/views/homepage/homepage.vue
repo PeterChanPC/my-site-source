@@ -6,11 +6,12 @@
           <AnimatedTxt :text="t('hello')" fontSize="md" textTransform="cap" lineHeight="xl" justify="start" wrap="wrap"
             :whiteSpace="true" animation="fadeIn" duration="1000ms" :stagger="50" />
         </div>
-        <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md" justify="start" wrap="wrap"
-          animation="fadeIn" duration="1000ms" :stagger="100" />
+        <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md"
+          justify="start" wrap="wrap" animation="fadeIn" duration="1000ms" :stagger="100" />
         <div class="contacts">
           <AHoverable href="https://github.com/PeterChanPC" icon="fi fi-brands-github" text="Github" />
-          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin" text="Linkedin" />
+          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin"
+            text="Linkedin" />
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
           <a class="resume" href="./CV.pdf" target="_blank">
@@ -31,8 +32,8 @@
         <div class="details">
           <AnimatedTxt
             text="Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies."
-            fontSize="md" lineHeight="xl" justify="start" wrap="wrap" animation="fadeIn" duration="500ms" delay="500ms" :stagger="5"
-            :whiteSpace="true" />
+            fontSize="md" lineHeight="xl" justify="start" wrap="wrap" animation="fadeIn" duration="500ms" delay="500ms"
+            :stagger="5" :whiteSpace="true" />
         </div>
       </div>
     </div>
@@ -45,16 +46,16 @@
         </div>
 
         <div class="details">
-          <router-link :to="{name: 'todos'}">
+          <router-link :to="{ name: 'todos' }">
             <span>Todo List</span>
           </router-link>
-          <router-link :to="{name: 'authentication'}">
+          <router-link :to="{ name: 'authentication' }">
             <span>Authentication</span>
           </router-link>
-          <router-link :to="{name: 'home'}">
+          <router-link :to="{ name: 'home' }">
             <span>test</span>
           </router-link>
-          <router-link :to="{name: 'home'}">
+          <router-link :to="{ name: 'home' }">
             <span>test</span>
           </router-link>
         </div>

@@ -94,13 +94,13 @@
     }
     
     .char {
-      visibility: hidden;
       position: relative;
       text-align: start;
       width: auto;
       height: 1em;
       text-shadow: 1px 1px 1px rgb(0, 0, 0, .5);
       font-size: inherit;
+      opacity: 0;
       
       &.text-transform-cap:nth-child(1) {
         text-transform: capitalize;
@@ -115,15 +115,15 @@
       }
   
       &.animation-fadeIn {
-        @include animation.animate(fadeIn, ease, forwards);
+        @include animation.animate($name: fadeIn, $tfunc: ease, $mode: forwards);
       }
   
       &.animation-fadeInLeft {
-        @include animation.animate(fadeInLeft, ease, forwards);
+        @include animation.animate($name: fadeInLeft, $tfunc: ease, $mode: forwards);
       }
   
       &.animation-fadeInRight {
-        @include animation.animate(fadeInRight, ease, forwards);
+        @include animation.animate($name: fadeInRight, $tfunc: ease, $mode: forwards);
       }
     }
   }
