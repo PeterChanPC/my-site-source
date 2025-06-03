@@ -4,10 +4,10 @@
 
     <nav class="header-right">
       <router-link :to="{name: 'home'}">
-        <span>Home</span>
+        <span>{{ t('home') }}</span>
       </router-link>
       <router-link :to="{name: 'home'}">
-        <span>Work</span>
+        <span>{{ t('work') }}</span>
       </router-link>
       <a href="#" style="text-decoration: line-through;">
         <span>Blog</span>
@@ -29,6 +29,7 @@
 import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
+import { useI18n } from 'vue-i18n';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -45,7 +46,8 @@ export default defineComponent({
   setup() {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
-    return { themeStore, langStore };
+    const { t } = useI18n();
+    return { themeStore, langStore, t };
   },
 });
 </script>

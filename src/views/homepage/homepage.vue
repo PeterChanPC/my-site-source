@@ -15,7 +15,7 @@
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
           <a class="resume" href="./CV.pdf" target="_blank">
-            <span>Get my resume</span>
+            <span>{{ t('resume') }}</span>
             <i class="fi fi-rr-angle-double-small-right"></i>
           </a>
         </div>
@@ -25,13 +25,13 @@
     <div ref="about" class="container">
       <div class="about">
         <div class="title">
-          <AnimatedTxt text="about me" fontSize="4xl" textTransform="cap" justify="center" animation="fadeInRight"
+          <AnimatedTxt :text="t('about_me')" fontSize="4xl" textTransform="cap" justify="center" animation="fadeInRight"
             duration="500ms" :stagger="100" :whiteSpace="true" />
         </div>
 
         <div class="details">
           <AnimatedTxt
-            text="Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies."
+            :text="t('about_me_details')"
             fontSize="md" lineHeight="xl" justify="start" wrap="wrap" animation="fadeIn" duration="500ms" delay="500ms"
             :stagger="5" :whiteSpace="true" />
         </div>
@@ -41,7 +41,7 @@
     <div ref="work" class="container">
       <div class="work">
         <div class="title">
-          <AnimatedTxt text="Portfolio" fontSize="4xl" textTransform="cap" justify="evenly" animation="fadeInRight"
+          <AnimatedTxt :text="t('exp')" fontSize="4xl" textTransform="cap" justify="evenly" animation="fadeInRight"
             duration="500ms" :stagger="100" />
         </div>
 
@@ -84,7 +84,7 @@
 <script setup lang="ts">
 import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
-import { type Ref, ref, useTemplateRef } from 'vue';
+import { type Ref, ref, useTemplateRef, watchEffect } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useI18n } from 'vue-i18n';
 
@@ -95,7 +95,11 @@ const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
 const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
 const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
 const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
-const containerNameList: String[] = ['Introduction', 'About Me', 'Experience'];
+const containerNameList: Ref<String[]> = ref([])
+
+watchEffect(() => {
+  containerNameList.value = [t('intro'), t('about_me'), t('exp')]
+})
 
 const currentPage: Ref<number> = ref(0);
 const show = (pageNum: number) => {
