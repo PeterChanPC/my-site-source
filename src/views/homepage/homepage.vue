@@ -33,7 +33,7 @@
           <AnimatedTxt
             :text="t('about_me_details')"
             fontSize="md" lineHeight="xl" justify="start" wrap="wrap" animation="fadeIn" duration="500ms" delay="500ms"
-            :stagger="5" :whiteSpace="true" />
+            :stagger="5" :whiteSpace="true" :lang="langStore.locale"/>
         </div>
       </div>
     </div>
@@ -86,20 +86,22 @@ import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
 import { type Ref, ref, useTemplateRef, watchEffect } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
+import { useLangStore } from '@/stores/lang.store';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const themeStore = useThemeStore();
+const langStore = useLangStore();
 
 const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
 const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
 const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
 const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
-const containerNameList: Ref<String[]> = ref([])
+const containerNameList: Ref<String[]> = ref([]);
 
 watchEffect(() => {
-  containerNameList.value = [t('intro'), t('about_me'), t('exp')]
-})
+  containerNameList.value = [t('intro'), t('about_me'), t('exp')];
+});
 
 const currentPage: Ref<number> = ref(0);
 const show = (pageNum: number) => {
@@ -108,7 +110,7 @@ const show = (pageNum: number) => {
   for (let i = 0; i < containerList.length; i++) {
     if (i !== pageNum) containerList[i].value?.classList.remove('show');
   };
-}
+};
 </script>
 
 <style scoped lang="scss">

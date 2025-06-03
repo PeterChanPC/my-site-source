@@ -10,7 +10,7 @@
       { 'whitespace': whiteSpace },
       `letter-spacing-${letterSpacing}`,
       `line-height-${lineHeight}`,
-    ]" v-for="(word) in text.split(' ')" :key="`word ${animationReset += 1}`">
+    ]" v-for="(word) in words" :key="`word ${animationReset += 1}`">
       <span :class="[
         'char',
         `animation-${animation}`,
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent, watch } from 'vue';
+import { PropType, CSSProperties, defineComponent, Ref, ref, watch, watchEffect } from 'vue';
 
 type FontSize = 'md' | '4xl' | 'giant' | '';
 type TextTransform = 'cap' | 'uc' | 'lc' | '';
@@ -87,21 +87,33 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    lang: {
+      type: String,
+      default: 'en-US',
+    },
   },
   setup(props, { expose }) {
     let stepDelay = 0;
+    const words: Ref<String[]> = ref([]);
     const getStepDelay = (): Number => {
       return stepDelay += props.stagger;
-    }
+    };
+    watch(props, () => {
+      stepDelay = 0;
+    });
+    watchEffect(() => {
+      if (props.lang === 'zh-TW') {
+        words.value = props.text.split('');
+      } else {
+        words.value = props.text.split(' ');
+      };
+    });
     
     // used together with key for resetting animations if prev text and current text have same input
     let animationReset = 0;
 
-    watch(props, () => {
-      stepDelay = 0;
-    });
     expose();
-    return { getStepDelay, animationReset };
+    return { words, getStepDelay, animationReset };
   },
 });
 </script>

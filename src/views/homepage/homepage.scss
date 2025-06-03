@@ -133,7 +133,8 @@
       color: inherit;
       width: auto;
       height: var.$btn-height;
-      margin: 0 calc(var.$btn-margin + 8vw);
+      padding: 0 30px;
+      margin: 0 var.$btn-margin;
       font-size: var.$font-size-sm;
       cursor: pointer;
 
@@ -147,12 +148,12 @@
 
       &.right i {
         @include animation.animate(infiniteFadeToRight, 2000ms, ease, none, 0ms, infinite);
-        left: calc(100% + 10px);
+        left: calc(100% - 20px);
       }
 
       &.left i {
         @include animation.animate(infiniteFadeToLeft, 2000ms, ease, none, 0ms, infinite);
-        right: calc(100% + 10px);
+        right: calc(100% - 20px);
       }
       
       i.faint {
