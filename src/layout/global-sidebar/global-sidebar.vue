@@ -17,11 +17,11 @@
       <nav class="menu">
         <router-link :to="{name: 'home'}">
           <i class="fi fi-rr-home"></i>
-          <span>Home</span>
+          <span>{{ t('home') }}</span>
         </router-link>
         <router-link :to="{name: 'my practices'}">
           <i class="fi fi-rr-list"></i>
-          <span>Work</span>
+          <span>{{ t('work') }}</span>
         </router-link>
         <a href="#">
           <i class="fi fi-rr-home"></i>
@@ -42,6 +42,7 @@ import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { type Ref, ref, defineComponent } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'global-sidebar',
@@ -51,6 +52,7 @@ export default defineComponent({
   setup() {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
+    const { t } = useI18n();
     
     const toggled: Ref<boolean> = ref(false);
     const toggleSidebar = (event: MouseEvent): void => {
@@ -58,7 +60,7 @@ export default defineComponent({
       return;
     };
 
-    return { themeStore, langStore, toggled, toggleSidebar };
+    return { themeStore, langStore, t, toggled, toggleSidebar };
   },
 });
 </script>
