@@ -5,6 +5,7 @@ import TodoView from '@/views/projects/todo-list/TodoView.vue';
 import AuthView from '@/views/projects/auth/AuthView.vue';
 import LoginView from '@/views/projects/auth/LoginView.vue';
 import AuthContentView from '@/views/projects/auth/AuthContentView.vue';
+import TestView from '@/views/test.vue';
 import { useUserStore } from '@/stores/user.store';
 
 
@@ -27,19 +28,24 @@ const routes = [
   {
     path: '/authentication',
     name: 'authentication',
-    component: AuthView
+    component: AuthView,
   },
   {
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta: { requiresGuest: true }
+    meta: { requiresGuest: true },
   },
   {
     path: '/auth-content',
     name: 'auth-content',
     component: AuthContentView,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: TestView,
   },
 ];
 

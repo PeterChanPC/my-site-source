@@ -52,10 +52,10 @@
           <router-link :to="{ name: 'authentication' }">
             <span>Authentication</span>
           </router-link>
-          <router-link :to="{ name: 'home' }">
+          <router-link :to="{ name: 'test' }">
             <span>test</span>
           </router-link>
-          <router-link :to="{ name: 'home' }">
+          <router-link :to="{ name: 'test' }">
             <span>test</span>
           </router-link>
         </div>
