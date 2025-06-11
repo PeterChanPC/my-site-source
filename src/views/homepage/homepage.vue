@@ -1,5 +1,9 @@
 <template>
   <div :class="['home', `theme-${themeStore.theme}`]">
+    <div class="homepage-bg">
+      <HomepageBg/>
+    </div>
+
     <div ref="intro" class="container show">
       <div class="intro">
         <div>
@@ -84,6 +88,7 @@
 <script setup lang="ts">
 import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
+import HomepageBg from './homepage-bg.vue';
 import { type Ref, ref, useTemplateRef, watchEffect } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';

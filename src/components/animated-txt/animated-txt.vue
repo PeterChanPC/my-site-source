@@ -98,9 +98,11 @@ export default defineComponent({
     const getStepDelay = (): Number => {
       return stepDelay += props.stagger;
     };
+
     watch(props, () => {
       stepDelay = 0;
     });
+
     watchEffect(() => {
       if (props.lang === 'zh-TW') {
         words.value = props.text.split('');

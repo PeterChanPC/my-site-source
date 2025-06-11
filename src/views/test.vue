@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import HomepageBg from '@/homepage-bg/homepage-bg.vue';
+import HomepageBg from '@/views/homepage/homepage-bg.vue';
 </script>
 
 <style scoped lang="scss">

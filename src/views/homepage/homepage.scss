@@ -16,6 +16,12 @@
   color: var(--txt-color);
   overflow: hidden;
 
+  .homepage-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   .container {
     display: none;
     position: relative;
