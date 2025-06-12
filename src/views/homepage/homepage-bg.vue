@@ -53,19 +53,29 @@ export default defineComponent({
       camera.lookAt(0, 0, 0);
 
       // setup materials
-      const material_1 = new THREE.MeshStandardMaterial({ color: 0xffffff });
-      const material_2 = new THREE.MeshStandardMaterial({ color: 0xeeeeee });
-      const material_3 = new THREE.MeshStandardMaterial({ color: 0xeeeeee });
+      const material_1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+      const material_2 = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
+      const material_3 = new THREE.MeshBasicMaterial({ transparent: true });
 
       // setup wall object
-      const wallGeometry = new THREE.PlaneGeometry(100, 100);
-      const wall = new THREE.Mesh(wallGeometry, material_2);
-      wall.position.set(0, 0, -8);
-      wall.receiveShadow = true;
+      const wallGeometry = new THREE.PlaneGeometry(50, 50);
+      const wall_1 = new THREE.Mesh(wallGeometry, material_2);
+      const wall_2 = new THREE.Mesh(wallGeometry, material_3);
+      const wall_3 = new THREE.Mesh(wallGeometry, material_3);
+      const wall_4 = new THREE.Mesh(wallGeometry, material_3);
+      wall_1.position.set(0, 0, -8);
+      wall_1.receiveShadow = true;
+      wall_2.rotation.set(0, Math.PI / 2, 0);
+      wall_2.position.set(-5, 0, 0);
+      wall_3.rotation.set(0, -Math.PI / 2, 0);
+      wall_3.position.set(5, 0, 0);
+      wall_4.rotation.set(0, Math.PI, 0);
+      wall_4.position.set(0, 0, 10);
+      wall_1.receiveShadow = true;
 
       // setup floor object
-      const floorGeometry = new THREE.BoxGeometry(100, 20, 20);
-      const floor = new THREE.Mesh(floorGeometry, material_3);
+      const floorGeometry = new THREE.BoxGeometry(50, 20, 20);
+      const floor = new THREE.Mesh(floorGeometry, material_2);
       floor.position.set(0, -11, 0);
       floor.rotation.set(-Math.PI / 2, 0, 0);
       floor.receiveShadow = true;
@@ -105,7 +115,10 @@ export default defineComponent({
       // apply elements to scene
       scene.add(sphere);
       scene.add(floor);
-      scene.add(wall);
+      scene.add(wall_1);
+      scene.add(wall_2);
+      scene.add(wall_3);
+      scene.add(wall_4);
       scene.add(ambientLight);
       scene.add(spotLight);
 
