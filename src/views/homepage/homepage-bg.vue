@@ -13,25 +13,66 @@ export default defineComponent({
   setup() {
     const canvas: Ref<HTMLCanvasElement | THREE.OffscreenCanvas | undefined> = ref(undefined);
 
+    // setup movement vector
     const moveDir = new THREE.Vector3(0, 0, 0);
-
+    let moveUp = false;
+    let moveDown = false;
+    let moveLeft = false;
+    let moveRight = false;
+    
+    const handleMovementVector = () => {
+      if (moveUp) {
+        moveDir.z = -1;
+        if (moveDown) moveDir.z = 0;
+      } else if (moveDown) {
+        moveDir.z = 1;
+        if (moveUp) moveDir.z = 0;
+      } else {
+        moveDir.z = 0;
+      };
+      if (moveLeft) {
+        moveDir.x = -1;
+        if (moveRight) moveDir.x = 0;
+      } else if (moveRight) {
+        moveDir.x = 1;
+        if (moveLeft) moveDir.x = 0;
+      } else {
+        moveDir.x = 0;
+      };
+    };
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
-          moveDir.set(0, 0, -1);
+          moveUp = true;
           break;
         case 'ArrowDown':
-          moveDir.set(0, 0, 1);
+          moveDown = true;
           break;
         case 'ArrowLeft':
-          moveDir.set(-1, 0, 0);
+          moveLeft = true;
           break;
         case 'ArrowRight':
-          moveDir.set(1, 0, 0);
+          moveRight = true;
           break;
-        default:
-          moveDir.set(0, 0, 0);
       };
+      handleMovementVector();
+    };
+    const handleKeyUp = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowUp':
+          moveUp = false;
+          break;
+        case 'ArrowDown':
+          moveDown = false;
+          break;
+        case 'ArrowLeft':
+          moveLeft = false;
+          break;
+        case 'ArrowRight':
+          moveRight = false;
+          break;
+      };
+      handleMovementVector();
     };
 
     onMounted(() => {
@@ -52,8 +93,14 @@ export default defineComponent({
       camera.position.set(0, 1, 5);
       camera.lookAt(0, 0, 0);
 
+      // setup textures
+      const texture_1 = new THREE.TextureLoader().load('./texture_1_color.jpg');
+      texture_1.wrapS = THREE.RepeatWrapping;
+      texture_1.wrapT = THREE.RepeatWrapping;
+      texture_1.repeat.set(3, 3);
+      
       // setup materials
-      const material_1 = new THREE.MeshPhongMaterial({ color: 0xffffff });
+      const material_1 = new THREE.MeshPhongMaterial({  color: 0xffffff, map: texture_1 });
       const material_2 = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
       const material_3 = new THREE.MeshBasicMaterial({ transparent: true });
 
@@ -70,7 +117,7 @@ export default defineComponent({
       wall_3.rotation.set(0, -Math.PI / 2, 0);
       wall_3.position.set(5, 0, 0);
       wall_4.rotation.set(0, Math.PI, 0);
-      wall_4.position.set(0, 0, 10);
+      wall_4.position.set(0, 0, 9);
       wall_1.receiveShadow = true;
 
       // setup floor object
@@ -81,7 +128,7 @@ export default defineComponent({
       floor.receiveShadow = true;
 
       //setup lightings
-      const ambientLight = new THREE.AmbientLight(0xdddddd);
+      const ambientLight = new THREE.AmbientLight(0xffffff);
 
       const spotLight = new THREE.SpotLight(0xffffff);
       spotLight.power = 50000;
@@ -91,25 +138,55 @@ export default defineComponent({
       spotLight.position.set(50, 50, 50);
 
       // setup sphere object
-      const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
-      const sphere = new THREE.Mesh(sphereGeometry, material_1);
-      sphere.position.set(2, 0, -2);
-      sphere.castShadow = true;
-      sphere.receiveShadow = true;
+      const sphereRadius = 1;
+      const sphereGeometry = new THREE.SphereGeometry(sphereRadius, 32, 32);
+      const sphereMesh = new THREE.Mesh(sphereGeometry, material_1);
+      sphereMesh.castShadow = true;
+      sphereMesh.receiveShadow = true;
+      const sphere = new THREE.Object3D().add(sphereMesh);
+      sphere.position.set(3, 0, -2);
 
       // setup raycaster
-      const raycaster = new THREE.Raycaster(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), 0, 1);
-
-      function rayCast() {
+      const raycaster = new THREE.Raycaster();
+      const raycasterX = new THREE.Raycaster();
+      const raycasterZ = new THREE.Raycaster();
+      function rayCast(maxDistance: number) {
         raycaster.set(sphere.position, moveDir);
+        raycasterX.set(sphere.position, new THREE.Vector3(moveDir.x, 0, 0));
+        raycasterZ.set(sphere.position, new THREE.Vector3(0, 0, moveDir.z));
+        raycaster.far = maxDistance;
+        raycasterX.far = maxDistance;
+        raycasterZ.far = maxDistance;
       };
 
       // setup user movement controller
+      let clock = new THREE.Clock();
       window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
 
-      function moveObject() {
-        const speed = 0.2;
-        sphere.position.add(moveDir.multiplyScalar(speed));
+      function applyMovement() {
+        const speed = 5;
+        let delta = clock.getDelta();
+        let distance = speed * delta;
+        rayCast(sphereRadius + distance);
+        let velocity = moveDir.normalize().clone().multiplyScalar(distance);
+        const collidables = scene.children.filter(obj => obj !== sphere);
+        let canMove = raycaster.intersectObjects(collidables).length === 0;
+
+        if (!canMove) {
+          canMove = raycasterX.intersectObjects(collidables).length === 0;
+          if (canMove) {
+            velocity.set(moveDir.x * distance, 0, 0);
+          } else {
+            canMove = raycasterZ.intersectObjects(collidables).length === 0;
+            if (canMove) {
+              velocity.set(0, 0, moveDir.z * distance);
+            };
+          };
+        };
+        
+        velocity.z *= 2; // vertical speed compensation
+        if (canMove) sphere.position.add(velocity);
       };
 
       // apply elements to scene
@@ -122,24 +199,14 @@ export default defineComponent({
       scene.add(ambientLight);
       scene.add(spotLight);
 
-      // setup animation update
-      let clock = new THREE.Clock();
-      let delta = 0;
-      let interval = 1 / 60; // 60fps
-
+      // setup update
       function update() {
-        delta += clock.getDelta();
-
         aspect = window.innerWidth / window.innerHeight;
         camera.top = 5 / aspect;
         camera.bottom = -5 / aspect;
         camera.updateProjectionMatrix();
 
-        if (delta > interval) { // fixed fps update
-          rayCast();
-          if (raycaster.intersectObjects(scene.children).length === 0) moveObject();
-          delta = delta % interval;
-        };
+        applyMovement();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.render(scene, camera);
@@ -149,9 +216,10 @@ export default defineComponent({
 
     onUnmounted(() => {
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     });
 
-    return { canvas, handleKeyDown };
+    return { canvas };
   },
 });
 </script>
