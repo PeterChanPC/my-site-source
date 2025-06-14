@@ -1,10 +1,10 @@
 <template>
   <button class="switch" @click="change">
-    <div :class="['option', {'active': !isActive}]">
+    <div :class="['option', { 'active': !isActive }]">
       <i v-if="iconL" :class="iconL"></i>
       <span v-if="textL">{{ textL }}</span>
     </div>
-    <div :class="['option', {'active': isActive}]">
+    <div :class="['option', { 'active': isActive }]">
       <i v-if="iconR" :class="iconR"></i>
       <span v-if="textR">{{ textR }}</span>
     </div>
@@ -39,7 +39,7 @@ export default defineComponent({
     },
     change: {
       type: Function as PropType<(event: MouseEvent) => void>,
-      default: () => {},
+      default: () => { },
     },
   },
 });

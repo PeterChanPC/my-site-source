@@ -1,25 +1,24 @@
 <template>
-  <div :class="['sidebar-bg', 
-      {'active-bg' : toggled}]"
-      @click="toggleSidebar">
+  <div :class="['sidebar-bg',
+    { 'active-bg': toggled }]" @click="toggleSidebar">
   </div>
 
   <aside :class="[
-      'global-sidebar',
-      `theme-${themeStore.theme}`,
-      {'active' : toggled},
-    ]">
+    'global-sidebar',
+    `theme-${themeStore.theme}`,
+    { 'active': toggled },
+  ]">
     <div class="sidebar-up">
       <button class="toggle-sidebar" @click="toggleSidebar">
         <i class="fi fi-rr-menu-burger"></i>
       </button>
 
       <nav class="menu">
-        <router-link :to="{name: 'home'}">
+        <router-link :to="{ name: 'home' }">
           <i class="fi fi-rr-home"></i>
           <span>{{ t('home') }}</span>
         </router-link>
-        <router-link :to="{name: 'my practices'}">
+        <router-link :to="{ name: 'my practices' }">
           <i class="fi fi-rr-list"></i>
           <span>{{ t('work') }}</span>
         </router-link>
@@ -31,10 +30,11 @@
     </div>
 
     <div class="functions">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
-      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
+      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
+        iconR="fi fi-rr-moon" />
+      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </div>
-  </aside> 
+  </aside>
 </template>
 
 <script lang="ts">
@@ -53,7 +53,7 @@ export default defineComponent({
     const themeStore = useThemeStore();
     const langStore = useLangStore();
     const { t } = useI18n();
-    
+
     const toggled: Ref<boolean> = ref(false);
     const toggleSidebar = (event: MouseEvent): void => {
       toggled.value = !toggled.value;

@@ -1,7 +1,7 @@
 <template>
   <div class="toggle-button" @click="toggle">
     <input type="checkbox" v-model="props.isToggled">
-    <div class="slider" :class="{ 'toggled' : isToggled }">
+    <div class="slider" :class="{ 'toggled': isToggled }">
       <div class="thumb" :style="thumbPosition"></div>
     </div>
   </div>
@@ -80,6 +80,7 @@ input {
       appearance: none;
       background-clip: padding-box;
     }
+
     .thumb {
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;

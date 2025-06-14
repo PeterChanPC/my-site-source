@@ -1,12 +1,12 @@
 <template>
-  <header class="global-header">
+  <header :class="['global-header', `theme-${themeStore.theme}`]">
     <h1 class="header-left">Pc</h1>
 
     <nav class="header-right">
-      <router-link :to="{name: 'home'}">
+      <router-link :to="{ name: 'home' }">
         <span>{{ t('home') }}</span>
       </router-link>
-      <router-link :to="{name: 'home'}">
+      <router-link :to="{ name: 'home' }">
         <span>{{ t('work') }}</span>
       </router-link>
       <a href="#" style="text-decoration: line-through;">
@@ -14,8 +14,9 @@
       </a>
 
       <div class="functions">
-        <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun" iconR="fi fi-rr-moon"/>
-        <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng"/>
+        <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
+          iconR="fi fi-rr-moon" />
+        <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
       </div>
     </nav>
 
@@ -40,7 +41,7 @@ export default defineComponent({
   props: {
     toggleSidebar: {
       type: Function as PropType<(event: MouseEvent) => void>,
-      default: () => {},
+      default: () => { },
     },
   },
   setup() {

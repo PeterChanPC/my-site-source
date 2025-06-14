@@ -1,6 +1,6 @@
-@use '@/styles/layout.scss' as layout;
-@use '@/styles/variables.scss' as var;
-@use '@/styles/transition.scss' as t;
+@use "@/styles/layout.scss" as layout;
+@use "@/styles/variables.scss" as var;
+@use "@/styles/transition.scss" as t;
 
 .sidebar-bg {
   @include t.transition(opacity);
@@ -9,12 +9,12 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba($color: #000000, $alpha: .5);
+  background-color: rgba($color: #000000, $alpha: 0.5);
   opacity: 0;
   z-index: -99;
 
   @media (max-width: var.$sidebarToggleMaxWidth) {
-    &.active-bg { 
+    &.active-bg {
       opacity: 1;
       z-index: 98;
     }
@@ -63,7 +63,7 @@
         width: 100%;
         height: var.$btn-height;
         margin: 0 0 16px 0;
-        
+
         i {
           color: var(--txt-color);
           width: var.$btn-height;
@@ -86,7 +86,7 @@
   }
 
   @media (max-width: var.$sidebarToggleMaxWidth) {
-    &.active { 
+    &.active {
       left: calc(100% - var.$sidebar-width);
     }
   }

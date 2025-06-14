@@ -1,6 +1,6 @@
-@use '@/styles/layout' as layout;
-@use '@/styles/variables' as var;
-@use '@/styles/transition' as t;
+@use "@/styles/layout" as layout;
+@use "@/styles/variables" as var;
+@use "@/styles/transition" as t;
 
 .global-header {
   @include layout.flex-row-between;
@@ -26,7 +26,7 @@
     position: relative;
     width: auto;
     height: 100%;
-    
+
     a {
       @include layout.flex-row-center;
       position: relative;
@@ -35,7 +35,7 @@
       margin: 0 var.$btn-margin;
       font-size: small;
       color: var(--txt-color);
-      
+
       span {
         position: relative;
       }
@@ -51,7 +51,7 @@
         background-color: var(--bg-color);
         filter: invert(1);
       }
-  
+
       &:hover span::after {
         left: -5px;
         width: calc(100% + 10px);

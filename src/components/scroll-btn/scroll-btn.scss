@@ -1,6 +1,6 @@
-@use '@/styles/variables.scss' as var;
-@use '@/styles/transition.scss' as t;
-@use '@/styles/animation.scss' as animation;
+@use "@/styles/variables.scss" as var;
+@use "@/styles/transition.scss" as t;
+@use "@/styles/animation.scss" as animation;
 
 .scroll-btn {
   position: relative;
@@ -10,7 +10,7 @@
   &.dark::after {
     background-color: var.$btn-active-light;
   }
-  
+
   &.light::after {
     background-color: var.$btn-active-dark;
   }
@@ -18,7 +18,7 @@
   &.pill {
     width: var.$btn-width;
     height: var.$btn-height;
-    
+
     span {
       font-size: 20px;
       letter-spacing: 2px;
@@ -69,7 +69,7 @@
 
     &.round {
       .icon {
-        transform: translateY(.5em);
+        transform: translateY(0.5em);
       }
 
       .text {

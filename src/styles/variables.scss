@@ -30,7 +30,10 @@ $btn-margin: 5vw;
 $header-right-width: calc($no-of-header-btn * ($btn-width + 2 * $btn-margin));
 $functions-width: 150px;
 
-$sidebarToggleMaxWidth: calc($header-left-width + $header-left-margin * 2 + $header-right-width + $functions-width);
+$sidebarToggleMaxWidth: calc(
+  $header-left-width + $header-left-margin * 2 + $header-right-width +
+    $functions-width
+);
 $sidebar-width: 200px;
 
 // styles for font sizes
@@ -48,4 +51,6 @@ $homepage-height: 100dvh;
 $no-of-contact-btn: 4;
 $contact-margin: 2vw;
 $contact-btn-width: calc($font-size-xl + 18px);
-$contact-width: calc($no-of-contact-btn * ($contact-btn-width + 2 * $contact-margin));
+$contact-width: calc(
+  $no-of-contact-btn * ($contact-btn-width + 2 * $contact-margin)
+);

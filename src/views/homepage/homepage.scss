@@ -1,8 +1,8 @@
-@use '@/styles/variables.scss' as var;
-@use '@/styles/animation.scss' as animation;
-@use '@/styles/layout.scss' as layout;
-@use '@/styles/border.scss' as border;
-@use '@/styles/transition.scss' as t;
+@use "@/styles/variables.scss" as var;
+@use "@/styles/animation.scss" as animation;
+@use "@/styles/layout.scss" as layout;
+@use "@/styles/border.scss" as border;
+@use "@/styles/transition.scss" as t;
 
 .home {
   @include layout.flex-row-center;
@@ -57,17 +57,22 @@
           border-color: invert(var(--bg-color));
           border-radius: 40px;
           color: inherit;
-          
+
           i {
             margin-left: 5px;
           }
 
           &:hover i {
-            @include animation.animate(fadeToRight, 1000ms, ease, $iteration: infinite);
+            @include animation.animate(
+              fadeToRight,
+              1000ms,
+              ease,
+              $iteration: infinite
+            );
           }
         }
       }
-      
+
       @media (max-width: var.$sidebarToggleMaxWidth) {
         & {
           margin-top: -10dvh;
@@ -122,7 +127,7 @@
       }
     }
   }
-  
+
   .page-select {
     @include layout.flex-row-between;
     position: absolute;
@@ -146,21 +151,35 @@
       &.show {
         visibility: visible;
       }
-      
+
       i {
         position: absolute;
       }
 
       &.right i {
-        @include animation.animate(infiniteFadeToRight, 2000ms, ease, none, 0ms, infinite);
+        @include animation.animate(
+          infiniteFadeToRight,
+          2000ms,
+          ease,
+          none,
+          0ms,
+          infinite
+        );
         left: calc(100% - 20px);
       }
 
       &.left i {
-        @include animation.animate(infiniteFadeToLeft, 2000ms, ease, none, 0ms, infinite);
+        @include animation.animate(
+          infiniteFadeToLeft,
+          2000ms,
+          ease,
+          none,
+          0ms,
+          infinite
+        );
         right: calc(100% - 20px);
       }
-      
+
       i.faint {
         animation-delay: 450ms;
       }

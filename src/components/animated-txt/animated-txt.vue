@@ -110,7 +110,7 @@ export default defineComponent({
         words.value = props.text.split(' ');
       };
     });
-    
+
     // used together with key for resetting animations if prev text and current text have same input
     let animationReset = 0;
 

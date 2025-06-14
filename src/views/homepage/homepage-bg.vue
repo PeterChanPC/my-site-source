@@ -27,7 +27,7 @@ export default defineComponent({
     let moveDown = false;
     let moveLeft = false;
     let moveRight = false;
-    
+
     const handleMovementVector = () => {
       if (moveUp) {
         moveDir.z = -1;
@@ -117,9 +117,9 @@ export default defineComponent({
       texture_1.wrapS = THREE.RepeatWrapping;
       texture_1.wrapT = THREE.RepeatWrapping;
       texture_1.repeat.set(3, 3);
-      
+
       // setup materials
-      const material_1 = new THREE.MeshPhongMaterial({  color: 0xffffff, map: texture_1 });
+      const material_1 = new THREE.MeshPhongMaterial({ color: 0xffffff, map: texture_1 });
       const material_2 = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
       const material_3 = new THREE.MeshBasicMaterial({ transparent: true });
 
@@ -203,7 +203,7 @@ export default defineComponent({
             };
           };
         };
-        
+
         velocity.z *= 2; // vertical speed compensation
         if (canMove) sphere.position.add(velocity);
       };

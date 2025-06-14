@@ -21,7 +21,7 @@
     font-size: var.$font-size-md;
   }
 
-  &:hover span{
+  &:hover span {
     @include animation.animate(scaleIn, 100ms);
   }
 }

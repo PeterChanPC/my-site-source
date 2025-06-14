@@ -1,24 +1,24 @@
-@use '@/styles/variables.scss' as var;
-@use '@/styles/layout.scss' as layout;
-@use '@/styles/animation.scss' as animation;
+@use "@/styles/variables.scss" as var;
+@use "@/styles/layout.scss" as layout;
+@use "@/styles/animation.scss" as animation;
 
 .animated-txt {
   &.text-wrap {
     flex-wrap: wrap;
   }
-  
+
   &.text-nowrap {
     flex-wrap: nowrap;
   }
-  
+
   &.justify-start {
     @include layout.flex-row-start;
   }
-  
+
   &.justify-center {
     @include layout.flex-row-center;
   }
-  
+
   &.justify-evenly {
     @include layout.flex-row-evenly;
 
@@ -31,7 +31,7 @@
   &.font-size-md {
     font-size: var.$font-size-md;
   }
-  
+
   &.font-size-4xl {
     font-size: var.$font-size-4xl;
   }
@@ -39,7 +39,7 @@
   &.font-size-giant {
     font-size: var.$font-size-giant;
   }
-  
+
   .word {
     display: flex;
 
@@ -52,78 +52,97 @@
     }
 
     &.letter-spacing-sm {
-      .char, &::after {
-        width: .8em;
+      .char,
+      &::after {
+        width: 0.8em;
       }
     }
 
     &.letter-spacing-md {
-      .char, &::after {
+      .char,
+      &::after {
         width: 1.1em;
       }
     }
 
     &.letter-spacing-lg {
-      .char, &::after {
+      .char,
+      &::after {
         width: 1.5em;
       }
     }
 
     &.line-height-sm {
-      .char, &::after {
+      .char,
+      &::after {
         height: 1em;
       }
     }
 
     &.line-height-md {
-      .char, &::after {
+      .char,
+      &::after {
         height: 1.3em;
       }
     }
 
     &.line-height-lg {
-      .char, &::after {
+      .char,
+      &::after {
         height: 1.5em;
       }
     }
 
     &.line-height-xl {
-      .char, &::after {
+      .char,
+      &::after {
         height: 2em;
       }
     }
-    
+
     .char {
       position: relative;
       text-align: start;
       width: auto;
       height: 1em;
-      text-shadow: 1px 1px 1px rgb(0, 0, 0, .5);
+      text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
       font-size: inherit;
       opacity: 0;
-      
+
       &.text-transform-cap:nth-child(1) {
         text-transform: capitalize;
       }
-      
+
       &.text-transform-uc {
         text-transform: uppercase;
       }
-  
+
       &.text-transform-lc {
         text-transform: lowercase;
       }
-  
+
       &.animation-fadeIn {
-        @include animation.animate($name: fadeIn, $tfunc: ease, $mode: forwards);
+        @include animation.animate(
+          $name: fadeIn,
+          $tfunc: ease,
+          $mode: forwards
+        );
       }
-  
+
       &.animation-fadeInLeft {
-        @include animation.animate($name: fadeInLeft, $tfunc: ease, $mode: forwards);
+        @include animation.animate(
+          $name: fadeInLeft,
+          $tfunc: ease,
+          $mode: forwards
+        );
       }
-  
+
       &.animation-fadeInRight {
-        @include animation.animate($name: fadeInRight, $tfunc: ease, $mode: forwards);
+        @include animation.animate(
+          $name: fadeInRight,
+          $tfunc: ease,
+          $mode: forwards
+        );
       }
     }
   }

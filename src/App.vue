@@ -1,18 +1,16 @@
 <template>
-  <div :class="`theme-${themeStore.theme}`">
-    <GlobalSidebar ref="sidebar"/>
-    <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar"/>
+  <div>
+    <GlobalSidebar ref="sidebar" />
+    <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar" />
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from '@/layout/global-header/global-header.vue';
 import GlobalSidebar from '@/layout/global-sidebar/global-sidebar.vue';
 import { useTemplateRef } from 'vue';
-import { useThemeStore } from './stores/theme.store';
 const sidebar = useTemplateRef('sidebar');
-const themeStore = useThemeStore();
 </script>
 
 <style lang="scss">
@@ -25,7 +23,10 @@ body {
   font: inherit;
 }
 
-input, select, button, a {
+input,
+select,
+button,
+a {
   border: none;
   padding: 0;
   margin: 0;
@@ -34,20 +35,29 @@ input, select, button, a {
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   display: inline-block;
   margin: 0;
   line-height: 1em;
 }
 
-i, span {
+i,
+span {
   width: auto;
   height: 16px;
   font-size: 16px;
   line-height: 1em;
 }
 
-img, picture, svg, video {
+img,
+picture,
+svg,
+video {
   display: block;
   max-width: 100%;
 }

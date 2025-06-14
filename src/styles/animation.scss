@@ -1,4 +1,11 @@
-@mixin animate($name: fadeIn, $duration: 0ms, $tfunc: ease, $mode: forwards, $delay: 0ms, $iteration: 1) {
+@mixin animate(
+  $name: fadeIn,
+  $duration: 0ms,
+  $tfunc: ease,
+  $mode: forwards,
+  $delay: 0ms,
+  $iteration: 1
+) {
   animation-name: $name;
   animation-duration: $duration;
   animation-timing-function: $tfunc;
@@ -95,7 +102,10 @@
 }
 
 @keyframes infiniteFadeToRight {
-  0%, 9.99%, 90.01%, 100% {
+  0%,
+  9.99%,
+  90.01%,
+  100% {
     transform: none;
     opacity: 0;
   }
@@ -113,7 +123,10 @@
 }
 
 @keyframes infiniteFadeToLeft {
-  0%, 9.99%, 90.01%, 100% {
+  0%,
+  9.99%,
+  90.01%,
+  100% {
     transform: none;
     opacity: 0;
   }
