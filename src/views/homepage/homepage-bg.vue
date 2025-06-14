@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import homepageBg from '@/../public/homepage-bg.png';
-import texture from '@/../public/texture-1.jpg';
+import homepageBg from '@/../public/homepage-bg.webp';
+import texture from '@/../public/texture-1.webp';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import * as THREE from 'three';
 
