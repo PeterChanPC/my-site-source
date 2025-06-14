@@ -110,7 +110,7 @@ export default defineComponent({
       camera.lookAt(0, 0, 0);
 
       // setup textures
-      const texture_1 = new THREE.TextureLoader().load('./texture_1_color.jpg');
+      const texture_1 = new THREE.TextureLoader().load('./texture-1.jpg');
       texture_1.wrapS = THREE.RepeatWrapping;
       texture_1.wrapT = THREE.RepeatWrapping;
       texture_1.repeat.set(3, 3);
