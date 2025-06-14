@@ -1,17 +1,23 @@
 <template>
-  <div class="homepage-bg">
+  <div ref="background" class="homepage-bg">
     <canvas ref="canvas"></canvas>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, Ref, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import * as THREE from 'three';
 
 export default defineComponent({
   name: 'homepage-background',
-  setup() {
+  setup(__, { expose }) {
     const canvas: Ref<HTMLCanvasElement | THREE.OffscreenCanvas | undefined> = ref(undefined);
+    const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
+
+    const isValid = (): Boolean => {
+      if (canvas.value) return true;
+      return false;
+    }
 
     // setup movement vector
     const moveDir = new THREE.Vector3(0, 0, 0);
@@ -76,6 +82,16 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      if (!isValid() && background.value) {
+        background.value.style.cssText = `
+          width: 100%;
+          height: 100%;
+          background-position: center;
+          background-size: cover;
+          background-image: url("@/../public/homepage-bg.png");
+        `;
+      };
+
       // setup renderer
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas.value,
@@ -219,6 +235,7 @@ export default defineComponent({
       window.removeEventListener('keyup', handleKeyUp);
     });
 
+    expose();
     return { canvas };
   },
 });
