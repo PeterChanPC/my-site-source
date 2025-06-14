@@ -5,6 +5,8 @@
 </template>
 
 <script lang="ts">
+import homepageBg from '@/../public/homepage-bg.png';
+import texture from '@/../public/texture-1.jpg';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import * as THREE from 'three';
 
@@ -83,12 +85,13 @@ export default defineComponent({
 
     onMounted(() => {
       if (!isValid() && background.value) {
+        console.log('bg')
         background.value.style.cssText = `
           width: 100%;
           height: 100%;
           background-position: center;
           background-size: cover;
-          background-image: url("./homepage-bg.png");
+          background-image: url(${homepageBg});
         `;
       };
 
@@ -110,7 +113,7 @@ export default defineComponent({
       camera.lookAt(0, 0, 0);
 
       // setup textures
-      const texture_1 = new THREE.TextureLoader().load('./texture-1.jpg');
+      const texture_1 = new THREE.TextureLoader().load(texture);
       texture_1.wrapS = THREE.RepeatWrapping;
       texture_1.wrapT = THREE.RepeatWrapping;
       texture_1.repeat.set(3, 3);
