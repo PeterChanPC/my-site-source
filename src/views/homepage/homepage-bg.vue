@@ -169,10 +169,12 @@ export default defineComponent({
       const raycaster = new THREE.Raycaster();
       const raycasterX = new THREE.Raycaster();
       const raycasterZ = new THREE.Raycaster();
+      const moveDirX = new THREE.Vector3();
+      const moveDirZ = new THREE.Vector3();
       function rayCast(maxDistance: number) {
         raycaster.set(sphere.position, moveDir);
-        raycasterX.set(sphere.position, new THREE.Vector3(moveDir.x, 0, 0));
-        raycasterZ.set(sphere.position, new THREE.Vector3(0, 0, moveDir.z));
+        raycasterX.set(sphere.position, moveDirX.setX(moveDir.x));
+        raycasterZ.set(sphere.position, moveDirZ.setZ(moveDir.z));
         raycaster.far = maxDistance;
         raycasterX.far = maxDistance;
         raycasterZ.far = maxDistance;
@@ -187,10 +189,10 @@ export default defineComponent({
         const speed = 5;
         let delta = clock.getDelta();
         let distance = speed * delta;
-        rayCast(sphereRadius + distance);
-        let velocity = moveDir.normalize().clone().multiplyScalar(distance);
+        rayCast(moveDir.length());
         const collidables = scene.children.filter(obj => obj !== sphere);
         let canMove = raycaster.intersectObjects(collidables).length === 0;
+        let velocity = moveDir.clone().normalize().multiplyScalar(distance);
 
         if (!canMove) {
           canMove = raycasterX.intersectObjects(collidables).length === 0;
