@@ -1,6 +1,6 @@
 <template>
   <div ref="background" class="homepage-bg">
-    <canvas ref="canvas"></canvas>
+    <!-- <canvas ref="canvas"></canvas> -->
   </div>
 </template>
 
@@ -88,7 +88,7 @@ export default defineComponent({
           height: 100%;
           background-position: center;
           background-size: cover;
-          background-image: url("@/../public/homepage-bg.png");
+          background-image: url("./homepage-bg.png");
         `;
       };
 
