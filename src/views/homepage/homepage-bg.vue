@@ -1,6 +1,6 @@
 <template>
   <div ref="background" class="homepage-bg">
-    <!-- <canvas ref="canvas"></canvas> -->
+    <canvas ref="canvas"></canvas>
   </div>
 </template>
 
