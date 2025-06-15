@@ -19,6 +19,13 @@
     left: 0;
     width: 100%;
     height: 100%;
+    color: inherit;
+
+    .tip {
+      position: absolute;
+      bottom: 0;
+      color: inherit;
+    }
   }
 
   .container {
@@ -53,6 +60,7 @@
           width: 150px;
           height: calc(100% - 2px);
           margin: 0 var.$btn-margin;
+          border: 1px solid var(--txt-color);
           border-radius: 40px;
           color: inherit;
 

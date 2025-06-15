@@ -1,7 +1,10 @@
 <template>
   <div :class="['home', `theme-${themeStore.theme}`]">
     <div class="homepage-bg">
-      <HomepageBg/>
+      <HomepageBg />
+      <div class="tip" v-if="showTip">
+        you can use arrow keys to control the ball
+      </div>
     </div>
 
     <div ref="intro" class="container show">
@@ -34,10 +37,9 @@
         </div>
 
         <div class="details">
-          <AnimatedTxt
-            :text="t('about_me_details')"
-            fontSize="md" lineHeight="xl" justify="start" wrap="wrap" animation="fadeIn" duration="500ms" delay="500ms"
-            :stagger="5" :whiteSpace="true" :lang="langStore.locale"/>
+          <AnimatedTxt :text="t('about_me_details')" fontSize="md" lineHeight="xl" justify="start" wrap="wrap"
+            animation="fadeIn" duration="500ms" delay="500ms" :stagger="5" :whiteSpace="true"
+            :lang="langStore.locale" />
         </div>
       </div>
     </div>
@@ -107,6 +109,7 @@ const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
 const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
 const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
 const containerNameList: Ref<String[]> = ref([]);
+const showTip: Ref<Boolean> = ref(true);
 
 watchEffect(() => {
   containerNameList.value = [t('intro'), t('about_me'), t('exp')];
@@ -118,6 +121,12 @@ const show = (pageNum: number) => {
   containerList[pageNum].value?.classList.add('show');
   for (let i = 0; i < containerList.length; i++) {
     if (i !== pageNum) containerList[i].value?.classList.remove('show');
+  };
+
+  if (pageNum === 0) {
+    showTip.value = true;
+  } else {
+    showTip.value = false;
   };
 };
 </script>
