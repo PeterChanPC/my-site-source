@@ -149,29 +149,33 @@ export default defineComponent({
       floor.receiveShadow = true;
 
       //setup lightings
-      const ambientLight = new THREE.AmbientLight();
+      const ambientLight = new THREE.AmbientLight(0xffffff);
+      ambientLight.intensity = 0;
 
       const spotLightPrimary = new THREE.SpotLight(0xffffff);
-      const spotLightSecondary = new THREE.SpotLight(0xcccccc);
+      const spotLightSecondary = new THREE.SpotLight(0xdddddd);
       spotLightPrimary.power = 50000;
+      spotLightPrimary.angle = 0.05;
       spotLightPrimary.penumbra = 0.8;
       spotLightPrimary.castShadow = true;
+      spotLightPrimary.position.set(50, 50, 50)
+      spotLightSecondary.power = 0;
       spotLightSecondary.angle = 0.08;
-      spotLightSecondary.penumbra = 1;
+      spotLightSecondary.penumbra = 0.8;
       spotLightSecondary.position.set(-50, 50, 50);
 
       function applySpotLight() {
         if (themeStore.theme === 'light') {
-          ambientLight.color.set(0xffffff);
-          spotLightPrimary.angle = 0.1;
-          spotLightPrimary.position.set(50, 50, 50);
+          if (ambientLight.intensity < 1) ambientLight.intensity += 0.05;
+          if (spotLightPrimary.angle < 0.1) spotLightPrimary.angle += 0.005;
+          spotLightPrimary.position.lerp(new THREE.Vector3(50, 50, 50), 0.1);
           spotLightSecondary.power = 0;
         } else {
-          ambientLight.color.set(0x000000);
-          spotLightPrimary.angle = 0.03;
-          spotLightPrimary.position.set(-50, 50, 50);
+          if (ambientLight.intensity > 0) ambientLight.intensity -= 0.05;
+          if (spotLightPrimary.angle > 0.03) spotLightPrimary.angle -= 0.005;
+          spotLightPrimary.position.lerp(new THREE.Vector3(-50, 50, 50), 0.1);
           spotLightSecondary.power = 5000;
-        }
+        };
       };
 
       // setup sphere object
