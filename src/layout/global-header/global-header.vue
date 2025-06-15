@@ -7,7 +7,7 @@
         <span>{{ t('home') }}</span>
       </router-link>
       <router-link :to="{ name: 'home' }">
-        <span>{{ t('work') }}</span>
+        <span style="text-decoration: line-through;">{{ t('work') }}</span>
       </router-link>
       <a href="#" style="text-decoration: line-through;">
         <span>Blog</span>

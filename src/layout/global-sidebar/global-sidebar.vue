@@ -20,11 +20,11 @@
         </router-link>
         <router-link :to="{ name: 'my practices' }">
           <i class="fi fi-rr-list"></i>
-          <span>{{ t('work') }}</span>
+          <span style="text-decoration: line-through;">{{ t('work') }}</span>
         </router-link>
         <a href="#">
           <i class="fi fi-rr-home"></i>
-          <span>Blog</span>
+          <span style="text-decoration: line-through;">Blog</span>
         </a>
       </nav>
     </div>
