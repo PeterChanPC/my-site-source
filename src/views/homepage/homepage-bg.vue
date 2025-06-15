@@ -163,6 +163,7 @@ export default defineComponent({
       spotLightSecondary.angle = 0.08;
       spotLightSecondary.penumbra = 0.8;
       spotLightSecondary.position.set(-50, 50, 50);
+      spotLightSecondary.castShadow = true;
 
       function applySpotLight() {
         if (themeStore.theme === 'light') {
