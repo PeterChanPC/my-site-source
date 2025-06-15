@@ -18,6 +18,8 @@ const zhTW: {
     about_me_details: '嗨！我係PeterChan，香港科技大學物理學系2024屆畢業生，喜歡編程和學習新知識，有Python、C#、Vue.js等等的使用經驗。',
     exp: '經驗',
     resume: '我的簡歷',
+    use: '用',
+    control: '來控制畫面中的球',
   },
   dateTimeFormats: {
     short: {

@@ -3,7 +3,16 @@
     <div class="homepage-bg">
       <HomepageBg />
       <div class="tip" v-if="showTip">
-        you can use arrow keys to control the ball
+        <span>{{ t('use') }}</span>
+        <div class="arrows">
+          <i class="x"></i>
+          <i class="fi fi-rr-arrow-square-up"></i>
+          <i class="y"></i>
+          <i class="fi fi-rr-arrow-square-left"></i>
+          <i class="fi fi-rr-arrow-square-down"></i>
+          <i class="fi fi-rr-arrow-square-right"></i>
+        </div>
+        <span>{{ t('control') }}</span>
       </div>
     </div>
 

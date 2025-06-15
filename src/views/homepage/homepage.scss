@@ -22,9 +22,19 @@
     color: inherit;
 
     .tip {
+      @include layout.flex-row-center;
       position: absolute;
       bottom: 0;
       color: inherit;
+      margin: 5px;
+
+      .arrows {
+        display: grid;
+        grid-template:
+          "x up y" 1fr
+          "left down right" 1fr;
+        margin: 0 5px;
+      }
     }
   }
 

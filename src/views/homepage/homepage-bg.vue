@@ -7,14 +7,14 @@
 <script lang="ts">
 import homepageBg from '@/../public/homepage-bg.webp';
 import texture from '@/../public/texture-1.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
+import { defineComponent, onBeforeUnmount, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 
 export default defineComponent({
   name: 'homepage-background',
   setup(__, { expose }) {
-    const canvas: Ref<HTMLCanvasElement | THREE.OffscreenCanvas | undefined> = ref(undefined);
+    const canvas: Ref<HTMLCanvasElement | undefined> = ref(undefined);
     const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
     const themeStore = useThemeStore();
 
@@ -87,10 +87,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (!isValid() && background.value) {
-        console.log('bg')
         background.value.style.cssText = `
-          width: 100%;
-          height: 100%;
           background-position: center;
           background-size: cover;
           background-image: url(${homepageBg});
@@ -101,9 +98,11 @@ export default defineComponent({
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas.value,
         antialias: true,
+        alpha: true,
       });
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.setClearColor(0x000000, 0);
 
       // setup scene
       const scene = new THREE.Scene();
@@ -149,21 +148,33 @@ export default defineComponent({
       floor.receiveShadow = true;
 
       //setup lightings
-      const ambientLight = new THREE.AmbientLight(0xffffff);
-      ambientLight.intensity = 0;
+      const ambientLight = new THREE.AmbientLight();
+      ambientLight.color.set(0xcccccc);
 
       const spotLightPrimary = new THREE.SpotLight(0xffffff);
-      const spotLightSecondary = new THREE.SpotLight(0xdddddd);
       spotLightPrimary.power = 50000;
-      spotLightPrimary.angle = 0.05;
       spotLightPrimary.penumbra = 0.8;
       spotLightPrimary.castShadow = true;
-      spotLightPrimary.position.set(50, 50, 50)
-      spotLightSecondary.power = 0;
+      spotLightPrimary.shadow.intensity = 0.8;
+
+      const spotLightSecondary = new THREE.SpotLight(0xdddddd);
       spotLightSecondary.angle = 0.08;
       spotLightSecondary.penumbra = 0.8;
-      spotLightSecondary.position.set(-50, 50, 50);
       spotLightSecondary.castShadow = true;
+      spotLightSecondary.position.set(-50, 50, 50);
+      spotLightSecondary.shadow.intensity = 0.8;
+
+      if (themeStore.theme === 'light') {
+        ambientLight.intensity = 1;
+        spotLightPrimary.angle = 0.1;
+        spotLightPrimary.position.set(50, 50, 50);
+        spotLightSecondary.power = 0;
+      } else {
+        ambientLight.intensity = 0;
+        spotLightPrimary.angle = 0.03;
+        spotLightPrimary.position.set(-50, 50, 50);
+        spotLightSecondary.power = 5000;
+      };
 
       function applySpotLight() {
         if (themeStore.theme === 'light') {
@@ -270,3 +281,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.homepage-bg {
+  width: 100%;
+  height: 100%;
+}
+</style>

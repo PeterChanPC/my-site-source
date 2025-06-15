@@ -18,6 +18,8 @@ const enUS: {
     about_me_details: 'Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies.',
     exp: 'experience',
     resume: 'get my resume',
+    use: 'use',
+    control: 'to control the ball',
   },
   dateTimeFormats: {
     short: {
