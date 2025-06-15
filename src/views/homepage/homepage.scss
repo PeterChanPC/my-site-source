@@ -53,8 +53,6 @@
           width: 150px;
           height: calc(100% - 2px);
           margin: 0 var.$btn-margin;
-          border: 1px solid;
-          border-color: invert(var(--bg-color));
           border-radius: 40px;
           color: inherit;
 
@@ -138,7 +136,6 @@
     .btn {
       @include layout.flex-row-center;
       visibility: hidden;
-      position: relative;
       background-color: transparent;
       color: inherit;
       width: auto;
@@ -152,36 +149,55 @@
         visibility: visible;
       }
 
-      i {
-        position: absolute;
+      .icon {
+        @include layout.flex-row-center;
+        position: relative;
       }
 
-      &.right i {
-        @include animation.animate(
-          infiniteFadeToRight,
-          2000ms,
-          ease,
-          none,
-          0ms,
-          infinite
-        );
-        left: calc(100% - 20px);
+      &.right {
+        .icon {
+          margin-left: 5px;
+
+          i {
+            @include animation.animate(
+              infiniteFadeToRight,
+              2000ms,
+              ease,
+              none,
+              0ms,
+              infinite
+            );
+            opacity: 0;
+          }
+
+          .secondary {
+            position: absolute;
+            right: 5px;
+            animation-delay: 350ms;
+          }
+        }
       }
 
-      &.left i {
-        @include animation.animate(
-          infiniteFadeToLeft,
-          2000ms,
-          ease,
-          none,
-          0ms,
-          infinite
-        );
-        right: calc(100% - 20px);
-      }
+      &.left {
+        margin-right: 5px;
 
-      i.faint {
-        animation-delay: 450ms;
+        i {
+          @include animation.animate(
+            infiniteFadeToLeft,
+            2000ms,
+            ease,
+            none,
+            0ms,
+            infinite
+          );
+          opacity: 0;
+        }
+
+        .secondary {
+          position: absolute;
+          left: 0;
+          animation-delay: 350ms;
+        }
       }
     }
   }

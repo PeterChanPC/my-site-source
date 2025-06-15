@@ -68,8 +68,10 @@
 
     <div class="page-select">
       <button :class="['btn', 'left', { 'show': containerList[currentPage - 1] }]" @click="show(--currentPage)">
-        <i class="fi fi-rr-angle-left"></i>
-        <i class="fi fi-rr-angle-left faint"></i>
+        <div class="icon">
+          <i class="fi fi-rr-angle-left primary"></i>
+          <i class="fi fi-rr-angle-left secondary"></i>
+        </div>
         <span>
           {{ containerNameList[currentPage - 1] }}
         </span>
@@ -78,8 +80,10 @@
         <span>
           {{ containerNameList[currentPage + 1] }}
         </span>
-        <i class="fi fi-rr-angle-right"></i>
-        <i class="fi fi-rr-angle-right faint"></i>
+        <div class="icon">
+          <i class="fi fi-rr-angle-right primary"></i>
+          <i class="fi fi-rr-angle-right secondary"></i>
+        </div>
       </button>
     </div>
   </div>

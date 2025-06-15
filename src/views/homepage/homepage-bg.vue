@@ -8,6 +8,7 @@
 import homepageBg from '@/../public/homepage-bg.webp';
 import texture from '@/../public/texture-1.webp';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
+import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 
 export default defineComponent({
@@ -15,6 +16,7 @@ export default defineComponent({
   setup(__, { expose }) {
     const canvas: Ref<HTMLCanvasElement | THREE.OffscreenCanvas | undefined> = ref(undefined);
     const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
+    const themeStore = useThemeStore();
 
     const isValid = (): Boolean => {
       if (canvas.value) return true;
@@ -147,14 +149,30 @@ export default defineComponent({
       floor.receiveShadow = true;
 
       //setup lightings
-      const ambientLight = new THREE.AmbientLight(0xffffff);
+      const ambientLight = new THREE.AmbientLight();
 
-      const spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.power = 50000;
-      spotLight.angle = 0.1;
-      spotLight.penumbra = 0.8;
-      spotLight.castShadow = true;
-      spotLight.position.set(50, 50, 50);
+      const spotLightPrimary = new THREE.SpotLight(0xffffff);
+      const spotLightSecondary = new THREE.SpotLight(0xcccccc);
+      spotLightPrimary.power = 50000;
+      spotLightPrimary.penumbra = 0.8;
+      spotLightPrimary.castShadow = true;
+      spotLightSecondary.angle = 0.08;
+      spotLightSecondary.penumbra = 1;
+      spotLightSecondary.position.set(-50, 50, 50);
+
+      function applySpotLight() {
+        if (themeStore.theme === 'light') {
+          ambientLight.color.set(0xffffff);
+          spotLightPrimary.angle = 0.1;
+          spotLightPrimary.position.set(50, 50, 50);
+          spotLightSecondary.power = 0;
+        } else {
+          ambientLight.color.set(0x000000);
+          spotLightPrimary.angle = 0.03;
+          spotLightPrimary.position.set(-50, 50, 50);
+          spotLightSecondary.power = 5000;
+        }
+      };
 
       // setup sphere object
       const sphereRadius = 1;
@@ -218,7 +236,8 @@ export default defineComponent({
       scene.add(wall_3);
       scene.add(wall_4);
       scene.add(ambientLight);
-      scene.add(spotLight);
+      scene.add(spotLightPrimary);
+      scene.add(spotLightSecondary);
 
       // setup update
       function update() {
@@ -228,6 +247,7 @@ export default defineComponent({
         camera.updateProjectionMatrix();
 
         applyMovement();
+        applySpotLight();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.render(scene, camera);
