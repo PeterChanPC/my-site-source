@@ -1,6 +1,8 @@
 // styles for color theme
 $bg-light: #fff;
 $bg-dark: #111;
+$bg-light-opague: rgba($color: $bg-light, $alpha: 0.2);
+$bg-dark-opague: rgba($color: $bg-dark, $alpha: 0.2);
 
 $border-light: #ddd;
 $border-dark: #333;

@@ -1,8 +1,6 @@
 @use "@/styles/variables.scss" as var;
 @use "@/styles/animation.scss" as animation;
 @use "@/styles/layout.scss" as layout;
-@use "@/styles/border.scss" as border;
-@use "@/styles/transition.scss" as t;
 
 .home {
   @include layout.flex-row-center;
@@ -70,8 +68,10 @@
           width: 150px;
           height: calc(100% - 2px);
           margin: 0 var.$btn-margin;
-          border: 1px solid var(--txt-color);
           border-radius: 40px;
+          backdrop-filter: blur(5px);
+          box-shadow: inset 0 0 5px var.$bg-light-opague;
+          background-color: var.$bg-light-opague;
           color: inherit;
 
           i {

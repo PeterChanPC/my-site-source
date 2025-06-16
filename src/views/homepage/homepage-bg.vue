@@ -201,17 +201,11 @@ export default defineComponent({
 
       // setup raycaster
       const raycaster = new THREE.Raycaster();
-      const raycasterX = new THREE.Raycaster();
-      const raycasterZ = new THREE.Raycaster();
-      const moveDirX = new THREE.Vector3();
-      const moveDirZ = new THREE.Vector3();
-      function rayCast(maxDistance: number) {
-        raycaster.set(sphere.position, moveDir);
-        raycasterX.set(sphere.position, moveDirX.setX(moveDir.x));
-        raycasterZ.set(sphere.position, moveDirZ.setZ(moveDir.z));
+      function raycast(dir: THREE.Vector3, maxDistance: number) {
+        const collidables = scene.children.filter(obj => obj !== sphere);
+        raycaster.set(sphere.position, dir);
         raycaster.far = maxDistance;
-        raycasterX.far = maxDistance;
-        raycasterZ.far = maxDistance;
+        return raycaster.intersectObjects(collidables);
       };
 
       // setup user movement controller
@@ -223,17 +217,17 @@ export default defineComponent({
         const speed = 5;
         let delta = clock.getDelta();
         let distance = speed * delta;
-        rayCast(moveDir.length());
-        const collidables = scene.children.filter(obj => obj !== sphere);
-        let canMove = raycaster.intersectObjects(collidables).length === 0;
+        let canMove = raycast(moveDir, moveDir.clone().length()).length === 0;
         let velocity = moveDir.clone().normalize().multiplyScalar(distance);
 
         if (!canMove) {
-          canMove = raycasterX.intersectObjects(collidables).length === 0;
+          let moveDirX = new THREE.Vector3(moveDir.x, 0, 0);
+          canMove = raycast(moveDirX, sphereRadius).length === 0;
           if (canMove) {
             velocity.set(moveDir.x * distance, 0, 0);
           } else {
-            canMove = raycasterZ.intersectObjects(collidables).length === 0;
+          let moveDirZ = new THREE.Vector3(0, 0, moveDir.z);
+          canMove = raycast(moveDirZ, sphereRadius).length === 0;
             if (canMove) {
               velocity.set(0, 0, moveDir.z * distance);
             };
