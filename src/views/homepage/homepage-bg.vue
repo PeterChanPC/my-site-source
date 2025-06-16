@@ -210,31 +210,75 @@ export default defineComponent({
 
       // setup user movement controller
       let clock = new THREE.Clock();
+      let velocity = new THREE.Vector3(0, 0, 0);
       window.addEventListener('keydown', handleKeyDown);
       window.addEventListener('keyup', handleKeyUp);
 
-      function applyMovement() {
-        const speed = 5;
-        let delta = clock.getDelta();
-        let distance = speed * delta;
-        let canMove = raycast(moveDir, moveDir.clone().length()).length === 0;
-        let velocity = moveDir.clone().normalize().multiplyScalar(distance);
+      const strength = 1;
+      const drag = 0.3;
+      const mass = 1;
+      const bounciness = 0.5;
+      function updateVelocity() {
+        // net F = F - Ff = mass * dv / dt
+        let dt = clock.getDelta();
+        let F = new THREE.Vector3(moveDir.x, 0, moveDir.z).normalize().multiplyScalar(strength);
+        let Ff = new THREE.Vector3(velocity.x, 0, velocity.z).normalize().multiplyScalar(drag);
+        let dv = F.sub(Ff).multiplyScalar(dt / mass);
+        let canPush = raycast(dv, dv.clone().normalize().length()).length === 0;
 
-        if (!canMove) {
-          let moveDirX = new THREE.Vector3(moveDir.x, 0, 0);
-          canMove = raycast(moveDirX, sphereRadius).length === 0;
-          if (canMove) {
-            velocity.set(moveDir.x * distance, 0, 0);
+        if (!canPush) {
+          let dvX = new THREE.Vector3(dv.x, 0, 0).normalize();
+          canPush = raycast(dvX, dvX.length()).length === 0;
+          if (canPush) {
+            velocity.z = 0;
+            dv.z = 0;
           } else {
-          let moveDirZ = new THREE.Vector3(0, 0, moveDir.z);
-          canMove = raycast(moveDirZ, sphereRadius).length === 0;
-            if (canMove) {
-              velocity.set(0, 0, moveDir.z * distance);
+            velocity.x = 0;
+            dv.x = 0;
+            let dvZ = new THREE.Vector3(0, 0, dv.z).normalize();
+            canPush = raycast(dvZ, dvZ.length()).length === 0;
+            if (!canPush) {
+              velocity.z = 0;
+              dv.z = 0;
             };
           };
         };
 
-        velocity.z *= 2; // vertical speed compensation
+        if (canPush) velocity.add(dv);
+        if (Math.abs(velocity.x) < Math.abs((dv.x))) {
+          velocity.x = 0; 
+        } else if (velocity.x > 0.5) {
+          velocity.x = 0.5;
+        } else if (velocity.x < -0.5) {
+          velocity.x = -0.5;
+        };
+        if (Math.abs(velocity.z) < Math.abs((dv.z))) {
+          velocity.z = 0; 
+        } else if (velocity.z > 0.5) {
+          velocity.z = 0.5;
+        } else if (velocity.z < -0.5) {
+          velocity.z = -0.5;
+        };
+      };
+
+      function applyMovement() {
+        updateVelocity();
+        let canMove = raycast(velocity, velocity.clone().normalize().length()).length === 0;
+
+        if (!canMove) {
+          let velocityX = new THREE.Vector3(velocity.x, 0, 0);
+          canMove = raycast(velocityX, velocityX.clone().normalize().length()).length === 0;
+          if (canMove) {
+            velocity.z = -velocity.z * bounciness;
+          } else {
+            velocity.x = -velocity.x * bounciness;
+            let velocityZ = new THREE.Vector3(0, 0, velocity.z).normalize();
+            canMove = raycast(velocityZ, velocityZ.clone().normalize().length()).length === 0;
+            if (!canMove) {
+              velocity.z = -velocity.z * bounciness;
+            };
+          };
+        };
         if (canMove) sphere.position.add(velocity);
       };
 
