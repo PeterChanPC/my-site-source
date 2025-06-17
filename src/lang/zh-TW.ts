@@ -19,6 +19,7 @@ const zhTW: {
     exp: '經驗',
     resume: '我的簡歷',
     use: '用',
+    or: '或',
     control: '來控制畫面中的球',
   },
   dateTimeFormats: {

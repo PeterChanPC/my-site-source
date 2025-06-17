@@ -12,6 +12,8 @@
           <i class="fi fi-rr-arrow-square-down"></i>
           <i class="fi fi-rr-arrow-square-right"></i>
         </div>
+        <span>{{ t('or') }}</span>
+        <i class="fi fi-rr-cursor icon"></i>
         <span>{{ t('control') }}</span>
       </div>
     </div>

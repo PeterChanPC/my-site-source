@@ -7,7 +7,7 @@
 <script lang="ts">
 import homepageBg from '@/../public/homepage-bg.webp';
 import texture from '@/../public/texture-1.webp';
-import { defineComponent, onBeforeUnmount, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 
@@ -21,10 +21,13 @@ export default defineComponent({
     const isValid = (): Boolean => {
       if (canvas.value) return true;
       return false;
-    }
+    };
 
     // setup movement vector
-    const moveDir = new THREE.Vector3(0, 0, 0);
+    let isMouse = false;
+    let pointerPos = new THREE.Vector3(0, 0, 0);
+    let pointerDir = new THREE.Vector3(0, 0, 0);
+    let moveDir = new THREE.Vector3(0, 0, 0);
     let moveUp = false;
     let moveDown = false;
     let moveLeft = false;
@@ -50,6 +53,7 @@ export default defineComponent({
         moveDir.x = 0;
       };
     };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
@@ -67,6 +71,7 @@ export default defineComponent({
       };
       handleMovementVector();
     };
+
     const handleKeyUp = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowUp':
@@ -84,16 +89,23 @@ export default defineComponent({
       };
       handleMovementVector();
     };
-		const handleTouchStart = (e: TouchEvent) => {
-			// to be overwrite in onMounted()
-		};
-		const handleTouchEnd = () => {
-			moveUp = false;
-			moveDown = false;
-			moveLeft = false;
-			moveRight = false;
-			handleMovementVector();
-		};
+
+    let updatePointerPos = (e: MouseEvent) => { };
+
+    const handleMouseDown = () => {
+      isMouse = true;
+      moveDir.set(pointerDir.x, 0, pointerDir.z).normalize();
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updatePointerPos(e);
+      if (isMouse) handleMouseDown();
+    };
+
+    const handleMouseUp = () => {
+      isMouse = false;
+      moveDir.set(0, 0, 0);
+    };
 
     onMounted(() => {
       if (!isValid() && background.value) {
@@ -119,8 +131,8 @@ export default defineComponent({
 
       // setup camera
       let aspect = window.innerWidth / window.innerHeight;
-      const camera = new THREE.OrthographicCamera(-5, 5, 5 / aspect, -5 / aspect, -10, 100);
-      camera.position.set(0, 1, 5);
+      const camera = new THREE.OrthographicCamera(-5, 5, 5 / aspect, -5 / aspect, 0, 1000);
+      camera.position.set(0, 10, 50);
       camera.lookAt(0, 0, 0);
 
       // setup textures
@@ -135,25 +147,25 @@ export default defineComponent({
       const material_3 = new THREE.MeshBasicMaterial({ transparent: true });
 
       // setup wall object
-      const wallGeometry = new THREE.PlaneGeometry(50, 50);
+      const wallGeometry = new THREE.PlaneGeometry(20, 20);
       const wall_1 = new THREE.Mesh(wallGeometry, material_2);
       const wall_2 = new THREE.Mesh(wallGeometry, material_3);
       const wall_3 = new THREE.Mesh(wallGeometry, material_3);
       const wall_4 = new THREE.Mesh(wallGeometry, material_3);
-      wall_1.position.set(0, 0, -8);
+      wall_1.position.set(0, 0, -10);
       wall_1.receiveShadow = true;
       wall_2.rotation.set(0, Math.PI / 2, 0);
       wall_2.position.set(-5, 0, 0);
       wall_3.rotation.set(0, -Math.PI / 2, 0);
       wall_3.position.set(5, 0, 0);
       wall_4.rotation.set(0, Math.PI, 0);
-      wall_4.position.set(0, 0, 9);
+      wall_4.position.set(0, 0, 10);
       wall_1.receiveShadow = true;
 
       // setup floor object
-      const floorGeometry = new THREE.BoxGeometry(50, 20, 20);
+      const floorGeometry = new THREE.PlaneGeometry(20, 100);
       const floor = new THREE.Mesh(floorGeometry, material_2);
-      floor.position.set(0, -11, 0);
+      floor.position.set(0, -1, 0);
       floor.rotation.set(-Math.PI / 2, 0, 0);
       floor.receiveShadow = true;
 
@@ -219,13 +231,10 @@ export default defineComponent({
       };
 
       // setup user movement controller
-      window.addEventListener('keydown', handleKeyDown);
-      window.addEventListener('keyup', handleKeyUp);
-
       const strength = 1;
       const drag = 0.5;
       const mass = 1;
-      const bounciness = 0.3;
+      const bounciness = 0.5;
       let clock = new THREE.Clock();
       let dv = new THREE.Vector3(0, 0, 0);
       let velocity = new THREE.Vector3(0, 0, 0);
@@ -237,7 +246,7 @@ export default defineComponent({
         let Ff = new THREE.Vector3(velocity.x, 0, velocity.z).normalize().multiplyScalar(drag);
         dv = F.clone().sub(Ff).multiplyScalar(dt / mass);
         let canPush = raycast(dv, dv.clone().normalize().length()).length === 0;
-				if (Ff.length() > F.length()) canPush = raycast(-dv, dv.clone().normalize().length()).length === 0;
+        if (Ff.length() > F.length()) canPush = raycast(dv.clone().negate(), dv.clone().normalize().length()).length === 0;
 
         if (!canPush) {
           let dvX = new THREE.Vector3(dv.x, 0, 0).normalize();
@@ -301,8 +310,23 @@ export default defineComponent({
         } else if (velocity.z < -0.5) {
           velocity.z = -0.5;
         };
-        
+
         if (canMove) sphere.position.add(velocity);
+      };
+
+      // get poitner position
+      updatePointerPos = (e: MouseEvent) => {
+        let screenPosX = (e.clientX / window.innerWidth) * 2 - 1;
+        let screenPosY = (e.clientY / window.innerHeight) * 2 - 1;
+        let screenPos = new THREE.Vector2(screenPosX, screenPosY);
+        raycaster.setFromCamera(screenPos, camera);
+        raycaster.far = 100;
+        const raycastHit = raycaster.intersectObject(floor)[0];
+        pointerPos.set(raycastHit.point.x, 0, -raycastHit.point.z);
+      };
+
+      const updatePointerDir = () => {
+        pointerDir = pointerPos.clone().sub(sphere.position).normalize();
       };
 
       // apply elements to scene
@@ -323,6 +347,7 @@ export default defineComponent({
         camera.bottom = -5 / aspect;
         camera.updateProjectionMatrix();
 
+        updatePointerDir();
         applyMovement();
         applySpotLight();
 
@@ -331,39 +356,19 @@ export default defineComponent({
       };
       renderer.setAnimationLoop(update);
 
-			// overwrite handleTouchStart
-			window.addEventListener('touchstart', handleTouchStart);
-			window.addEventListener('touchend', handleToucEnd);
-			handleTouchStart = (e: TouchEvent) => {
-				let screenPos = new THREE.Vector2(e.touches[0].pageX, e.touches[0].pageY);
-				raycaster.serFromCamera(screenPos, camera);
-        let hit = raycaster.intersectObjects(floor).point;
-				let dir = sphere.position.clone().sub(hit).normalize();
-				switch (dir) {
-	        case (dir.z < 0):
-	          moveUp = true;
-	        case (dir.z = 0):
-	          moveUp = false;
-						moveDown = false;
-	        case (dir.z > 0):
-	          moveDown = true;
-	        case (dir.x < 0):
-						moveLeft = true;
-	        case (dir.x = 0):
-	          moveLeft = false;
-						moveRight = false;
-	        case (dir.x > 0):
-	          moveRight = true;
-				};
-	      handleMovementVector();
-			};
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
+      window.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
     });
 
     onUnmounted(() => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
-			window.removeEventListener('touchstart', handleTouchStart);
-			window.removeEventListener('touchend', handleToucEnd);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     });
 
     expose();

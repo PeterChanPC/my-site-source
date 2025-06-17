@@ -19,6 +19,7 @@ const enUS: {
     exp: 'experience',
     resume: 'get my resume',
     use: 'use',
+    or: 'or',
     control: 'to control the ball',
   },
   dateTimeFormats: {
