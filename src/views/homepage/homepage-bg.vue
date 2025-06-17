@@ -332,6 +332,8 @@ export default defineComponent({
       renderer.setAnimationLoop(update);
 
 			// overwrite handleTouchStart
+			window.addEventListener('touchstart', handleTouchStart);
+			window.addEventListener('touchend', handleToucEnd);
 			handleTouchStart = (e: TouchEvent) => {
 				let screenPos = new THREE.Vector2(e.touches[0].pageX, e.touches[0].pageY);
 				raycaster.serFromCamera(screenPos, camera);
