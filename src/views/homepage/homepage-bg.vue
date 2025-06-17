@@ -84,6 +84,16 @@ export default defineComponent({
       };
       handleMovementVector();
     };
+		const handleTouchStart = (e: TouchEvent) => {
+			// to be overwrite in onMounted()
+		};
+		const handleTouchEnd = () => {
+			moveUp = false;
+			moveDown = false;
+			moveLeft = false;
+			moveRight = false;
+			handleMovementVector();
+		};
 
     onMounted(() => {
       if (!isValid() && background.value) {
@@ -93,6 +103,9 @@ export default defineComponent({
           background-image: url(${homepageBg});
         `;
       };
+
+			// overwrite handleTouchStart
+
 
       // setup renderer
       const renderer = new THREE.WebGLRenderer({
@@ -325,6 +338,8 @@ export default defineComponent({
     onUnmounted(() => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+			window.removeEventListener('touchstart', handleTouchStart);
+			window.removeEventListener('touchend', handleToucEnd);
     });
 
     expose();
