@@ -104,9 +104,6 @@ export default defineComponent({
         `;
       };
 
-			// overwrite handleTouchStart
-
-
       // setup renderer
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas.value,
@@ -333,6 +330,31 @@ export default defineComponent({
         renderer.render(scene, camera);
       };
       renderer.setAnimationLoop(update);
+
+			// overwrite handleTouchStart
+			handleTouchStart = (e: TouchEvent) => {
+				let screenPos = new THREE.Vector2(e.touches[0].pageX, e.touches[0].pageY);
+				raycaster.serFromCamera(screenPos, camera);
+        let hit = raycaster.intersectObjects(floor).point;
+				let dir = sphere.position.clone().sub(hit).normalize();
+				switch (dir) {
+	        case (dir.z < 0):
+	          moveUp = true;
+	        case (dir.z = 0):
+	          moveUp = false;
+						moveDown = false;
+	        case (dir.z > 0):
+	          moveDown = true;
+	        case (dir.x < 0):
+						moveLeft = true;
+	        case (dir.x = 0):
+	          moveLeft = false;
+						moveRight = false;
+	        case (dir.x > 0):
+	          moveRight = true;
+				};
+	      handleMovementVector();
+			};
     });
 
     onUnmounted(() => {
