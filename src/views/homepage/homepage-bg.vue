@@ -316,7 +316,7 @@ export default defineComponent({
         applyMovement();
         applySpotLight();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
         renderer.render(scene, camera);
       };
       renderer.setAnimationLoop(update);
