@@ -296,22 +296,20 @@ export default defineComponent({
         let canMove = updateVelocity();
 
         if (canPush) velocity.add(dv);
+        let length = velocity.length();
+
         if (Math.abs(velocity.x) < Math.abs((dv.x))) {
           velocity.x = 0;
         } else if (velocity.x > 0.5) {
-          let length = velocity.length();
           velocity.x = 0.5 * length;
         } else if (velocity.x < -0.5) {
-          let length = velocity.length();
           velocity.x = -0.5 * length;
         };
         if (Math.abs(velocity.z) < Math.abs((dv.z))) {
           velocity.z = 0;
         } else if (velocity.z > 0.5) {
-          let length = velocity.length();
           velocity.z = 0.5 * length;
         } else if (velocity.z < -0.5) {
-          let length = velocity.length();
           velocity.z = -0.5 * length;
         };
 
