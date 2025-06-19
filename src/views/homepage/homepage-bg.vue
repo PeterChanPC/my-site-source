@@ -232,7 +232,7 @@ export default defineComponent({
 
       // setup user movement controller
       const strength = 1;
-      const drag = 0.5;
+      const drag = 0.3;
       const mass = 1;
       const bounciness = 0.5;
       let clock = new THREE.Clock();
@@ -245,12 +245,12 @@ export default defineComponent({
         let F = new THREE.Vector3(moveDir.x, 0, moveDir.z).normalize().multiplyScalar(strength);
         let Ff = new THREE.Vector3(velocity.x, 0, velocity.z).normalize().multiplyScalar(drag);
         dv = F.clone().sub(Ff).multiplyScalar(dt / mass);
-        let canPush = raycast(dv, dv.clone().normalize().length()).length === 0;
-        if (Ff.length() > F.length()) canPush = raycast(dv.clone().negate(), dv.clone().normalize().length()).length === 0;
+        let canPush = dv.length() > 0 && raycast(dv, dv.clone().normalize().length()).length === 0;
+        if (Ff.length() > F.length()) canPush = dv.length() > 0 && raycast(dv.clone().negate(), dv.clone().normalize().length()).length === 0;
 
         if (!canPush) {
           let dvX = new THREE.Vector3(dv.x, 0, 0).normalize();
-          canPush = raycast(dvX, dvX.length()).length === 0;
+          canPush = Math.abs(dv.x) > 0 && raycast(dvX, dvX.length()).length === 0;
           if (canPush) {
             velocity.z = 0;
             dv.z = 0;
@@ -258,7 +258,7 @@ export default defineComponent({
             velocity.x = 0;
             dv.x = 0;
             let dvZ = new THREE.Vector3(0, 0, dv.z).normalize();
-            canPush = raycast(dvZ, dvZ.length()).length === 0;
+            canPush = Math.abs(dv.z) > 0 && raycast(dvZ, dvZ.length()).length === 0;
             if (!canPush) {
               velocity.z = 0;
               dv.z = 0;
@@ -299,16 +299,20 @@ export default defineComponent({
         if (Math.abs(velocity.x) < Math.abs((dv.x))) {
           velocity.x = 0;
         } else if (velocity.x > 0.5) {
-          velocity.x = 0.5;
+          let length = velocity.length();
+          velocity.x = 0.5 * length;
         } else if (velocity.x < -0.5) {
-          velocity.x = -0.5;
+          let length = velocity.length();
+          velocity.x = -0.5 * length;
         };
         if (Math.abs(velocity.z) < Math.abs((dv.z))) {
           velocity.z = 0;
         } else if (velocity.z > 0.5) {
-          velocity.z = 0.5;
+          let length = velocity.length();
+          velocity.z = 0.5 * length;
         } else if (velocity.z < -0.5) {
-          velocity.z = -0.5;
+          let length = velocity.length();
+          velocity.z = -0.5 * length;
         };
 
         if (canMove) sphere.position.add(velocity);
