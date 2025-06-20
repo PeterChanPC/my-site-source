@@ -32,7 +32,7 @@
             text="Linkedin" />
           <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
-          <a class="resume" href="./CV.pdf" target="_blank">
+          <a class="resume" href="./my-cv-general.pdf" target="_blank">
             <span>{{ t('resume') }}</span>
             <i class="fi fi-rr-angle-double-small-right"></i>
           </a>
