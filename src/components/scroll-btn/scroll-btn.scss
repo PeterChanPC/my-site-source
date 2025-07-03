@@ -25,7 +25,7 @@
     }
 
     &::after {
-      @include t.transition((width, left));
+      @include t.transition(all, 100ms);
       content: "";
       position: absolute;
       left: 50%;
@@ -40,7 +40,7 @@
     height: var.$btn-height;
 
     .icon {
-      @include t.transition(transform);
+      @include t.transition(all, 100ms);
     }
 
     .text {

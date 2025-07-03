@@ -1,12 +1,10 @@
-@use "@/styles/variables.scss" as var;
-@use "@/styles/animation.scss" as animation;
-@use "@/styles/layout.scss" as layout;
+@use "@/styles/style.scss";
 
 .home {
-  @include layout.flex-row-center;
+  @include style.flex(row, center);
   position: relative;
   width: 100%;
-  height: var.$homepage-height;
+  height: style.$homepage-height;
   background-color: var(--bg-color);
   color: var(--txt-color);
   overflow: hidden;
@@ -17,13 +15,11 @@
     left: 0;
     width: 100%;
     height: 100%;
-    color: inherit;
 
     .tip {
-      @include layout.flex-row-center;
+      @include style.flex(row, center);
       position: absolute;
       bottom: 0;
-      color: inherit;
       margin: 5px;
 
       .arrows {
@@ -45,47 +41,50 @@
     display: none;
     position: relative;
     width: 100%;
-    height: var.$homepage-height;
+    height: 100%;
 
     &.show {
-      @include layout.flex-col-center;
+      @include style.flex(col, center);
     }
 
     .intro {
-      @include layout.flex-col-center;
+      @include style.flex(col, center);
       align-items: start;
       width: 80%;
       height: auto;
       user-select: none;
 
-      .contacts {
-        @include layout.flex-row-between;
+      .contacts-container {
+        @include style.glassy();
         position: relative;
-        width: var.$contact-width;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(120px, 1fr)) 1fr;
+        align-items: center;
+        height: 60px;
         margin-top: 2dvh;
+        transform: translateX(-5%);
+        border-radius: 40px;
+        font-size: style.$font-size-lg;
         z-index: 10;
 
         .resume {
-          @include layout.flex-row-center;
-          position: absolute;
-          top: 0;
-          left: calc(100% + 10px);
+          @include style.flex(row, center);
+          @include style.glassy();
           width: 150px;
-          height: calc(100% - 2px);
+          height: 50px;
           padding: 0 5px;
-          margin: 0 var.$btn-margin-md;
-          border-radius: 40px;
-          backdrop-filter: blur(5px);
-          box-shadow: inset 0 0 5px var.$bg-light-opague;
-          background-color: var.$bg-light-opague;
-          color: inherit;
+          margin: 5px;
+          border-radius: 50px;
+          color: color-mix(in oklab, blue 90%, var(--txt-color) 10%);
+          text-decoration: none;
+          font-size: 16px;
 
           i {
             margin-left: 5px;
           }
 
           &:hover i {
-            @include animation.animate(
+            @include style.animate(
               fadeToRight,
               1000ms,
               ease,
@@ -95,14 +94,22 @@
         }
       }
 
-      @media (max-width: var.$sidebarToggleMaxWidth) {
+      @media (max-width: style.$sidebarToggleMaxWidth) {
         & {
           margin-top: -10dvh;
 
-          .contacts .resume {
-            top: calc(100% + 5dvh);
-            left: 0;
-            margin: 0;
+          .contacts-container {
+            width: 110%;
+            grid-template-columns: repeat(4, 1fr);
+
+            .resume {
+              position: absolute;
+              top: 120%;
+              left: 0;
+              backdrop-filter: none;
+              box-shadow: none;
+              background: none;
+            }
           }
         }
       }
@@ -113,7 +120,7 @@
     }
 
     .about {
-      @include layout.flex-col-center;
+      @include style.flex(col, center);
       width: 80%;
       height: auto;
 
@@ -123,7 +130,7 @@
     }
 
     .work {
-      @include layout.flex-col-center;
+      @include style.flex(col, center);
       width: 80%;
       height: auto;
 
@@ -136,14 +143,14 @@
         gap: 5dvh;
 
         a {
-          @include layout.flex-col-center;
+          @include style.flex(col, center);
           position: relative;
           border-radius: 10px;
           border: 1px solid;
           text-decoration: none;
           overflow: hidden;
           word-break: break-word;
-          color: var(--txt-color);
+          color: inherit;
           backdrop-filter: blur(5px);
         }
       }
@@ -151,7 +158,7 @@
   }
 
   .page-select {
-    @include layout.flex-row-between;
+    @include style.flex(row, between);
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -159,15 +166,16 @@
     user-select: none;
 
     .btn {
-      @include layout.flex-row-center;
+      @include style.flex(row, center);
       visibility: hidden;
       background-color: transparent;
       color: inherit;
       width: auto;
-      height: var.$btn-height;
+      height: style.$btn-height-md;
       padding: 0 30px;
-      margin: 0 var.$btn-margin-sm;
-      font-size: var.$font-size-sm;
+      border: none;
+      margin: 0 style.$btn-margin-sm;
+      font-size: style.$font-size-sm;
       cursor: pointer;
 
       &.show {
@@ -175,7 +183,7 @@
       }
 
       .icon {
-        @include layout.flex-row-center;
+        @include style.flex(row, center);
         position: relative;
       }
 
@@ -184,7 +192,7 @@
           margin-left: 5px;
 
           i {
-            @include animation.animate(
+            @include style.animate(
               infiniteFadeToRight,
               2000ms,
               ease,
@@ -208,7 +216,7 @@
           margin-right: 5px;
 
           i {
-            @include animation.animate(
+            @include style.animate(
               infiniteFadeToLeft,
               2000ms,
               ease,

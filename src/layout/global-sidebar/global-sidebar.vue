@@ -8,26 +8,9 @@
     `theme-${themeStore.theme}`,
     { 'active': toggled },
   ]">
-    <div class="sidebar-up">
-      <button class="toggle-sidebar" @click="toggleSidebar">
-        <i class="fi fi-rr-menu-burger"></i>
-      </button>
-
-      <nav class="menu">
-        <router-link :to="{ name: 'home' }">
-          <i class="fi fi-rr-home"></i>
-          <span>{{ t('home') }}</span>
-        </router-link>
-        <router-link :to="{ name: 'my practices' }">
-          <i class="fi fi-rr-list"></i>
-          <span style="text-decoration: line-through;">{{ t('work') }}</span>
-        </router-link>
-        <a href="#">
-          <i class="fi fi-rr-home"></i>
-          <span style="text-decoration: line-through;">Blog</span>
-        </a>
-      </nav>
-    </div>
+    <AHoverable path="home" icon="fi fi-rr-home" :text="t('home')" />
+    <AHoverable path="my practices" icon="fi fi-rr-list" :text="t('work')" />
+    <AHoverable path="my practices" icon="fi fi-rr-list" text="blog" />
 
     <div class="functions">
       <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
@@ -38,6 +21,7 @@
 </template>
 
 <script lang="ts">
+import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
@@ -47,6 +31,7 @@ import { useI18n } from 'vue-i18n';
 export default defineComponent({
   name: 'global-sidebar',
   components: {
+    AHoverable,
     Switch,
   },
   setup() {
@@ -55,7 +40,7 @@ export default defineComponent({
     const { t } = useI18n();
 
     const toggled: Ref<boolean> = ref(false);
-    const toggleSidebar = (event: MouseEvent): void => {
+    const toggleSidebar = (): void => {
       toggled.value = !toggled.value;
       return;
     };

@@ -1,27 +1,78 @@
-@use "@/styles/animation.scss" as animation;
 @use "@/styles/layout.scss" as layout;
+@use "@/styles/hover.scss" as hover;
 @use "@/styles/variables.scss" as var;
+@use "@/styles/transition.scss" as t;
 
-.a-expandable {
-  @include layout.flex-row-center;
+.a-hoverable {
+  @include layout.flex(row, center);
   position: relative;
-  color: var(--txt-color);
-  width: var.$contact-btn-width;
-  height: var.$contact-btn-width;
+  width: auto;
+  height: var.$btn-height-md;
+  font-size: inherit;
+  color: inherit;
+  text-decoration: none;
+
+  &.underline-left {
+    @include hover.underline(3px, 2px, var(--txt-color), left);
+
+    i {
+      @include t.transition(all, 100ms);
+    }
+
+    span {
+      @include t.transition(all, 100ms);
+    }
+  }
+
+  &.underline-middle {
+    @include hover.underline(3px, 2px, var(--txt-color), middle);
+
+    i {
+      @include t.transition(all, 100ms);
+    }
+
+    span {
+      @include t.transition(all, 100ms);
+    }
+  }
+
+  &.icon-to-text {
+    @include hover.icon-to-text;
+
+    span {
+      @include layout.center-absolute;
+    }
+
+    &.underline-left,
+    &.underline-center {
+      span::after {
+        transition-delay: 100ms;
+      }
+    }
+  }
 
   i {
-    @include layout.flex-row-center;
-    font-size: var.$font-size-lg;
+    position: relative;
+    width: var.$btn-height-md;
+    height: var.$btn-height-md;
+    font-size: 1.2em;
+
+    &::before {
+      @include layout.center-absolute;
+    }
   }
 
   span {
-    visibility: hidden;
-    position: absolute;
-    top: 100%;
-    font-size: var.$font-size-md;
+    position: relative;
+    width: auto;
+    height: auto;
+    font-size: inherit;
+    white-space: nowrap;
+    text-transform: capitalize;
   }
 
-  &:hover span {
-    @include animation.animate(scaleIn, 100ms);
+  &.router-link-exact-active span::after {
+    left: -5px;
+    width: calc(100% + 10px);
   }
 }

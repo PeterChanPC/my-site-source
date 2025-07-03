@@ -1,0 +1,55 @@
+@use "@/styles/transition" as t;
+
+@mixin underline($offset: 0px, $overhang: 0px, $color: #000, $origin: left) {
+  span::after {
+    content: "";
+    position: absolute;
+    bottom: -$offset;
+    width: 0;
+    height: 1px;
+    background-color: $color;
+  }
+
+  &:hover span::after {
+    width: calc(100% + $overhang * 2);
+  }
+
+  @if $origin == left {
+    span::after {
+      @include t.transition(all, 100ms);
+      left: -$overhang;
+    }
+  }
+
+  @if $origin == middle {
+    span::after {
+      @include t.transition(all, 100ms);
+      content: "";
+      left: 50%;
+    }
+
+    &:hover span::after {
+      left: -$overhang;
+    }
+  }
+}
+
+@mixin icon-to-text {
+  i {
+    opacity: 1;
+  }
+
+  span {
+    opacity: 0;
+  }
+
+  &:hover {
+    i {
+      opacity: 0;
+    }
+
+    span {
+      opacity: 1;
+    }
+  }
+}

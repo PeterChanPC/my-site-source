@@ -12,18 +12,18 @@
   }
 
   &.justify-start {
-    @include layout.flex-row-start;
+    @include layout.flex(row, start);
   }
 
   &.justify-center {
-    @include layout.flex-row-center;
+    @include layout.flex(row, center);
   }
 
   &.justify-evenly {
-    @include layout.flex-row-evenly;
+    @include layout.flex(row, evenly);
 
     .word {
-      @include layout.flex-row-evenly;
+      @include layout.flex(row, evenly);
       flex: 1;
     }
   }

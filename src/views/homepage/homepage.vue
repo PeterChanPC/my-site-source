@@ -20,18 +20,19 @@
 
     <div ref="intro" class="container show">
       <div class="intro">
-        <div>
-          <AnimatedTxt :text="t('hello')" fontSize="md" textTransform="cap" lineHeight="xl" justify="start" wrap="wrap"
-            :whiteSpace="true" animation="fadeIn" duration="1000ms" :stagger="50" />
-        </div>
+        <AnimatedTxt :text="t('hello')" fontSize="md" textTransform="cap" lineHeight="xl" justify="start" wrap="wrap"
+          :whiteSpace="true" animation="fadeIn" duration="1000ms" :stagger="50" />
         <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md"
           justify="start" wrap="wrap" animation="fadeIn" duration="1000ms" :stagger="100" />
-        <div class="contacts">
-          <AHoverable href="https://github.com/PeterChanPC" icon="fi fi-brands-github" text="Github" />
-          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" icon="fi fi-brands-linkedin"
-            text="Linkedin" />
-          <AHoverable href="mailto:nmchan04@gmail.com" icon="fi fi-rr-envelope" text="Email" />
-          <AHoverable href="https://www.youtube.com/@peterchanpc4657" icon="fi fi-brands-youtube" text="Youtube" />
+        <div class="contacts-container">
+          <AHoverable href="https://github.com/PeterChanPC" target="_blank" icon="fi fi-brands-github" text="Github"
+            effect="icon-to-text underline-left" />
+          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" target="_blank"
+            icon="fi fi-brands-linkedin" text="Linkedin" effect="icon-to-text underline-left" />
+          <AHoverable href="mailto:nmchan04@gmail.com" target="_blank" icon="fi fi-rr-envelope" text="Email"
+            effect="icon-to-text underline-left" />
+          <AHoverable href="https://www.youtube.com/@peterchanpc4657" target="_blank" icon="fi fi-brands-youtube"
+            text="Youtube" effect="icon-to-text underline-left" />
           <a class="resume" href="./my-cv-general.pdf" target="_blank">
             <span>{{ t('resume') }}</span>
             <i class="fi fi-rr-angle-double-small-right"></i>

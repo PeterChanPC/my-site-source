@@ -1,69 +1,39 @@
-@mixin flex-row-start {
+@mixin flex($direction: row, $justify: start) {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: start;
+
+  @if $direction == row {
+    flex-direction: row;
+  }
+
+  @if $direction == col {
+    flex-direction: column;
+  }
+
+  @if $justify == start {
+    justify-content: start;
+  }
+
+  @if $justify == center {
+    justify-content: center;
+  }
+
+  @if $justify == around {
+    justify-content: space-around;
+  }
+
+  @if $justify == between {
+    justify-content: space-between;
+  }
+
+  @if $justify == evenly {
+    justify-content: space-evenly;
+  }
 }
 
-@mixin flex-row-center {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-row-around {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-}
-
-@mixin flex-row-between {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin flex-row-evenly {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-@mixin flex-col-start {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-}
-
-@mixin flex-col-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-col-around {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-
-@mixin flex-col-between {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin flex-col-evenly {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+@mixin center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

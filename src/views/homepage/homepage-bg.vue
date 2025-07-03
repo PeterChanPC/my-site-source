@@ -295,22 +295,23 @@ export default defineComponent({
         let canPush = updatedv();
         let canMove = updateVelocity();
 
+        dv.z *= 2; // vertical velocity compensation for user experience due to camera angle
         if (canPush) velocity.add(dv);
-        let length = velocity.length();
 
         if (Math.abs(velocity.x) < Math.abs((dv.x))) {
           velocity.x = 0;
         } else if (velocity.x > 0.5) {
-          velocity.x = 0.5 * length;
+          velocity.x = 0.5;
         } else if (velocity.x < -0.5) {
-          velocity.x = -0.5 * length;
+          velocity.x = -0.5;
         };
+        
         if (Math.abs(velocity.z) < Math.abs((dv.z))) {
           velocity.z = 0;
         } else if (velocity.z > 0.5) {
-          velocity.z = 0.5 * length;
+          velocity.z = 0.5;
         } else if (velocity.z < -0.5) {
-          velocity.z = -0.5 * length;
+          velocity.z = -0.5;
         };
 
         if (canMove) sphere.position.add(velocity);

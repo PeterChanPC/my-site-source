@@ -1,19 +1,19 @@
-@use "@/styles/layout.scss" as layout;
-@use "@/styles/variables.scss" as var;
-@use "@/styles/transition.scss" as t;
+@use "@/styles/style";
+
+$sidebar-width: 200px;
 
 .sidebar-bg {
-  @include t.transition(opacity);
+  @include style.transition(all, 100ms);
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba($color: #000000, $alpha: 0.5);
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba($color: #000000, $alpha: 0.3);
   opacity: 0;
-  z-index: -99;
-
-  @media (max-width: var.$sidebarToggleMaxWidth) {
+  z-index: -100;
+  
+  @media (max-width: style.$sidebarToggleMaxWidth) {
     &.active-bg {
       opacity: 1;
       z-index: 98;
@@ -22,72 +22,39 @@
 }
 
 .global-sidebar {
-  @include layout.flex-col-start;
-  @include t.transition((background-color, color, left));
-  position: fixed;
+  @include style.transition(all, 100ms);
+  @include style.flex(col, start);
+  @include style.glassy();
+  position: absolute;
   top: 0;
-  left: 100%;
-  width: var.$sidebar-width;
-  height: 100vh;
-  background-color: var(--bg-color);
+  right: -200px;
+  padding-top: 60px;
+  width: 200px;
+  height: calc(100dvh - 60px);
+  color: var(--txt-color);
   z-index: 99;
 
-  .sidebar-up {
-    @include layout.flex-col-center;
-    align-items: end;
-    width: 100%;
-    height: auto;
-
-    .toggle-sidebar {
-      @include layout.flex-row-center;
-      width: var.$btn-height;
-      height: var.$btn-height;
-      background-color: inherit;
-      cursor: pointer;
-
-      i {
-        font-size: 20px;
-        margin-bottom: 4px;
-        color: var(--txt-color);
-      }
-    }
-
-    .menu {
-      @include layout.flex-col-evenly;
-      width: 100%;
-      height: auto;
-
-      a {
-        @include layout.flex-row-center;
-        justify-content: start;
-        width: 100%;
-        height: var.$btn-height;
-        margin: 0 0 16px 0;
-
-        i {
-          color: var(--txt-color);
-          width: var.$btn-height;
-        }
-
-        span {
-          color: var(--txt-color);
-          line-height: 1.1em;
-        }
-      }
-    }
-  }
-
   .functions {
-    @include layout.flex-row-evenly;
+    @include style.flex(row, evenly);
+    position: relative;
     width: 100%;
-    height: var.$btn-height;
-    margin-top: 15px;
-    color: var(--txt-color);
-  }
+    height: 50px;
+    margin-top: 24px;
+    padding-top: 12px;
 
-  @media (max-width: var.$sidebarToggleMaxWidth) {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 80%;
+      height: 1px;
+      background-color: #000000;
+    }
+  }
+  
+  @media (max-width: style.$sidebarToggleMaxWidth) {
     &.active {
-      left: calc(100% - var.$sidebar-width);
+      right: 0;
     }
   }
 }

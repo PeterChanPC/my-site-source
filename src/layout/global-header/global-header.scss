@@ -1,92 +1,96 @@
-@use "@/styles/layout" as layout;
-@use "@/styles/variables" as var;
-@use "@/styles/transition" as t;
+@use "@/styles/style";
+
+$header-width: 100dvw;
+$header-right-width: 400px;
+$header-left-width: 38px; // 2 char icon
+$header-left-margin: 16px;
+
+$functions-width: 100px;
+$functions-padding-right: 16px;
+$functions-padding-left: 8px;
+
+$functions-total-width: calc($functions-width + $functions-padding-right + $functions-padding-left);
+$header-right-margin-right: 5px;
+
+$header-right-total-width: calc($header-right-width + $functions-total-width + $header-right-margin-right);
+$header-left-total-width: calc($header-left-width + 2 * $header-left-margin);
+
+$sidebarToggleMaxWidth: calc($header-left-total-width + $header-right-total-width);
+
+$header-height: 60px;
+$header-right-height: 50px;
+
+$font-size: 16px;
 
 .global-header {
-  @include layout.flex-row-between;
-  @include t.transition((background-color, color));
+  @include style.flex(row, between);
   position: fixed;
-  width: var.$header-width;
-  height: var.$header-height;
-  z-index: 97;
+  width: $header-width;
+  height: $header-height;
+  background: none;
+  font-size: $font-size;
+  color: var(--txt-color);
+  z-index: 100;
 
   .header-left {
-    position: relative;
-    width: var.$header-left-width;
-    height: auto;
-    margin: 0 var.$header-left-margin;
-    color: var(--txt-color);
+    width: $header-left-width;
+    margin: auto $header-left-margin;
     font-style: italic;
-    text-align: start;
-    user-select: none;
   }
 
   .header-right {
-    @include layout.flex-row-center;
-    position: relative;
-    width: auto;
-    height: 100%;
-
-    a {
-      @include layout.flex-row-center;
-      position: relative;
-      width: var.$btn-width;
-      height: var.$btn-height;
-      margin: 0 var.$btn-margin-md;
-      font-size: small;
-      color: var(--txt-color);
-
-      span {
-        position: relative;
-      }
-
-      span::after {
-        @include t.transition((width, left));
-        content: "";
-        position: absolute;
-        left: 50%;
-        bottom: -8px;
-        width: 0;
-        height: 1px;
-        background-color: var(--bg-color);
-        filter: invert(1);
-      }
-
-      &:hover span::after {
-        left: -5px;
-        width: calc(100% + 10px);
-      }
-    }
+    @include style.flex(row, around);
+    @include style.glassy();
+    width: $header-right-width;
+    height: $header-right-height;
+    border-radius: $header-right-height;
+    padding-right: $functions-total-width;
+    margin-right: $header-right-margin-right;
 
     .functions {
-      @include layout.flex-row-evenly;
-      width: var.$functions-width;
-      height: auto;
-      color: var(--txt-color);
+      @include style.flex(row, around);
+      position: absolute;
+      right: 0;
+      width: $functions-width;
+      height: $header-right-height;
+      padding-left: $functions-padding-left;
+      padding-right: $functions-padding-right;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 1px;
+        height: 80%;
+        background-color: var(--txt-color);
+      }
     }
   }
 
   .toggle-sidebar {
+    position: relative;
     display: none;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    width: $header-height;
+    height: $header-height;
+    padding: 0;
+    cursor: pointer;
+
+    i::before {
+      @include style.center-absolute;
+    }
   }
 
-  @media (max-width: var.$sidebarToggleMaxWidth) {
+  @media (max-width: $sidebarToggleMaxWidth) {
     .header-right {
       display: none;
     }
 
     .toggle-sidebar {
-      @include layout.flex-row-center;
-      width: var.$header-height;
-      height: 100%;
-      background-color: inherit;
-      cursor: pointer;
-
-      i {
-        color: var(--txt-color);
-        font-size: 20px;
-        margin-bottom: 4px;
-      }
+      display: block;
     }
   }
 }

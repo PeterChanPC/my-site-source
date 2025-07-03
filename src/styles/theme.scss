@@ -1,19 +1,16 @@
 @use "@/styles/variables.scss" as var;
+@use "@/styles/transition.scss" as t;
 
 .theme-light {
+  @include t.transition((background-color, color), 100ms);
   --bg-color: #{var.$bg-light};
   --bg-color-opague: #{var.$bg-light-opague};
   --txt-color: #{var.$txt-light};
-  --border-color: #{var.$border-light};
-  --btn-color: var.$btn-light;
-  --btn-active-color: var.$btn-active-light;
 }
 
 .theme-dark {
+  @include t.transition((background-color, color), 100ms);
   --bg-color: #{var.$bg-dark};
   --bg-color-opague: #{var.$bg-dark-opague};
   --txt-color: #{var.$txt-dark};
-  --border-color: #{var.$border-dark};
-  --btn-color: var.$btn-dark;
-  --btn-active-color: var.$btn-active-dark;
 }

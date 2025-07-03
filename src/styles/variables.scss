@@ -1,8 +1,14 @@
 // styles for color theme
 $bg-light: #fff;
 $bg-dark: #111;
-$bg-light-opague: rgba($color: $bg-light, $alpha: 0.2);
-$bg-dark-opague: rgba($color: $bg-dark, $alpha: 0.2);
+$bg-light-opague: rgba(
+  $color: $bg-light,
+  $alpha: 0.2,
+);
+$bg-dark-opague: rgba(
+  $color: $bg-dark,
+  $alpha: 0.2,
+);
 
 $border-light: #ddd;
 $border-dark: #333;
@@ -18,20 +24,37 @@ $btn-active-dark: #222;
 // styles for transition
 $default-duration: 100ms;
 
-// styles for global-sidebar + global-header
-$header-width: 100%;
-$header-height: 50px;
-$header-left-width: 128px;
-$header-left-margin: 16px;
-
-$no-of-header-btn: 4;
-$btn-height: 50px;
-$btn-width: 80px;
+// styles for button sizes
+$btn-height-md: 50px;
+$btn-width-md: 80px;
 $btn-margin-sm: 2vw;
 $btn-margin-md: 5vw;
 
-$header-right-width: calc($no-of-header-btn * ($btn-width + 2 * $btn-margin-md));
+// styles for font sizes
+$font-size-xs: clamp(0.75rem, 1vw, 0.875rem);
+$font-size-sm: clamp(0.875rem, 1.2vw, 1rem);
+$font-size-md: clamp(1rem, 1.5vw, 1.25rem);
+$font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
+$font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
+$font-size-2xl: clamp(2rem, 3vw, 3rem);
+$font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
+$font-size-giant: clamp(2rem, 5vw, 12rem);
+
+// styles for global-sidebar + global-header
+$header-width: 100dvw;
+$header-height: 60px;
+
+$no-of-header-btn: 3;
+
+$header-left-width: 80px;
+$header-left-height: auto;
+$header-left-margin: 16px;
+
 $functions-width: 150px;
+$header-right-width: calc(
+  $no-of-header-btn * ($btn-width-md + 2 * $btn-margin-md)
+);
+$header-right-height: $btn-height-md;
 
 $sidebarToggleMaxWidth: calc(
   $header-left-width + $header-left-margin * 2 + $header-right-width +
@@ -39,21 +62,5 @@ $sidebarToggleMaxWidth: calc(
 );
 $sidebar-width: 200px;
 
-// styles for font sizes
-$font-size-xs: clamp(0.75rem, 0.8vw, 0.875rem);
-$font-size-sm: clamp(0.875rem, 1vw, 1rem);
-$font-size-md: clamp(1rem, 1.5vw + 2rem, 1.25rem);
-$font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
-$font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
-$font-size-2xl: clamp(2rem, 3vw, 3rem);
-$font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
-$font-size-giant: clamp(2rem, 5vw, 12rem);
-
 // styles for homepage
 $homepage-height: 100dvh;
-$no-of-contact-btn: 4;
-$contact-margin: 2vw;
-$contact-btn-width: calc($font-size-xl + 18px);
-$contact-width: calc(
-  $no-of-contact-btn * ($contact-btn-width + 2 * $contact-margin)
-);

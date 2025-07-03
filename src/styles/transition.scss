@@ -2,9 +2,9 @@
 
 @mixin transition(
   $prop: all,
-  $duration: var.$default-duration,
+  $duration: 0ms,
   $tfunc: ease,
-  $delay: 0ms
+  $delay: 0ms,
 ) {
   transition-property: $prop;
   transition-duration: $duration;
