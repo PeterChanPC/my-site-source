@@ -5,7 +5,6 @@
 
   <aside :class="[
     'global-sidebar',
-    `theme-${themeStore.theme}`,
     { 'active': toggled },
   ]">
     <AHoverable path="home" icon="fi fi-rr-home" :text="t('home')" />

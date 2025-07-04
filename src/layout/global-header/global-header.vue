@@ -1,5 +1,5 @@
 <template>
-  <header :class="['global-header', `theme-${themeStore.theme}`]">
+  <header class="global-header">
     <h1 class="header-left">Pc</h1>
 
     <nav class="header-right">

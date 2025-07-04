@@ -1,5 +1,5 @@
 <template>
-  <div :class="['home', `theme-${themeStore.theme}`]">
+  <div class="home">
     <div class="homepage-bg">
       <HomepageBg />
       <div class="tip" v-if="showTip">
@@ -33,7 +33,7 @@
             effect="icon-to-text underline-left" />
           <AHoverable href="https://www.youtube.com/@peterchanpc4657" target="_blank" icon="fi fi-brands-youtube"
             text="Youtube" effect="icon-to-text underline-left" />
-          <a class="resume" href="./my-cv-general.pdf" target="_blank">
+          <a class="resume" :href="CV" target="_blank">
             <span>{{ t('resume') }}</span>
             <i class="fi fi-rr-angle-double-small-right"></i>
           </a>
@@ -104,16 +104,15 @@
 </template>
 
 <script setup lang="ts">
+import CV from '@/assets/my-cv-general.pdf';
 import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import AnimatedTxt from '@/components/animated-txt/animated-txt.vue';
 import HomepageBg from './homepage-bg.vue';
 import { type Ref, ref, useTemplateRef, watchEffect } from 'vue';
-import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const themeStore = useThemeStore();
 const langStore = useLangStore();
 
 const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
