@@ -69,18 +69,15 @@
 
         .resume {
           @include style.flex(row, center);
-          @include style.glassy();
           width: 150px;
           height: 50px;
-          padding: 0 5px;
-          margin: 5px;
           border-radius: 50px;
           color: color-mix(in oklab, blue 90%, var(--txt-color) 10%);
           text-decoration: none;
           font-size: 16px;
 
           i {
-            margin-left: 5px;
+            margin: 0 5px;
           }
 
           &:hover i {

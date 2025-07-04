@@ -380,7 +380,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .homepage-bg {
   width: 100%;
   height: 100%;

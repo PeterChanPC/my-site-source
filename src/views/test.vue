@@ -140,7 +140,6 @@ export default defineComponent({
       sphere.position.set(3, 0, -2);
 
       const gameInput = new GameInput();
-      const player = new Player(sphere);
       gameInput.addInputListener();
 
       // apply elements to scene
@@ -178,7 +177,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .homepage-bg {
   width: 100dvw;
   height: 100dvh;

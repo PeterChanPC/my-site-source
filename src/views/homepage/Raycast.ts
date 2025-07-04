@@ -1,11 +1,7 @@
 import * as THREE from 'three';
 
 export default class Raycast {
-  raycaster: THREE.Raycaster;
-
-  constructor() {
-    this.raycaster = new THREE.Raycaster();
-  }
+  raycaster: THREE.Raycaster = new THREE.Raycaster();
 
   raycast(collidables: THREE.Object3D[], origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
     this.raycaster.set(origin, direction);

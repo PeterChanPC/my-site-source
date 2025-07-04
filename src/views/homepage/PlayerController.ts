@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import GameInput from './GameInput';
+import Raycast from './Raycast';
 
 export default class Player {
   player: THREE.Object3D;
@@ -7,27 +8,30 @@ export default class Player {
   force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   gameInput?: GameInput;
+  raycast?: Raycast;
 
-  constructor(player: THREE.Object3D) {
+  constructor(player: THREE.Object3D, gameInput: GameInput, raycast: Raycast) {
     this.player = player;
+    this.gameInput = gameInput;
+    this.raycast = raycast;
   }
 
-  applyForce(strength: number): void {
+  updateForce(strength: number): void {
     if (!this.gameInput) return;
     let inputVector: THREE.Vector2 = this.gameInput.getMovementVectorNormalized();
     let moveDir: THREE.Vector3 = new THREE.Vector3(inputVector.x, 0, inputVector.y);
-    this.force = moveDir.multiplyScalar(strength);
+    this.updateDrag(3);
+    this.force = moveDir.multiplyScalar(strength).sub(this.drag);
+    // add force if player is facing a wall
   }
 
-  updateDrag() {
-    this.drag.set(this.velocity.x, 0, this.velocity.z);
+  updateDrag(strength: number): void {
+    this.drag.set(this.velocity.x, 0, this.velocity.z).multiplyScalar(strength);
   }
 
-  updateForce() {
-    this.force.sub(this.drag);
-  }
-
-  updateVelocity() {
+  updateVelocity(dt: number) {
+    this.updateForce(5);
+    let dv = this.force.clone().multiplyScalar(dt);
     
   }
 }
