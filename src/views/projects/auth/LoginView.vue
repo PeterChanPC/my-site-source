@@ -29,22 +29,17 @@ const login = async () => {
 
 <style scoped>
   .login {
-    position: absolute;
-    left: calc(50vw - 250px);
-    top: calc(50vh - 250px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 500px;
-    height: 300px;
-    border-radius: 1em;
-    border: 1px solid #777;
+    padding-top: 50px;
+    background-color: var(--bg-color);
+    color: var(--txt-color);
 
     input {
       padding: 5px;
       margin: 15px;
-      border-bottom: 1px solid #777;
     }
   }
 </style>
