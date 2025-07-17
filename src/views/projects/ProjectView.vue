@@ -1,6 +1,5 @@
 <template>
   <div class="project-view">
-    <ViewHeader routeName="home"/>
     <div class="project">
       <router-link :to="{ name: 'todos' }">
         <i class="fi fi-rr-web-test"></i>
@@ -16,7 +15,6 @@
 </template>
 
 <script setup>
-import ViewHeader from '@/components/ViewHeader.vue';
 </script>
 
 <style scoped>
@@ -25,8 +23,10 @@ import ViewHeader from '@/components/ViewHeader.vue';
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - 2em);
+  height: calc(100vh - 50px - 1em);
   padding: 1em;
+  padding-top: 50px;
+  background-color: var(--bg-color);
 }
 
 .project {

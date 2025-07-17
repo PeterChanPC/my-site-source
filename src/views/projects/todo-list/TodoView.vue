@@ -1,6 +1,5 @@
 <template>
   <div class="todo-view">
-    <ViewHeader routeName="my practices"/>
     <div class="options">
       <span>What to do next ...</span>
 
@@ -29,7 +28,6 @@
 </template>
 
 <script setup>
-import ViewHeader from '@/components/ViewHeader.vue';
 import TodoList from './TodoList.vue'
 import NewTodo from './NewTodo.vue';
 import { ref } from 'vue';
@@ -47,8 +45,11 @@ const createTodo = () => {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - 2em);
+  height: calc(100vh - 50px - 1em);
   padding: 1em;
+  padding-top: 50px;
+  background-color: var(--bg-color);
+  color: var(--txt-color);
   overflow-x: hidden;
   overflow-y: scroll;
 }

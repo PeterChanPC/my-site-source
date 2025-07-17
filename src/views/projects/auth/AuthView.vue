@@ -1,6 +1,5 @@
 <template>
   <div class="auth-view">
-    <ViewHeader routeName="my practices"/>
     <div class="auth">
       <div class="auth-details">
         <!-- show user details -->
@@ -61,7 +60,6 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import { useUserStore } from '@/stores/user.store';
-import ViewHeader from '@/components/ViewHeader.vue';
 
 const userStore = useUserStore()
 const isAuthing = ref(false)
@@ -118,8 +116,11 @@ const login = () => {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - 2em);
+  height: calc(100vh - 50px - 1em);
   padding: 1em;
+  padding-top: 50px;
+  background-color: var(--bg-color);
+  color: var(--txt-color);
   overflow-y: scroll;
 }
 
