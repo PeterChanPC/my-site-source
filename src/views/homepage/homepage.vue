@@ -35,12 +35,12 @@
       <div class="about">
         <div class="title">
           <AnimatedTxt :text="t('about_me')" fontSize="4xl" textTransform="cap" justify="center" animation="fadeInRight"
-            duration="500ms" :stagger="100" :whiteSpace="true" />
+            duration="300ms" :stagger="100" :whiteSpace="true" />
         </div>
 
         <div class="details">
           <AnimatedTxt :text="t('about_me_details')" fontSize="md" lineHeight="xl" justify="start" wrap="wrap"
-            animation="fadeIn" duration="500ms" delay="500ms" :stagger="5" :whiteSpace="true"
+            animation="fadeIn" duration="300ms" delay="300ms" :stagger="3" :whiteSpace="true"
             :lang="langStore.locale" />
         </div>
       </div>
@@ -50,7 +50,7 @@
       <div class="work">
         <div class="title">
           <AnimatedTxt :text="t('exp')" fontSize="4xl" textTransform="cap" justify="evenly" animation="fadeInRight"
-            duration="500ms" :stagger="100" />
+            duration="300ms" :stagger="100" />
         </div>
 
         <div class="details">
