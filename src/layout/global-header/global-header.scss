@@ -40,12 +40,22 @@ $font-size: 16px;
 
   .header-right {
     @include style.flex(row, around);
-    @include style.glassy();
+    position: relative;
     width: $header-right-width;
     height: $header-right-height;
     border-radius: $header-right-height;
     padding-right: $functions-total-width;
     margin-right: $header-right-margin-right;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: -10vw;
+      width: calc(100% + 10vw);
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--txt-color));
+    }
 
     .functions {
       @include style.flex(row, around);
@@ -55,15 +65,6 @@ $font-size: 16px;
       height: $header-right-height;
       padding-left: $functions-padding-left;
       padding-right: $functions-padding-right;
-
-      &::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        width: 1px;
-        height: 80%;
-        background-color: var(--txt-color);
-      }
     }
   }
 

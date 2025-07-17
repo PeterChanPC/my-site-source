@@ -2,28 +2,18 @@
   <div class="home">
     <div class="homepage-bg">
       <HomepageBg />
-      <div class="tip" v-if="showTip">
-        <span>{{ t('use') }}</span>
-        <div class="arrows">
-          <i class="x"></i>
-          <i class="fi fi-rr-arrow-square-up"></i>
-          <i class="y"></i>
-          <i class="fi fi-rr-arrow-square-left"></i>
-          <i class="fi fi-rr-arrow-square-down"></i>
-          <i class="fi fi-rr-arrow-square-right"></i>
-        </div>
-        <span>{{ t('or') }}</span>
-        <i class="fi fi-rr-cursor icon"></i>
-        <span>{{ t('control') }}</span>
-      </div>
     </div>
 
     <div ref="intro" class="container show">
       <div class="intro">
-        <AnimatedTxt :text="t('hello')" fontSize="md" textTransform="cap" lineHeight="xl" justify="start" wrap="wrap"
-          :whiteSpace="true" animation="fadeIn" duration="1000ms" :stagger="50" />
-        <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md"
-          justify="start" wrap="wrap" animation="fadeIn" duration="1000ms" :stagger="100" />
+
+        <span class="intro-txt">
+          <AnimatedTxt :text="t('hello')" fontSize="md" textTransform="cap" lineHeight="xl" justify="start" wrap="wrap"
+            :whiteSpace="true" animation="fadeIn" duration="1000ms" :stagger="50" />
+          <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md"
+            justify="start" wrap="wrap" animation="fadeIn" duration="1000ms" :stagger="100" />
+        </span>
+
         <div class="contacts-container">
           <AHoverable href="https://github.com/PeterChanPC" target="_blank" icon="fi fi-brands-github" text="Github"
             effect="icon-to-text underline-left" />
@@ -120,7 +110,6 @@ const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
 const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
 const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
 const containerNameList: Ref<String[]> = ref([]);
-const showTip: Ref<Boolean> = ref(true);
 
 watchEffect(() => {
   containerNameList.value = [t('intro'), t('about_me'), t('exp')];
@@ -132,12 +121,6 @@ const show = (pageNum: number) => {
   containerList[pageNum].value?.classList.add('show');
   for (let i = 0; i < containerList.length; i++) {
     if (i !== pageNum) containerList[i].value?.classList.remove('show');
-  };
-
-  if (pageNum === 0) {
-    showTip.value = true;
-  } else {
-    showTip.value = false;
   };
 };
 </script>
