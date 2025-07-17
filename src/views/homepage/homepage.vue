@@ -35,7 +35,7 @@
       <div class="about">
         <div class="title">
           <AnimatedTxt :text="t('about_me')" fontSize="4xl" textTransform="cap" justify="center" animation="fadeInRight"
-            duration="300ms" :stagger="100" :whiteSpace="true" />
+            duration="500ms" :stagger="50" :whiteSpace="true" />
         </div>
 
         <div class="details">
@@ -49,8 +49,8 @@
     <div ref="work" class="container">
       <div class="work">
         <div class="title">
-          <AnimatedTxt :text="t('exp')" fontSize="4xl" textTransform="cap" justify="evenly" animation="fadeInRight"
-            duration="300ms" :stagger="100" />
+          <AnimatedTxt :text="t('exp')" fontSize="4xl" textTransform="cap" justify="evenly" animation="fadeIn"
+            duration="1000ms" :stagger="50" />
         </div>
 
         <div class="details">
