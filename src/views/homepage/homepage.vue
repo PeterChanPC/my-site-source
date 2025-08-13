@@ -13,25 +13,10 @@
           <AnimatedTxt text="peter chan" fontSize="4xl" textTransform="uc" letterSpacing="md" lineHeight="md"
             justify="start" wrap="wrap" animation="fadeIn" duration="1000ms" :stagger="100" />
         </span>
-
-        <div class="contacts-container">
-          <AHoverable href="https://github.com/PeterChanPC" target="_blank" icon="fi fi-brands-github" text="Github"
-            effect="icon-to-text underline-left" />
-          <AHoverable href="https://www.linkedin.com/in/peter-chan-17939a262" target="_blank"
-            icon="fi fi-brands-linkedin" text="Linkedin" effect="icon-to-text underline-left" />
-          <AHoverable href="mailto:nmchan04@gmail.com" target="_blank" icon="fi fi-rr-envelope" text="Email"
-            effect="icon-to-text underline-left" />
-          <AHoverable href="https://www.youtube.com/@peterchanpc4657" target="_blank" icon="fi fi-brands-youtube"
-            text="Youtube" effect="icon-to-text underline-left" />
-          <a class="resume" :href="CV" target="_blank">
-            <span>{{ t('resume') }}</span>
-            <i class="fi fi-rr-angle-double-small-right"></i>
-          </a>
-        </div>
       </div>
     </div>
 
-    <div ref="about" class="container">
+    <!-- <div ref="about" class="container">
       <div class="about">
         <div class="title">
           <AnimatedTxt :text="t('about_me')" fontSize="4xl" textTransform="cap" justify="center" animation="fadeInRight"
@@ -68,28 +53,7 @@
           </router-link>
         </div>
       </div>
-    </div>
-
-    <div class="page-select">
-      <button :class="['btn', 'left', { 'show': containerList[currentPage - 1] }]" @click="show(--currentPage)">
-        <div class="icon">
-          <i class="fi fi-rr-angle-left primary"></i>
-          <i class="fi fi-rr-angle-left secondary"></i>
-        </div>
-        <span>
-          {{ containerNameList[currentPage - 1] }}
-        </span>
-      </button>
-      <button :class="['btn', 'right', { 'show': containerList[currentPage + 1] }]" @click="show(++currentPage)">
-        <span>
-          {{ containerNameList[currentPage + 1] }}
-        </span>
-        <div class="icon">
-          <i class="fi fi-rr-angle-right primary"></i>
-          <i class="fi fi-rr-angle-right secondary"></i>
-        </div>
-      </button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -105,24 +69,24 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const langStore = useLangStore();
 
-const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
-const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
-const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
-const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
-const containerNameList: Ref<String[]> = ref([]);
+// const intro: Ref<HTMLDivElement | null> = useTemplateRef('intro');
+// const about: Ref<HTMLDivElement | null> = useTemplateRef('about');
+// const work: Ref<HTMLDivElement | null> = useTemplateRef('work');
+// const containerList: Ref<HTMLDivElement | null>[] = [intro, about, work];
+// const containerNameList: Ref<String[]> = ref([]);
 
-watchEffect(() => {
-  containerNameList.value = [t('intro'), t('about_me'), t('exp')];
-});
+// watchEffect(() => {
+//   containerNameList.value = [t('intro'), t('about_me'), t('exp')];
+// });
 
-const currentPage: Ref<number> = ref(0);
-const show = (pageNum: number) => {
-  currentPage.value = pageNum;
-  containerList[pageNum].value?.classList.add('show');
-  for (let i = 0; i < containerList.length; i++) {
-    if (i !== pageNum) containerList[i].value?.classList.remove('show');
-  };
-};
+// const currentPage: Ref<number> = ref(0);
+// const show = (pageNum: number) => {
+//   currentPage.value = pageNum;
+//   containerList[pageNum].value?.classList.add('show');
+//   for (let i = 0; i < containerList.length; i++) {
+//     if (i !== pageNum) containerList[i].value?.classList.remove('show');
+//   };
+// };
 </script>
 
 <style scoped lang="scss">

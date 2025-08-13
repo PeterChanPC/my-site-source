@@ -1,19 +1,18 @@
 <template>
   <header class="global-header">
-    <h1 class="header-left">Pc</h1>
-
-    <nav class="header-right">
+    <h1 class="icon">Pc</h1>
+    <nav class="navbar">
       <AHoverable path="home" :text="t('home')" effect="underline-middle" />
       <AHoverable path="my practices" :text="t('work')" effect="underline-middle" />
       <AHoverable path="my practices" text="Blog" effect="underline-middle" />
-
-      <aside class="functions">
-        <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
-          iconR="fi fi-rr-moon" />
-        <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
-      </aside>
     </nav>
 
+    <aside class="functions">
+      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
+        iconR="fi fi-rr-moon" />
+      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
+    </aside>
+    
     <button class="toggle-sidebar" @click="toggleSidebar">
       <i class="fi fi-rr-menu-burger"></i>
     </button>

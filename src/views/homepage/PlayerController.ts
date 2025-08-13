@@ -7,8 +7,8 @@ export default class Player {
   velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  gameInput?: GameInput;
-  raycast?: Raycast;
+  gameInput: GameInput;
+  raycast: Raycast;
 
   constructor(player: THREE.Object3D, gameInput: GameInput, raycast: Raycast) {
     this.player = player;
@@ -16,22 +16,17 @@ export default class Player {
     this.raycast = raycast;
   }
 
-  updateForce(strength: number): void {
-    if (!this.gameInput) return;
-    let inputVector: THREE.Vector2 = this.gameInput.getMovementVectorNormalized();
-    let moveDir: THREE.Vector3 = new THREE.Vector3(inputVector.x, 0, inputVector.y);
-    this.updateDrag(3);
-    this.force = moveDir.multiplyScalar(strength).sub(this.drag);
-    // add force if player is facing a wall
-  }
+  updateVelocity() {
+    const speed = 0.1;
+    let moveVector = this.gameInput.getMovementVectorNormalized().multiplyScalar(speed);
+    this.velocity.x = moveVector.x;
+    this.velocity.z = moveVector.y;
+  };
+  
+  applyMovement() {
+    this.updateVelocity();
 
-  updateDrag(strength: number): void {
-    this.drag.set(this.velocity.x, 0, this.velocity.z).multiplyScalar(strength);
-  }
-
-  updateVelocity(dt: number) {
-    this.updateForce(5);
-    let dv = this.force.clone().multiplyScalar(dt);
-    
-  }
+    // detect collision
+    this.player.position.add(this.velocity);
+  };
 }

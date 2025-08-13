@@ -1,25 +1,19 @@
 @use "@/styles/style";
 
 $header-width: 100dvw;
-$header-right-width: 400px;
-$header-left-width: 38px; // 2 char icon
-$header-left-margin: 16px;
+$navbar-width: 400px;
+$icon-width: 38px; // 2 char icon
+$icon-margin: 16px;
 
 $functions-width: 100px;
 $functions-padding-right: 16px;
-$functions-padding-left: 8px;
 
-$functions-total-width: calc($functions-width + $functions-padding-right + $functions-padding-left);
-$header-right-margin-right: 5px;
+$functions-total-width: calc($functions-width + $functions-padding-right);
+$icon-total-width: calc($icon-width + 2 * $icon-margin);
 
-$header-right-total-width: calc($header-right-width + $functions-total-width + $header-right-margin-right);
-$header-left-total-width: calc($header-left-width + 2 * $header-left-margin);
+$sidebarToggleMaxWidth: calc($icon-total-width + $navbar-width + $functions-total-width);
 
-$sidebarToggleMaxWidth: calc($header-left-total-width + $header-right-total-width);
-
-$header-height: 60px;
-$header-right-height: 50px;
-
+$header-height: 50px;
 $font-size: 16px;
 
 .global-header {
@@ -31,45 +25,34 @@ $font-size: 16px;
   font-size: $font-size;
   color: var(--txt-color);
   z-index: 100;
-
-  .header-left {
-    width: $header-left-width;
-    margin: auto $header-left-margin;
+  
+  .icon {
+    position: absolute;
+    left: 0;
+    width: $icon-width;
+    margin: auto $icon-margin;
     font-style: italic;
   }
 
-  .header-right {
+  .navbar {
     @include style.flex(row, around);
     position: relative;
-    width: $header-right-width;
-    height: $header-right-height;
-    border-radius: $header-right-height;
-    padding-right: $functions-total-width;
-    margin-right: $header-right-margin-right;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: -10vw;
-      width: calc(100% + 10vw);
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--txt-color));
-    }
-
-    .functions {
-      @include style.flex(row, around);
-      position: absolute;
-      right: 0;
-      width: $functions-width;
-      height: $header-right-height;
-      padding-left: $functions-padding-left;
-      padding-right: $functions-padding-right;
-    }
+    width: $navbar-width;
+    height: $header-height;
+    margin-left: $icon-total-width;
+    border-radius: $header-height;
   }
 
+  .functions {
+    @include style.flex(row, around);
+    width: $functions-width;
+    height: $header-height;
+    padding-right: $functions-padding-right;
+  }
+  
   .toggle-sidebar {
-    position: relative;
+    position: absolute;
+    right: 0;
     display: none;
     background: none;
     border: none;
@@ -86,7 +69,11 @@ $font-size: 16px;
   }
 
   @media (max-width: $sidebarToggleMaxWidth) {
-    .header-right {
+    .navbar {
+      display: none;
+    }
+
+    .functions {
       display: none;
     }
 

@@ -1,23 +1,13 @@
 import * as THREE from 'three';
 
 export default class GameInput {
-  isMouse: boolean;
-  pointerPos: THREE.Vector3;
-  moveDir: THREE.Vector2;
-  moveUp: boolean;
-  moveDown: boolean;
-  moveLeft: boolean;
-  moveRight: boolean;
-
-  constructor() {
-    this.isMouse = false;
-    this.pointerPos = new THREE.Vector3(0, 0, 0);
-    this.moveDir = new THREE.Vector2(0, 0);
-    this.moveUp = false;
-    this.moveDown = false;
-    this.moveLeft = false;
-    this.moveRight = false;
-  }
+  isMouse: boolean = false;
+  pointerPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
+  moveUp: boolean = false;
+  moveDown: boolean = false;
+  moveLeft: boolean = false;
+  moveRight: boolean = false;
 
   handleMovementVector() {
     if (this.moveUp) {
@@ -38,7 +28,7 @@ export default class GameInput {
     } else {
       this.moveDir.x = 0;
     };
-  }
+  };
 
   handleKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
@@ -56,7 +46,7 @@ export default class GameInput {
         break;
     };
     this.handleMovementVector();
-  }
+  };
 
   handleKeyUp(event: KeyboardEvent): void {
     switch (event.key) {
@@ -73,20 +63,20 @@ export default class GameInput {
         this.moveRight = true;
         break;
     };
-    this.handleMovementVector();
-  }
+    this.handleMovementVector;
+  };
 
   addInputListener(): void {
-    window.addEventListener('keydown', this.handleKeyDown);
-    window.addEventListener('keyup', this.handleKeyUp);
-  }
+    window.addEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
+    window.addEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
+  };
 
   removeInputListener(): void {
-    window.removeEventListener('keydown', this.handleKeyDown);
-    window.removeEventListener('keyup', this.handleKeyUp);
-  }
+    window.removeEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
+    window.removeEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
+  };
 
   getMovementVectorNormalized() {
     return this.moveDir.clone().normalize();
-  }
+  };
 }

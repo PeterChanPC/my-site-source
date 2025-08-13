@@ -12,6 +12,7 @@ import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 import Player from '@/views/homepage/PlayerController';
 import GameInput from '@/views/homepage/GameInput';
+import Raycast from './homepage/Raycast';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -142,6 +143,10 @@ export default defineComponent({
       const gameInput = new GameInput();
       gameInput.addInputListener();
 
+      const raycast = new Raycast();
+      
+      const player = new Player(sphere, gameInput, raycast);
+
       // apply elements to scene
       scene.add(sphere);
       scene.add(floor);
@@ -160,6 +165,7 @@ export default defineComponent({
         camera.updateProjectionMatrix();
 
         applySpotLight();
+        player.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
         renderer.render(scene, camera);
