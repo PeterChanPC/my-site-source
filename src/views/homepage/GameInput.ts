@@ -54,16 +54,16 @@ export default class GameInput {
         this.moveUp = false;
         break;
       case 'ArrowDown':
-        this.moveDown = true;
+        this.moveDown = false;
         break;
       case 'ArrowLeft':
-        this.moveLeft = true;
+        this.moveLeft = false;
         break;
       case 'ArrowRight':
-        this.moveRight = true;
+        this.moveRight = false;
         break;
     };
-    this.handleMovementVector;
+    this.handleMovementVector();
   };
 
   addInputListener(): void {
@@ -77,6 +77,7 @@ export default class GameInput {
   };
 
   getMovementVectorNormalized() {
-    return this.moveDir.clone().normalize();
+    let moveVecNorm = this.moveDir.clone().normalize();
+    return moveVecNorm;
   };
 }

@@ -12,7 +12,7 @@ import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 import Player from '@/views/homepage/PlayerController';
 import GameInput from '@/views/homepage/GameInput';
-import Raycast from './homepage/Raycast';
+import Physics from './homepage/Physics';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -143,20 +143,12 @@ export default defineComponent({
       const gameInput = new GameInput();
       gameInput.addInputListener();
 
-      const raycast = new Raycast();
+      const physics = new Physics();
       
-      const player = new Player(sphere, gameInput, raycast);
+      const player = new Player(sphere, scene, gameInput, physics);
 
       // apply elements to scene
-      scene.add(sphere);
-      scene.add(floor);
-      scene.add(wall_1);
-      scene.add(wall_2);
-      scene.add(wall_3);
-      scene.add(wall_4);
-      scene.add(ambientLight);
-      scene.add(spotLightPrimary);
-      scene.add(spotLightSecondary);
+      scene.add(sphere, floor, wall_1, wall_2, wall_3, wall_4, ambientLight, spotLightPrimary, spotLightSecondary);
 
       function update() {
         aspect = window.innerWidth / window.innerHeight;
