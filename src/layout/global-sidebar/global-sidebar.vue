@@ -1,8 +1,4 @@
 <template>
-  <div :class="['sidebar-bg',
-    { 'active-bg': toggled }]" @click="toggleSidebar">
-  </div>
-
   <aside :class="[
     'global-sidebar',
     { 'active': toggled },
@@ -24,7 +20,7 @@ import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
-import { type Ref, ref, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
@@ -33,18 +29,21 @@ export default defineComponent({
     AHoverable,
     Switch,
   },
+  props: {
+    toggled: {
+      type: Boolean,
+      default: false,
+    },
+    toggleSidebar: {
+      type: Function,
+      default: () => {},
+    },
+  },
   setup() {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
     const { t } = useI18n();
-
-    const toggled: Ref<boolean> = ref(false);
-    const toggleSidebar = (): void => {
-      toggled.value = !toggled.value;
-      return;
-    };
-
-    return { themeStore, langStore, t, toggled, toggleSidebar };
+    return { themeStore, langStore, t };
   },
 });
 </script>

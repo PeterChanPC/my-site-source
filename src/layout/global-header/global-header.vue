@@ -12,38 +12,48 @@
         iconR="fi fi-rr-moon" />
       <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </aside>
-    
+
     <button class="toggle-sidebar" @click="toggleSidebar">
-      <i class="fi fi-rr-menu-burger"></i>
+      <i class="fi fi-rr-menu-burger" v-if="!toggled"></i>
+      <i class="fi fi-rr-cross-small" v-if="toggled"></i>
     </button>
   </header>
+
+  <GlobalSidebar :toggled="toggled" :toggleSidebar="toggleSidebar" />
+  
+  <div :class="['sidebar-bg',
+    { 'active-bg': toggled }]" @click="toggleSidebar()">
+  </div>
 </template>
 
 <script lang="ts">
+import GlobalSidebar from '@/layout/global-sidebar/global-sidebar.vue';
 import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import Switch from '@/components/switch/switch.vue';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { useI18n } from 'vue-i18n';
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 export default defineComponent({
   name: 'global-header',
   components: {
     AHoverable,
     Switch,
-  },
-  props: {
-    toggleSidebar: {
-      type: Function as PropType<() => void>,
-      default: () => { },
-    },
+    GlobalSidebar,
   },
   setup() {
     const themeStore = useThemeStore();
     const langStore = useLangStore();
     const { t } = useI18n();
-    return { themeStore, langStore, t };
+
+    const toggled: Ref<boolean> = ref(false);
+    const toggleSidebar = (): void => {
+      toggled.value = !toggled.value;
+      return;
+    };
+
+    return { themeStore, langStore, t, toggled, toggleSidebar };
   },
 });
 </script>

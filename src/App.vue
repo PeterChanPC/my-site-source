@@ -1,18 +1,15 @@
 <template>
   <div>
-    <GlobalSidebar ref="sidebar" />
-    <GlobalHeader :toggleSidebar="sidebar?.toggleSidebar" />
+    <GlobalHeader />
   </div>
   <router-view />
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from '@/layout/global-header/global-header.vue';
-import GlobalSidebar from '@/layout/global-sidebar/global-sidebar.vue';
-import { useTemplateRef, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 import { useThemeStore } from './stores/theme.store';
 
-const sidebar = useTemplateRef('sidebar');
 const themeStore = useThemeStore();
 
 watchEffect(() => {
