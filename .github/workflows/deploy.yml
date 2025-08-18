@@ -1,36 +1,38 @@
-name: Deploy Vue Site
+# name: Deploy Vue Site
 
-on:
-  push:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
 
-permissions:
-  pages: write
-  id-token: write
+# permissions:
+#   pages: write
+#   id-token: write
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: npm ci
-      - run: npm run build
-      - run: cp public/404.html dist/
-      - run: touch dist/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: 22
+#       - run: npm ci
+#       - run: npm run build
+#       - run: cp public/404.html dist/
+#       - run: touch dist/.nojekyll
+#       - uses: actions/upload-pages-artifact@v3
+#         with:
+#           path: dist/
 
-  deploy:
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+#   deploy:
+#     needs: build
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Deploy
+#         id: deployment
+#         uses: actions/deploy-pages@v4
+
+# use for hosting pages by github action before
