@@ -3,13 +3,13 @@ import GameInput from './GameInput';
 import Physics from './Physics';
 
 export default class Player {
-  player: THREE.Object3D;
-  velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  clock: THREE.Clock = new THREE.Clock();
-  gameInput: GameInput;
-  physics: Physics;
+  private player: THREE.Object3D;
+  private velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private clock: THREE.Clock = new THREE.Clock();
+  private gameInput: GameInput;
+  private physics: Physics;
 
   constructor(player: THREE.Object3D, gameInput: GameInput, physics: Physics) {
     this.player = player;
@@ -17,17 +17,17 @@ export default class Player {
     this.physics = physics;
   };
 
-  updateForce(strength: number) {
+  private updateForce(strength: number) {
     let moveVec = this.gameInput.getMovementVectorNormalized();
     this.force.set(moveVec.x, 0, moveVec.y).multiplyScalar(strength);
     this.force.z *= 2; // vertical compensation for user experience
   }
 
-  updateDrag(strength: number) {
+  private updateDrag(strength: number) {
     this.drag.set(this.velocity.x, 0, this.velocity.z).multiplyScalar(strength);
   };
 
-  updateVelocity(dt: number) {
+  private updateVelocity(dt: number) {
     let dv = this.force.clone().sub(this.drag).multiplyScalar(dt);
     // remove fluctuation due to decimals places
     if (this.velocity.length() < 0.5 && this.force.length() === 0) {
@@ -37,7 +37,7 @@ export default class Player {
     this.velocity.add(dv);
   };
 
-  applyMovement() {
+  public applyMovement() {
     let dt = this.clock.getDelta();
     this.updateForce(30);
     this.updateDrag(3);
@@ -73,15 +73,15 @@ export default class Player {
     this.player.position.add(this.velocity.clone().multiplyScalar(dt));
   };
 
-  getForce() {
+  public getForce() {
     return [this.force.x, this.force.y, this.force.z];
   }
 
-  getDrag() {
+  public getDrag() {
     return [this.drag.x, this.drag.y, this.drag.z];
   }
 
-  getVelocity() {
+  public getVelocity() {
     return [this.velocity.x, this.velocity.y, this.velocity.z];
   }
 };

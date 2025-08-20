@@ -1,15 +1,15 @@
 import * as THREE from 'three';
 
 export default class GameInput {
-  isMouse: boolean = false;
-  pointerPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-  moveUp: boolean = false;
-  moveDown: boolean = false;
-  moveLeft: boolean = false;
-  moveRight: boolean = false;
+  private isMouse: boolean = false;
+  private pointerPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private moveUp: boolean = false;
+  private moveDown: boolean = false;
+  private moveLeft: boolean = false;
+  private moveRight: boolean = false;
 
-  handleMovementVector() {
+  private handleMovementVector() {
     if (this.moveUp) {
       this.moveDir.y = -1;
       if (this.moveDown) this.moveDir.y = 0;
@@ -30,7 +30,7 @@ export default class GameInput {
     };
   };
 
-  handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowUp':
         this.moveUp = true;
@@ -48,7 +48,7 @@ export default class GameInput {
     this.handleMovementVector();
   };
 
-  handleKeyUp(event: KeyboardEvent): void {
+  private handleKeyUp(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowUp':
         this.moveUp = false;
@@ -66,17 +66,17 @@ export default class GameInput {
     this.handleMovementVector();
   };
 
-  addInputListener(): void {
+  public addInputListener(): void {
     window.addEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
     window.addEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
   };
 
-  removeInputListener(): void {
+  public removeInputListener(): void {
     window.removeEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
     window.removeEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
   };
 
-  getMovementVectorNormalized() {
+  public getMovementVectorNormalized() {
     let moveVecNorm = this.moveDir.clone().normalize();
     return moveVecNorm;
   };

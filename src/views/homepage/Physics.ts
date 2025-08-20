@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 
 export default class Raycast {
-  raycaster: THREE.Raycaster = new THREE.Raycaster();
-  collidables: THREE.Object3D[];
+  private raycaster: THREE.Raycaster = new THREE.Raycaster();
+  private collidables: THREE.Object3D[];
 
   constructor(collidables: THREE.Object3D[]) {
     this.collidables = collidables;
   }
 
-  raycast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
+  public raycast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
     this.raycaster.ray.origin = origin;
     this.raycaster.ray.direction = direction;
@@ -17,7 +17,7 @@ export default class Raycast {
     return collisions;
   };
 
-  lineCast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
+  public lineCast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
     collisions = this.raycast(origin, direction, maxDistance);
 
@@ -36,7 +36,7 @@ export default class Raycast {
     return collisions;
   }
 
-  screenPointToWorld(x: number, y: number, camera: THREE.Camera, collidables: THREE.Object3D) {
+  public screenPointToWorld(x: number, y: number, camera: THREE.Camera, collidables: THREE.Object3D) {
     let screenPosX = (x / window.innerWidth) * 2 - 1;
     let screenPosY = (y / window.innerHeight) * 2 - 1;
     let screenPos = new THREE.Vector2(screenPosX, screenPosY);
