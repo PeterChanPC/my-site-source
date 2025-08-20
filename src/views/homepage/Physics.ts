@@ -2,31 +2,37 @@ import * as THREE from 'three';
 
 export default class Raycast {
   raycaster: THREE.Raycaster = new THREE.Raycaster();
+  collidables: THREE.Object3D[];
 
-  raycast(collidables: THREE.Object3D[], origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
+  constructor(collidables: THREE.Object3D[]) {
+    this.collidables = collidables;
+  }
+
+  raycast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
-    this.raycaster.set(origin, direction);
+    this.raycaster.ray.origin = origin;
+    this.raycaster.ray.direction = direction;
     this.raycaster.far = maxDistance;
-    collisions = this.raycaster.intersectObjects(collidables);
+    collisions = this.raycaster.intersectObjects(this.collidables);
+    return collisions;
+  };
+
+  lineCast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
+    let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
+    collisions = this.raycast(origin, direction, maxDistance);
 
     const axis = new THREE.Vector3(0, 1, 0);
     const angle = Math.PI / 2;
-    
     const p1 = origin.clone().add(direction.clone().applyAxisAngle(axis, angle).normalize());
-    this.raycaster.set(p1, direction);
-    this.raycaster.intersectObjects(collidables).forEach(objR => {
-      collisions.filter(objC => {
-        objC.object !== objR.object
-      }).push(objR);
+    const p2 = origin.clone().add(direction.clone().applyAxisAngle(axis, -angle).normalize());
+
+    this.raycast(p1, direction, maxDistance).forEach(obj => {
+      collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
+    });
+    this.raycast(p2, direction, maxDistance).forEach(obj => {
+      collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
     });
 
-    const p2 = origin.clone().add(direction.clone().applyAxisAngle(axis, -angle).normalize());
-    this.raycaster.set(p2, direction);
-    this.raycaster.intersectObjects(collidables).forEach(objR => {
-      collisions.filter(objC => {
-        objC.object !== objR.object
-      }).push(objR);
-    });
     return collisions;
   }
 

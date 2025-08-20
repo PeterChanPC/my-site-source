@@ -2,12 +2,17 @@
   <div ref="background" class="homepage-bg">
     <canvas ref="canvas"></canvas>
   </div>
+  <span class="properties">
+    <span>force: {{ force }}</span>
+    <span>drag: {{ drag }}</span>
+    <span>velocity: {{ velocity }}</span>
+  </span>
 </template>
 
 <script lang="ts">
 import homepageBg from '@/assets/homepage-bg.webp';
 import texture from '@/assets/texture-1.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef, watch } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 import Player from '@/views/homepage/PlayerController';
@@ -25,6 +30,10 @@ export default defineComponent({
       if (canvas.value) return true;
       return false;
     };
+
+    const force = ref();
+    const drag = ref();
+    const velocity = ref();
 
     onMounted(() => {
       if (!isValid() && background.value) {
@@ -137,18 +146,19 @@ export default defineComponent({
       const sphereMesh = new THREE.Mesh(sphereGeometry, material_1);
       sphereMesh.castShadow = true;
       sphereMesh.receiveShadow = true;
-      const sphere = new THREE.Object3D().add(sphereMesh);
+      const sphere = new THREE.Object3D().attach(sphereMesh);
       sphere.position.set(3, 0, -2);
+
+      // apply elements to scene
+      scene.add(sphere, floor, wall_1, wall_2, wall_3, wall_4, ambientLight, spotLightPrimary, spotLightSecondary);
 
       const gameInput = new GameInput();
       gameInput.addInputListener();
 
-      const physics = new Physics();
-      
-      const player = new Player(sphere, scene, gameInput, physics);
+      const collidables = scene.children.filter(obj => obj !== sphere);
+      const physics = new Physics(collidables);
 
-      // apply elements to scene
-      scene.add(sphere, floor, wall_1, wall_2, wall_3, wall_4, ambientLight, spotLightPrimary, spotLightSecondary);
+      const player = new Player(sphere, gameInput, physics);
 
       function update() {
         aspect = window.innerWidth / window.innerHeight;
@@ -161,16 +171,22 @@ export default defineComponent({
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
         renderer.render(scene, camera);
+
+        force.value = player.getForce();
+        drag.value = player.getDrag();
+        velocity.value = player.getVelocity();
       };
+
+      watch([force, drag, velocity], () => {});
       renderer.setAnimationLoop(update);
 
       onUnmounted(() => {
         gameInput.removeInputListener();
-      })
+      });
     });
 
     expose();
-    return { canvas };
+    return { canvas, force, drag, velocity };
   },
 });
 </script>
@@ -179,5 +195,13 @@ export default defineComponent({
 .homepage-bg {
   width: 100dvw;
   height: 100dvh;
+}
+
+.properties {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 20%;
+  left: 20px;
 }
 </style>

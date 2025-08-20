@@ -10,6 +10,9 @@ import texture from '@/assets/texture-1.webp';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
+import Player from '@/views/homepage/PlayerController';
+import GameInput from '@/views/homepage/GameInput';
+import Physics from '@/views/homepage/Physics';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -21,90 +24,6 @@ export default defineComponent({
     const isValid = (): Boolean => {
       if (canvas.value) return true;
       return false;
-    };
-
-    // setup movement vector
-    let isMouse = false;
-    let pointerPos = new THREE.Vector3(0, 0, 0);
-    let pointerDir = new THREE.Vector3(0, 0, 0);
-    let moveDir = new THREE.Vector3(0, 0, 0);
-    let moveUp = false;
-    let moveDown = false;
-    let moveLeft = false;
-    let moveRight = false;
-
-    const handleMovementVector = () => {
-      if (moveUp) {
-        moveDir.z = -1;
-        if (moveDown) moveDir.z = 0;
-      } else if (moveDown) {
-        moveDir.z = 1;
-        if (moveUp) moveDir.z = 0;
-      } else {
-        moveDir.z = 0;
-      };
-      if (moveLeft) {
-        moveDir.x = -1;
-        if (moveRight) moveDir.x = 0;
-      } else if (moveRight) {
-        moveDir.x = 1;
-        if (moveLeft) moveDir.x = 0;
-      } else {
-        moveDir.x = 0;
-      };
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowUp':
-          moveUp = true;
-          break;
-        case 'ArrowDown':
-          moveDown = true;
-          break;
-        case 'ArrowLeft':
-          moveLeft = true;
-          break;
-        case 'ArrowRight':
-          moveRight = true;
-          break;
-      };
-      handleMovementVector();
-    };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowUp':
-          moveUp = false;
-          break;
-        case 'ArrowDown':
-          moveDown = false;
-          break;
-        case 'ArrowLeft':
-          moveLeft = false;
-          break;
-        case 'ArrowRight':
-          moveRight = false;
-          break;
-      };
-      handleMovementVector();
-    };
-
-    let updatePointerPos = (e: MouseEvent) => { };
-
-    const handleMouseDown = () => {
-      isMouse = true;
-      moveDir.set(pointerDir.x, 0, pointerDir.z).normalize();
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      updatePointerPos(e);
-      if (isMouse) handleMouseDown();
-    };
-
-    const handleMouseUp = () => {
-      isMouse = false;
-      moveDir.set(0, 0, 0);
     };
 
     onMounted(() => {
@@ -218,160 +137,37 @@ export default defineComponent({
       const sphereMesh = new THREE.Mesh(sphereGeometry, material_1);
       sphereMesh.castShadow = true;
       sphereMesh.receiveShadow = true;
-      const sphere = new THREE.Object3D().add(sphereMesh);
+      const sphere = new THREE.Object3D().attach(sphereMesh);
       sphere.position.set(3, 0, -2);
 
-      // setup raycaster
-      const raycaster = new THREE.Raycaster();
-      function raycast(dir: THREE.Vector3, maxDistance: number) {
-        const collidables = scene.children.filter(obj => obj !== sphere);
-        raycaster.set(sphere.position, dir);
-        raycaster.far = maxDistance;
-        return raycaster.intersectObjects(collidables);
-      };
-
-      // setup user movement controller
-      const strength = 1;
-      const drag = 0.3;
-      const mass = 1;
-      const bounciness = 0.5;
-      let clock = new THREE.Clock();
-      let dv = new THREE.Vector3(0, 0, 0);
-      let velocity = new THREE.Vector3(0, 0, 0);
-
-      function updatedv() {
-        // net F = F - Ff = mass * dv / dt
-        let dt = clock.getDelta();
-        let F = new THREE.Vector3(moveDir.x, 0, moveDir.z).normalize().multiplyScalar(strength);
-        let Ff = new THREE.Vector3(velocity.x, 0, velocity.z).normalize().multiplyScalar(drag);
-        dv = F.clone().sub(Ff).multiplyScalar(dt / mass);
-        let canPush = dv.length() > 0 && raycast(dv, dv.clone().normalize().length()).length === 0;
-        if (Ff.length() > F.length()) canPush = dv.length() > 0 && raycast(dv.clone().negate(), dv.clone().normalize().length()).length === 0;
-
-        if (!canPush) {
-          let dvX = new THREE.Vector3(dv.x, 0, 0).normalize();
-          canPush = Math.abs(dv.x) > 0 && raycast(dvX, dvX.length()).length === 0;
-          if (canPush) {
-            velocity.z = 0;
-            dv.z = 0;
-          } else {
-            velocity.x = 0;
-            dv.x = 0;
-            let dvZ = new THREE.Vector3(0, 0, dv.z).normalize();
-            canPush = Math.abs(dv.z) > 0 && raycast(dvZ, dvZ.length()).length === 0;
-            if (!canPush) {
-              velocity.z = 0;
-              dv.z = 0;
-            };
-          };
-        };
-        return canPush;
-      };
-
-      function updateVelocity() {
-        let canMove = raycast(velocity, velocity.clone().normalize().length()).length === 0;
-
-        if (!canMove) {
-          let velocityX = new THREE.Vector3(velocity.x, 0, 0);
-          canMove = raycast(velocityX, velocityX.clone().normalize().length()).length === 0;
-          if (canMove) {
-            dv.z = -dv.z;
-            velocity.z = -velocity.z * bounciness;
-          } else {
-            dv.x = -dv.x;
-            velocity.x = -velocity.x * bounciness;
-            let velocityZ = new THREE.Vector3(0, 0, velocity.z).normalize();
-            canMove = raycast(velocityZ, velocityZ.clone().normalize().length()).length === 0;
-            if (!canMove) {
-              dv.z = -dv.z;
-              velocity.z = -velocity.z * bounciness;
-            };
-          };
-        };
-        return canMove;
-      };
-
-      function applyMovement() {
-        let canPush = updatedv();
-        let canMove = updateVelocity();
-
-        dv.z *= 2; // vertical velocity compensation for user experience due to camera angle
-        if (canPush) velocity.add(dv);
-
-        if (Math.abs(velocity.x) < Math.abs((dv.x))) {
-          velocity.x = 0;
-        } else if (velocity.x > 0.5) {
-          velocity.x = 0.5;
-        } else if (velocity.x < -0.5) {
-          velocity.x = -0.5;
-        };
-        
-        if (Math.abs(velocity.z) < Math.abs((dv.z))) {
-          velocity.z = 0;
-        } else if (velocity.z > 0.5) {
-          velocity.z = 0.5;
-        } else if (velocity.z < -0.5) {
-          velocity.z = -0.5;
-        };
-
-        if (canMove) sphere.position.add(velocity);
-      };
-
-      // get poitner position
-      updatePointerPos = (e: MouseEvent) => {
-        let screenPosX = (e.clientX / window.innerWidth) * 2 - 1;
-        let screenPosY = (e.clientY / window.innerHeight) * 2 - 1;
-        let screenPos = new THREE.Vector2(screenPosX, screenPosY);
-        raycaster.setFromCamera(screenPos, camera);
-        raycaster.far = 100;
-        const raycastHit = raycaster.intersectObject(floor)[0];
-        pointerPos.set(raycastHit.point.x, 0, -raycastHit.point.z);
-      };
-
-      const updatePointerDir = () => {
-        pointerDir = pointerPos.clone().sub(sphere.position).normalize();
-      };
-
       // apply elements to scene
-      scene.add(sphere);
-      scene.add(floor);
-      scene.add(wall_1);
-      scene.add(wall_2);
-      scene.add(wall_3);
-      scene.add(wall_4);
-      scene.add(ambientLight);
-      scene.add(spotLightPrimary);
-      scene.add(spotLightSecondary);
+      scene.add(sphere, floor, wall_1, wall_2, wall_3, wall_4, ambientLight, spotLightPrimary, spotLightSecondary);
 
-      // setup update
+      const gameInput = new GameInput();
+      gameInput.addInputListener();
+
+      const collidables = scene.children.filter(obj => obj !== sphere);
+      const physics = new Physics(collidables);
+
+      const player = new Player(sphere, gameInput, physics);
+
       function update() {
         aspect = window.innerWidth / window.innerHeight;
         camera.top = 5 / aspect;
         camera.bottom = -5 / aspect;
         camera.updateProjectionMatrix();
 
-        updatePointerDir();
-        applyMovement();
         applySpotLight();
+        player.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
         renderer.render(scene, camera);
       };
       renderer.setAnimationLoop(update);
 
-      window.addEventListener('keydown', handleKeyDown);
-      window.addEventListener('keyup', handleKeyUp);
-      window.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      onUnmounted(() => {
+        gameInput.removeInputListener();
+      });
     });
 
     expose();
@@ -382,7 +178,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .homepage-bg {
-  width: 100%;
-  height: 100%;
+  width: 100dvw;
+  height: 100dvh;
 }
 </style>
