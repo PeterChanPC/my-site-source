@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Physics from './Physics';
 
 export default class GameInput {
   private isMouse: boolean = false;
@@ -8,6 +9,11 @@ export default class GameInput {
   private moveDown: boolean = false;
   private moveLeft: boolean = false;
   private moveRight: boolean = false;
+  private physics?: Physics;
+
+  constructor(physics?: Physics) {
+    this.physics = physics;
+  }
 
   private handleMovementVector() {
     if (this.moveUp) {
@@ -66,14 +72,26 @@ export default class GameInput {
     this.handleMovementVector();
   };
 
+  private handleMouseDown(): void {
+    
+  };
+
+  private handleMouseUp(): void {
+
+  };
+
+  private boundHandleKeyDown = (event: KeyboardEvent) => this.handleKeyDown(event);
+
+  private boundHandleKeyUp = (event: KeyboardEvent) => this.handleKeyUp(event);
+
   public addInputListener(): void {
-    window.addEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
-    window.addEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
+    window.addEventListener('keydown', this.boundHandleKeyDown);
+    window.addEventListener('keyup', this.boundHandleKeyUp);
   };
 
   public removeInputListener(): void {
-    window.removeEventListener('keydown', (event: KeyboardEvent) => this.handleKeyDown(event));
-    window.removeEventListener('keyup', (event: KeyboardEvent) => this.handleKeyUp(event));
+    window.removeEventListener('keydown', this.boundHandleKeyDown);
+    window.removeEventListener('keyup', this.boundHandleKeyUp);
   };
 
   public getMovementVectorNormalized() {

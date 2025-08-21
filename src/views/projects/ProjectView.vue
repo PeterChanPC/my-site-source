@@ -5,10 +5,13 @@
         <i class="fi fi-rr-web-test"></i>
         <span>TodoList</span>
       </router-link>
-
       <router-link :to="{ name: 'authentication' }">
         <i class="fi fi-rr-user"></i>
         <span>Authentication</span>
+      </router-link>
+      <router-link :to="{ name: 'test' }">
+        <i class="fi fi-rr-web-test"></i>
+        <span>TEST</span>
       </router-link>
     </div>
   </div>
