@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 
-export default class Raycast {
+export default class Physics {
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private collidables: THREE.Object3D[];
+  private camera?: THREE.Camera;
 
-  constructor(collidables: THREE.Object3D[]) {
+  constructor(collidables: THREE.Object3D[], camera: THREE.Camera) {
     this.collidables = collidables;
+    this.camera = camera;
   }
 
   // casting a ray from a Origin with Direction and Max Distance
@@ -41,12 +43,17 @@ export default class Raycast {
   }
 
   // project mouse position to world position
-  public screenPointToWorld(x: number, y: number, camera: THREE.Camera, collidables: THREE.Object3D) {
+  public screenPointToWorld(x: number, y: number): THREE.Vector3 | undefined {
+    if (!this.camera) return;
+
     let screenPosX = (x / window.innerWidth) * 2 - 1;
     let screenPosY = (y / window.innerHeight) * 2 - 1;
     let screenPos = new THREE.Vector2(screenPosX, screenPosY);
-    this.raycaster.setFromCamera(screenPos, camera);
-    let hit = this.raycaster.intersectObject(collidables)[0];
+
+    this.raycaster.setFromCamera(screenPos, this.camera);
+    this.raycaster.far = 100;
+    const hit = this.raycaster.intersectObjects(this.collidables)[0];
+
     return new THREE.Vector3(hit.point.x, hit.point.y, -hit.point.z);
   }
 }
