@@ -142,15 +142,16 @@ export default defineComponent({
 
       // apply elements to scene
       scene.add(sphere, floor, wall_1, wall_2, wall_3, wall_4, ambientLight, spotLightPrimary, spotLightSecondary);
-
-      const gameInput = new GameInput();
-      gameInput.addInputListener();
-
+      
       const collidables = scene.children.filter(obj => obj !== sphere);
-      const physics = new Physics(collidables);
+      const physics = new Physics(collidables, camera);
 
+      const gameInput = new GameInput(physics);
+      gameInput.addInputListener();
+      
       const player = new Player(sphere, gameInput, physics);
 
+      // update frame
       function update() {
         aspect = window.innerWidth / window.innerHeight;
         camera.top = 5 / aspect;
@@ -158,6 +159,7 @@ export default defineComponent({
         camera.updateProjectionMatrix();
 
         applySpotLight();
+        gameInput.handleMovementVector(sphere.position);
         player.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);

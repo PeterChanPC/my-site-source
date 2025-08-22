@@ -17,7 +17,7 @@ import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 import Player from '@/views/homepage/PlayerController';
 import GameInput from '@/views/homepage/GameInput';
-import Physics from './homepage/Physics';
+import Physics from '@/views/homepage/Physics';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -160,6 +160,7 @@ export default defineComponent({
       
       const player = new Player(sphere, gameInput, physics);
 
+      // update frame
       function update() {
         aspect = window.innerWidth / window.innerHeight;
         camera.top = 5 / aspect;
