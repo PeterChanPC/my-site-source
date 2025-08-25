@@ -29,6 +29,7 @@ body {
     --bg-color: #{style.$bg-light};
     --bg-color-opague: #{style.$bg-light-opague};
     --txt-color: #{style.$txt-light};
+    --img-filter: #{style.$img-light};
   }
 }
 
@@ -37,6 +38,7 @@ body {
     --bg-color: #{style.$bg-dark};
     --bg-color-opague: #{style.$bg-dark-opague};
     --txt-color: #{style.$txt-dark};
+    --img-filter: #{style.$img-dark};
   }
 }
 
@@ -46,5 +48,12 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
+  
+  img {
+    @include style.center-absolute;
+    width: 1.2rem;
+    height: 1.2rem;
+    filter: var(--img-filter);
+  }
 }
 </style>

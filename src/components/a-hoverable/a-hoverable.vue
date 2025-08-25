@@ -1,14 +1,12 @@
 <template>
   <div v-if="href">
     <a :class="['a-hoverable', effect]" :href="href" :target="target">
-      <i v-if="icon" :class="icon"></i>
-      <span v-if="text">{{ text }}</span>
+      <slot name="href" v-if="href">IMG ERROR</slot>
     </a>
   </div>
   <div v-if="path">
     <router-link :class="['a-hoverable', effect]" :to="{ name: path }">
-      <i v-if="icon" :class="icon"></i>
-      <span v-if="text">{{ text }}</span>
+      <slot name="path" v-if="path">IMG ERROR</slot>
     </router-link>
   </div>
 </template>
@@ -30,14 +28,6 @@ export default defineComponent({
     target: {
       type: String,
       default: '_self',
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    text: {
-      type: String,
-      default: '',
     },
     effect: {
       type: String,

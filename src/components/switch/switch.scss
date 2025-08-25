@@ -19,10 +19,6 @@
     color: inherit;
     opacity: 0;
 
-    i::before {
-      @include style.center-absolute();
-    }
-
     &.active {
       width: 100%;
       opacity: 1;

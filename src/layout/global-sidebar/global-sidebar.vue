@@ -3,14 +3,42 @@
     'global-sidebar',
     { 'active': toggled },
   ]">
-    <AHoverable path="home" icon="fi fi-rr-home" :text="t('home')" />
-    <AHoverable path="my practices" icon="fi fi-rr-list" :text="t('work')" />
-    <AHoverable path="my practices" icon="fi fi-rr-list" text="blog" />
+    <AHoverable path="home">
+      <template #path>
+        <img src="@/assets/img/fi-rr-home.svg" alt="home">
+        <span>{{ t('home') }}</span>
+      </template>
+    </AHoverable>
+    <AHoverable path="my practices">
+      <template #path>
+        <img src="@/assets/img/fi-rr-list.svg" alt="work">
+        <span>{{ t('work') }}</span>
+      </template>
+    </AHoverable>
+    <AHoverable path="my practices">
+      <template #path>
+        <img src="@/assets/img/fi-rr-list.svg" alt="blog">
+        <span>blog</span>
+      </template>
+    </AHoverable>
 
     <div class="functions">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" iconL="fi fi-rr-sun"
-        iconR="fi fi-rr-moon" />
-      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
+      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark">
+        <template #optionL>
+          <img src="@/assets/img/fi-rr-sun.svg" alt="light">
+        </template>
+        <template #optionR>
+          <img src="@/assets/img/fi-rr-moon-stars.svg" alt="dark">
+        </template>
+      </Switch>
+      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS">
+        <template #optionL>
+          <span>中</span>
+        </template>
+        <template #optionR>
+          <span>Eng</span>
+        </template>
+      </Switch>
     </div>
   </aside>
 </template>
@@ -36,7 +64,7 @@ export default defineComponent({
     },
     toggleSidebar: {
       type: Function,
-      default: () => {},
+      default: () => { },
     },
   },
   setup() {

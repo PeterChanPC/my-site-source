@@ -6,7 +6,7 @@
 .a-hoverable {
   @include layout.flex(row, center);
   position: relative;
-  width: auto;
+  width: 100%;
   height: var.$btn-height-md;
   font-size: inherit;
   color: inherit;
@@ -15,11 +15,7 @@
   &.underline-left {
     @include hover.underline(3px, 2px, var(--txt-color), left);
 
-    i {
-      @include t.transition(all, 100ms);
-    }
-
-    span {
+    &>* {
       @include t.transition(all, 100ms);
     }
   }
@@ -27,45 +23,20 @@
   &.underline-middle {
     @include hover.underline(3px, 2px, var(--txt-color), middle);
 
-    i {
-      @include t.transition(all, 100ms);
-    }
-
-    span {
+    &>* {
       @include t.transition(all, 100ms);
     }
   }
 
-  &.icon-to-text {
-    @include hover.icon-to-text;
-
-    span {
-      @include layout.center-absolute;
-    }
-
-    &.underline-left,
-    &.underline-center {
-      span::after {
-        transition-delay: 100ms;
-      }
-    }
-  }
-
-  i {
-    position: relative;
-    width: var.$btn-height-md;
-    height: var.$btn-height-md;
+  img {
+    @include layout.center-absolute();
+    width: 50px;
+    height: 50px;
     font-size: 1.2em;
-
-    &::before {
-      @include layout.center-absolute;
-    }
   }
 
   span {
     position: relative;
-    width: auto;
-    height: auto;
     font-size: inherit;
     white-space: nowrap;
     text-transform: capitalize;

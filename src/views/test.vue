@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import homepageBg from '@/assets/homepage-bg.webp';
-import texture from '@/assets/texture-1.webp';
+import homepageBg from '@/assets/img/homepage-bg.webp';
+import texture from '@/assets/img/texture-1.webp';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef, watch } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';

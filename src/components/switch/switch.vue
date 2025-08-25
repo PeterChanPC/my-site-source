@@ -1,12 +1,10 @@
 <template>
   <button class="switch" @click="change">
     <div :class="['option', { 'active': !isActive }]">
-      <i v-if="iconL" :class="iconL"></i>
-      <span v-if="textL">{{ textL }}</span>
+      <slot name="optionL">IMG ERROR</slot>
     </div>
     <div :class="['option', { 'active': isActive }]">
-      <i v-if="iconR" :class="iconR"></i>
-      <span v-if="textR">{{ textR }}</span>
+      <slot name="optionR">IMG ERROR</slot>
     </div>
   </button>
 </template>
@@ -20,22 +18,6 @@ export default defineComponent({
     isActive: {
       type: Boolean,
       default: false,
-    },
-    iconL: {
-      type: String,
-      default: '',
-    },
-    iconR: {
-      type: String,
-      default: '',
-    },
-    textL: {
-      type: String,
-      default: '',
-    },
-    textR: {
-      type: String,
-      default: '',
     },
     change: {
       type: Function as PropType<(event: MouseEvent) => void>,
