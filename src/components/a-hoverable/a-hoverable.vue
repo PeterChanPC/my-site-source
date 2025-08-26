@@ -1,12 +1,12 @@
 <template>
   <div v-if="href">
     <a :class="['a-hoverable', effect]" :href="href" :target="target">
-      <slot name="href" v-if="href">IMG ERROR</slot>
+      <slot>ERROR</slot>
     </a>
   </div>
   <div v-if="path">
     <router-link :class="['a-hoverable', effect]" :to="{ name: path }">
-      <slot name="path" v-if="path">IMG ERROR</slot>
+      <slot>ERROR</slot>
     </router-link>
   </div>
 </template>

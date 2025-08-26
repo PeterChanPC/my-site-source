@@ -6,6 +6,7 @@ $sidebar-width: 200px;
   @include style.transition(all, 100ms);
   @include style.flex(col, start);
   @include style.glassy();
+  align-items: start;
   position: absolute;
   top: 0;
   right: -200px;

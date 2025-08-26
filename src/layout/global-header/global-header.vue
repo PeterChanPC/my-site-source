@@ -3,19 +3,19 @@
     <h1 class="icon">Pc</h1>
     <nav class="navbar">
       <AHoverable path="home" effect="underline-middle">
-        <template #path>
+        <div class="wrapper">
           <span>{{ t('home') }}</span>
-        </template>
+        </div>
       </AHoverable>
       <AHoverable path="my practices" effect="underline-middle">
-        <template #path>
+        <div class="wrapper">
           <span>{{ t('work') }}</span>
-        </template>
+        </div>
       </AHoverable>
       <AHoverable path="my practices" effect="underline-middle">
-        <template #path>
+        <div class="wrapper">
           <span>Blog</span>
-        </template>
+        </div>
       </AHoverable>
     </nav>
 

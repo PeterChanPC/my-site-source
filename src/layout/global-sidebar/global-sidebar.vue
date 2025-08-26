@@ -4,22 +4,28 @@
     { 'active': toggled },
   ]">
     <AHoverable path="home">
-      <template #path>
-        <img src="@/assets/img/fi-rr-home.svg" alt="home">
+      <div class="wrapper">
+        <div class="img-wrapper">
+          <img src="@/assets/img/fi-rr-home.svg" alt="home">
+        </div>
         <span>{{ t('home') }}</span>
-      </template>
+      </div>
     </AHoverable>
     <AHoverable path="my practices">
-      <template #path>
-        <img src="@/assets/img/fi-rr-list.svg" alt="work">
+      <div class="wrapper">
+        <div class="img-wrapper">
+          <img src="@/assets/img/fi-rr-list.svg" alt="work">
+        </div>
         <span>{{ t('work') }}</span>
-      </template>
+      </div>
     </AHoverable>
     <AHoverable path="my practices">
-      <template #path>
-        <img src="@/assets/img/fi-rr-list.svg" alt="blog">
+      <div class="wrapper">
+        <div class="img-wrapper">
+          <img src="@/assets/img/fi-rr-list.svg" alt="blog">
+        </div>
         <span>blog</span>
-      </template>
+      </div>
     </AHoverable>
 
     <div class="functions">
