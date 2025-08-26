@@ -134,7 +134,6 @@ export default class GameInput {
   };
 
   public getMovementVectorNormalized(): THREE.Vector2 {
-    let moveVecNorm = this.moveDir.clone().normalize();
-    return moveVecNorm;
+    return this.moveDir.clone().normalize();
   };
 }

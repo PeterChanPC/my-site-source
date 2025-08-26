@@ -39,6 +39,7 @@ export default class Player {
 
   public applyMovement() {
     let dt = this.clock.getDelta();
+    this.gameInput.handleMovementVector(this.player.position);
     this.updateForce(30);
     this.updateDrag(3);
     this.updateVelocity(dt);

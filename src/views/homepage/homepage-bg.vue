@@ -159,7 +159,6 @@ export default defineComponent({
         camera.updateProjectionMatrix();
 
         applySpotLight();
-        gameInput.handleMovementVector(sphere.position);
         player.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
