@@ -19,7 +19,7 @@
         <span>{{ t('work') }}</span>
       </div>
     </AHoverable>
-    <AHoverable path="my practices">
+    <AHoverable path="blogs">
       <div class="wrapper">
         <div class="img-wrapper">
           <img src="@/assets/img/fi-rr-list.svg" alt="blog">

@@ -5,6 +5,7 @@ import TodoView from '@/views/projects/todo-list/TodoView.vue';
 import AuthView from '@/views/projects/auth/AuthView.vue';
 import LoginView from '@/views/projects/auth/LoginView.vue';
 import AuthContentView from '@/views/projects/auth/AuthContentView.vue';
+import BlogView from '@/views/blogs/blog.vue';
 import TestView from '@/views/test.vue';
 import { useUserStore } from '@/stores/user.store';
 
@@ -43,6 +44,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/blogs',
+    name: 'blogs',
+    component: BlogView,
+  },
+  {
     path: '/test',
     name: 'test',
     component: TestView,
@@ -52,7 +58,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory('/my-site/'),
   scrollBehavior(to, from, savedPosition) {
-    return {top: 0};
+    return { top: 0 };
   },
   routes
 });
@@ -60,7 +66,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
   const path = sessionStorage.redirect;
-  
+
   if (path) {
     // handle github pages 404 redirect
     routes.forEach((route) => {

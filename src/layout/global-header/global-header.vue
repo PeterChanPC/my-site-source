@@ -12,7 +12,7 @@
           <span>{{ t('work') }}</span>
         </div>
       </AHoverable>
-      <AHoverable path="my practices" effect="underline-middle">
+      <AHoverable path="blogs" effect="underline-middle">
         <div class="wrapper">
           <span>Blog</span>
         </div>
