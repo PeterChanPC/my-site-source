@@ -57,57 +57,56 @@
   </div>
 </template>
 
-<script setup>
-import { onBeforeMount, ref } from 'vue';
+<script setup lang="ts">
+import { onBeforeMount, Ref, ref } from 'vue';
 import { useUserStore } from '@/stores/user.store';
 
-const userStore = useUserStore()
-const isAuthing = ref(false)
-const isAuth = ref(false)
-const showAuth = ref(false)
-const showError = ref(false)
-const showLogin = ref(false)
-const showAuthTimeout = ref(null)
-const showLoginTimeout = ref(null)
-const duration = 3000
+const userStore = useUserStore();
+const isAuthing: Ref<Boolean> = ref(false);
+const isAuth: Ref<Boolean> = ref(false);
+const showAuth: Ref<Boolean> = ref(false);
+const showError: Ref<Boolean> = ref(false);
+const showLogin: Ref<Boolean> = ref(false);
+const showAuthTimeout: Ref<NodeJS.Timeout | null> = ref(null);
+const showLoginTimeout: Ref<NodeJS.Timeout | null> = ref(null);
+const duration: number = 3000;
 
 onBeforeMount(async () => {
-  await userStore.handleAuth()
-})
+  await userStore.handleAuth();
+});
 
 const Authentication = async () => {
-  isAuthing.value = true
-  showError.value = false
-  showAuth.value = false
-  isAuth.value = await userStore.handleAuth()
-  isAuthing.value = false
+  isAuthing.value = true;
+  showError.value = false;
+  showAuth.value = false;
+  isAuth.value = await userStore.handleAuth();
+  isAuthing.value = false;
 
   if (!isAuth.value) {
-    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value)
-    showError.value = true
+    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value);
+    showError.value = true;
     showAuthTimeout.value = setTimeout(() => {
-      showError.value = false
-    }, duration)
-  }
-  else {
-    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value)
-    showAuth.value = true
+      showError.value = false;
+    }, duration);
+  } else {
+    if (showAuthTimeout.value) clearTimeout(showAuthTimeout.value);
+    showAuth.value = true;
     showAuthTimeout.value = setTimeout(() => {
-      showAuth.value = false
-    }, duration)
-  }
-}
+      showAuth.value = false;
+    }, duration);
+  };
+};
 
-const login = () => {
-  showLogin.value = false
+const login = (): void => {
+  showLogin.value = false;
   if (userStore.user) {
-    if (showLoginTimeout.value) clearTimeout(showLoginTimeout.value)
-    showLogin.value = true
+    if (showLoginTimeout.value) clearTimeout(showLoginTimeout.value);
+    showLogin.value = true;
     showLoginTimeout.value = setTimeout(() => {
-      showLogin.value = false
-    }, duration)
-  }
-}
+      showLogin.value = false;
+    }, duration);
+  };
+};
 </script>
 
 <style scoped>

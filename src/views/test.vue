@@ -2,17 +2,12 @@
   <div ref="background" class="homepage-bg">
     <canvas ref="canvas"></canvas>
   </div>
-  <span class="properties">
-    <span>force: {{ force }}</span>
-    <span>drag: {{ drag }}</span>
-    <span>velocity: {{ velocity }}</span>
-  </span>
 </template>
 
 <script lang="ts">
 import homepageBg from '@/assets/img/homepage-bg.webp';
 import texture from '@/assets/img/texture-1.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef, watch } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
 import Player from '@/views/homepage/PlayerController';
@@ -30,10 +25,6 @@ export default defineComponent({
       if (canvas.value) return true;
       return false;
     };
-
-    const force = ref();
-    const drag = ref();
-    const velocity = ref();
 
     onMounted(() => {
       if (!isValid() && background.value) {
@@ -168,18 +159,11 @@ export default defineComponent({
         camera.updateProjectionMatrix();
 
         applySpotLight();
-        gameInput.handleMovementVector(sphere.position);
         player.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
         renderer.render(scene, camera);
-
-        force.value = player.getForce();
-        drag.value = player.getDrag();
-        velocity.value = player.getVelocity();
       };
-
-      watch([force, drag, velocity], () => {});
       renderer.setAnimationLoop(update);
 
       onUnmounted(() => {
@@ -188,7 +172,7 @@ export default defineComponent({
     });
 
     expose();
-    return { canvas, force, drag, velocity };
+    return { canvas };
   },
 });
 </script>
@@ -197,13 +181,5 @@ export default defineComponent({
 .homepage-bg {
   width: 100dvw;
   height: 100dvh;
-}
-
-.properties {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  bottom: 20%;
-  left: 20px;
 }
 </style>

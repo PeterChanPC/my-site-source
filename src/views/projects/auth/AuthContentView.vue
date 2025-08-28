@@ -5,12 +5,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import router from '@/router';
 
-const toAuth = () => {
-  router.push({ name: 'authentication' })
-}
+const toAuth = (): void => {
+  router.push({ name: 'authentication' });
+};
 </script>
 
 <style scoped>

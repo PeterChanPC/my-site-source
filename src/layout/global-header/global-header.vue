@@ -7,14 +7,14 @@
           <span>{{ t('home') }}</span>
         </div>
       </AHoverable>
-      <AHoverable path="my practices" effect="underline-middle">
+      <AHoverable path="works" effect="underline-middle">
         <div class="wrapper">
           <span>{{ t('work') }}</span>
         </div>
       </AHoverable>
       <AHoverable path="blogs" effect="underline-middle">
         <div class="wrapper">
-          <span>Blog</span>
+          <span>{{ t('blog') }}</span>
         </div>
       </AHoverable>
     </nav>

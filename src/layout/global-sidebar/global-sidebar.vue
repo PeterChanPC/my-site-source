@@ -3,7 +3,7 @@
     'global-sidebar',
     { 'active': toggled },
   ]">
-    <AHoverable path="home">
+    <AHoverable path="home" shape="pill">
       <div class="wrapper">
         <div class="img-wrapper">
           <img src="@/assets/img/fi-rr-home.svg" alt="home">
@@ -11,7 +11,7 @@
         <span>{{ t('home') }}</span>
       </div>
     </AHoverable>
-    <AHoverable path="my practices">
+    <AHoverable path="works" shape="pill">
       <div class="wrapper">
         <div class="img-wrapper">
           <img src="@/assets/img/fi-rr-list.svg" alt="work">
@@ -19,12 +19,12 @@
         <span>{{ t('work') }}</span>
       </div>
     </AHoverable>
-    <AHoverable path="blogs">
+    <AHoverable path="blogs" shape="pill">
       <div class="wrapper">
         <div class="img-wrapper">
           <img src="@/assets/img/fi-rr-list.svg" alt="blog">
         </div>
-        <span>blog</span>
+        <span>{{ t('blog') }}</span>
       </div>
     </AHoverable>
 

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <GlobalHeader />
-  </div>
+  <GlobalHeader />
   <router-view />
 </template>
 
@@ -48,7 +46,7 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
-  
+
   img {
     @include style.center-absolute;
     width: 1.2rem;

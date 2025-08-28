@@ -13,14 +13,7 @@ const enUS: {
     hello: 'hello, i am',
     home: 'home',
     work: 'work',
-    intro: 'introduction',
-    about_me: 'about me',
-    about_me_details: 'Hi, I’m Peter Chan, a recent Physics graduate from HKUST. I’m passionate about coding and have experience in Python, C#, and Vue.js. I enjoy building projects and learning new technologies.',
-    exp: 'experience',
-    resume: 'get my resume',
-    use: 'use',
-    or: 'or',
-    control: 'to control the ball',
+    blog: 'blog'
   },
   dateTimeFormats: {
     short: {

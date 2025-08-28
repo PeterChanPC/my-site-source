@@ -2,31 +2,31 @@
   display: flex;
   align-items: center;
 
-  @if $direction == row {
+  @if $direction ==row {
     flex-direction: row;
   }
 
-  @if $direction == col {
+  @if $direction ==col {
     flex-direction: column;
   }
 
-  @if $justify == start {
+  @if $justify ==start {
     justify-content: start;
   }
 
-  @if $justify == center {
+  @if $justify ==center {
     justify-content: center;
   }
 
-  @if $justify == around {
+  @if $justify ==around {
     justify-content: space-around;
   }
 
-  @if $justify == between {
+  @if $justify ==between {
     justify-content: space-between;
   }
 
-  @if $justify == evenly {
+  @if $justify ==evenly {
     justify-content: space-evenly;
   }
 }

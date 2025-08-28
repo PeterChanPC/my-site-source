@@ -1,18 +1,18 @@
 <template>
-  <div v-if="href">
-    <a :class="['a-hoverable', effect]" :href="href" :target="target">
-      <slot>ERROR</slot>
-    </a>
-  </div>
-  <div v-if="path">
-    <router-link :class="['a-hoverable', effect]" :to="{ name: path }">
-      <slot>ERROR</slot>
-    </router-link>
-  </div>
+  <a v-if="href" :class="['a-hoverable', shape, effect]" :href="href" :target="target">
+    <slot>ERROR</slot>
+  </a>
+  <router-link v-if="path" :class="['a-hoverable', shape, effect]" :to="{ name: path }">
+    <slot>ERROR</slot>
+  </router-link>
 </template>
 
 <script lang="ts">
-import { defineComponent, effect } from 'vue';
+import { defineComponent, effect, PropType } from 'vue';
+
+type Target = '_self' | '_blank';
+type Shape = 'center' | 'pill';
+type Effect = 'underline-left' | 'underline-middle';
 
 export default defineComponent({
   name: 'a-hoverable',
@@ -26,11 +26,15 @@ export default defineComponent({
       default: '',
     },
     target: {
-      type: String,
+      type: String as PropType<Target>,
       default: '_self',
     },
+    shape: {
+      type: String as PropType<Shape>,
+      default: 'center',
+    },
     effect: {
-      type: String,
+      type: String as PropType<Effect>,
       default: '',
     },
   },

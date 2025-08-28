@@ -47,7 +47,7 @@ export default class Physics {
     if (!this.camera) return;
 
     let screenPosX = (x / window.innerWidth) * 2 - 1;
-    let screenPosY = (y / window.innerHeight) * 2 - 1.5;
+    let screenPosY = (y / window.innerHeight) * 2 - 1;
     let screenPos = new THREE.Vector2(screenPosX, screenPosY);
 
     this.raycaster.setFromCamera(screenPos, this.camera);

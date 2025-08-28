@@ -1,24 +1,22 @@
-<template>
-  <div class="new-todo-background" :class="{ 'active-background' : showNewTodo }" @click="toggleCreate"></div>
+<!-- <template>
+  <div class="new-todo-background" :class="{ 'active-background': showNewTodo }" @click="toggleCreate"></div>
 
-  <div class="new-todo" :class="{ 'active-box' : showNewTodo }">
+  <div class="new-todo" :class="{ 'active-box': showNewTodo }">
     <header class="new-todo-header">
       <span>Create New Todo</span>
     </header>
 
     <div class="new-todo-details">
-      <!-- task -->
       <div class="new-task">
         <input type="text" placeholder="type your task here..." v-model="todoItem.task">
       </div>
-    
-      <!-- repeat -->
+
       <div class="new-repeat">
         <span>Is repeating</span>
-        <ToggleButton class="toggle-button" @toggle="toggleRepeat" :isToggled="todoItem.repeat"/>
+        <ToggleButton class="toggle-button" @toggle="toggleRepeat" :isToggled="todoItem.repeat" />
       </div>
 
-      <div class="new-periodicity" :class="{ 'active-new-periodicity' : todoItem.repeat }">
+      <div class="new-periodicity" :class="{ 'active-new-periodicity': todoItem.repeat }">
         <span>Repeat</span>
 
         <div class="repeat-selector">
@@ -27,7 +25,8 @@
           </div>
 
           <div class="selector-content">
-            <div class="selector-options" v-for="period in periodicities" :key="period" :class="{ 'active-option' : (period === periodicities[selectedPeriod])}">
+            <div class="selector-options" v-for="period in periodicities" :key="period"
+              :class="{ 'active-option': (period === periodicities[selectedPeriod]) }">
               {{ period }}
             </div>
           </div>
@@ -37,78 +36,76 @@
           </div>
         </div>
       </div>
-       
-      <TodoWeek v-if="todoItem.periodicity === 'weekly'"/>
-      <TodoMonth v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'"/>
 
-      <!-- todo's sublist -->
-      <TodoSublist/>
+      <TodoWeek v-if="todoItem.periodicity === 'weekly'" />
+      <TodoMonth v-if="todoItem.periodicity === 'monthly' || todoItem.periodicity === 'others'" />
+
+      <TodoSublist />
     </div>
 
     <div class="todo-save" @click="saveTodo">
-      <!-- saving into the list -->
       <span>Save</span>
     </div>
   </div>
-</template>
+</template> -->
 
-<script setup>
-import ToggleButton from '@/components/ToggleButton.vue'
-import TodoWeek from './TodoWeek.vue'
-import TodoMonth from './TodoMonth.vue'
-import { useTodoStore } from '@/stores/todos.store'
-import { ref, unref, watchEffect } from 'vue'
-import TodoSublist from './TodoSublist.vue'
+<!-- <script setup lang="ts">
+import ToggleButton from '@/components/ToggleButton.vue';
+import TodoWeek from './TodoWeek.vue';
+import TodoMonth from './TodoMonth.vue';
+import { useTodoStore } from '@/stores/todos.store';
+import { ref, watchEffect } from 'vue';
+import TodoSublist from './TodoSublist.vue';
 
 const props = defineProps({
   showNewTodo: Boolean,
-})
+});
 
-const periodicities = ['daily', 'weekly', 'monthly', 'select']
-const todoStore = useTodoStore()
+const periodicities = ['daily', 'weekly', 'monthly', 'select'];
+const todoStore = useTodoStore();
 
 const todoItem = ref({
   id: 999,
   task: '',
   repeat: false,
-  periodicity: null,
+  periodicity: '',
   days: [],
   date: null,
   done: false
-})
+});
 
-const emit = defineEmits(['showNewTodo'])
+const emit = defineEmits(['showNewTodo']);
 const toggleCreate = () => {
-  selectedPeriod.value = 3
-  todoItem.value.repeat = false
-  emit('showNewTodo', !props.showNewTodo)
-}
+  selectedPeriod.value = 3;
+  todoItem.value.repeat = false;
+  emit('showNewTodo', !props.showNewTodo);
+};
 
-const selectedPeriod = ref(3)
+const selectedPeriod = ref(3);
 const toggleRepeat = () => {
-  todoItem.value.repeat = !todoItem.value.repeat
-  selectedPeriod.value = 3
-}
+  todoItem.value.repeat = !todoItem.value.repeat;
+  selectedPeriod.value = 3;
+};
 const selectLeft = () => {
-  selectedPeriod.value--
-  if (selectedPeriod.value < 0) selectedPeriod.value = 3
-}
+  selectedPeriod.value--;
+  if (selectedPeriod.value < 0) selectedPeriod.value = 3;
+};
 const selectRight = () => {
-  selectedPeriod.value++
-  if (selectedPeriod.value > 3) selectedPeriod.value = 0
-}
-const setPeriodicity = (period) => {
-  todoItem.value.periodicity = period
-}
+  selectedPeriod.value++;
+  if (selectedPeriod.value > 3) selectedPeriod.value = 0;
+};
+const setPeriodicity = (period: string) => {
+  todoItem.value.periodicity = period;
+};
 watchEffect(() => {
-  if (selectedPeriod.value === 3) setPeriodicity(null)
-  else setPeriodicity(periodicities[selectedPeriod.value])
-})
+  if (selectedPeriod.value === 3) setPeriodicity('');
+  else setPeriodicity(periodicities[selectedPeriod.value]);
+});
 
 const saveTodo = () => {
-  todoStore.addTodo(todoItem.value)
-}
-</script>
+  todoStore.addTodo(todoItem.value);
+};
+</script> -->
 
 <style scoped>
 .new-todo-background {
@@ -320,7 +317,7 @@ const saveTodo = () => {
   .active-box {
     scale: 1;
   }
- 
+
   .new-repeat span,
   .new-periodicity span {
     margin-left: 2em;

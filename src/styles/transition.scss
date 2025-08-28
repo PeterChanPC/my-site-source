@@ -1,7 +1,6 @@
 @use "@/styles/variables.scss" as var;
 
-@mixin transition(
-  $prop: all,
+@mixin transition($prop: all,
   $duration: 0ms,
   $tfunc: ease,
   $delay: 0ms,

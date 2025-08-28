@@ -1,6 +1,17 @@
 @use "@/styles/style";
+@use "../global-header/global-header.scss";
 
+$sidebarToggleMaxWidth: global-header.$sidebarToggleMaxWidth;
+
+$sidebar-padding-top: global-header.$header-height;
 $sidebar-width: 200px;
+$sidebar-height: calc(100dvh - $sidebar-padding-top);
+
+$functions-height: 50px;
+$functions-margin-top: 24px;
+$functions-padding-top: 12px;
+
+$sidebar-z: global-header.$sidebar-z;
 
 .global-sidebar {
   @include style.transition(all, 100ms);
@@ -9,21 +20,22 @@ $sidebar-width: 200px;
   align-items: start;
   position: absolute;
   top: 0;
-  right: -200px;
-  padding-top: 60px;
-  width: 200px;
-  height: calc(100dvh - 60px);
+  right: -$sidebar-width;
+  padding-top: $sidebar-padding-top;
+  width: $sidebar-width;
+  height: $sidebar-height;
   color: var(--txt-color);
-  z-index: 99;
+  z-index: $sidebar-z;
 
   .functions {
     @include style.flex(row, evenly);
     position: relative;
-    width: 100%;
-    height: 50px;
-    margin-top: 24px;
-    padding-top: 12px;
+    width: $sidebar-width;
+    height: $functions-height;
+    margin-top: $functions-margin-top;
+    padding-top: $functions-padding-top;
 
+    // seperation line
     &::before {
       content: "";
       position: absolute;
@@ -34,7 +46,8 @@ $sidebar-width: 200px;
     }
   }
   
-  @media (max-width: style.$sidebarToggleMaxWidth) {
+  // only allow sidebar active under ToggleMaxWidth
+  @media (max-width: $sidebarToggleMaxWidth) {
     &.active {
       right: 0;
     }

@@ -14,14 +14,14 @@
     width: calc(100% + $overhang * 2);
   }
 
-  @if $origin == left {
+  @if $origin ==left {
     span::after {
       @include t.transition(all, 100ms);
       left: -$overhang;
     }
   }
 
-  @if $origin == middle {
+  @if $origin ==middle {
     span::after {
       @include t.transition(all, 100ms);
       content: "";
@@ -30,26 +30,6 @@
 
     &:hover span::after {
       left: -$overhang;
-    }
-  }
-}
-
-@mixin icon-to-text {
-  i {
-    opacity: 1;
-  }
-
-  span {
-    opacity: 0;
-  }
-
-  &:hover {
-    i {
-      opacity: 0;
-    }
-
-    span {
-      opacity: 1;
     }
   }
 }

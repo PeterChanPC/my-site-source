@@ -1,6 +1,4 @@
-@use "@/styles/variables.scss" as var;
-@use "@/styles/layout.scss" as layout;
-@use "@/styles/animation.scss" as animation;
+@use "@/styles/style.scss" as style;
 
 .animated-txt {
   &.text-wrap {
@@ -12,32 +10,32 @@
   }
 
   &.justify-start {
-    @include layout.flex(row, start);
+    @include style.flex(row, start);
   }
 
   &.justify-center {
-    @include layout.flex(row, center);
+    @include style.flex(row, center);
   }
 
   &.justify-evenly {
-    @include layout.flex(row, evenly);
+    @include style.flex(row, evenly);
 
     .word {
-      @include layout.flex(row, evenly);
+      @include style.flex(row, evenly);
       flex: 1;
     }
   }
 
   &.font-size-md {
-    font-size: var.$font-size-md;
+    font-size: style.$font-size-md;
   }
 
   &.font-size-4xl {
-    font-size: var.$font-size-4xl;
+    font-size: style.$font-size-4xl;
   }
 
   &.font-size-giant {
-    font-size: var.$font-size-giant;
+    font-size: style.$font-size-giant;
   }
 
   .word {
@@ -52,6 +50,7 @@
     }
 
     &.letter-spacing-sm {
+
       .char,
       &::after {
         width: 0.8em;
@@ -59,6 +58,7 @@
     }
 
     &.letter-spacing-md {
+
       .char,
       &::after {
         width: 1.1em;
@@ -66,6 +66,7 @@
     }
 
     &.letter-spacing-lg {
+
       .char,
       &::after {
         width: 1.5em;
@@ -73,6 +74,7 @@
     }
 
     &.line-height-sm {
+
       .char,
       &::after {
         height: 1em;
@@ -80,6 +82,7 @@
     }
 
     &.line-height-md {
+
       .char,
       &::after {
         height: 1.3em;
@@ -87,6 +90,7 @@
     }
 
     &.line-height-lg {
+
       .char,
       &::after {
         height: 1.5em;
@@ -94,6 +98,7 @@
     }
 
     &.line-height-xl {
+
       .char,
       &::after {
         height: 2em;
@@ -122,27 +127,21 @@
       }
 
       &.animation-fadeIn {
-        @include animation.animate(
-          $name: fadeIn,
+        @include style.animate($name: fadeIn,
           $tfunc: ease,
-          $mode: forwards
-        );
+          $mode: forwards);
       }
 
       &.animation-fadeInLeft {
-        @include animation.animate(
-          $name: fadeInLeft,
+        @include style.animate($name: fadeInLeft,
           $tfunc: ease,
-          $mode: forwards
-        );
+          $mode: forwards);
       }
 
       &.animation-fadeInRight {
-        @include animation.animate(
-          $name: fadeInRight,
+        @include style.animate($name: fadeInRight,
           $tfunc: ease,
-          $mode: forwards
-        );
+          $mode: forwards);
       }
     }
   }

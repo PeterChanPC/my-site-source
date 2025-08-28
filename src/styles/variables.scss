@@ -1,14 +1,12 @@
 // styles for color theme
 $bg-light: #fff;
 $bg-dark: #111;
-$bg-light-opague: rgba(
-  $color: $bg-light,
-  $alpha: 0.2,
-);
-$bg-dark-opague: rgba(
-  $color: $bg-dark,
-  $alpha: 0.2,
-);
+$bg-light-opague: rgba($color: $bg-light,
+    $alpha: 0.2,
+  );
+$bg-dark-opague: rgba($color: $bg-dark,
+    $alpha: 0.2,
+  );
 
 $border-light: #ddd;
 $border-dark: #333;
@@ -42,28 +40,6 @@ $font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
 $font-size-2xl: clamp(2rem, 3vw, 3rem);
 $font-size-4xl: clamp(2rem, 4vw + 2rem, 6rem);
 $font-size-giant: clamp(2rem, 5vw, 12rem);
-
-// styles for global-sidebar + global-header
-$header-width: 100dvw;
-$header-height: 60px;
-
-$no-of-header-btn: 3;
-
-$header-left-width: 80px;
-$header-left-height: auto;
-$header-left-margin: 16px;
-
-$functions-width: 150px;
-$header-right-width: calc(
-  $no-of-header-btn * ($btn-width-md + 2 * $btn-margin-md)
-);
-$header-right-height: $btn-height-md;
-
-$sidebarToggleMaxWidth: calc(
-  $header-left-width + $header-left-margin * 2 + $header-right-width +
-    $functions-width
-);
-$sidebar-width: 200px;
 
 // styles for homepage
 $homepage-height: 100dvh;

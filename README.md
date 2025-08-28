@@ -1,3 +1,3 @@
-My Personal Practices on using framework(Vue.js)
+My Personal Website
 
 website: https://peterchanpc.github.io/my-site/
