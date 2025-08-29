@@ -9,10 +9,10 @@ import homepageBg from '@/assets/img/homepage-bg.webp';
 import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import * as THREE from 'three';
-import Player from '@/views/homepage/PlayerController';
+import PlayerController from '@/views/homepage/PlayerController';
 import GameInput from '@/views/homepage/GameInput';
 import Physics from '@/views/homepage/Physics';
-import Scene from '@/views/homepage/Scene';
+import SceneController from '@/views/homepage/SceneController';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -52,17 +52,18 @@ export default defineComponent({
       camera.position.set(0, 10, 50);
       camera.lookAt(0, 0, 0);
 
-      const scene = new Scene(themeStore.theme);
-      scene.createScene();
-      const playerObject = scene.getPlayer();
+      const sceneController = new SceneController(themeStore.theme);
+      const playerObject = sceneController.getPlayerObject();
+      sceneController.createScene();
 
-      const collidables = scene.getScene().children.filter(obj => obj !== playerObject);
+      const scene = sceneController.getScene();
+      const collidables = scene.children.filter(obj => obj !== playerObject);
       const physics = new Physics(collidables, camera);
 
       const gameInput = new GameInput(physics);
-      gameInput.addInputListener();
+      const playerController = new PlayerController(playerObject, gameInput, physics);
 
-      const player = new Player(playerObject, gameInput, physics);
+      gameInput.addInputListener();
 
       // update frame
       function update() {
@@ -71,11 +72,11 @@ export default defineComponent({
         camera.bottom = -5 / aspect;
         camera.updateProjectionMatrix();
 
-        scene.changeTheme(themeStore.theme);
-        player.applyMovement();
+        sceneController.changeTheme(themeStore.theme);
+        playerController.applyMovement();
 
         if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
-        renderer.render(scene.getScene(), camera);
+        renderer.render(scene, camera);
       };
       renderer.setAnimationLoop(update);
 

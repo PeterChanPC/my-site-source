@@ -1,8 +1,8 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 import texture from '@/assets/img/texture-1.webp';
 import { SupportedTheme } from "@/stores/d";
 
-export default class Scene {
+export default class SceneController {
   private scene: THREE.Scene = new THREE.Scene();
   private theme: SupportedTheme = 'light';
 
@@ -112,7 +112,7 @@ export default class Scene {
     return this.scene;
   };
 
-  public getPlayer(): THREE.Object3D {
+  public getPlayerObject(): THREE.Object3D {
     return this.player;
   };
 

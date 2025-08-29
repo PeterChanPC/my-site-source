@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import GameInput from './GameInput';
 import Physics from './Physics';
 
-export default class Player {
+export default class PlayerController {
   private player: THREE.Object3D;
   private velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
