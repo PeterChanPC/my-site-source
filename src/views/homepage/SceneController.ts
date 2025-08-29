@@ -40,21 +40,21 @@ export default class SceneController {
   // Ambient Light
   private ambientLight = new THREE.AmbientLight(0xcccccc);
 
-  // Spot Lights
+  // Spotlights
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
 
+  // Textures Setup
   private setTextures(): void {
     this.playerTexture.wrapS = THREE.RepeatWrapping;
     this.playerTexture.wrapT = THREE.RepeatWrapping;
     this.playerTexture.repeat.set(3, 3);
   };
 
+  // Positions Setup
   private setPositions(): void {
-    // Player
     this.player.position.set(3, 0, -2);
 
-    // Walls
     this.wall_1.position.set(0, 0, -10);
     this.wall_2.position.set(-5, 0, 0);
     this.wall_3.position.set(5, 0, 0);
@@ -64,17 +64,16 @@ export default class SceneController {
     this.wall_3.rotation.set(0, -Math.PI / 2, 0);
     this.wall_4.rotation.set(0, Math.PI, 0);
 
-    // Floor
     this.floor.position.set(0, -1, 0);
     this.floor.rotation.set(-Math.PI / 2, 0, 0);
 
-    // Spotlights
     this.theme === 'light' ?
       this.spotlightPrimary.position.set(50, 50, 50) :
       this.spotlightPrimary.position.set(-50, 50, 50);
     this.spotlightSecondary.position.set(-50, 50, 50);
   };
 
+  // Lighting Setup
   private setLightings(): void {
     this.playerMesh.castShadow = true;
     this.wall_1.receiveShadow = true;
@@ -101,6 +100,7 @@ export default class SceneController {
     };
   };
 
+  // Scene Setup
   public createScene(): void {
     this.setTextures();
     this.setPositions();
