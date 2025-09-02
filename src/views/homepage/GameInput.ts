@@ -2,16 +2,23 @@ import * as THREE from 'three';
 import Physics from './Physics';
 
 export default class GameInput {
-  private isMouse: boolean = false;
-  private pointerPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-  private moveUp: boolean = false;
-  private moveDown: boolean = false;
-  private moveLeft: boolean = false;
-  private moveRight: boolean = false;
+  private isMouse: boolean;
+  private pointerPos: THREE.Vector3;
+  private moveDir: THREE.Vector2;
+  private moveUp: boolean;
+  private moveDown: boolean;
+  private moveLeft: boolean;
+  private moveRight: boolean;
   private physics?: Physics;
 
   constructor(physics?: Physics) {
+    this.isMouse = false;
+    this.pointerPos = new THREE.Vector3(0, 0, 0);
+    this.moveDir = new THREE.Vector2(0, 0);
+    this.moveUp = false;
+    this.moveDown = false;
+    this.moveLeft = false;
+    this.moveRight = false;
     this.physics = physics;
   };
 
@@ -133,7 +140,7 @@ export default class GameInput {
     };
   };
 
-  public getMovementVectorNormalized(): THREE.Vector2 {
+  get getMovementVectorNormalized(): THREE.Vector2 {
     return this.moveDir.clone().normalize();
   };
-}
+};

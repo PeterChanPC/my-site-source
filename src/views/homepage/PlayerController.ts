@@ -4,24 +4,28 @@ import Physics from './Physics';
 
 export default class PlayerController {
   private player: THREE.Object3D;
-  private velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private clock: THREE.Clock = new THREE.Clock();
+  private velocity: THREE.Vector3;
+  private force: THREE.Vector3;
+  private drag: THREE.Vector3;
+  private clock: THREE.Clock;
   private gameInput: GameInput;
   private physics: Physics;
 
   constructor(player: THREE.Object3D, gameInput: GameInput, physics: Physics) {
     this.player = player;
+    this.velocity = new THREE.Vector3(0, 0, 0);
+    this.force = new THREE.Vector3(0, 0, 0);
+    this.drag = new THREE.Vector3(0, 0, 0);
+    this.clock = new THREE.Clock();
     this.gameInput = gameInput;
     this.physics = physics;
   };
 
   private updateForce(strength: number) {
-    let moveVec = this.gameInput.getMovementVectorNormalized();
+    let moveVec = this.gameInput.getMovementVectorNormalized;
     this.force.set(moveVec.x, 0, moveVec.y).multiplyScalar(strength);
     this.force.z *= 2; // vertical compensation for user experience
-  }
+  };
 
   private updateDrag(strength: number) {
     this.drag.set(this.velocity.x, 0, this.velocity.z).multiplyScalar(strength);
@@ -74,15 +78,15 @@ export default class PlayerController {
     this.player.position.add(this.velocity.clone().multiplyScalar(dt));
   };
 
-  public getForce() {
+  get getForce() {
     return [this.force.x, this.force.y, this.force.z];
-  }
+  };
 
-  public getDrag() {
+  get getDrag() {
     return [this.drag.x, this.drag.y, this.drag.z];
-  }
+  };
 
-  public getVelocity() {
+  get getVelocity() {
     return [this.velocity.x, this.velocity.y, this.velocity.z];
-  }
+  };
 };

@@ -46,6 +46,7 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
+  user-select: none;
 
   img {
     @include style.center-absolute;

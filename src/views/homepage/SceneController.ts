@@ -108,11 +108,11 @@ export default class SceneController {
     this.scene.add(this.player, this.floor, this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
   };
 
-  public getScene(): THREE.Scene {
+  get getScene(): THREE.Scene {
     return this.scene;
   };
 
-  public getPlayerObject(): THREE.Object3D {
+  get getPlayerObject(): THREE.Object3D {
     return this.player;
   };
 

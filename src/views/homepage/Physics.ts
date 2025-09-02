@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 
 export default class Physics {
-  private raycaster: THREE.Raycaster = new THREE.Raycaster();
+  private raycaster: THREE.Raycaster;
   private collidables: THREE.Object3D[];
   private camera?: THREE.Camera;
 
   constructor(collidables: THREE.Object3D[], camera: THREE.Camera) {
+    this.raycaster = new THREE.Raycaster();
     this.collidables = collidables;
     this.camera = camera;
-  }
+  };
 
   // casting a ray from a Origin with Direction and Max Distance
   public raycast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
@@ -40,7 +41,7 @@ export default class Physics {
     });
 
     return collisions;
-  }
+  };
 
   // project mouse position to world position
   public screenPointToWorld(x: number, y: number): THREE.Vector3 | undefined {
@@ -55,5 +56,5 @@ export default class Physics {
     const hit = this.raycaster.intersectObjects(this.collidables)[0];
 
     return new THREE.Vector3(hit.point.x, hit.point.y, -hit.point.z);
-  }
-}
+  };
+};

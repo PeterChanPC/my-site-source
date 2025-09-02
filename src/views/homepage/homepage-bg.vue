@@ -6,13 +6,14 @@
 
 <script lang="ts">
 import homepageBg from '@/assets/img/homepage-bg.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, ref, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, ref, render, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
-import * as THREE from 'three';
-import PlayerController from '@/views/homepage/PlayerController';
-import GameInput from '@/views/homepage/GameInput';
-import Physics from '@/views/homepage/Physics';
+import RendererController from '@/views/homepage/RendererController';
+import CameraController from '@/views/homepage/CameraController';
 import SceneController from '@/views/homepage/SceneController';
+import Physics from '@/views/homepage/Physics';
+import GameInput from '@/views/homepage/GameInput';
+import PlayerController from '@/views/homepage/PlayerController';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -21,13 +22,8 @@ export default defineComponent({
     const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
     const themeStore = useThemeStore();
 
-    const isValid = (): Boolean => {
-      if (canvas.value) return true;
-      return false;
-    };
-
     onMounted(() => {
-      if (!isValid() && background.value) {
+      if (!canvas.value && background.value) {
         background.value.style.cssText = `
           background-position: center;
           background-size: cover;
@@ -35,31 +31,19 @@ export default defineComponent({
         `;
       };
 
-      // setup renderer
-      const renderer = new THREE.WebGLRenderer({
-        canvas: canvas.value,
-        antialias: true,
-        alpha: true,
-      });
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      renderer.setClearColor(0x000000, 0);
+      const rendererController = new RendererController(canvas.value);
+      const renderer = rendererController.getRenderer;
 
-
-      // setup camera
-      let aspect = window.innerWidth / window.innerHeight;
-      const camera = new THREE.OrthographicCamera(-5, 5, 5 / aspect, -5 / aspect, 0, 1000);
-      camera.position.set(0, 10, 50);
-      camera.lookAt(0, 0, 0);
+      const cameraController = new CameraController();
+      const camera = cameraController.getCamera;
 
       const sceneController = new SceneController(themeStore.theme);
-      const playerObject = sceneController.getPlayerObject();
       sceneController.createScene();
-
-      const scene = sceneController.getScene();
+      const playerObject = sceneController.getPlayerObject;
+      const scene = sceneController.getScene;
       const collidables = scene.children.filter(obj => obj !== playerObject);
-      const physics = new Physics(collidables, camera);
 
+      const physics = new Physics(collidables, camera);
       const gameInput = new GameInput(physics);
       const playerController = new PlayerController(playerObject, gameInput, physics);
 
@@ -67,11 +51,7 @@ export default defineComponent({
 
       // update frame
       function update() {
-        aspect = window.innerWidth / window.innerHeight;
-        camera.top = 5 / aspect;
-        camera.bottom = -5 / aspect;
-        camera.updateProjectionMatrix();
-
+        cameraController.updateCamera();
         sceneController.changeTheme(themeStore.theme);
         playerController.applyMovement();
 
