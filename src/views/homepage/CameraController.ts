@@ -20,11 +20,21 @@ export default class CameraController {
     this.camera.lookAt(0, 0, 0);
   };
 
-  public updateCamera(): void {
+  private updateCamera(): void {
     this.updateAspect();
     this.camera.top = 5 / this.aspect;
     this.camera.bottom = - 5 / this.aspect;
     this.camera.updateProjectionMatrix();
+  };
+
+  private boundUpdateCamera = () => this.updateCamera();
+
+  public addResizeListener(): void {
+    window.addEventListener('resize', this.boundUpdateCamera);
+  };
+
+  public removeResizeListener(): void {
+    window.removeEventListener('resize', this.boundUpdateCamera);
   };
 
   get getCamera(): THREE.OrthographicCamera {

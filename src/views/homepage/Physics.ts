@@ -4,11 +4,26 @@ export default class Physics {
   private raycaster: THREE.Raycaster;
   private collidables: THREE.Object3D[];
   private camera?: THREE.Camera;
+  private screenPos: THREE.Vector2;
+  private worldPoint: THREE.Vector3;
+
+  private axis: THREE.Vector3;
+  private angle: number;
+  private p1: THREE.Vector3;
+  private p2: THREE.Vector3;
+  private dir: THREE.Vector3;
 
   constructor(collidables: THREE.Object3D[], camera: THREE.Camera) {
     this.raycaster = new THREE.Raycaster();
     this.collidables = collidables;
     this.camera = camera;
+    this.screenPos = new THREE.Vector2(0, 0);
+    this.worldPoint = new THREE.Vector3(0, 0, 0);
+    this.axis = new THREE.Vector3(0, 1, 0);
+    this.angle = Math.PI / 2;
+    this.p1 = new THREE.Vector3(0, 0, 0);
+    this.p2 = new THREE.Vector3(0, 0, 0);
+    this.dir = new THREE.Vector3(0, 0, 0);
   };
 
   // casting a ray from a Origin with Direction and Max Distance
@@ -28,15 +43,13 @@ export default class Physics {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
     collisions = this.raycast(origin, direction, maxDistance);
 
-    const axis = new THREE.Vector3(0, 1, 0);
-    const angle = Math.PI / 2;
-    const p1 = origin.clone().add(direction.clone().applyAxisAngle(axis, angle).normalize().multiplyScalar(leftWidth));
-    const p2 = origin.clone().add(direction.clone().applyAxisAngle(axis, -angle).normalize().multiplyScalar(rightWidth));
+    this.p1.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth));
+    this.p2.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, -this.angle).normalize().multiplyScalar(rightWidth));
 
-    this.raycast(p1, direction, maxDistance).forEach(obj => {
+    this.raycast(this.p1, direction, maxDistance).forEach(obj => {
       collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
     });
-    this.raycast(p2, direction, maxDistance).forEach(obj => {
+    this.raycast(this.p2, direction, maxDistance).forEach(obj => {
       collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
     });
 
@@ -49,12 +62,13 @@ export default class Physics {
 
     let screenPosX = (x / window.innerWidth) * 2 - 1;
     let screenPosY = (y / window.innerHeight) * 2 - 1;
-    let screenPos = new THREE.Vector2(screenPosX, screenPosY);
+    this.screenPos.set(screenPosX, screenPosY);
 
-    this.raycaster.setFromCamera(screenPos, this.camera);
+    this.raycaster.setFromCamera(this.screenPos, this.camera);
     this.raycaster.far = 100;
     const hit = this.raycaster.intersectObjects(this.collidables)[0];
+    this.worldPoint.set(hit.point.x, hit.point.y, -hit.point.z);
 
-    return new THREE.Vector3(hit.point.x, hit.point.y, -hit.point.z);
+    return this.worldPoint;
   };
 };

@@ -18,11 +18,12 @@ import PlayerController from '@/views/homepage/PlayerController';
 export default defineComponent({
   name: 'homepage-background',
   setup(__, { expose }) {
-    const canvas: Ref<HTMLCanvasElement | undefined> = ref(undefined);
+    const canvas: Ref<HTMLCanvasElement | null> = useTemplateRef('canvas');
     const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
     const themeStore = useThemeStore();
 
     onMounted(() => {
+      // fallback background
       if (!canvas.value && background.value) {
         background.value.style.cssText = `
           background-position: center;
@@ -32,36 +33,34 @@ export default defineComponent({
       };
 
       const rendererController = new RendererController(canvas.value);
-      const renderer = rendererController.getRenderer;
-
       const cameraController = new CameraController();
-      const camera = cameraController.getCamera;
-
       const sceneController = new SceneController(themeStore.theme);
-      sceneController.createScene();
-      const playerObject = sceneController.getPlayerObject;
-      const scene = sceneController.getScene;
-      const collidables = scene.children.filter(obj => obj !== playerObject);
 
+      const camera = cameraController.getCamera;
+      const scene = sceneController.getScene;
+      const playerObject = sceneController.getPlayerObject;
+
+      sceneController.createScene();
+
+      const collidables = scene.children.filter(obj => obj !== playerObject);
       const physics = new Physics(collidables, camera);
       const gameInput = new GameInput(physics);
       const playerController = new PlayerController(playerObject, gameInput, physics);
 
-      gameInput.addInputListener();
-
-      // update frame
       function update() {
-        cameraController.updateCamera();
         sceneController.changeTheme(themeStore.theme);
         playerController.applyMovement();
-
-        if (background.value) renderer.setSize(background.value.offsetWidth, background.value.offsetHeight);
-        renderer.render(scene, camera);
       };
-      renderer.setAnimationLoop(update);
+      rendererController.setAnimation(update, scene, camera);
+
+      gameInput.addInputListener();
+      rendererController.addResizeListener();
+      cameraController.addResizeListener();
 
       onUnmounted(() => {
         gameInput.removeInputListener();
+        rendererController.removeResizeListener();
+        cameraController.removeResizeListener();
       });
     });
 

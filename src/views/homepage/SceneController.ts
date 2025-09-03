@@ -43,6 +43,8 @@ export default class SceneController {
   // Spotlights
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
+  private spotlightPrimaryPosLight = new THREE.Vector3(50, 50, 50);
+  private spotlightPrimaryPosDark = new THREE.Vector3(-50, 50, 50);
 
   // Textures Setup
   private setTextures(): void {
@@ -83,11 +85,15 @@ export default class SceneController {
     this.spotlightPrimary.penumbra = 0.8;
     this.spotlightPrimary.castShadow = true;
     this.spotlightPrimary.shadow.intensity = 0.8;
+    this.spotlightPrimary.shadow.mapSize.width = 512;
+    this.spotlightPrimary.shadow.mapSize.height = 512;
 
     this.spotlightSecondary.angle = 0.08;
     this.spotlightSecondary.penumbra = 0.8;
     this.spotlightSecondary.castShadow = true;
     this.spotlightSecondary.shadow.intensity = 0.8;
+    this.spotlightSecondary.shadow.mapSize.width = 512;
+    this.spotlightSecondary.shadow.mapSize.height = 512;
 
     if (this.theme === 'light') {
       this.ambientLight.intensity = 1;
@@ -116,17 +122,17 @@ export default class SceneController {
     return this.player;
   };
 
-  public changeTheme(theme: SupportedTheme) {
+  public changeTheme = (theme: SupportedTheme): void => {
     if (this.theme !== theme) this.theme = theme;
     if (this.theme === 'light') {
       if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
       if (this.spotlightPrimary.angle < 0.1) this.spotlightPrimary.angle += 0.005;
-      this.spotlightPrimary.position.lerp(new THREE.Vector3(50, 50, 50), 0.1);
+      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, 0.1);
       this.spotlightSecondary.power = 0;
     } else {
       if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
       if (this.spotlightPrimary.angle > 0.03) this.spotlightPrimary.angle -= 0.005;
-      this.spotlightPrimary.position.lerp(new THREE.Vector3(-50, 50, 50), 0.1);
+      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, 0.1);
       this.spotlightSecondary.power = 5000;
     };
   };

@@ -4,6 +4,7 @@ import Physics from './Physics';
 export default class GameInput {
   private isMouse: boolean;
   private pointerPos: THREE.Vector3;
+  private pointerDir: THREE.Vector3;
   private moveDir: THREE.Vector2;
   private moveUp: boolean;
   private moveDown: boolean;
@@ -14,6 +15,7 @@ export default class GameInput {
   constructor(physics?: Physics) {
     this.isMouse = false;
     this.pointerPos = new THREE.Vector3(0, 0, 0);
+    this.pointerDir = new THREE.Vector3(0, 0, 0);
     this.moveDir = new THREE.Vector2(0, 0);
     this.moveUp = false;
     this.moveDown = false;
@@ -112,9 +114,9 @@ export default class GameInput {
 
   public handleMovementVector(playerPos?: THREE.Vector3): void {
     if (this.isMouse && !this.isKeyboard() && playerPos) {
-      const pointerDir = this.pointerPos.clone().sub(playerPos);
-      if (pointerDir.length() > 0.1) {
-        this.moveDir.set(pointerDir.x, pointerDir.z)
+      this.pointerDir.copy(this.pointerPos).sub(playerPos);
+      if (this.pointerDir.length() > 0.1) {
+        this.moveDir.set(this.pointerDir.x, this.pointerDir.z)
       } else {
         this.moveDir.set(0, 0);
       };
@@ -141,6 +143,6 @@ export default class GameInput {
   };
 
   get getMovementVectorNormalized(): THREE.Vector2 {
-    return this.moveDir.clone().normalize();
+    return this.moveDir.normalize();
   };
 };
