@@ -67,8 +67,8 @@ const isAuth: Ref<Boolean> = ref(false);
 const showAuth: Ref<Boolean> = ref(false);
 const showError: Ref<Boolean> = ref(false);
 const showLogin: Ref<Boolean> = ref(false);
-const showAuthTimeout: Ref<NodeJS.Timeout | null> = ref(null);
-const showLoginTimeout: Ref<NodeJS.Timeout | null> = ref(null);
+const showAuthTimeout: Ref<number | null> = ref(null);
+const showLoginTimeout: Ref<number | null> = ref(null);
 const duration: number = 3000;
 
 onBeforeMount(async () => {
@@ -118,7 +118,7 @@ const login = (): void => {
   height: calc(100vh - 50px - 1em);
   padding: 1em;
   padding-top: 50px;
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-primary);
   color: var(--txt-color);
   overflow-y: scroll;
 }

@@ -24,18 +24,22 @@ body {
 
 @container style(--theme: light) {
   #app {
-    --bg-color: #{style.$bg-light};
+    --bg-color-primary: #{style.$bg-light-primary};
+    --bg-color-secondary: #{style.$bg-light-secondary};
     --bg-color-opague: #{style.$bg-light-opague};
     --txt-color: #{style.$txt-light};
+    --shadow-color: #{style.$shadow-light};
     --img-filter: #{style.$img-light};
   }
 }
 
 @container style(--theme: dark) {
   #app {
-    --bg-color: #{style.$bg-dark};
+    --bg-color-primary: #{style.$bg-dark-primary};
+    --bg-color-secondary: #{style.$bg-dark-secondary};
     --bg-color-opague: #{style.$bg-dark-opague};
     --txt-color: #{style.$txt-dark};
+    --shadow-color: #{style.$shadow-dark};
     --img-filter: #{style.$img-dark};
   }
 }
@@ -53,6 +57,16 @@ body {
     width: 1.2rem;
     height: 1.2rem;
     filter: var(--img-filter);
+  }
+
+  .page {
+    @include style.flex(row, center);
+    position: relative;
+    width: 100%;
+    height: style.$homepage-height;
+    background-color: var(--bg-color-primary);
+    color: var(--txt-color);
+    overflow: hidden;
   }
 }
 </style>

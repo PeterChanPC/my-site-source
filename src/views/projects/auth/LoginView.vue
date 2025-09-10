@@ -34,7 +34,7 @@ const login = async () => {
   align-items: center;
   justify-content: center;
   padding-top: 50px;
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-primary);
   color: var(--txt-color);
 
   input {

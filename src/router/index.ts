@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/homepage/homepage.vue';
-
-import ProjectView from '@/views/projects/ProjectView.vue';
+import ProjectView from '@/views/projects/projects.vue';
 import TodoView from '@/views/projects/todo-list/todos.vue';
 import AuthView from '@/views/projects/auth/AuthView.vue';
 import LoginView from '@/views/projects/auth/LoginView.vue';
 import AuthContentView from '@/views/projects/auth/AuthContentView.vue';
-
 import BlogView from '@/views/blogs/blog.vue';
 import TestView from '@/views/test.vue';
 import { useUserStore } from '@/stores/user.store';

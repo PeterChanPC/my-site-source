@@ -48,7 +48,7 @@ const createTodo = () => {
   height: calc(100vh - 50px - 1em);
   padding: 1em;
   padding-top: 50px;
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-primary);
   color: var(--txt-color);
   overflow-x: hidden;
   overflow-y: scroll;

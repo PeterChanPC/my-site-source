@@ -1,10 +1,13 @@
 // styles for color theme
-$bg-light: #fff;
-$bg-dark: #111;
-$bg-light-opague: rgba($color: $bg-light,
+$bg-light-primary: #fff;
+$bg-light-secondary: rgb(250, 250, 250);
+$bg-dark-primary: #111;
+$bg-dark-secondary: #555;
+
+$bg-light-opague: rgba($color: $bg-light-primary,
     $alpha: 0.2,
   );
-$bg-dark-opague: rgba($color: $bg-dark,
+$bg-dark-opague: rgba($color: $bg-dark-primary,
     $alpha: 0.2,
   );
 
@@ -13,6 +16,9 @@ $border-dark: #333;
 
 $txt-light: #111;
 $txt-dark: #fff;
+
+$shadow-light: rgba(0, 0, 0, 0.3);
+$shadow-dark: rgba(200, 200, 200, 0.5);
 
 $img-light: invert(0%);
 $img-dark: invert(100%);

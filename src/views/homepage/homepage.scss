@@ -1,14 +1,6 @@
 @use "@/styles/style.scss";
 
 .home {
-  @include style.flex(row, center);
-  position: relative;
-  width: 100%;
-  height: style.$homepage-height;
-  background-color: var(--bg-color);
-  color: var(--txt-color);
-  overflow: hidden;
-
   .homepage-bg {
     position: absolute;
     top: 0;

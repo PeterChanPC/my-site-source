@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="page home">
     <div class="homepage-bg">
       <HomepageBg />
     </div>
@@ -90,5 +90,5 @@ const langStore = useLangStore();
 </script>
 
 <style scoped lang="scss">
-@forward './homepage.scss';
+@forward './homepage';
 </style>
