@@ -15,8 +15,8 @@
 
   .card-img-wrapper {
     position: relative;
-    width: 100%;
-    height: 50%;
+    width: min(324px, 80%);
+    height: 262px;
 
     img {
       transform-origin: top left;
@@ -29,23 +29,39 @@
   }
 
   .card-details {
-    width: calc(100% - 24px);
-    height: 50%;
-    padding: 5px 12px 0px 12px;
+    width: min(324px, 80%);
+    height: 262px;
+    padding: 8px 16px 8px 16px;
 
     .card-title {
+      width: 100%;
+      height: 40px;
       text-transform: capitalize;
       font-size: 32px;
     }
 
     .card-descriptions {
+      width: 100%;
+      height: 154px;
       margin-top: 10px;
       font-size: 12px;
+    }
+
+    .card-btn {
+      @include style.flex(row, center);
+      justify-content: end;
+      width: 100%;
+      height: 42px;
+
+      .arrow-wrapper {
+        position: relative;
+        width: 42px;
+        height: 42px;
+      }
     }
   }
 
   &:hover {
-    scale: 1.05;
     box-shadow: 0px 8px 16px var(--shadow-color);
   }
 }

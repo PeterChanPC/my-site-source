@@ -1,11 +1,9 @@
 <template>
   <div class="page projects">
     <div class="cards-wrapper">
-      <Card v-for="detail in details" :src="detail.img" :path="detail.name" :title="detail.name"
-        :description="detail.description" />
+      <Card v-for="detail in details" ref="cards" :src="detail.img" :path="detail.name" :title="detail.name"
+        :description="detail.description" @click="flip" />
     </div>
-
-    <div ref="dumper" class="dumper"></div>
   </div>
 </template>
 
@@ -14,9 +12,9 @@ import Card from '@/components/card/card.vue';
 import ListImg from '@/assets/img/fi-rr-list-check.svg';
 import UserImg from '@/assets/img/fi-rr-user.svg';
 import QuestionImg from '@/assets/img/fi-rr-question.svg';
-import { Ref, useTemplateRef } from 'vue';
+import { ref } from 'vue';
 
-const details = [
+const details = ref([
   {
     name: 'todos',
     img: ListImg,
@@ -32,12 +30,32 @@ const details = [
     img: QuestionImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
   },
-];
+  {
+    name: 'test',
+    img: QuestionImg,
+    description: 'a super long description that is used to test the wrapping and text visibility for this card',
+  },
+  {
+    name: 'test',
+    img: QuestionImg,
+    description: 'a super long description that is used to test the wrapping and text visibility for this card',
+  },
+  {
+    name: 'test',
+    img: QuestionImg,
+    description: 'a super long description that is used to test the wrapping and text visibility for this card',
+  },
+  {
+    name: 'test',
+    img: QuestionImg,
+    description: 'a super long description that is used to test the wrapping and text visibility for this card',
+  },
+]);
 
-const dumper: Ref<HTMLDivElement | null> = useTemplateRef('dumper');
-
-const onDrag = () => {
-
+const flip = () => {
+  const temp = details.value[0];
+  details.value.shift();
+  details.value.push(temp);
 };
 </script>
 

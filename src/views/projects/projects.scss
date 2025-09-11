@@ -1,24 +1,29 @@
 @use "@/styles/style.scss";
 
-$no-of-cards: 3;
-$cardBundleMaxWidth: calc($no-of-cards * (324px + 10px));
+$no-of-cards: 7;
+$cardBundleMaxWidth: 524px;
 
 .projects {
   .cards-wrapper {
     @include style.flex(row, start);
     position: absolute;
-    bottom: -300px;
-    width: calc($no-of-cards * (324px + 10px));
+    bottom: 0;
+    left: 3vw;
+    width: 90vw;
     height: auto;
 
-    &>*:not(.dumper) {
-      position: relative;
-      margin: 5px;
+    @for $i from 1 through $no-of-cards {
+      &>*:nth-child(#{$i}) {
+        position: absolute;
+        transform: translateX(calc(90vw / $no-of-cards * (#{$i} - 1)));
+        z-index: calc($no-of-cards - #{$i});
 
-      &:hover {
-        transform: translateY(-300px) scale(1.2);
-        z-index: $no-of-cards;
+        &:hover {
+          transform: translateX(calc(90vw / $no-of-cards * (#{$i} - 1))) translateY(-300px) scale(1.2);
+          z-index: $no-of-cards;
+        }
       }
+
     }
 
     @media (max-width: $cardBundleMaxWidth) {
@@ -29,10 +34,14 @@ $cardBundleMaxWidth: calc($no-of-cards * (324px + 10px));
       height: auto;
 
       @for $i from 1 through $no-of-cards {
-        &>*:nth-child(#{$i}):not(.dumper) {
+        &>*:nth-child(#{$i}) {
           position: absolute;
           transform: rotate(calc(5deg * (#{$i} - 1)));
           z-index: calc($no-of-cards - #{$i});
+
+          &:not(:first-child) {
+            pointer-events: none;
+          }
         }
       }
     }

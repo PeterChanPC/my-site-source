@@ -1,5 +1,5 @@
 <template>
-  <router-link ref="card" class="card" :to="{ name: path }">
+  <div class="card">
     <div class="card-img-wrapper">
       <img :src="src" :alt="title">
     </div>
@@ -10,11 +10,17 @@
       <div class="card-descriptions">
         <span>{{ description }}</span>
       </div>
+      <div class="card-btn">
+        <router-link class="arrow-wrapper" :to="{ name: path }">
+          <img :src="Arrow" alt="To">
+        </router-link>
+      </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script lang="ts">
+import Arrow from '@/assets/img/fi-rr-angle-double-right.svg';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -36,6 +42,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { Arrow };
   },
 });
 </script>
