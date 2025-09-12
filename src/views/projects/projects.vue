@@ -1,8 +1,8 @@
 <template>
   <div class="page projects">
     <div class="cards-wrapper">
-      <Card v-for="detail in details" ref="cards" :src="detail.img" :path="detail.name" :title="detail.name"
-        :description="detail.description" @click="flip" />
+      <Card v-for="detail in details" ref="cards" :src="detail.img" :path="detail.name"
+        :title="detail.id + '. ' + detail.name" :description="detail.description" @click="flip" />
     </div>
   </div>
 </template>
@@ -16,36 +16,31 @@ import { ref } from 'vue';
 
 const details = ref([
   {
+    id: 1,
     name: 'todos',
     img: ListImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
   },
   {
+    id: 2,
     name: 'authentication',
     img: UserImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
   },
   {
+    id: 3,
     name: 'test',
     img: QuestionImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
   },
   {
+    id: 4,
     name: 'test',
     img: QuestionImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
   },
   {
-    name: 'test',
-    img: QuestionImg,
-    description: 'a super long description that is used to test the wrapping and text visibility for this card',
-  },
-  {
-    name: 'test',
-    img: QuestionImg,
-    description: 'a super long description that is used to test the wrapping and text visibility for this card',
-  },
-  {
+    id: 5,
     name: 'test',
     img: QuestionImg,
     description: 'a super long description that is used to test the wrapping and text visibility for this card',
@@ -53,9 +48,9 @@ const details = ref([
 ]);
 
 const flip = () => {
-  const temp = details.value[0];
+  if (window.innerWidth > 324 / 2 * 5) return;
+  details.value.push(details.value[0]);
   details.value.shift();
-  details.value.push(temp);
 };
 </script>
 

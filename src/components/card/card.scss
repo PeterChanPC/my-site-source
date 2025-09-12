@@ -1,22 +1,44 @@
 @use "@/styles/style";
 
+$card-width: 224px;
+$card-height: 324px;
+$card-border-radius: 13px;
+$card-bg-color: rgb(250, 250, 250);
+$card-shadow: 0px 4px 8px var(--shadow-color);
+$card-hover-shadow: 0px 8px 16px var(--shadow-color);
+$card-color: black;
+
+$card-half-height: calc($card-height / 2);
+$card-details-width: calc(100% - 32px);
+$card-details-padding: 8px 16px 8px 16px;
+
+$card-title-height: 32px;
+$card-title-font-size: 24px;
+
+$card-btn-height: 42px;
+
+$card-description-font-size: calc($card-title-font-size / 3);
+$card-description-margin-top: 8px;
+$card-description-height: calc($card-half-height - $card-title-height - $card-description-margin-top - $card-btn-height);
+
 .card {
   @include style.flex(col, start);
   @include style.transition(all, 100ms);
-  width: min(324px, 80%);
-  height: 524px;
-  border-radius: 13px;
-  background-color: rgb(250, 250, 250);
-  box-shadow: 0px 4px 8px var(--shadow-color);
-  color: black;
+  position: relative;
+  width: $card-width;
+  height: $card-height;
+  border-radius: $card-border-radius;
+  background-color: $card-bg-color;
+  box-shadow: $card-shadow;
+  color: $card-color;
   text-decoration: none;
   overflow: hidden;
   user-select: none;
 
   .card-img-wrapper {
     position: relative;
-    width: min(324px, 80%);
-    height: 262px;
+    width: 100%;
+    height: $card-half-height;
 
     img {
       transform-origin: top left;
@@ -29,39 +51,39 @@
   }
 
   .card-details {
-    width: min(324px, 80%);
-    height: 262px;
-    padding: 8px 16px 8px 16px;
+    width: $card-details-width;
+    height: $card-half-height;
+    padding: $card-details-padding;
 
     .card-title {
       width: 100%;
-      height: 40px;
+      height: $card-title-height;
       text-transform: capitalize;
-      font-size: 32px;
+      font-size: $card-title-font-size;
     }
 
     .card-descriptions {
       width: 100%;
-      height: 154px;
-      margin-top: 10px;
-      font-size: 12px;
+      height: $card-description-height;
+      margin-top: $card-description-margin-top;
+      font-size: $card-description-font-size;
     }
 
     .card-btn {
       @include style.flex(row, center);
       justify-content: end;
       width: 100%;
-      height: 42px;
+      height: $card-btn-height;
 
       .arrow-wrapper {
         position: relative;
-        width: 42px;
-        height: 42px;
+        width: $card-btn-height;
+        height: $card-btn-height;
       }
     }
   }
 
   &:hover {
-    box-shadow: 0px 8px 16px var(--shadow-color);
+    box-shadow: $card-hover-shadow;
   }
 }
