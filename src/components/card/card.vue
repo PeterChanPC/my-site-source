@@ -1,7 +1,7 @@
 <template>
-  <div class="card">
+  <div ref="card" class="card">
     <div class="card-img-wrapper">
-      <img :src="src" :alt="title">
+      <img :src="imgSrc" :alt="title">
     </div>
     <div class="card-details">
       <div class="card-title">
@@ -21,12 +21,12 @@
 
 <script lang="ts">
 import Arrow from '@/assets/img/fi-rr-angle-double-right.svg';
-import { defineComponent } from 'vue';
+import { CSSProperties, defineComponent, ref, useTemplateRef } from 'vue';
 
 export default defineComponent({
   name: 'card',
   props: {
-    src: {
+    imgSrc: {
       type: String,
       default: '',
     },
@@ -44,7 +44,17 @@ export default defineComponent({
     },
   },
   setup() {
-    return { Arrow };
+    const card = useTemplateRef<HTMLDivElement>('card');
+    const isDragging = ref<Boolean>(false);
+    let mouseX = 0;
+    let mouseY = 0;
+    const style = ref<CSSProperties>({
+      position: 'fixed',
+      top: `${mouseY}px`,
+      left: `${mouseX}px`,
+    });
+
+    return { Arrow, style };
   },
 });
 </script>

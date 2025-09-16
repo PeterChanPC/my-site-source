@@ -1,55 +1,18 @@
 @use "@/styles/style.scss";
 
-$no-of-cards: 5;
-$cardScaleUpWidth: calc(324px * 1.2);
-$cardBundleMaxWidth: calc(324px / 2 * $no-of-cards);
-
 .projects {
-  .cards-wrapper {
-    display: grid;
-    grid-template-columns: repeat($no-of-cards, calc((85vw - 162px)/$no-of-cards));
-    position: absolute;
-    bottom: -200px;
-    width: 90vw;
-    height: 324px;
-    overflow: visible;
 
-    @for $i from 1 through $no-of-cards {
-      &>*:nth-child(#{$i}) {
-        width: 224px;
-        z-index: calc($i);
-
-        &:hover {
-          transform: translateY(-190px);
-          scale: 1.5;
-        }
-      }
+  @for $i from 1 through 5 {
+    &>*:nth-child(#{$i}) {
+      position: fixed;
+      bottom: -15dvh;
+      transform: rotate(5deg * ($i - 1)) translate(5vw * ($i - 1), 2dvh * ($i - 1));
+      z-index: 5 - $i;
     }
 
-    @media (max-width: $cardBundleMaxWidth) {
-      @include style.flex(row, center);
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      height: auto;
-
-      @for $i from 1 through $no-of-cards {
-        &>*:nth-child(#{$i}) {
-          position: absolute;
-          transform: rotate(calc(5deg * (#{$i} - 1)));
-          scale: 1.5;
-          z-index: calc($no-of-cards - #{$i});
-
-          &:not(:first-child) {
-            pointer-events: none;
-          }
-
-          &:hover {
-            transform: rotate(-2deg) translateY(0) scale(1.2);
-            z-index: $no-of-cards;
-          }
-        }
-      }
+    &>*:first-child:hover {
+      scale: 1.05;
+      transform: rotate(-2deg);
     }
   }
 }
