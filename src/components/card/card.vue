@@ -5,26 +5,28 @@
     </div>
     <div class="card-details">
       <div class="card-title">
-        <span>{{ title }}</span>
+        <AHoverable :path="path" shape="pill" effect="underline-left">
+          <div class="wrapper">
+            <span>{{ id }}. {{ title }}</span>
+          </div>
+        </AHoverable>
       </div>
       <div class="card-descriptions">
         <span>{{ description }}</span>
-      </div>
-      <div class="card-btn">
-        <router-link class="arrow-wrapper" :to="{ name: path }">
-          <img :src="Arrow" alt="To">
-        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Arrow from '@/assets/img/fi-rr-angle-double-right.svg';
-import { CSSProperties, defineComponent, ref, useTemplateRef } from 'vue';
+import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'card',
+  components: {
+    AHoverable,
+  },
   props: {
     imgSrc: {
       type: String,
@@ -34,6 +36,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    id: {
+      type: Number,
+      default: 0,
+    },
     title: {
       type: String,
       default: 'Title',
@@ -42,19 +48,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-  },
-  setup() {
-    const card = useTemplateRef<HTMLDivElement>('card');
-    const isDragging = ref<Boolean>(false);
-    let mouseX = 0;
-    let mouseY = 0;
-    const style = ref<CSSProperties>({
-      position: 'fixed',
-      top: `${mouseY}px`,
-      left: `${mouseX}px`,
-    });
-
-    return { Arrow, style };
   },
 });
 </script>

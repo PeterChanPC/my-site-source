@@ -1,15 +1,12 @@
 @use "@/styles/style.scss" as style;
 
-$btn-width: 100%;
 $btn-height: style.$btn-height-md;
 
-$wrapper-width: $btn-width;
 $wrapper-height: $btn-height;
-$wrapper-padding: 0 10%;
 
 .a-hoverable {
   @include style.flex(row, center);
-  width: $btn-width;
+  width: auto;
   height: $btn-height;
   font-size: inherit;
   color: inherit;
@@ -19,7 +16,7 @@ $wrapper-padding: 0 10%;
     @include style.flex(row, center);
     align-content: center;
     position: relative;
-    width: $wrapper-width;
+    width: auto;
     height: $wrapper-height;
 
     .img-wrapper {
@@ -38,7 +35,6 @@ $wrapper-padding: 0 10%;
 
   &.pill:deep(.wrapper) {
       @include style.flex(row, start);
-      padding: $wrapper-padding;
   }
 
   &.underline-left:deep(.wrapper) {

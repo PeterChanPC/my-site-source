@@ -7,6 +7,9 @@ $sidebar-padding-top: global-header.$header-height;
 $sidebar-width: 200px;
 $sidebar-height: calc(100dvh - $sidebar-padding-top);
 
+$menu-padding-left: 5%;
+$menu-font-size: style.$font-size-lg;
+
 $functions-height: 50px;
 $functions-margin-top: 24px;
 $functions-padding-top: 12px;
@@ -27,6 +30,11 @@ $sidebar-z: global-header.$sidebar-z;
   color: var(--txt-color);
   z-index: $sidebar-z;
 
+  &>*:not(.functions) {
+    padding-left: $menu-padding-left;
+    font-size: $menu-font-size;
+  }
+
   .functions {
     @include style.flex(row, evenly);
     position: relative;
@@ -45,7 +53,7 @@ $sidebar-z: global-header.$sidebar-z;
       background-color: var(--txt-color);
     }
   }
-  
+
   // only allow sidebar active under ToggleMaxWidth
   @media (max-width: $sidebarToggleMaxWidth) {
     &.active {
