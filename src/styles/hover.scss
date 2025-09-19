@@ -6,7 +6,7 @@
     position: absolute;
     bottom: -$offset;
     width: 0;
-    height: 1px;
+    height: 2px;
     background-color: $color;
   }
 
@@ -30,6 +30,41 @@
 
     &:hover span::after {
       left: -$overhang;
+    }
+  }
+}
+
+@mixin slide() {
+  position: relative;
+
+  span {
+    @include t.transition(all, 300ms);
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+
+    &:last-child {
+      position: absolute;
+      top: 0;
+      left: 150%;
+      opacity: 0;
+      background: linear-gradient(to right, rgb(229, 22, 248), rgb(230, 14, 14));
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+    }
+  }
+
+  &:hover {
+    span {
+      left: -100%;
+      opacity: 0;
+
+      &:last-child {
+        left: 0;
+        opacity: 1;
+      }
     }
   }
 }

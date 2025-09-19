@@ -45,7 +45,7 @@ $font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
 $font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
 $font-size-2xl: clamp(2rem, 3vw, 3rem);
 $font-size-4xl: clamp(2rem, 4vw + 1rem, 5rem);
-$font-size-giant: clamp(2rem, 5vw, 12rem);
+$font-size-giant: clamp(2rem, 5vw + 2rem, 7rem);
 
 // styles for homepage
-$homepage-height: 100dvh;
+$homepage-height: calc(100dvh - 100px);

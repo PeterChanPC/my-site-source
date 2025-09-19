@@ -13,7 +13,11 @@ const zhTW: {
     hello: '你好, 我是',
     home: '主頁',
     work: '經驗',
-    blog: '博客',
+    todos: '待辦清單',
+    authentication: '登錄系統',
+    blogs: '部落格',
+    blog: '部落格',
+    test: '測試頁',
   },
   dateTimeFormats: {
     short: {

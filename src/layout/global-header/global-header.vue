@@ -2,21 +2,9 @@
   <header class="global-header">
     <h1 class="icon">Pc</h1>
     <nav class="navbar">
-      <AHoverable path="home" effect="underline-middle">
-        <div class="wrapper">
-          <span>{{ t('home') }}</span>
-        </div>
-      </AHoverable>
-      <AHoverable path="works" effect="underline-middle">
-        <div class="wrapper">
-          <span>{{ t('work') }}</span>
-        </div>
-      </AHoverable>
-      <AHoverable path="blogs" effect="underline-middle">
-        <div class="wrapper">
-          <span>{{ t('blog') }}</span>
-        </div>
-      </AHoverable>
+      <AHoverable path="home" effect="underline-middle" :text="t('home')" />
+      <AHoverable path="works" effect="underline-middle" :text="t('work')" />
+      <AHoverable path="blogs" effect="underline-middle" :text="t('blog')" />
     </nav>
 
     <aside class="functions">

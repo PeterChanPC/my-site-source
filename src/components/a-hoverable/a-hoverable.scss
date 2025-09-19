@@ -1,7 +1,6 @@
-@use "@/styles/style.scss" as style;
+@use "@/styles/style" as style;
 
 $btn-height: style.$btn-height-md;
-
 $wrapper-height: $btn-height;
 
 .a-hoverable {
@@ -11,41 +10,40 @@ $wrapper-height: $btn-height;
   font-size: inherit;
   color: inherit;
   text-decoration: none;
-  
-  &:deep(.wrapper) {
-    @include style.flex(row, center);
-    align-content: center;
+  text-transform: uppercase;
+
+  .img-wrapper {
     position: relative;
-    width: auto;
-    height: $wrapper-height;
-
-    .img-wrapper {
-      position: relative;
-      width: $btn-height;
-      height: $btn-height;
-    }
-
-    span {
-      position: relative;
-      font-size: inherit;
-      white-space: nowrap;
-      text-transform: capitalize;
-    }
+    width: $btn-height;
+    height: $btn-height;
   }
 
-  &.pill:deep(.wrapper) {
-      @include style.flex(row, start);
+  span {
+    position: relative;
+    align-content: center;
+    font-size: inherit;
+    text-align: center;
+    white-space: nowrap;
+    pointer-events: none;
   }
 
-  &.underline-left:deep(.wrapper) {
+  &.pill {
+    @include style.flex(row, start);
+  }
+
+  &.underline-left {
     @include style.underline(3px, 2px, var(--txt-color), left);
   }
 
-  &.underline-middle:deep(.wrapper) {
+  &.underline-middle {
     @include style.underline(3px, 2px, var(--txt-color), middle);
   }
 
-  &.router-link-exact-active:deep(.wrapper) span::after {
+  &.slide {
+    @include style.slide();
+  }
+
+  &.router-link-exact-active span::after {
     // adjustments to above underlines if router is active
     left: -3px;
     width: calc(100% + 6px);

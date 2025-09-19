@@ -1,6 +1,7 @@
 @use "@/styles/style.scss";
 
 .home {
+  @include style.flex(row, center);
   .homepage-bg {
     position: absolute;
     top: 0;

@@ -1,55 +1,18 @@
 @use "@/styles/style.scss";
 
-$no-of-cards: 3;
+$heights: style.$font-size-giant;
 
 .projects {
-  @for $i from 1 through $no-of-cards {
-    .card-#{$i} {
-      @include style.transition(all, 200ms);
-      position: fixed;
-      bottom: min(-50px, -20dvh);
-      transform: rotate(-2deg + 5deg * ($i - 1)) translate(-2vw + 5vw * ($i - 1), 2dvh * ($i - 1));
-      z-index: $no-of-cards - $i;
-      cursor: grab;
-    }
+  .works {
+    @include style.flex(col, start);
+    align-items: start;
+    padding: 10px 5dvw;
+    margin: 10px 0;
 
-    .card-1 {
-      &.flip {
-        cursor: grabbing;
-        animation: flip 600ms ease-in;
-      }
-
-      &:hover {
-        transform: rotate(-3deg) scale(1.05);
-      }
-
-      @keyframes flip {
-        0% {}
-
-        80% {
-          transform: rotate(-45deg) translate(-200dvw, 200dvh);
-          scale: 1;
-          z-index: 0;
-        }
-
-        100% {}
-      }
-    }
-
-    .card-#{$no-of-cards} {
-      &.draw {
-        animation: draw 200ms ease-out;
-      }
-
-      @keyframes draw {
-        from {
-          transform: translate(100dvw, 100dvh);
-        }
-
-        to {
-          transform: rotate(5deg * ($no-of-cards - 1)) translate(5vw * ($no-of-cards - 1), 2dvh * ($no-of-cards - 1));
-        }
-      }
+    &>* {
+      height: $heights;
+      margin: 10px 0;
+      font-size: $heights;
     }
   }
 }

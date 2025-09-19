@@ -54,6 +54,7 @@ $card-description-height: calc($card-half-height - $card-title-height - $card-de
   }
 
   .card-details {
+    --txt-color: color-mix(in oklab, black, blue 80%);
     width: $card-details-width;
     height: $card-half-height;
 
@@ -63,7 +64,7 @@ $card-description-height: calc($card-half-height - $card-title-height - $card-de
       height: $card-title-height;
       font-size: $card-title-font-size;
       padding-left: $card-title-padding-left;
-      color: color-mix(in oklab, var(--txt-color), blue 80%);
+      color: var(--txt-color);
     }
 
     .card-descriptions {

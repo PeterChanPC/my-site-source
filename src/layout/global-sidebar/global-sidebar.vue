@@ -3,31 +3,9 @@
     'global-sidebar',
     { 'active': toggled },
   ]">
-    <AHoverable path="home" shape="pill">
-      <div class="wrapper">
-        <div class="img-wrapper">
-          <img src="@/assets/img/fi-rr-home.svg" alt="home">
-        </div>
-        <span>{{ t('home') }}</span>
-      </div>
-    </AHoverable>
-    <AHoverable path="works" shape="pill">
-      <div class="wrapper">
-        <div class="img-wrapper">
-          <img src="@/assets/img/fi-rr-list.svg" alt="work">
-        </div>
-        <span>{{ t('work') }}</span>
-      </div>
-    </AHoverable>
-    <AHoverable path="blogs" shape="pill">
-      <div class="wrapper">
-        <div class="img-wrapper">
-          <img src="@/assets/img/fi-rr-list.svg" alt="blog">
-        </div>
-        <span>{{ t('blog') }}</span>
-      </div>
-    </AHoverable>
-
+    <AHoverable path="home" :imgSrc="HomeImg" text="home" shape="pill" />
+    <AHoverable path="works" :imgSrc="ListImg" text="work" shape="pill" />
+    <AHoverable path="blogs" :imgSrc="ListImg" text="blog" shape="pill" />
     <div class="functions">
       <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark">
         <template #optionL>
@@ -52,6 +30,8 @@
 <script lang="ts">
 import AHoverable from '@/components/a-hoverable/a-hoverable.vue';
 import Switch from '@/components/switch/switch.vue';
+import HomeImg from '@/assets/img/fi-rr-home.svg';
+import ListImg from '@/assets/img/fi-rr-list.svg';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { defineComponent } from 'vue';
@@ -77,7 +57,7 @@ export default defineComponent({
     const themeStore = useThemeStore();
     const langStore = useLangStore();
     const { t } = useI18n();
-    return { themeStore, langStore, t };
+    return { themeStore, langStore, t, HomeImg, ListImg };
   },
 });
 </script>

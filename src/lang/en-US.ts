@@ -13,7 +13,11 @@ const enUS: {
     hello: 'hello, i am',
     home: 'home',
     work: 'work',
-    blog: 'blog'
+    todos: 'todos',
+    authentication: 'authentication',
+    blogs: 'blogs',
+    blog: 'blog',
+    test: 'test',
   },
   dateTimeFormats: {
     short: {

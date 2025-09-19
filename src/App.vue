@@ -60,10 +60,10 @@ body {
   }
 
   .page {
-    @include style.flex(row, center);
     position: relative;
     width: 100%;
     height: style.$homepage-height;
+    padding: 50px 0;
     background-color: var(--bg-color-primary);
     color: var(--txt-color);
     overflow: hidden;
