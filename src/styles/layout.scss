@@ -1,39 +1,146 @@
-@mixin flex($direction: row, $justify: start) {
-  display: flex;
-  align-items: center;
+@use "@/styles/variables" as var;
 
-  @if $direction ==row {
-    flex-direction: row;
-  }
-
-  @if $direction ==col {
-    flex-direction: column;
-  }
-
-  @if $justify ==start {
-    justify-content: start;
-  }
-
-  @if $justify ==center {
-    justify-content: center;
-  }
-
-  @if $justify ==around {
-    justify-content: space-around;
-  }
-
-  @if $justify ==between {
-    justify-content: space-between;
-  }
-
-  @if $justify ==evenly {
-    justify-content: space-evenly;
+// z-index
+@for $z from -100 through 100 {
+  .z-#{$z} {
+    z-index: $z;
   }
 }
 
-@mixin center-absolute {
+// positions
+@each $position in var.$positions {
+  .#{$position} {
+    position: $position;
+  }
+}
+
+// top, right, bottom, left
+@each $dir-label, $dir in var.$dirs {
+  .#{$dir-label}-dvh {
+    #{$dir}: 100dvh;
+  }
+
+  .#{$dir-label}-dvw {
+    #{$dir}: 100dvw;
+  }
+
+  @for $i from -500 through 500 {
+    .#{$dir-label}-#{$i} {
+      #{$dir}: $i + px;
+    }
+  }
+}
+
+// displays
+@each $display in var.$displays {
+  .#{$display} {
+    display: $display;
+  }
+}
+
+.row {
+  flex-direction: row;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.a-content-center {
+  align-content: center;
+}
+
+@each $axis-label, $axis in var.$axis {
+  .a-#{$axis-label} {
+    align-items: $axis;
+  }
+
+  .j-#{$axis-label} {
+    justify-content: $axis;
+  }
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+// overflow
+.overflow-h {
+  overflow: hidden;
+}
+
+// border
+.border-none {
+  border: none;
+}
+
+// cursor
+.pointer {
+  cursor: pointer;
+}
+
+// transition
+@for $tr from 0 through 1000 {
+  .tr-#{$tr} {
+    transition: all $tr + ms;
+  }
+}
+
+// router-link
+.router-link-exact-active span::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: 2px;
+  background-color: var(--txt-color);
+  transition: all 100ms;
+}
+
+@each $break-label, $break-pt in var.$break-pts {
+  @media (max-width: #{$break-pt}px) {
+
+    // z-index
+    @for $z from 0 through 1000 {
+      .#{$break-label}\:z-#{$z} {
+        z-index: $z;
+      }
+    }
+
+    // positions
+    @each $position in var.$positions {
+      .#{$break-label}\:#{$position} {
+        position: $position;
+      }
+    }
+
+    // top, right, bottom, left
+    @each $dir-label, $dir in var.$dirs {
+      .#{$break-label}\:#{$dir-label}-dvh {
+        #{$dir}: 100dvh;
+      }
+
+      .#{$break-label}\:#{$dir-label}-dvw {
+        #{$dir}: 100dvw;
+      }
+
+      @for $i from 0 through 500 {
+        .#{$break-label}\:#{$dir-label}-#{$i} {
+          #{$dir}: $i + px;
+        }
+      }
+    }
+
+    // displays
+    @each $display in var.$displays {
+      .#{$break-label}\:#{$display} {
+        display: $display;
+      }
+    }
+  }
 }

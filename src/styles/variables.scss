@@ -1,51 +1,68 @@
-// styles for color theme
-$bg-light-primary: #fff;
-$bg-light-secondary: rgb(250, 250, 250);
-$bg-dark-primary: #111;
-$bg-dark-secondary: #555;
-
-$bg-light-opague: rgba($color: $bg-light-primary,
-    $alpha: 0.2,
-  );
-$bg-dark-opague: rgba($color: $bg-dark-primary,
-    $alpha: 0.2,
-  );
-
-$border-light: #ddd;
-$border-dark: #333;
-
-$txt-light: #111;
-$txt-dark: #fff;
-
-$shadow-light: rgba(0, 0, 0, 0.3);
-$shadow-dark: rgba(200, 200, 200, 0.5);
-
-$img-light: invert(0%);
-$img-dark: invert(100%);
-
-$btn-light: #ddd;
-$btn-dark: #333;
-$btn-active-light: #eee;
-$btn-active-dark: #222;
-
-// styles for transition
-$default-duration: 100ms;
-
 // styles for button sizes
 $btn-height-md: 50px;
 $btn-width-md: 80px;
 $btn-margin-sm: 2vw;
 $btn-margin-md: 5vw;
 
-// styles for font sizes
-$font-size-xs: clamp(0.75rem, 1vw, 0.875rem);
-$font-size-sm: clamp(0.875rem, 1.2vw, 1rem);
-$font-size-md: clamp(1rem, 1.5vw, 1.25rem);
-$font-size-lg: clamp(1.25rem, 2vw, 1.5rem);
-$font-size-xl: clamp(1.5rem, 2.5vw, 2rem);
-$font-size-2xl: clamp(2rem, 3vw, 3rem);
-$font-size-4xl: clamp(2rem, 4vw + 1rem, 5rem);
-$font-size-giant: clamp(2rem, 5vw + 2rem, 7rem);
+@use "sass:map";
 
-// styles for homepage
-$homepage-height: calc(100dvh - 100px);
+$positions: relative, fixed, absolute;
+$displays: block, inline-block, none, flex, grid;
+
+$dirs: (
+  "t": top,
+  "r": right,
+  "b": bottom,
+  "l": left,
+);
+
+$axis: (
+  "start": start,
+  "center": center,
+  "around": space-around,
+  "between": space-between,
+  "evenly": space-evenly,
+);
+
+$bg-colors: (
+  "light-primary": #fff,
+  "light-secondary": rgb(250, 250, 250),
+  "dark-primary": #111,
+  "dark-secondary": #555,
+);
+
+$bg-opague-colors: (
+  "light": rgba(map.get($bg-colors, light-primary), 0.3),
+  "dark": rgba(map.get($bg-colors, dark-secondary), 0.3),
+);
+
+$txt-colors: (
+  "light": #111,
+  "dark": #fff,
+);
+
+$shadow-colors: (
+  "light":rgba(0, 0, 0, 0.3),
+  "dark":rgba(200, 200, 200, 0.5),
+);
+
+$img-colors: (
+  "light": invert(0%),
+  "dark": invert(100%),
+);
+
+$font-sizes: (
+  "xs": clamp(0.75rem, 1vw, 0.875rem),
+  "sm": clamp(0.875rem, 1.2vw, 1rem),
+  "md": clamp(1rem, 1.5vw, 1.25rem),
+  "lg": clamp(1.25rem, 2vw, 1.5rem),
+  "xl": clamp(1.5rem, 2.5vw, 2rem),
+  "2xl": clamp(2rem, 3vw, 3rem),
+  "4xl": clamp(2rem, 4vw + 1rem, 5rem),
+  "giant": clamp(2rem, 5vw + 2rem, 7rem),
+);
+
+$break-pts: (
+  "sm": 640,
+  "lg": 1024,
+);

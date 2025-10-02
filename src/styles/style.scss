@@ -1,6 +1,11 @@
-@forward "@/styles/transition";
-@forward "@/styles/background";
-@forward "@/styles/animation";
-@forward "@/styles/variables";
-@forward "@/styles/layout";
-@forward "@/styles/hover";
+@forward "./variables";
+@forward "./layout";
+@forward "./size";
+@forward "./padding";
+@forward "./margin";
+@forward "./background";
+@forward "./font";
+@forward "./text";
+@forward "./opacity";
+@forward "./hover";
+@forward "./decoration";

@@ -1,7 +1,7 @@
-import authApi from '@/api/authApi.service';
+import authApi from '@/api/authApi.service.js';
 import router from '@/router';
 import { defineStore } from "pinia";
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 
 interface User {
   username: string,
@@ -10,10 +10,10 @@ interface User {
 }
 
 export const useUserStore = defineStore('user', () => {
-  const user: Ref<User | null> = ref(null);
-  const accessToken: Ref<null | String> = ref(null);
-  const loginErr: Ref<null | String> = ref(null);
-  const authErr: Ref<null | String> = ref(null);
+  const user = ref<User | null>(null);
+  const accessToken = ref<String | null>(null);
+  const loginErr = ref<String | null>(null);
+  const authErr = ref<String | null>(null);
 
   async function handleLogin(username: string, password: string) {
     try {
@@ -31,6 +31,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function handleAuth() {
     try {
+      if (!accessToken.value) return;
       const res = await authApi.getCurrentAuthByToken(accessToken.value);
       user.value = res.data;
       return true;

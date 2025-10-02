@@ -10,9 +10,4 @@
 </script>
 
 <style scoped lang="scss">
-@use "@/styles/style";
-
-.blogs {
-  @include style.flex(col, center);
-}
 </style>

@@ -1,7 +1,16 @@
-@use "@/styles/variables.scss" as var;
+@use "sass:map";
+@use "@/styles/variables" as var;
 
-@mixin glassy {
+.bg-none {
+  background: none;
+}
+
+.bg-glassy {
   backdrop-filter: blur(10px);
-  box-shadow: inset 0 0 5px var.$bg-light-opague;
-  background-color: var.$bg-light-opague;
+  box-shadow: inset 0 0 5px var(--bg-opague-color);
+  background-color: var(--bg-opague-color);
+}
+
+.backdrop {
+  background-color: rgba(map.get(var.$bg-colors, "dark-primary"), 0.5);
 }

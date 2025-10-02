@@ -10,10 +10,4 @@
 </script>
 
 <style scoped lang="scss">
-@use "@/styles/style.scss";
-
-.todos {
-  height: style.$homepage-height;
-  overflow: hidden;
-}
 </style>

@@ -1,0 +1,51 @@
+.w-dvw {
+  width: 100dvw;
+}
+
+.h-dvh {
+  height: 100dvh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.h-auto {
+  height: auto;
+}
+
+@for $s from 0 through 1000 {
+  .w-#{$s} {
+    width: $s + px;
+  }
+
+  .h-#{$s} {
+    height: $s + px;
+  }
+
+  .w-#{$s}em {
+    width: $s + em;
+  }
+
+  .h-#{$s}em {
+    height: $s + em;
+  }
+}
+
+@for $s from 0 through 100 {
+  .w-0\.#{$s} {
+    width: $s * 1%;
+  }
+
+  .h-0\.#{$s} {
+    height: $s * 1%;
+  }
+}

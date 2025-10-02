@@ -1,0 +1,85 @@
+.animated-txt {
+  &.j-evenly .word {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1;
+  }
+
+  .word {
+    &.whitespace:not(:last-child) {
+      &::after {
+        content: "\00a0";
+        font-size: inherit;
+        width: auto;
+      }
+    }
+
+    &.letter-spacing-sm {
+
+      .char,
+      &::after {
+        width: 0.8em;
+      }
+    }
+
+    &.letter-spacing-md {
+
+      .char,
+      &::after {
+        width: 1.1em;
+      }
+    }
+
+    &.letter-spacing-lg {
+
+      .char,
+      &::after {
+        width: 1.5em;
+      }
+    }
+
+    &.line-height-sm {
+
+      .char,
+      &::after {
+        height: 1em;
+      }
+    }
+
+    &.line-height-md {
+
+      .char,
+      &::after {
+        height: 1.3em;
+      }
+    }
+
+    &.line-height-lg {
+
+      .char,
+      &::after {
+        height: 1.5em;
+      }
+    }
+
+    &.line-height-xl {
+
+      .char,
+      &::after {
+        height: 2em;
+      }
+    }
+
+    .char {
+      &.text-transform-capitalize {
+        &:first-child {
+          text-transform: capitalize;
+        }
+
+        &:not(:first-child) {
+          text-transform: lowercase;
+        }
+      }
+    }
+  }
+}

@@ -10,7 +10,7 @@ $wrapper-height: $btn-height;
   font-size: inherit;
   color: inherit;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: capitalize;
 
   .img-wrapper {
     position: relative;
@@ -37,10 +37,6 @@ $wrapper-height: $btn-height;
 
   &.underline-middle {
     @include style.underline(3px, 2px, var(--txt-color), middle);
-  }
-
-  &.slide {
-    @include style.slide();
   }
 
   &.router-link-exact-active span::after {

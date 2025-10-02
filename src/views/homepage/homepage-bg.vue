@@ -1,19 +1,19 @@
 <template>
-  <div ref="background" class="homepage-bg">
+  <div ref="background">
     <canvas ref="canvas"></canvas>
   </div>
 </template>
 
 <script lang="ts">
 import homepageBg from '@/assets/img/homepage-bg.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, ref, render, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, Ref, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
-import RendererController from '@/views/homepage/RendererController';
-import CameraController from '@/views/homepage/CameraController';
-import SceneController from '@/views/homepage/SceneController';
-import Physics from '@/views/homepage/Physics';
-import GameInput from '@/views/homepage/GameInput';
-import PlayerController from '@/views/homepage/PlayerController';
+import RendererController from '@/composable/RendererController';
+import CameraController from '@/composable/CameraController';
+import SceneController from '@/composable/SceneController';
+import Physics from '@/composable/Physics';
+import GameInput from '@/composable/GameInput';
+import PlayerController from '@/composable/PlayerController';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -70,9 +70,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-.homepage-bg {
-  width: 100dvw;
-  height: 100dvh;
-}
-</style>
+<style lang="scss" scoped></style>

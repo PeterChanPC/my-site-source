@@ -1,24 +1,22 @@
 <template>
   <div :class="[
-    'animated-txt',
-    `text-${wrap}`,
-    `justify-${justify}`,
+    'animated-txt flex row a-center',
+    `j-${justify}`,
+    `flex-${wrap}`,
     `font-size-${fontSize}`,
   ]">
     <div :class="[
-      'word',
-      { 'whitespace': whiteSpace },
-      `letter-spacing-${letterSpacing}`,
+      'word flex row a-center',
       `line-height-${lineHeight}`,
-    ]" v-for="(word) in words" :key="`word ${animationReset += 1}`">
+      `letter-spacing-${letterSpacing}`,
+      { 'whitespace': whiteSpace },
+    ]" v-for="word in words" :key="key++">
       <span :class="[
-        'char',
-        `animation-${animation}`,
+        'char relative w-auto h-1em txt-a-start txt-shadow o-0',
         `text-transform-${textTransform}`,
-      ]" v-for="(char) in word" :key="char" :style="{
-        animationDelay: `calc(${delay} + ${getStepDelay()}ms)`,
-        animationDuration: duration,
-      }">
+        `${textTransform}`,
+        `${animation}`,
+      ]" v-for="char in word" :key="char" ref="chars">
         {{ char }}
       </span>
     </div>
@@ -26,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { PropType, CSSProperties, defineComponent, Ref, ref, watch, watchEffect } from 'vue';
+import { PropType, defineComponent, ref, watchEffect, onMounted, onUpdated } from 'vue';
 
 type FontSize = 'md' | '4xl' | 'giant' | '';
-type TextTransform = 'cap' | 'uc' | 'lc' | '';
+type TextTransform = 'capitalize' | 'uppercase' | 'lowercase' | '';
 type LetterSpacing = 'sm' | 'md' | 'lg' | '';
 type lineHeight = 'sm' | 'md' | 'lg' | 'xl';
 type Justify = 'start' | 'center' | 'evenly' | '';
@@ -76,12 +74,12 @@ export default defineComponent({
       default: '',
     },
     duration: {
-      type: String as PropType<CSSProperties['animation-duration']>,
-      default: '0ms',
+      type: Number,
+      default: 0,
     },
     delay: {
-      type: String as PropType<CSSProperties['animation-delay']>,
-      default: '0ms',
+      type: Number,
+      default: 0,
     },
     stagger: {
       type: Number,
@@ -93,15 +91,10 @@ export default defineComponent({
     },
   },
   setup(props, { expose }) {
-    let stepDelay = 0;
-    const words: Ref<String[]> = ref([]);
-    const getStepDelay = (): Number => {
-      return stepDelay += props.stagger;
-    };
-
-    watch(props, () => {
-      stepDelay = 0;
-    });
+    const words = ref<String[]>([]);
+    const chars = ref<HTMLSpanElement[]>([]);
+    let key = 0;
+    let stagger = 0;
 
     watchEffect(() => {
       if (props.lang === 'zh-TW') {
@@ -109,17 +102,31 @@ export default defineComponent({
       } else {
         words.value = props.text.split(' ');
       };
+      stagger = 0;
     });
 
-    // used together with key for resetting animations if prev text and current text have same input
-    let animationReset = 0;
+    onMounted(() => {
+      chars.value.forEach(char => {
+        char.animate([{
+          opacity: 0,
+        }, {
+          opacity: 1,
+        }], {
+          duration: 1000,
+          delay: stagger,
+          fill: 'forwards',
+          iterations: 1,
+        });
+        stagger += props.stagger;
+      });
+    });
 
     expose();
-    return { words, getStepDelay, animationReset };
+    return { words, chars, key };
   },
 });
 </script>
 
 <style scoped lang="scss">
-@forward './animated-txt.scss';
+@use "@/styles/animated-txt";
 </style>

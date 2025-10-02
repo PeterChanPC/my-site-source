@@ -63,3 +63,21 @@
     scale: 1;
   }
 }
+
+.fadeIn {
+  @include animate($name: fadeIn,
+    $tfunc: ease,
+    $mode: forwards);
+}
+
+.fadeInLeft {
+  @include animate($name: fadeInLeft,
+    $tfunc: ease,
+    $mode: forwards);
+}
+
+.fadeInRight {
+  @include animate($name: fadeInRight,
+    $tfunc: ease,
+    $mode: forwards);
+}

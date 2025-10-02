@@ -1,0 +1,37 @@
+@use "@/styles/variables" as var;
+
+.italic {
+  font-style: italic;
+}
+
+.oblique {
+  font-style: oblique;
+}
+
+@each $label, $size in var.$font-sizes {
+  .font-size-#{$label} {
+    font-size: $size;
+  }
+}
+
+@for $f from 1 through 100 {
+  .font-#{$f} {
+    font-size: $f + px;
+  }
+}
+
+@each $break-label, $break-pt in var.$break-pts {
+  @media (max-width: #{$break-pt}) {
+    @each $font-label, $size in var.$font-sizes {
+      .#{$break-label}\:font-size-#{$font-label} {
+        font-size: $size;
+      }
+    }
+
+    @for $f from 1 through 100 {
+      .#{$break-label}\:font-#{$f} {
+        font-size: $f + px;
+      }
+    }
+  }
+}

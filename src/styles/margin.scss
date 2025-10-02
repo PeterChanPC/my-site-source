@@ -1,0 +1,29 @@
+@use "@/styles/variables" as var;
+
+@each $dir-label, $dir in var.$dirs {
+  .m#{$dir-label}-auto {
+    margin-#{$dir}: auto;
+  }
+
+  @for $i from 0 through 100 {
+    .m#{$dir-label}-#{$i} {
+      margin-#{$dir}: $i + px;
+    }
+  }
+}
+
+@each $break-label, $break-pt in var.$break-pts {
+  @media (max-width: #{$break-pt}px) {
+    @each $dir-label, $dir in var.$dirs {
+      .#{$break-label}\:m#{$dir-label}-auto {
+        margin-#{$dir}: auto;
+      }
+
+      @for $i from 0 through 100 {
+        .#{$break-label}\:m#{$dir-label}-#{$i} {
+          margin-#{$dir}: $i + px;
+        }
+      }
+    }
+  }
+}

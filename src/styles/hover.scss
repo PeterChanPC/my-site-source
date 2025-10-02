@@ -1,13 +1,16 @@
-@use "@/styles/transition" as t;
+@mixin underline($offset: 0px, $overhang: 0px, $origin: left) {
+  span {
+    position: relative;
+  }
 
-@mixin underline($offset: 0px, $overhang: 0px, $color: #000, $origin: left) {
   span::after {
     content: "";
     position: absolute;
     bottom: -$offset;
     width: 0;
     height: 2px;
-    background-color: $color;
+    background-color: var(--txt-color);
+    transition: all 100ms;
   }
 
   &:hover span::after {
@@ -16,14 +19,12 @@
 
   @if $origin ==left {
     span::after {
-      @include t.transition(all, 100ms);
       left: -$overhang;
     }
   }
 
   @if $origin ==middle {
     span::after {
-      @include t.transition(all, 100ms);
       content: "";
       left: 50%;
     }
@@ -34,37 +35,10 @@
   }
 }
 
-@mixin slide() {
-  position: relative;
+.underline-l {
+  @include underline(3px, 2px, left);
+}
 
-  span {
-    @include t.transition(all, 300ms);
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-
-    &:last-child {
-      position: absolute;
-      top: 0;
-      left: 150%;
-      opacity: 0;
-      background: linear-gradient(to right, rgb(229, 22, 248), rgb(230, 14, 14));
-      background-clip: text;
-      color: transparent;
-      text-shadow: none;
-    }
-  }
-
-  &:hover {
-    span {
-      left: -100%;
-      opacity: 0;
-
-      &:last-child {
-        left: 0;
-        opacity: 1;
-      }
-    }
-  }
+.underline-m {
+  @include underline(3px, 2px, middle);
 }
