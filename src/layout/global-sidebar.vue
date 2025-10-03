@@ -1,6 +1,6 @@
 <template>
   <aside :class="[
-    'absolute r--200 flex col t-0 w-180 h-full pt-50 pr-10 pl-10 bg-glassy tr-100 z-99',
+    'absolute r--200 flex flex-col t-0 w-180 h-full pt-50 pr-10 pl-10 bg-glassy tr-100 z-99',
     { 'sm:r-0': toggled },
   ]">
     <AHoverable path="home" :imgSrc="HomeImg" :text="t('home')" shape="pill" />

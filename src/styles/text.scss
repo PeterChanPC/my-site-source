@@ -21,3 +21,21 @@
 .txt-shadow {
   text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
 }
+
+.txt-wrap {
+  text-wrap: wrap;
+}
+
+.txt-nowrap {
+  text-wrap: nowrap;
+}
+
+@for $ls from 0 through 10 {
+  .ls-#{$ls} {
+    letter-spacing: $ls + px;
+  }
+
+  .ls-0\.#{$ls} {
+    letter-spacing: $ls * 0.1em;
+  }
+}

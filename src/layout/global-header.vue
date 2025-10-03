@@ -12,7 +12,8 @@
       <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </aside>
 
-    <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto" @click="toggleSidebar">
+    <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto"
+      @click="toggleSidebar">
       <img :src="MenuImg" alt="menu" v-if="!toggled" />
       <img :src="CrossImg" alt="menu" v-if="toggled" />
     </button>

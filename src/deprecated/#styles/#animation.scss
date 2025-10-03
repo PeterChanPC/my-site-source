@@ -47,23 +47,6 @@
   }
 }
 
-@keyframes shrink-spin {
-  0% {
-    rotate: 0;
-    scale: 1;
-  }
-
-  50% {
-    rotate: 360deg;
-    scale: 0.9;
-  }
-
-  100% {
-    rotate: 0;
-    scale: 1;
-  }
-}
-
 .fadeIn {
   @include animate($name: fadeIn,
     $tfunc: ease,
@@ -80,4 +63,16 @@
   @include animate($name: fadeInRight,
     $tfunc: ease,
     $mode: forwards);
+}
+
+.shrink-spin {
+  @include animate($name: shrink-spin,
+    $tfunc: ease,
+    $mode: both);
+}
+
+.fadeFromLeft {
+  mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  mask-size: 200% 100%;
+  mask-position: 0% 0%;
 }

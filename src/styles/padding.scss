@@ -9,6 +9,10 @@
     .p#{$dir-label}-#{$i} {
       padding-#{$dir}: $i + px;
     }
+
+    .p#{$dir-label}-0\.#{$i} {
+      padding-#{$dir}: $i * 1%;
+    }
   }
 }
 
@@ -22,6 +26,10 @@
       @for $i from 0 through 100 {
         .#{$break-label}\:p#{$dir-label}-#{$i} {
           padding-#{$dir}: $i + px;
+        }
+
+        .#{$break-label}\:p#{$dir-label}-0\.#{$i} {
+          padding-#{$dir}: $i * 1%;
         }
       }
     }

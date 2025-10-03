@@ -38,11 +38,11 @@
   }
 }
 
-.row {
+.flex-row {
   flex-direction: row;
 }
 
-.col {
+.flex-col {
   flex-direction: column;
 }
 
@@ -66,6 +66,28 @@
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+@for $g from 0 through 10 {
+  .grid-cols-#{$g} {
+    grid-template-columns: repeat($g, minmax(0, 1fr));
+  }
+
+  .col-span-#{$g} {
+    grid-column: span $g;
+  }
+
+  .grid-rows-#{$g} {
+    grid-template-rows: repeat($g, minmax(0, 1fr));
+  }
+
+  .row-span-#{$g} {
+    grid-row: span $g;
+  }
+}
+
+.grid-full {
+  grid-column: 1, -1;
 }
 
 // overflow
@@ -140,6 +162,24 @@
     @each $display in var.$displays {
       .#{$break-label}\:#{$display} {
         display: $display;
+      }
+    }
+
+    @for $g from 0 through 10 {
+      .#{$break-label}\:grid-cols-#{$g} {
+        grid-template-columns: repeat($g, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:col-span-#{$g} {
+        grid-column: span $g;
+      }
+
+      .#{$break-label}\:grid-rows-#{$g} {
+        grid-template-rows: repeat($g, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:row-span-#{$g} {
+        grid-row: span $g;
       }
     }
   }
