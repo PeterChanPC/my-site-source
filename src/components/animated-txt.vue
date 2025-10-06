@@ -60,7 +60,6 @@ export default defineComponent({
     function animate() {
       setTimeout(() => {
         charRefs.value.forEach((el, i) => {
-          el?.classList.add('o-0');
           el?.animate(
             [
               { opacity: 0 },

@@ -1,5 +1,5 @@
 <template>
-  <div class="page blogs">
+  <div class="page">
     <h1>Sorry</h1>
     <h2>This page is not yet online</h2>
   </div>

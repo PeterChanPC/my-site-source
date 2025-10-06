@@ -9,7 +9,6 @@ import BlogView from '@/views/blogs/blog.vue';
 import TestView from '@/views/test.vue';
 import { useUserStore } from '@/stores/user.store';
 
-
 const routes = [
   {
     path: '/',
@@ -52,25 +51,23 @@ const routes = [
     path: '/test',
     name: 'test',
     component: TestView,
-    mata: { requireGuest: true },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory('/my-site/'),
-
-  // always return to the top of the page
   scrollBehavior() {
-    return { top: 0 };
+    return { top: 0 };  // always return to the top of the page
   },
-  routes
+  routes,
 });
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
   const path = sessionStorage.redirect;
 
-  if (path) { // handle github pages 404 redirect
+  // handle github pages 404 redirect
+  if (path) {
     routes.forEach((route) => {
       if (path === route.path) { // go to path if path exists
         sessionStorage.removeItem('redirect'); // remove path due to infinite routing
@@ -78,7 +75,9 @@ router.beforeEach(async (to, from, next) => {
       };
     });
     next(); // redirect to homepage if path doesnt exist
-  } else if (to.meta.requireAuth) { // handle path require authentication
+
+    // handle path require authentication
+  } else if (to.meta.requireAuth) {
     const isAuth = await userStore.handleAuth();
     if (isAuth) {
       next(); // if auth, go to path
@@ -88,14 +87,18 @@ router.beforeEach(async (to, from, next) => {
         query: { redirect: to.fullPath }
       });
     };
-  } else if (to.meta.requireGuest) { // handle login page
+
+    // handle login page
+  } else if (to.meta.requireGuest) {
     const isAuth = await userStore.handleAuth();
     if (isAuth) { // if login, go to auth
       next({ name: 'authentication' });
     } else { // if not login, go to path
       next();
     }
-  } else { // handle normal routing
+
+    // handle normal routing
+  } else {
     next();
   };
 });

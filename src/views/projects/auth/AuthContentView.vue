@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-content">
+  <div class="auth-content page">
     <span>You have successfully login</span>
     <button @click="toAuth">Back to Authentication Page</button>
   </div>

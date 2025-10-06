@@ -1,7 +1,7 @@
 <template>
-  <div class="page projects">
-    <ul class="works">
-      <AHoverable v-for="work in works" :path="work" :text="t(work)" />
+  <div class="page">
+    <ul>
+      <AHoverable v-for="work in works" :to="work" :text="t(work)" />
     </ul>
   </div>
 </template>

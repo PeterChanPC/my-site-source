@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import texture from '@/assets/img/texture-1.webp';
+import texture from '@/assets/img/texture.webp';
 import { SupportedTheme } from "@/stores/d";
 
 export default class SceneController {

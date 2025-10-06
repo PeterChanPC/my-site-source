@@ -1,4 +1,4 @@
-@use "@/styles/variables" as var;
+@use "./variable" as var;
 
 .italic {
   font-style: italic;
@@ -14,9 +14,9 @@
   }
 }
 
-@for $f from 1 through 100 {
-  .font-#{$f} {
-    font-size: $f + px;
+@for $i from 1 through 48 {
+  .font-size-#{$i} {
+    font-size: $i + px;
   }
 }
 
@@ -28,9 +28,9 @@
       }
     }
 
-    @for $f from 1 through 100 {
-      .#{$break-label}\:font-#{$f} {
-        font-size: $f + px;
+    @for $i from 1 through 48 {
+      .#{$break-label}\:font-size-#{$i} {
+        font-size: $i + px;
       }
     }
   }

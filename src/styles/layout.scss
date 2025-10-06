@@ -1,16 +1,16 @@
-@use "@/styles/variables" as var;
-
-// z-index
-@for $z from -100 through 100 {
-  .z-#{$z} {
-    z-index: $z;
-  }
-}
+@use "./variable" as var;
 
 // positions
 @each $position in var.$positions {
   .#{$position} {
     position: $position;
+  }
+}
+
+// displays
+@each $display in var.$displays {
+  .#{$display} {
+    display: $display;
   }
 }
 
@@ -24,20 +24,14 @@
     #{$dir}: 100dvw;
   }
 
-  @for $i from -500 through 500 {
+  @for $i from -200 through 200 {
     .#{$dir-label}-#{$i} {
       #{$dir}: $i + px;
     }
   }
 }
 
-// displays
-@each $display in var.$displays {
-  .#{$display} {
-    display: $display;
-  }
-}
-
+// flex
 .flex-row {
   flex-direction: row;
 }
@@ -46,17 +40,13 @@
   flex-direction: column;
 }
 
-.a-content-center {
-  align-content: center;
-}
-
-@each $axis-label, $axis in var.$axis {
-  .a-#{$axis-label} {
-    align-items: $axis;
+@each $modifier-label, $modifier in var.$modifiers {
+  .a-#{$modifier-label} {
+    align-items: $modifier;
   }
 
-  .j-#{$axis-label} {
-    justify-content: $axis;
+  .j-#{$modifier-label} {
+    justify-content: $modifier;
   }
 }
 
@@ -68,76 +58,54 @@
   flex-wrap: wrap;
 }
 
-@for $g from 0 through 10 {
-  .grid-cols-#{$g} {
-    grid-template-columns: repeat($g, minmax(0, 1fr));
+// grid
+@for $i from 0 through 5 {
+  .grid-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(0, 1fr));
   }
 
-  .col-span-#{$g} {
-    grid-column: span $g;
+  .col-span-#{$i} {
+    grid-column: span $i;
   }
 
-  .grid-rows-#{$g} {
-    grid-template-rows: repeat($g, minmax(0, 1fr));
+  .grid-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(0, 1fr));
   }
 
-  .row-span-#{$g} {
-    grid-row: span $g;
-  }
-}
-
-.grid-full {
-  grid-column: 1, -1;
-}
-
-// overflow
-.overflow-h {
-  overflow: hidden;
-}
-
-// border
-.border-none {
-  border: none;
-}
-
-// cursor
-.pointer {
-  cursor: pointer;
-}
-
-// transition
-@for $tr from 0 through 1000 {
-  .tr-#{$tr} {
-    transition: all $tr + ms;
+  .row-span-#{$i} {
+    grid-row: span $i;
   }
 }
 
-// router-link
-.router-link-exact-active span::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: -3px;
-  width: calc(100% + 6px);
-  height: 2px;
-  background-color: var(--txt-color);
-  transition: all 100ms;
+// z-index
+@for $z from -100 through 100 {
+  .z-#{$z} {
+    z-index: $z;
+  }
+}
+
+// others
+.a-content-center {
+  align-content: center;
+}
+
+.j-items-center {
+  justify-items: center;
 }
 
 @each $break-label, $break-pt in var.$break-pts {
   @media (max-width: #{$break-pt}px) {
-
-    // z-index
-    @for $z from 0 through 1000 {
-      .#{$break-label}\:z-#{$z} {
-        z-index: $z;
-      }
-    }
-
     // positions
     @each $position in var.$positions {
       .#{$break-label}\:#{$position} {
         position: $position;
+      }
+    }
+
+    // displays
+    @each $display in var.$displays {
+      .#{$break-label}\:#{$display} {
+        display: $display;
       }
     }
 
@@ -151,35 +119,36 @@
         #{$dir}: 100dvw;
       }
 
-      @for $i from 0 through 500 {
+      @for $i from 0 through 200 {
         .#{$break-label}\:#{$dir-label}-#{$i} {
           #{$dir}: $i + px;
         }
       }
     }
 
-    // displays
-    @each $display in var.$displays {
-      .#{$break-label}\:#{$display} {
-        display: $display;
+    // grid
+    @for $i from 0 through 5 {
+      .#{$break-label}\:grid-cols-#{$i} {
+        grid-template-columns: repeat($i, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:col-span-#{$i} {
+        grid-column: span $i;
+      }
+
+      .#{$break-label}\:grid-rows-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:row-span-#{$i} {
+        grid-row: span $i;
       }
     }
 
-    @for $g from 0 through 10 {
-      .#{$break-label}\:grid-cols-#{$g} {
-        grid-template-columns: repeat($g, minmax(0, 1fr));
-      }
-
-      .#{$break-label}\:col-span-#{$g} {
-        grid-column: span $g;
-      }
-
-      .#{$break-label}\:grid-rows-#{$g} {
-        grid-template-rows: repeat($g, minmax(0, 1fr));
-      }
-
-      .#{$break-label}\:row-span-#{$g} {
-        grid-row: span $g;
+    // z-index
+    @for $z from -100 through 100 {
+      .#{$break-label}\:z-#{$z} {
+        z-index: $z;
       }
     }
   }

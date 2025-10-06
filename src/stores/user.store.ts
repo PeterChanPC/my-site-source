@@ -1,4 +1,4 @@
-import authApi from '@/api/authApi.service.js';
+import authApi from '@/api/authApi.service';
 import router from '@/router';
 import { defineStore } from "pinia";
 import { ref } from 'vue';
@@ -7,7 +7,7 @@ interface User {
   username: string,
   email: string,
   password: string,
-}
+};
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
       const res = await authApi.getUserFromLogin({
         username: username,
         password: password,
-        expiresponseInMins: 1,
+        expiresponseInMins: 0.1,
       });
       accessToken.value = res.data.accessToken;
       router.push(router.currentRoute.value.query.redirect?.toString() || { name: 'authentication' });
@@ -29,14 +29,17 @@ export const useUserStore = defineStore('user', () => {
     };
   };
 
-  async function handleAuth() {
+  async function handleAuth(): Promise<boolean> {
     try {
-      if (!accessToken.value) return;
+      if (!accessToken.value) {
+        authErr.value = 'You are not login';
+        return false;
+      };
       const res = await authApi.getCurrentAuthByToken(accessToken.value);
       user.value = res.data;
       return true;
     } catch (err: any) {
-      authErr.value = err.status;
+      authErr.value = `Authentication failed ${err.status}`;
       return false;
     };
   };

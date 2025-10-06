@@ -1,5 +1,5 @@
 <template>
-  <button class="flex row j-center border-none bg-none w-32 h-32 font-16 pointer" @click="change">
+  <button class="flex row j-center border-none bg-none w-32 h-32 font-size-16 pointer user-select-none" @click="change">
     <div :class="['tr-100 a-content-center', { 'w-full o-1': !isActive }, { 'w-0 o-0': isActive }]">
       <div class="relative" v-if="imgSrcL">
         <img :src="imgSrcL">

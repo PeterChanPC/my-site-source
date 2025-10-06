@@ -1,12 +1,9 @@
 <template>
-  <div ref="background">
-    <canvas ref="canvas"></canvas>
-  </div>
+  <canvas ref="canvas"></canvas>
 </template>
 
 <script lang="ts">
-import homepageBg from '@/assets/img/homepage-bg.webp';
-import { defineComponent, onMounted, onUnmounted, Ref, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import RendererController from '@/composable/RendererController';
 import CameraController from '@/composable/CameraController';
@@ -18,20 +15,10 @@ import PlayerController from '@/composable/PlayerController';
 export default defineComponent({
   name: 'homepage-background',
   setup(__, { expose }) {
-    const canvas: Ref<HTMLCanvasElement | null> = useTemplateRef('canvas');
-    const background: Ref<HTMLDivElement | null> = useTemplateRef('background');
+    const canvas = useTemplateRef<HTMLCanvasElement | null>('canvas');
     const themeStore = useThemeStore();
 
     onMounted(() => {
-      // fallback background
-      if (!canvas.value && background.value) {
-        background.value.style.cssText = `
-          background-position: center;
-          background-size: cover;
-          background-image: url(${homepageBg});
-        `;
-      };
-
       const rendererController = new RendererController(canvas.value);
       const cameraController = new CameraController();
       const sceneController = new SceneController(themeStore.theme);

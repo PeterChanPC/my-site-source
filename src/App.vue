@@ -28,6 +28,8 @@ body {
     --bg-color-primary: #{map.get(style.$bg-colors, "light-primary")};
     --bg-color-secondary: #{map.get(style.$bg-colors, "light-secondary")};
     --bg-opague-color: #{map.get(style.$bg-opague-colors, "light")};
+    --border-color-primary: #{map.get(style.$border-colors, "light-primary")};
+    --border-color-secondary: #{map.get(style.$border-colors, "light-secondary")};
     --txt-color: #{map.get(style.$txt-colors, "light")};
     --shadow-color: #{map.get(style.$shadow-colors, "light")};
     --img-filter: #{map.get(style.$img-colors, "light")};
@@ -39,6 +41,8 @@ body {
     --bg-color-primary: #{map.get(style.$bg-colors, "dark-primary")};
     --bg-color-secondary: #{map.get(style.$bg-colors, "dark-secondary")};
     --bg-opague-color: #{map.get(style.$bg-opague-colors, "dark")};
+    --border-color-primary: #{map.get(style.$border-colors, "dark-primary")};
+    --border-color-secondary: #{map.get(style.$border-colors, "dark-secondary")};
     --txt-color: #{map.get(style.$txt-colors, "dark")};
     --shadow-color: #{map.get(style.$shadow-colors, "dark")};
     --img-filter: #{map.get(style.$img-colors, "dark")};
@@ -65,12 +69,19 @@ body {
   span,
   h1 {
     color: var(--txt-color);
+    line-height: 1em;
     text-decoration: none;
+  }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
   }
 
   .page {
     position: relative;
-    width: 100%;
+    width: 100dvw;
     height: calc(100dvh - 100px);
     padding: 50px 0;
     background-color: var(--bg-color-primary);

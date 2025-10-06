@@ -3,24 +3,26 @@
     'absolute r--200 flex flex-col t-0 w-180 h-full pt-50 pr-10 pl-10 bg-glassy tr-100 z-99',
     { 'sm:r-0': toggled },
   ]">
-    <AHoverable path="home" :imgSrc="HomeImg" :text="t('home')" shape="pill" />
-    <AHoverable path="works" :imgSrc="ListImg" :text="t('work')" shape="pill" />
-    <AHoverable path="blogs" :imgSrc="ListImg" :text="t('blog')" shape="pill" />
+    <AHoverable to="home" :imgSrc="icons.home" :text="t('home')" shape="pill" />
+    <AHoverable to="works" :imgSrc="icons.list" :text="t('work')" shape="pill" />
+    <AHoverable to="blogs" :imgSrc="icons.list" :text="t('blog')" shape="pill" />
 
-    <div class="relative flex row j-around nly w-160 h-50 pt-24 mt-32 mr-10 ml-10 before-line">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" :imgSrcL="ImgSrcL" :imgSrcR="ImgSrcR" />
+    <div class="relative flex row j-around nly w-160 h-50 pt-24 mt-32 mr-10 ml-10 top-line">
+      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
+        :imgSrcR="icons.moonStars" />
       <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </div>
   </aside>
+  <!-- background -->
+  <div :class="['bg-dark fixed t-0 l-0 w-dvw h-dvh o-0 z--0 tr-100', { 'sm:o-1 sm:z-98': toggled }]"
+    @click="toggleSidebar()">
+  </div>
 </template>
 
 <script lang="ts">
 import AHoverable from '@/components/a-hoverable.vue';
 import Switch from '@/components/switch.vue';
-import HomeImg from '@/assets/img/fi-rr-home.svg';
-import ListImg from '@/assets/img/fi-rr-list.svg';
-import ImgSrcL from '@/assets/img/fi-rr-sun.svg';
-import ImgSrcR from '@/assets/img/fi-rr-moon-stars.svg';
+import * as icons from '@/assets/img/icons';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { defineComponent } from 'vue';
@@ -46,7 +48,7 @@ export default defineComponent({
     const themeStore = useThemeStore();
     const langStore = useLangStore();
     const { t } = useI18n();
-    return { HomeImg, ListImg, ImgSrcL, ImgSrcR, themeStore, langStore, t };
+    return { icons, themeStore, langStore, t };
   },
 });
 </script>

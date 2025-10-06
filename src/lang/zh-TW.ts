@@ -12,12 +12,12 @@ const zhTW: {
   messages: {
     hello: '你好, 我是',
     home: '主頁',
-    work: '經驗',
-    todos: '待辦清單',
-    authentication: '登錄系統',
+    work: '項目',
+    todos: '任務清單',
+    authentication: '驗證',
     blogs: '部落格',
-    blog: '部落格',
-    test: '測試頁',
+    blog: '博客',
+    test: '測試',
   },
   dateTimeFormats: {
     short: {

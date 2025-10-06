@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login page">
     <h1>Login</h1>
     <div>
       <span>Username: </span>
@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserStore } from '@/stores/user.store';
 
-const username: Ref<string> = ref('emilys');
-const password: Ref<string> = ref('emilyspass');
+const username = ref<string>('emilys');
+const password = ref<string>('emilyspass');
 const userStore = useUserStore();
 
 const login = async () => {

@@ -22,30 +22,30 @@
   height: auto;
 }
 
-@for $s from 0 through 1000 {
-  .w-#{$s} {
-    width: $s + px;
+@for $i from 0 through 500 {
+  .w-#{$i} {
+    width: $i + px;
   }
 
-  .h-#{$s} {
-    height: $s + px;
+  .h-#{$i} {
+    height: $i + px;
   }
 
-  .wem-#{$s} {
-    width: $s + em;
+  .wem-#{$i} {
+    width: $i + em;
   }
 
-  .hem-#{$s} {
-    height: $s + em;
+  .hem-#{$i} {
+    height: $i + em;
   }
 }
 
-@for $s from 0 through 100 {
-  .w-0\.#{$s} {
-    width: $s * 1%;
+@for $i from 0 through 100 {
+  .w-0\.#{$i} {
+    width: $i * 1% !important;
   }
 
-  .h-0\.#{$s} {
-    height: $s * 1%;
+  .h-0\.#{$i} {
+    height: $i * 1% !important;
   }
 }

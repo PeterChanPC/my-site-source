@@ -1,37 +1,30 @@
 <template>
-  <a :class="['flex row a-center h-50', {
+  <component :is="isExternal ? 'a' : 'router-link'" :class="['flex row a-center h-50 user-select-none pointer', {
     'j-start': shape === 'pill'
-  }, { 'j-center': shape !== 'pill' }, effect,]" v-if="href" :href="href" :target="target">
+  }, { 'j-center': shape === 'round' }, effect,]" :to="!isExternal ? { name: to } : undefined"
+    :href="isExternal ? to : undefined" :target="target">
     <div class="relative w-50 h-50" v-if="imgSrc">
-      <img :src="imgSrc" :alt="href">
+      <img :src="imgSrc" :alt="to">
     </div>
-    <span class="font-16 capitalize" v-if="text">{{ text }}</span>
-  </a>
-  <router-link :class="['flex row a-center h-50', {
-    'j-start': shape === 'pill'
-  }, { 'j-center': shape !== 'pill' }, effect,]" v-if="path" :to="{ name: path }">
-    <div class="relative w-50 h-50" v-if="imgSrc">
-      <img :src="imgSrc" :alt="path">
-    </div>
-    <span class="font-16 capitalize" v-if="text">{{ text }}</span>
-  </router-link>
+    <span class="font-size-16 capitalize" v-if="text">{{ text }}</span>
+  </component>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 type Target = '_self' | '_blank';
-type Shape = 'center' | 'pill';
+type Shape = 'pill' | 'round';
 type Effect = 'underline-l' | 'underline-m';
 
 export default defineComponent({
   name: 'a-hoverable',
   props: {
-    path: {
-      type: String,
-      default: '',
+    isExternal: {
+      type: Boolean,
+      default: false,
     },
-    href: {
+    to: {
       type: String,
       default: '',
     },
@@ -43,16 +36,16 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    text: {
-      type: String,
-      default: '',
-    },
     shape: {
       type: String as PropType<Shape>,
-      default: 'center',
+      default: 'pill',
     },
     effect: {
       type: String as PropType<Effect>,
+      default: '',
+    },
+    text: {
+      type: String,
       default: '',
     },
   },

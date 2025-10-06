@@ -30,12 +30,12 @@
   text-wrap: nowrap;
 }
 
-@for $ls from 0 through 10 {
-  .ls-#{$ls} {
-    letter-spacing: $ls + px;
+@for $i from 0 through 10 {
+  .ls-#{$i} {
+    letter-spacing: $i + px;
   }
 
-  .ls-0\.#{$ls} {
-    letter-spacing: $ls * 0.1em;
+  .ls-0\.#{$i} {
+    letter-spacing: $i * 0.1em;
   }
 }

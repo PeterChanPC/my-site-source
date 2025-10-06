@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const dummyJsonAPI = () => {
   return axios.create({
@@ -19,15 +19,15 @@ interface AuthApi {
 };
 
 export default {
-  getUserFromLogin(userData) {
-    return dummyJsonAPI().post('/login', userData, {
+  getUserFromLogin(user: User) {
+    return dummyJsonAPI().post('/login', user, {
       headers: {
         'Content-Type': 'application/json'
       },
     });
   },
 
-  getCurrentAuthByToken(accessToken) {
+  getCurrentAuthByToken(accessToken: string) {
     return dummyJsonAPI().get('/me', {
       headers: {
         'Authorization': `Bearer ${accessToken}`

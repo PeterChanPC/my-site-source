@@ -1,8 +1,16 @@
 @use "sass:map";
-@use "@/styles/variables" as var;
+@use "./variable" as var;
 
 .bg-none {
   background: none;
+}
+
+.bg-primary {
+  background-color: var(--bg-color-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--bg-color-secondary) !important;
 }
 
 .bg-glassy {
@@ -11,6 +19,6 @@
   background-color: var(--bg-opague-color);
 }
 
-.backdrop {
+.bg-dark {
   background-color: rgba(map.get(var.$bg-colors, "dark-primary"), 0.5);
 }

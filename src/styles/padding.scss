@@ -1,17 +1,19 @@
-@use "@/styles/variables" as var;
+@use "./variable" as var;
 
 @each $dir-label, $dir in var.$dirs {
   .p#{$dir-label}-auto {
     padding-#{$dir}: auto;
   }
 
-  @for $i from 0 through 100 {
+  @for $i from 0 through 50 {
     .p#{$dir-label}-#{$i} {
-      padding-#{$dir}: $i + px;
+      padding-#{$dir}: $i + px !important;
     }
+  }
 
+  @for $i from 0 through 100 {
     .p#{$dir-label}-0\.#{$i} {
-      padding-#{$dir}: $i * 1%;
+      padding-#{$dir}: $i * 1% !important;
     }
   }
 }
@@ -23,11 +25,13 @@
         padding-#{$dir}: auto;
       }
 
-      @for $i from 0 through 100 {
+      @for $i from 0 through 50 {
         .#{$break-label}\:p#{$dir-label}-#{$i} {
           padding-#{$dir}: $i + px;
         }
+      }
 
+      @for $i from 0 through 100 {
         .#{$break-label}\:p#{$dir-label}-0\.#{$i} {
           padding-#{$dir}: $i * 1%;
         }

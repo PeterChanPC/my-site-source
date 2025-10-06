@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, ref, Ref } from "vue";
+import { onMounted, onUnmounted, Ref } from "vue";
 
 export function useIntersectionObserver(
   options?: IntersectionObserverInit,

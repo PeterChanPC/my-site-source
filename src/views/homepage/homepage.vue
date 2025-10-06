@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import Background from '@/views/homepage/homepage-bg.vue';
+import Background from './homepage-bg.vue';
 import AnimatedTxt from '@/components/animated-txt.vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
