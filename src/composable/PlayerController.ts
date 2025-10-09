@@ -27,27 +27,27 @@ export default class PlayerController {
     this.physics = physics;
   };
 
-  private updateForce(strength: number) {
+  private updateForce = (strength: number) => {
     let moveVec = this.gameInput.getMovementVectorNormalized;
     this.force.set(moveVec.x, 0, moveVec.y).multiplyScalar(strength);
     this.force.z *= 2; // vertical compensation for user experience
   };
 
-  private updateDrag(strength: number) {
+  private updateDrag = (strength: number) => {
     this.drag.copy(this.velocity).multiplyScalar(strength);
   };
 
-  private updateVelocity(dt: number) {
+  private updateVelocity = (dt: number) => {
     let dv = this.force.sub(this.drag).multiplyScalar(dt);
     // remove fluctuation due to decimal places
     if (this.velocity.length() < 0.5 && this.force.length() === 0) {
-      this.velocity.multiplyScalar(0);
-      dv.multiplyScalar(0)
+      this.velocity.set(0, 0, 0);
+      dv.set(0, 0, 0);
     };
     this.velocity.add(dv);
   };
 
-  public applyMovement() {
+  public applyMovement = () => {
     let dt = this.clock.getDelta();
     this.gameInput.handleMovementVector(this.player.position);
     this.updateForce(30);

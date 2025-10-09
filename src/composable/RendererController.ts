@@ -19,27 +19,26 @@ export default class RendererController {
     this.resizeRenderer();
   };
 
-  private resizeRenderer(): void {
+  private resizeRenderer = (): void => {
     this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
   private boundResizeRenderer = (): void => this.resizeRenderer();
 
-  public addResizeListener(): void {
+  public addResizeListener = (): void => {
     window.addEventListener('resize', this.boundResizeRenderer);
   };
 
-  public removeResizeListener(): void {
+  public removeResizeListener = (): void => {
     window.removeEventListener('resize', this.boundResizeRenderer);
   };
 
-  public setAnimation(update: Function, scene: THREE.Scene, camera: THREE.Camera) {
-    const boundUpdate = () => {
+  public setAnimation = (update: Function, scene: THREE.Scene, camera: THREE.Camera) => {
+    const renderUpdate = () => {
       update();
       this.renderer.render(scene, camera);
     };
-
-    this.renderer.setAnimationLoop(boundUpdate);
+    this.renderer.setAnimationLoop(renderUpdate);
   };
 };

@@ -11,16 +11,16 @@ export default class CameraController {
     this.setCamera();
   };
 
-  private updateAspect() {
+  private updateAspect = () => {
     this.aspect = window.innerWidth / window.innerHeight;
   };
 
-  private setCamera(): void {
+  private setCamera = (): void => {
     this.camera.position.set(0, 10, 50);
     this.camera.lookAt(0, 0, 0);
   };
 
-  private updateCamera(): void {
+  private updateCamera = (): void => {
     this.updateAspect();
     this.camera.top = 5 / this.aspect;
     this.camera.bottom = - 5 / this.aspect;
@@ -29,11 +29,11 @@ export default class CameraController {
 
   private boundUpdateCamera = () => this.updateCamera();
 
-  public addResizeListener(): void {
+  public addResizeListener = (): void => {
     window.addEventListener('resize', this.boundUpdateCamera);
   };
 
-  public removeResizeListener(): void {
+  public removeResizeListener = (): void => {
     window.removeEventListener('resize', this.boundUpdateCamera);
   };
 

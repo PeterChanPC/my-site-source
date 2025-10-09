@@ -24,7 +24,7 @@ export default class GameInput {
     this.physics = physics;
   };
 
-  private handleKeyDown(event: KeyboardEvent): void {
+  private handleKeyDown = (event: KeyboardEvent): void => {
     if (this.isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
@@ -42,7 +42,7 @@ export default class GameInput {
     };
   };
 
-  private handleKeyUp(event: KeyboardEvent): void {
+  private handleKeyUp =(event: KeyboardEvent): void => {
     if (this.isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
@@ -60,12 +60,12 @@ export default class GameInput {
     };
   };
 
-  private isKeyboard(): boolean {
+  private isKeyboard = (): boolean => {
     if (this.moveUp || this.moveDown || this.moveLeft || this.moveRight) return true;
     return false;
   };
 
-  private handleMouseDown(event: MouseEvent): void {
+  private handleMouseDown = (event: MouseEvent): void => {
     if (this.isKeyboard()) return;
     const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
     if (pointerPos) {
@@ -74,13 +74,13 @@ export default class GameInput {
     };
   };
 
-  private handleMouseMove(event: MouseEvent): void {
+  private handleMouseMove = (event: MouseEvent): void => {
     if (this.isKeyboard()) return;
     const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
     if (pointerPos) this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
   };
 
-  private handleMouseUp(): void {
+  private handleMouseUp = (): void => {
     if (this.isKeyboard()) return;
     this.isMouse = false;
     this.moveDir.set(0, 0);
@@ -96,7 +96,7 @@ export default class GameInput {
 
   private boundHandleMouseUp = (): void => this.handleMouseUp();
 
-  public addInputListener(): void {
+  public addInputListener = (): void => {
     window.addEventListener('keydown', this.boundHandleKeyDown);
     window.addEventListener('keyup', this.boundHandleKeyUp);
     window.addEventListener('mousedown', this.boundHandleMouseDown);
@@ -104,7 +104,7 @@ export default class GameInput {
     window.addEventListener('mouseup', this.boundHandleMouseUp);
   };
 
-  public removeInputListener(): void {
+  public removeInputListener = (): void => {
     window.removeEventListener('keydown', this.boundHandleKeyDown);
     window.removeEventListener('keyup', this.boundHandleKeyUp);
     window.removeEventListener('mousedown', this.boundHandleMouseDown);
@@ -112,7 +112,7 @@ export default class GameInput {
     window.removeEventListener('mouseup', this.boundHandleMouseUp);
   };
 
-  public handleMovementVector(playerPos?: THREE.Vector3): void {
+  public handleMovementVector = (playerPos?: THREE.Vector3): void => {
     if (this.isMouse && !this.isKeyboard() && playerPos) {
       this.pointerDir.copy(this.pointerPos).sub(playerPos);
       if (this.pointerDir.length() > 0.1) {

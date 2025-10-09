@@ -47,14 +47,15 @@ export default class SceneController {
   private spotlightPrimaryPosDark = new THREE.Vector3(-50, 50, 50);
 
   // Textures Setup
-  private setTextures(): void {
+  private setTextures = (): void => {
     this.playerTexture.wrapS = THREE.RepeatWrapping;
     this.playerTexture.wrapT = THREE.RepeatWrapping;
     this.playerTexture.repeat.set(3, 3);
+    this.playerMesh.frustumCulled = false;
   };
 
   // Positions Setup
-  private setPositions(): void {
+  private setPositions = (): void => {
     this.player.position.set(3, 0, -2);
 
     this.wall_1.position.set(0, 0, -10);
@@ -76,7 +77,7 @@ export default class SceneController {
   };
 
   // Lighting Setup
-  private setLightings(): void {
+  private setLightings = (): void => {
     this.playerMesh.castShadow = true;
     this.wall_1.receiveShadow = true;
     this.floor.receiveShadow = true;
@@ -107,7 +108,7 @@ export default class SceneController {
   };
 
   // Scene Setup
-  public createScene(): void {
+  public createScene = (): void => {
     this.setTextures();
     this.setPositions();
     this.setLightings();

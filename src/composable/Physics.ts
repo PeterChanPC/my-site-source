@@ -2,6 +2,7 @@ import * as THREE from 'three';
 
 export default class Physics {
   private raycaster: THREE.Raycaster;
+  private cameraRaycaster: THREE.Raycaster;
   private collidables: THREE.Object3D[];
   private camera?: THREE.Camera;
   private screenPos: THREE.Vector2;
@@ -15,6 +16,7 @@ export default class Physics {
 
   constructor(collidables: THREE.Object3D[], camera: THREE.Camera) {
     this.raycaster = new THREE.Raycaster();
+    this.cameraRaycaster = new THREE.Raycaster();
     this.collidables = collidables;
     this.camera = camera;
     this.screenPos = new THREE.Vector2(0, 0);
@@ -27,7 +29,7 @@ export default class Physics {
   };
 
   // casting a ray from a Origin with Direction and Max Distance
-  public raycast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] {
+  public raycast = (origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] => {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
     this.raycaster.ray.origin = origin;
     this.raycaster.ray.direction = direction;
@@ -39,7 +41,7 @@ export default class Physics {
   // casting a ray from origin
   // then cast 2 more rays parallel to the 1st ray
   // with left/right Width away and Max Distance
-  public lineCast(origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number = 1, leftWidth: number = 1, rightWidth: number = 1): THREE.Intersection[] {
+  public lineCast = (origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number = 1, leftWidth: number = 1, rightWidth: number = 1): THREE.Intersection[] => {
     let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
     collisions = this.raycast(origin, direction, maxDistance);
 
@@ -57,16 +59,18 @@ export default class Physics {
   };
 
   // project mouse position to world position
-  public screenPointToWorld(x: number, y: number): THREE.Vector3 | undefined {
+  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
     if (!this.camera) return;
 
     let screenPosX = (x / window.innerWidth) * 2 - 1;
     let screenPosY = (y / window.innerHeight) * 2 - 1;
     this.screenPos.set(screenPosX, screenPosY);
 
-    this.raycaster.setFromCamera(this.screenPos, this.camera);
-    this.raycaster.far = 100;
-    const hit = this.raycaster.intersectObjects(this.collidables)[0];
+    this.cameraRaycaster.setFromCamera(this.screenPos, this.camera);
+    this.cameraRaycaster.far = 100;
+    const hit = this.cameraRaycaster.intersectObjects(this.collidables)[0];
+
+    if (!hit) return;
     this.worldPoint.set(hit.point.x, hit.point.y, -hit.point.z);
 
     return this.worldPoint;
