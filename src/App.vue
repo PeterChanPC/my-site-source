@@ -74,6 +74,7 @@ body {
   }
 
   button {
+    color: var(--txt-color);
     border: none;
     background: none;
     cursor: pointer;

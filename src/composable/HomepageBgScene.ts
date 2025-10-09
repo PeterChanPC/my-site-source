@@ -3,11 +3,12 @@ import texture from '@/assets/img/texture.webp';
 import { SupportedTheme } from "@/stores/d";
 
 export default class SceneController {
-  private scene: THREE.Scene = new THREE.Scene();
-  private theme: SupportedTheme = 'light';
+  private scene: THREE.Scene;
+  private theme: SupportedTheme;
 
   constructor(theme: SupportedTheme) {
-    this.theme = theme;
+    this.scene = new THREE.Scene();
+    this.theme = theme || 'light';
   };
 
   // Texture

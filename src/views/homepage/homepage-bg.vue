@@ -7,7 +7,7 @@ import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import RendererController from '@/composable/RendererController';
 import CameraController from '@/composable/CameraController';
-import SceneController from '@/composable/SceneController';
+import SceneController from '@/composable/HomepageBgScene';
 import Physics from '@/composable/Physics';
 import GameInput from '@/composable/GameInput';
 import PlayerController from '@/composable/PlayerController';
@@ -15,12 +15,13 @@ import PlayerController from '@/composable/PlayerController';
 export default defineComponent({
   name: 'homepage-background',
   setup(__, { expose }) {
-    const canvas = useTemplateRef<HTMLCanvasElement | null>('canvas');
+    const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
     const themeStore = useThemeStore();
 
     onMounted(() => {
+      if (!canvas.value) return;
       const rendererController = new RendererController(canvas.value);
-      const cameraController = new CameraController();
+      const cameraController = new CameraController(5);
       const sceneController = new SceneController(themeStore.theme);
 
       const camera = cameraController.getCamera;

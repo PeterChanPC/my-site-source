@@ -4,10 +4,10 @@ export default class CameraController {
   private aspect: number;
   private camera: THREE.OrthographicCamera;
 
-  constructor() {
+  constructor(radius: number) {
     this.aspect = 0;
     this.updateAspect();
-    this.camera = new THREE.OrthographicCamera(-5, 5, 5 / this.aspect, -5 / this.aspect, 0, 1000);
+    this.camera = new THREE.OrthographicCamera(-radius, radius, radius / this.aspect, -radius / this.aspect, 0, 1000);
     this.setCamera();
   };
 
