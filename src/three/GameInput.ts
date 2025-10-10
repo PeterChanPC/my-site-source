@@ -42,7 +42,7 @@ export default class GameInput {
     };
   };
 
-  private handleKeyUp =(event: KeyboardEvent): void => {
+  private handleKeyUp = (event: KeyboardEvent): void => {
     if (this.isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
@@ -66,18 +66,16 @@ export default class GameInput {
   };
 
   private handleMouseDown = (event: MouseEvent): void => {
-    if (this.isKeyboard()) return;
     const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
-    if (pointerPos) {
+    if (pointerPos && !this.isKeyboard()) {
       this.isMouse = true;
       this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
     };
   };
 
   private handleMouseMove = (event: MouseEvent): void => {
-    if (this.isKeyboard()) return;
     const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
-    if (pointerPos) this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
+    if (pointerPos && !this.isKeyboard()) this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
   };
 
   private handleMouseUp = (): void => {
@@ -141,6 +139,10 @@ export default class GameInput {
       this.moveDir.x = 0;
     };
   };
+
+  get getPointerPos(): THREE.Vector3 {
+    return this.pointerPos;
+  }
 
   get getMovementVectorNormalized(): THREE.Vector2 {
     return this.moveDir.normalize();

@@ -5,12 +5,12 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
-import RendererController from '@/composable/RendererController';
-import CameraController from '@/composable/CameraController';
-import SceneController from '@/composable/HomepageBgScene';
-import Physics from '@/composable/Physics';
-import GameInput from '@/composable/GameInput';
-import PlayerController from '@/composable/PlayerController';
+import RendererController from '@/three/RendererController';
+import CameraController from '@/three/CameraController';
+import SceneController from '@/three/HomepageBgScene';
+import Physics from '@/three/Physics';
+import GameInput from '@/three/GameInput';
+import PlayerController from '@/three/PlayerController';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -29,6 +29,7 @@ export default defineComponent({
       const playerObject = sceneController.getPlayerObject;
 
       sceneController.createScene();
+      cameraController.setCamera(0, 10, 50);
 
       const collidables = scene.children.filter(obj => obj !== playerObject);
       const physics = new Physics(collidables, camera);
