@@ -52,7 +52,6 @@ export default class SceneController {
     this.playerTexture.wrapS = THREE.RepeatWrapping;
     this.playerTexture.wrapT = THREE.RepeatWrapping;
     this.playerTexture.repeat.set(3, 3);
-    this.playerMesh.frustumCulled = false;
   };
 
   // Positions Setup

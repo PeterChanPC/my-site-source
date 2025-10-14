@@ -3,25 +3,47 @@ import Physics from './Physics';
 
 export default class GameInput {
   private isMouse: boolean;
-  private pointerPos: THREE.Vector3;
-  private pointerDir: THREE.Vector3;
+  private mousePos: THREE.Vector2;
   private moveDir: THREE.Vector2;
   private moveUp: boolean;
   private moveDown: boolean;
   private moveLeft: boolean;
   private moveRight: boolean;
-  private physics?: Physics;
 
-  constructor(physics?: Physics) {
+  constructor() {
     this.isMouse = false;
-    this.pointerPos = new THREE.Vector3(0, 0, 0);
-    this.pointerDir = new THREE.Vector3(0, 0, 0);
+    this.mousePos = new THREE.Vector2(0, 0);
     this.moveDir = new THREE.Vector2(0, 0);
     this.moveUp = false;
     this.moveDown = false;
     this.moveLeft = false;
     this.moveRight = false;
-    this.physics = physics;
+  };
+
+  private isKeyboard = (): boolean => {
+    if (this.moveUp || this.moveRight || this.moveDown || this.moveLeft) return true;
+    return false;
+  };
+
+  private handleMovementVector = (): void => {
+    if (this.moveUp) {
+      this.moveDir.y = -1;
+      if (this.moveDown) this.moveDir.y = 0;
+    } else if (this.moveDown) {
+      this.moveDir.y = 1;
+      if (this.moveUp) this.moveDir.y = 0;
+    } else {
+      this.moveDir.y = 0;
+    };
+    if (this.moveLeft) {
+      this.moveDir.x = -1;
+      if (this.moveRight) this.moveDir.x = 0;
+    } else if (this.moveRight) {
+      this.moveDir.x = 1;
+      if (this.moveLeft) this.moveDir.x = 0;
+    } else {
+      this.moveDir.x = 0;
+    };
   };
 
   private handleKeyDown = (event: KeyboardEvent): void => {
@@ -40,6 +62,7 @@ export default class GameInput {
         this.moveRight = true;
         break;
     };
+    this.handleMovementVector();
   };
 
   private handleKeyUp = (event: KeyboardEvent): void => {
@@ -58,30 +81,23 @@ export default class GameInput {
         this.moveRight = false;
         break;
     };
-  };
-
-  private isKeyboard = (): boolean => {
-    if (this.moveUp || this.moveDown || this.moveLeft || this.moveRight) return true;
-    return false;
+    this.handleMovementVector();
   };
 
   private handleMouseDown = (event: MouseEvent): void => {
-    const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
-    if (pointerPos && !this.isKeyboard()) {
-      this.isMouse = true;
-      this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
-    };
+    if (this.isKeyboard()) return;
+    this.isMouse = true;
+    this.mousePos.set(event.clientX, event.clientY);
   };
 
   private handleMouseMove = (event: MouseEvent): void => {
-    const pointerPos = this.physics?.screenPointToWorld(event.clientX, event.clientY);
-    if (pointerPos && !this.isKeyboard()) this.pointerPos.set(pointerPos.x, 0, pointerPos.z);
+    this.mousePos.set(event.clientX, event.clientY);
   };
 
   private handleMouseUp = (): void => {
     if (this.isKeyboard()) return;
     this.isMouse = false;
-    this.moveDir.set(0, 0);
+    this.mousePos.set(0, 0);
   };
 
   private boundHandleKeyDown = (event: KeyboardEvent): void => this.handleKeyDown(event);
@@ -110,39 +126,17 @@ export default class GameInput {
     window.removeEventListener('mouseup', this.boundHandleMouseUp);
   };
 
-  public handleMovementVector = (playerPos?: THREE.Vector3): void => {
-    if (this.isMouse && !this.isKeyboard() && playerPos) {
-      this.pointerDir.copy(this.pointerPos).sub(playerPos);
-      if (this.pointerDir.length() > 0.1) {
-        this.moveDir.set(this.pointerDir.x, this.pointerDir.z)
-      } else {
-        this.moveDir.set(0, 0);
-      };
-      return;
-    };
-    if (this.moveUp) {
-      this.moveDir.y = -1;
-      if (this.moveDown) this.moveDir.y = 0;
-    } else if (this.moveDown) {
-      this.moveDir.y = 1;
-      if (this.moveUp) this.moveDir.y = 0;
-    } else {
-      this.moveDir.y = 0;
-    };
-    if (this.moveLeft) {
-      this.moveDir.x = -1;
-      if (this.moveRight) this.moveDir.x = 0;
-    } else if (this.moveRight) {
-      this.moveDir.x = 1;
-      if (this.moveLeft) this.moveDir.x = 0;
-    } else {
-      this.moveDir.x = 0;
-    };
+  get getIsMouse(): boolean {
+    return this.isMouse;
   };
 
-  get getPointerPos(): THREE.Vector3 {
-    return this.pointerPos;
-  }
+  get getIsKeyboard(): boolean {
+    return this.isKeyboard();
+  };
+
+  get getMousePos(): THREE.Vector2 {
+    return this.mousePos;
+  };
 
   get getMovementVectorNormalized(): THREE.Vector2 {
     return this.moveDir.normalize();

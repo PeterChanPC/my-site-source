@@ -3,80 +3,104 @@ import { SupportedTheme } from "@/stores/d";
 
 export default class SceneController {
   private scene: THREE.Scene;
-  private theme: SupportedTheme;
   private clock: THREE.Clock;
-  private vertices: number[];
-  private circles: THREE.Mesh[];
+  private theme?: SupportedTheme;
 
-  constructor(theme: SupportedTheme) {
+  constructor(theme?: SupportedTheme) {
     this.scene = new THREE.Scene();
-    this.theme = theme || 'light';
     this.clock = new THREE.Clock();
-    this.circles = []
-    this.vertices = [];
+    this.theme = theme || 'light';
   };
-
-  // Geometry
-  private createGeometry = (): THREE.BufferGeometry => new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(this.vertices, 3));
-  private lineGeometry = this.createGeometry();
 
   // Materials
-  private materialLight = new THREE.PointsMaterial({ color: 0x000000, size: 2 });
-  private materialDark = new THREE.PointsMaterial({ color: 0xffffff, size: 2 });
+  private material = new THREE.MeshLambertMaterial({ color: 0xffffff });
+
+  // Geometry
+  private boxGeometry = new THREE.BoxGeometry(1, 1, 2);
 
   // Objects
-  private line = new THREE.Line(this.lineGeometry, this.materialLight);
+  private widthCount = 100;
+  private heightCount = 100;
+  private wall = new THREE.InstancedMesh(this.boxGeometry, this.material, this.widthCount * this.heightCount);
+  private dummy = new THREE.Object3D();
 
-  // Ambient Light
-  private ambientLight = new THREE.AmbientLight(0xcccccc);
-  private ambientDark = new THREE.AmbientLight(0x333333);
+  // Light
+  private ambientLight = new THREE.AmbientLight(0xffffff);
+  private directionalLight1 = new THREE.DirectionalLight(0xffffff);
+  private directionalLight2 = new THREE.DirectionalLight(0xffffff);
+
+  // Color
+  private wallColor1 = new THREE.Color(0xffffff);
+  private wallColor2 = new THREE.Color(0xf0f0f0);
+  private wallColor3 = new THREE.Color(0xeeeeee);
 
   // Setup
-  private setup = (): void => {
-    const depth = 2;
-    this.line.position.set(0, 0, 0);
+  private speeds: number[] = [];
+  private phases: number[] = [];
+  private amplitudes: number[] = [];
 
-    for (let i = 0; i < depth; i++) {
-      const circle = new THREE.Mesh(new THREE.RingGeometry(3, 3.1, 30, 1), this.materialLight);
-      this.circles.push(circle);
+  private setup = (): void => {
+    for (let i = 0; i < this.widthCount * this.heightCount; i++) {
+      this.speeds[i] = Math.random() / 2;
+      this.phases[i] = Math.random() * Math.PI * 2;
+      this.amplitudes[i] = Math.random() / 2 + 1;
+    };
+
+    this.scene.fog = new THREE.Fog(0xffffff, -10, 50);
+
+    this.directionalLight1.position.set(10, 5, 10);
+    this.directionalLight2.position.set(-10, 5, 10);
+    this.directionalLight1.intensity = 2;
+
+    if (this.theme === 'light') {
+      this.ambientLight.intensity = 1;
+    } else {
+      this.ambientLight.intensity = 0;
     };
   };
 
+  // Create Scene
   public createScene = (): void => {
     this.setup();
-    this.scene.add(this.line, this.ambientLight);
-    for (let i = 0; i < this.circles.length; i++) {
-      this.scene.add(this.circles[i]);
-    };
+    this.scene.add(this.ambientLight, this.directionalLight1, this.directionalLight2, this.wall);
   };
 
   get getScene(): THREE.Scene {
     return this.scene;
   };
 
-  public updateProps = (): void => {
-    const t = this.clock.getElapsedTime();
-    for (let i = 0; i < this.circles.length; i++) {
-      const pos = this.circles[i].position;
-      const x = pos.x + Math.sin(2 * Math.PI * t * i);
-      const y = pos.y + Math.cos(2 * Math.PI * t * i);
-      pos.set(x, y, 0);
+  public animate = (): void => {
+    const time = this.clock.getElapsedTime();
+    let count = 0;
+    const halfWidth = this.widthCount / 2;
+    const halfHeight = this.heightCount / 2;
+    for (let i = -halfWidth; i < halfWidth; i++) {
+      for (let j = -halfHeight; j < halfHeight; j++) {
+        this.dummy.position.x = i;
+        this.dummy.position.y = j;
+        this.dummy.position.z = Math.sin(time * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
+        this.dummy.updateMatrix();
+        this.wall.setMatrixAt(count, this.dummy.matrix);
+
+        if (count % 3 === 0) {
+          this.wall.setColorAt(count, this.wallColor1)
+        } else if (count % 3 === 1) {
+          this.wall.setColorAt(count, this.wallColor2);
+        } else {
+          this.wall.setColorAt(count, this.wallColor3);
+        };
+        count++;
+      };
     };
-    this.line.geometry.setAttribute('position', new THREE.Float32BufferAttribute(this.vertices, 3));
+    this.wall.instanceMatrix.needsUpdate = true;
   };
 
   public changeTheme = (theme: SupportedTheme): void => {
     if (this.theme !== theme) this.theme = theme;
     if (this.theme === 'light') {
-      this.scene.remove(this.ambientDark);
-      this.scene.add(this.ambientLight);
-      this.line.material = this.materialLight;
-      this.circles.forEach(circle => circle.material = this.materialLight);
+      if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
     } else {
-      this.scene.remove(this.ambientLight);
-      this.scene.add(this.ambientDark);
-      this.line.material = this.materialDark;
-      this.circles.forEach(circle => circle.material = this.materialDark);
+      if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
     };
   };
 };

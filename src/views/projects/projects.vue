@@ -7,15 +7,15 @@
 </template>
 
 <script setup lang="ts">
-import CameraController from '@/three/CameraController';
+import CameraController from '@/three/PerspectiveCameraController';
 import GameInput from '@/three/GameInput';
 import Physics from '@/three/Physics';
 import SceneController from '@/three/ProjectScene';
 import RendererController from '@/three/RendererController';
 import { useThemeStore } from '@/stores/theme.store';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 const { t } = useI18n();
 
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
@@ -24,22 +24,23 @@ const themeStore = useThemeStore();
 onMounted(() => {
   if (!canvas.value) return;
   const rendererController = new RendererController(canvas.value);
-  const cameraController = new CameraController(10);
+  const cameraController = new CameraController();
   const sceneController = new SceneController(themeStore.theme);
 
   const camera = cameraController.getCamera;
   const scene = sceneController.getScene;
+  const control = new OrbitControls(camera, canvas.value);
 
   sceneController.createScene();
-  cameraController.setCamera(0, 0, 0);
+  cameraController.setCamera(0, 0, -10);
 
   const collidables = scene.children;
   const physics = new Physics(collidables, camera);
-  const gameInput = new GameInput(physics);
+  const gameInput = new GameInput();
 
   function update() {
     sceneController.changeTheme(themeStore.theme);
-    sceneController.updateProps();
+    sceneController.animate();
   };
   rendererController.setAnimation(update, scene, camera);
 

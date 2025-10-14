@@ -10,6 +10,7 @@ export default class PlayerController {
   private velocityX: THREE.Vector3;
   private velocityZ: THREE.Vector3;
   private displacement: THREE.Vector3;
+  private moveVec: THREE.Vector2;
   private clock: THREE.Clock;
   private gameInput: GameInput;
   private physics: Physics;
@@ -22,14 +23,24 @@ export default class PlayerController {
     this.velocityX = new THREE.Vector3(0, 0, 0);
     this.velocityZ = new THREE.Vector3(0, 0, 0);
     this.displacement = new THREE.Vector3(0, 0, 0);
+    this.moveVec = new THREE.Vector2(0, 0);
     this.clock = new THREE.Clock();
     this.gameInput = gameInput;
     this.physics = physics;
   };
 
   private updateForce = (strength: number) => {
-    let moveVec = this.gameInput.getMovementVectorNormalized;
-    this.force.set(moveVec.x, 0, moveVec.y).multiplyScalar(strength);
+    if (this.gameInput.getIsKeyboard) {
+      this.moveVec = this.gameInput.getMovementVectorNormalized;
+    } else if (this.gameInput.getIsMouse) {
+      const mousePos = this.gameInput.getMousePos;
+      const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y);
+      const moveDir = mouseWorldPos?.sub(this.player.position).normalize();
+      if (moveDir) this.moveVec.set(moveDir.x, moveDir.z);
+    } else {
+      this.moveVec.set(0, 0);
+    };
+    this.force.set(this.moveVec.x, 0, this.moveVec.y).multiplyScalar(strength);
     this.force.z *= 2; // vertical compensation for user experience
   };
 
@@ -49,7 +60,6 @@ export default class PlayerController {
 
   public applyMovement = () => {
     let dt = this.clock.getDelta();
-    this.gameInput.handleMovementVector(this.player.position);
     this.updateForce(30);
     this.updateDrag(3);
     this.updateVelocity(dt);

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export default class CameraController {
+export default class OrthograpgicCameraController {
   private aspect: number;
   private camera: THREE.OrthographicCamera;
   private radius: number;

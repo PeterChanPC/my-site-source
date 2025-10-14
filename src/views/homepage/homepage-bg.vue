@@ -6,7 +6,7 @@
 import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
 import RendererController from '@/three/RendererController';
-import CameraController from '@/three/CameraController';
+import CameraController from '@/three/OrthographicCameraController';
 import SceneController from '@/three/HomepageBgScene';
 import Physics from '@/three/Physics';
 import GameInput from '@/three/GameInput';
@@ -33,7 +33,7 @@ export default defineComponent({
 
       const collidables = scene.children.filter(obj => obj !== playerObject);
       const physics = new Physics(collidables, camera);
-      const gameInput = new GameInput(physics);
+      const gameInput = new GameInput();
       const playerController = new PlayerController(playerObject, gameInput, physics);
 
       function update() {
