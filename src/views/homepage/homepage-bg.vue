@@ -5,8 +5,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
+import { CameraController } from '@/three/CameraController';
 import RendererController from '@/three/RendererController';
-import CameraController from '@/three/OrthographicCameraController';
 import SceneController from '@/three/HomepageBgScene';
 import Physics from '@/three/Physics';
 import GameInput from '@/three/GameInput';
@@ -21,15 +21,15 @@ export default defineComponent({
     onMounted(() => {
       if (!canvas.value) return;
       const rendererController = new RendererController(canvas.value);
-      const cameraController = new CameraController(5);
       const sceneController = new SceneController(themeStore.theme);
-
-      const camera = cameraController.getCamera;
+      const cameraController = new CameraController('orthographic', 5);
+      
       const scene = sceneController.getScene;
       const playerObject = sceneController.getPlayerObject;
+      const camera = cameraController.getCamera;
 
-      sceneController.createScene();
       cameraController.setCamera(0, 10, 50);
+      sceneController.createScene();
 
       const collidables = scene.children.filter(obj => obj !== playerObject);
       const physics = new Physics(collidables, camera);

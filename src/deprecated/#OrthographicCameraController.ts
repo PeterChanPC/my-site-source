@@ -1,17 +1,15 @@
 import * as THREE from 'three';
 
 export default class OrthograpgicCameraController {
-  private aspect: number;
-  private camera: THREE.OrthographicCamera;
+  private aspect: number = 0;
+  private camera: THREE.OrthographicCamera = new THREE.OrthographicCamera();
   private radius: number;
 
   constructor(radius: number) {
-    this.aspect = 0;
     this.radius = radius;
-    this.camera = new THREE.OrthographicCamera();
   };
 
-  private updateAspect = () => {
+  private updateAspect = (): void => {
     this.aspect = window.innerWidth / window.innerHeight;
   };
 
@@ -26,7 +24,7 @@ export default class OrthograpgicCameraController {
     this.camera.updateProjectionMatrix();
   };
 
-  private boundUpdateCamera = () => this.updateCamera(this.radius);
+  private boundUpdateCamera = (): void => this.updateCamera(this.radius);
 
   public addResizeListener = (): void => {
     window.addEventListener('resize', this.boundUpdateCamera);

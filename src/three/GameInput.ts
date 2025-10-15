@@ -1,65 +1,41 @@
 import * as THREE from 'three';
-import Physics from './Physics';
+
+enum Direction {
+  Up = 0,
+  Down = 1,
+  Left = 2,
+  Right = 3
+};
 
 export default class GameInput {
-  private isMouse: boolean;
-  private mousePos: THREE.Vector2;
-  private moveDir: THREE.Vector2;
-  private moveUp: boolean;
-  private moveDown: boolean;
-  private moveLeft: boolean;
-  private moveRight: boolean;
-
-  constructor() {
-    this.isMouse = false;
-    this.mousePos = new THREE.Vector2(0, 0);
-    this.moveDir = new THREE.Vector2(0, 0);
-    this.moveUp = false;
-    this.moveDown = false;
-    this.moveLeft = false;
-    this.moveRight = false;
-  };
+  private directions: number[] = [0, 0, 0, 0];
+  private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private mousePos: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private isMouse: boolean = false;
 
   private isKeyboard = (): boolean => {
-    if (this.moveUp || this.moveRight || this.moveDown || this.moveLeft) return true;
-    return false;
+    return this.directions.includes(1);
   };
 
   private handleMovementVector = (): void => {
-    if (this.moveUp) {
-      this.moveDir.y = -1;
-      if (this.moveDown) this.moveDir.y = 0;
-    } else if (this.moveDown) {
-      this.moveDir.y = 1;
-      if (this.moveUp) this.moveDir.y = 0;
-    } else {
-      this.moveDir.y = 0;
-    };
-    if (this.moveLeft) {
-      this.moveDir.x = -1;
-      if (this.moveRight) this.moveDir.x = 0;
-    } else if (this.moveRight) {
-      this.moveDir.x = 1;
-      if (this.moveLeft) this.moveDir.x = 0;
-    } else {
-      this.moveDir.x = 0;
-    };
+    this.moveDir.x = this.directions[Direction.Right] - this.directions[Direction.Left];
+    this.moveDir.y = this.directions[Direction.Down] - this.directions[Direction.Up];
   };
 
   private handleKeyDown = (event: KeyboardEvent): void => {
     if (this.isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
-        this.moveUp = true;
+        this.directions[Direction.Up] = 1;
         break;
       case 'ArrowDown':
-        this.moveDown = true;
+        this.directions[Direction.Down] = 1;
         break;
       case 'ArrowLeft':
-        this.moveLeft = true;
+        this.directions[Direction.Left] = 1;
         break;
       case 'ArrowRight':
-        this.moveRight = true;
+        this.directions[Direction.Right] = 1;
         break;
     };
     this.handleMovementVector();
@@ -69,16 +45,16 @@ export default class GameInput {
     if (this.isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
-        this.moveUp = false;
+        this.directions[Direction.Up] = 0;
         break;
       case 'ArrowDown':
-        this.moveDown = false;
+        this.directions[Direction.Down] = 0;
         break;
       case 'ArrowLeft':
-        this.moveLeft = false;
+        this.directions[Direction.Left] = 0;
         break;
       case 'ArrowRight':
-        this.moveRight = false;
+        this.directions[Direction.Right] = 0;
         break;
     };
     this.handleMovementVector();

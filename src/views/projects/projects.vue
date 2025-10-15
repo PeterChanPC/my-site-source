@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import CameraController from '@/three/PerspectiveCameraController';
+import { CameraController } from '@/three/CameraController';
 import GameInput from '@/three/GameInput';
 import Physics from '@/three/Physics';
 import SceneController from '@/three/ProjectScene';
@@ -24,7 +24,7 @@ const themeStore = useThemeStore();
 onMounted(() => {
   if (!canvas.value) return;
   const rendererController = new RendererController(canvas.value);
-  const cameraController = new CameraController();
+  const cameraController = new CameraController('perspective');
   const sceneController = new SceneController(themeStore.theme);
 
   const camera = cameraController.getCamera;

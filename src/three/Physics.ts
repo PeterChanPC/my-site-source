@@ -1,66 +1,89 @@
 import * as THREE from 'three';
 
 export default class Physics {
-  private raycaster: THREE.Raycaster;
-  private cameraRaycaster: THREE.Raycaster;
-  private collidables: THREE.Object3D[];
+  private raycaster: THREE.Raycaster = new THREE.Raycaster();
+  private collidables: THREE.Object3D[] = [];
+
   private camera?: THREE.Camera;
-  private screenPos: THREE.Vector2;
-  private worldPoint: THREE.Vector3;
+  private cameraRaycaster?: THREE.Raycaster;
+  private screenPos?: THREE.Vector2;
+  private worldPoint?: THREE.Vector3;
 
-  private axis: THREE.Vector3;
-  private angle: number;
-  private p1: THREE.Vector3;
-  private p2: THREE.Vector3;
-  private dir: THREE.Vector3;
+  private angle: number = Math.PI / 2;
+  private axis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+  private temp: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private dir: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
-  constructor(collidables: THREE.Object3D[], camera: THREE.Camera) {
-    this.raycaster = new THREE.Raycaster();
-    this.cameraRaycaster = new THREE.Raycaster();
+  constructor(collidables: THREE.Object3D[], camera?: THREE.Camera) {
+    if (camera) {
+      this.cameraRaycaster = new THREE.Raycaster();
+      this.screenPos = new THREE.Vector2(0, 0);
+      this.worldPoint = new THREE.Vector3(0, 0, 0);
+    };
     this.collidables = collidables;
     this.camera = camera;
-    this.screenPos = new THREE.Vector2(0, 0);
-    this.worldPoint = new THREE.Vector3(0, 0, 0);
-    this.axis = new THREE.Vector3(0, 1, 0);
-    this.angle = Math.PI / 2;
-    this.p1 = new THREE.Vector3(0, 0, 0);
-    this.p2 = new THREE.Vector3(0, 0, 0);
-    this.dir = new THREE.Vector3(0, 0, 0);
   };
 
   // casting a ray from a Origin with Direction and Max Distance
-  public raycast = (origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number): THREE.Intersection[] => {
-    let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
+  public getRaycastHit = (
+    origin: THREE.Vector3,
+    direction: THREE.Vector3,
+    maxDistance: number
+  ): THREE.Intersection[] => {
     this.raycaster.ray.origin = origin;
     this.raycaster.ray.direction = direction;
     this.raycaster.far = maxDistance;
-    collisions = this.raycaster.intersectObjects(this.collidables);
-    return collisions;
+    const hit = this.raycaster.intersectObjects(this.collidables);
+    return hit;
   };
 
   // casting a ray from origin
   // then cast 2 more rays parallel to the 1st ray
   // with left/right Width away and Max Distance
-  public lineCast = (origin: THREE.Vector3, direction: THREE.Vector3, maxDistance: number = 1, leftWidth: number = 1, rightWidth: number = 1): THREE.Intersection[] => {
-    let collisions: THREE.Intersection<THREE.Object3D<THREE.Object3DEventMap>>[];
-    collisions = this.raycast(origin, direction, maxDistance);
+  public getLinecastHit = (
+    origin: THREE.Vector3,
+    direction: THREE.Vector3,
+    maxDistance: number = 1,
+    leftWidth: number = 0,
+    rightWidth: number = 0
+  ): THREE.Intersection[] => {
+    const hit = this.getRaycastHit(origin, direction, maxDistance);
 
-    this.p1.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth));
-    this.p2.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, -this.angle).normalize().multiplyScalar(rightWidth));
-
-    this.raycast(this.p1, direction, maxDistance).forEach(obj => {
-      collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
+    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth));
+    this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
+      hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
-    this.raycast(this.p2, direction, maxDistance).forEach(obj => {
-      collisions.indexOf(obj) === -1 ? collisions.push(obj) : {};
+    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, -this.angle).normalize().multiplyScalar(rightWidth));
+    this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
+      hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
 
-    return collisions;
+    return hit;
   };
 
+  public raycast = (
+    origin: THREE.Vector3,
+    direction: THREE.Vector3,
+    maxDistance: number
+  ): boolean => {
+    const hit = this.getRaycastHit(origin, direction, maxDistance);
+    return hit.length === 0;
+  };
+
+  public Linecast = (
+    origin: THREE.Vector3,
+    direction: THREE.Vector3,
+    maxDistance: number,
+    leftWidth: number,
+    rightWidth: number
+  ): boolean => {
+    const hit = this.getLinecastHit(origin, direction, maxDistance, leftWidth, rightWidth);
+    return hit.length === 0;
+  };
+  
   // project mouse position to world position
-  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
-    if (!this.camera) return;
+  public getRaycastHitFromScreen = (x: number, y: number): THREE.Intersection[] | undefined => {
+    if (!this.cameraRaycaster || !this.camera || !this.screenPos) return;
 
     let screenPosX = (x / window.innerWidth) * 2 - 1;
     let screenPosY = (y / window.innerHeight) * 2 - 1;
@@ -68,10 +91,14 @@ export default class Physics {
 
     this.cameraRaycaster.setFromCamera(this.screenPos, this.camera);
     this.cameraRaycaster.far = 100;
-    const hit = this.cameraRaycaster.intersectObjects(this.collidables)[0];
+    const hit = this.cameraRaycaster.intersectObjects(this.collidables);
+    return hit;
+  };
 
-    if (!hit) return;
-    this.worldPoint.set(hit.point.x, hit.point.y, -hit.point.z);
+  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
+    const hit = this.getRaycastHitFromScreen(x, y);
+    if (!hit || !this.worldPoint) return;
+    this.worldPoint.set(hit[0].point.x, hit[0].point.y, -hit[0].point.z);
 
     return this.worldPoint;
   };

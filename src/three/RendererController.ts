@@ -30,11 +30,15 @@ export default class RendererController {
     window.removeEventListener('resize', this.boundResizeRenderer);
   };
 
-  public setAnimation = (update: Function, scene: THREE.Scene, camera: THREE.Camera) => {
-    const renderUpdate = () => {
-      update();
+  public setAnimation = (
+    animate: Function,
+    scene: THREE.Scene,
+    camera: THREE.Camera
+  ): void => {
+    const renderAnimation = () => {
+      animate();
       this.renderer.render(scene, camera);
     };
-    this.renderer.setAnimationLoop(renderUpdate);
+    this.renderer.setAnimationLoop(renderAnimation);
   };
 };
