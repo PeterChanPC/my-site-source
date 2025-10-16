@@ -10,7 +10,6 @@ export default class PlayerController {
   private velocityZ: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private clock: THREE.Clock = new THREE.Clock();
   private forceCoe: number = 30;
   private dragCoe: number = 3;
   private player: THREE.Object3D;
@@ -80,8 +79,7 @@ export default class PlayerController {
     };
   };
 
-  public applyMovement = (): void => {
-    const dt = this.clock.getDelta();
+  public applyMovement = (dt: number): void => {
     this.updateMoveVec();
     this.updateForce(this.forceCoe);
     this.updateDrag(this.dragCoe);

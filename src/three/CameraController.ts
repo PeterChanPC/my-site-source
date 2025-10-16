@@ -90,7 +90,7 @@ export class PerspectiveCameraController implements ICameraController {
   };
 };
 
-export class CameraController {
+export class CameraController implements ICameraController {
   private controller: ICameraController;
 
   constructor(cameraType: 'orthographic' | 'perspective', radius: number = 1) {
@@ -103,19 +103,13 @@ export class CameraController {
     };
   };
 
-  public setCamera = (x: number, y: number, z: number): void => {
-    this.controller.setCamera(x, y, z);
-  };
+  public setCamera = (x: number, y: number, z: number): void => this.controller.setCamera(x, y, z);
 
   get getCamera(): THREE.Camera {
     return this.controller.getCamera;
   };
 
-  public addResizeListener = (): void => {
-    this.controller.addResizeListener();
-  };
+  public addResizeListener = (): void => this.controller.addResizeListener();
 
-  public removeResizeListener = (): void => {
-    this.controller.removeResizeListener();
-  };
+  public removeResizeListener = (): void => this.controller.removeResizeListener();
 };

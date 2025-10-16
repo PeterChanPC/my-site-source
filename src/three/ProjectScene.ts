@@ -19,20 +19,18 @@ export default class SceneController {
   private boxGeometry = new THREE.BoxGeometry(1, 1, 2);
 
   // Objects
-  private widthCount = 100;
-  private heightCount = 100;
-  private wall = new THREE.InstancedMesh(this.boxGeometry, this.material, this.widthCount * this.heightCount);
+  private maxCount = 10000;
+  private widthCount = window.innerWidth / 20;
+  private heightCount = window.innerHeight / 20;
+  private wall = new THREE.InstancedMesh(this.boxGeometry, this.material, this.maxCount);
   private dummy = new THREE.Object3D();
 
   // Light
   private ambientLight = new THREE.AmbientLight(0xffffff);
-  private directionalLight1 = new THREE.DirectionalLight(0xffffff);
-  private directionalLight2 = new THREE.DirectionalLight(0xffffff);
+  private pointLight = new THREE.PointLight(0xffffff);
 
-  // Color
-  private wallColor1 = new THREE.Color(0xffffff);
-  private wallColor2 = new THREE.Color(0xf0f0f0);
-  private wallColor3 = new THREE.Color(0xeeeeee);
+  // Player
+  private player = new THREE.PointLight(0xffffff);
 
   // Setup
   private speeds: number[] = [];
@@ -40,17 +38,14 @@ export default class SceneController {
   private amplitudes: number[] = [];
 
   private setup = (): void => {
-    for (let i = 0; i < this.widthCount * this.heightCount; i++) {
+    for (let i = 0; i < this.maxCount; i++) {
       this.speeds[i] = Math.random() / 2;
       this.phases[i] = Math.random() * Math.PI * 2;
       this.amplitudes[i] = Math.random() / 2 + 1;
     };
 
-    this.scene.fog = new THREE.Fog(0xffffff, -10, 50);
-
-    this.directionalLight1.position.set(10, 5, 10);
-    this.directionalLight2.position.set(-10, 5, 10);
-    this.directionalLight1.intensity = 2;
+    this.pointLight.position.set(0, 0, -5);
+    this.pointLight.intensity = 20;
 
     if (this.theme === 'light') {
       this.ambientLight.intensity = 1;
@@ -62,7 +57,7 @@ export default class SceneController {
   // Create Scene
   public createScene = (): void => {
     this.setup();
-    this.scene.add(this.ambientLight, this.directionalLight1, this.directionalLight2, this.wall);
+    this.scene.add(this.ambientLight, this.pointLight, this.wall, this.player);
   };
 
   get getScene(): THREE.Scene {
@@ -70,25 +65,21 @@ export default class SceneController {
   };
 
   public animate = (): void => {
-    const time = this.clock.getElapsedTime();
-    let count = 0;
+    this.widthCount = window.innerWidth / 20;
+    this.heightCount = window.innerHeight / 20;
+    this.wall.count = this.widthCount * this.heightCount;
     const halfWidth = this.widthCount / 2;
     const halfHeight = this.heightCount / 2;
+    let count = 0;
+    const gap = 0.02;
+    const time = this.clock.getElapsedTime();
     for (let i = -halfWidth; i < halfWidth; i++) {
       for (let j = -halfHeight; j < halfHeight; j++) {
-        this.dummy.position.x = i;
-        this.dummy.position.y = j;
+        this.dummy.position.x = i * (1 + gap);
+        this.dummy.position.y = j * (1 + gap);
         this.dummy.position.z = Math.sin(time * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
         this.dummy.updateMatrix();
         this.wall.setMatrixAt(count, this.dummy.matrix);
-
-        if (count % 3 === 0) {
-          this.wall.setColorAt(count, this.wallColor1)
-        } else if (count % 3 === 1) {
-          this.wall.setColorAt(count, this.wallColor2);
-        } else {
-          this.wall.setColorAt(count, this.wallColor3);
-        };
         count++;
       };
     };
@@ -102,5 +93,9 @@ export default class SceneController {
     } else {
       if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
     };
+  };
+
+  get getPlayerObject() {
+    return this.player;
   };
 };

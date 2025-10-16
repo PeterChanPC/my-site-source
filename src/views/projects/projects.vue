@@ -7,17 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { CameraController } from '@/three/CameraController';
-import GameInput from '@/three/GameInput';
-import Physics from '@/three/Physics';
-import SceneController from '@/three/ProjectScene';
-import RendererController from '@/three/RendererController';
 import { useThemeStore } from '@/stores/theme.store';
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { OrbitControls } from 'three/examples/jsm/Addons.js';
-const { t } = useI18n();
+import { Clock } from 'three';
+import { SceneController } from '@/three/SceneController';
+import { CameraController } from '@/three/CameraController';
+import GameInput from '@/three/GameInput';
+import Physics from '@/three/Physics';
+import RendererController from '@/three/RendererController';
 
+const { t } = useI18n();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 const themeStore = useThemeStore();
 
@@ -25,22 +25,24 @@ onMounted(() => {
   if (!canvas.value) return;
   const rendererController = new RendererController(canvas.value);
   const cameraController = new CameraController('perspective');
-  const sceneController = new SceneController(themeStore.theme);
+  const sceneController = new SceneController('project');
 
   const camera = cameraController.getCamera;
   const scene = sceneController.getScene;
-  const control = new OrbitControls(camera, canvas.value);
+  const player = sceneController.getPlayer;
 
   sceneController.createScene();
-  cameraController.setCamera(0, 0, -10);
+  cameraController.setCamera(0, 0, -15);
 
   const collidables = scene.children;
   const physics = new Physics(collidables, camera);
   const gameInput = new GameInput();
+  const clock = new Clock();
 
   function update() {
-    sceneController.changeTheme(themeStore.theme);
-    sceneController.animate();
+    const elapsedTime = clock.getElapsedTime();
+    sceneController.updateTheme(themeStore.theme);
+    sceneController.updateScene(elapsedTime);
   };
   rendererController.setAnimation(update, scene, camera);
 

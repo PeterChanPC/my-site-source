@@ -5,9 +5,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
+import { Clock } from 'three';
+import { SceneController } from '@/three/SceneController';
 import { CameraController } from '@/three/CameraController';
 import RendererController from '@/three/RendererController';
-import SceneController from '@/three/HomepageBgScene';
 import Physics from '@/three/Physics';
 import GameInput from '@/three/GameInput';
 import PlayerController from '@/three/PlayerController';
@@ -21,11 +22,11 @@ export default defineComponent({
     onMounted(() => {
       if (!canvas.value) return;
       const rendererController = new RendererController(canvas.value);
-      const sceneController = new SceneController(themeStore.theme);
+      const sceneController = new SceneController('homepage');
       const cameraController = new CameraController('orthographic', 5);
-      
+
       const scene = sceneController.getScene;
-      const playerObject = sceneController.getPlayerObject;
+      const playerObject = sceneController.getPlayer;
       const camera = cameraController.getCamera;
 
       cameraController.setCamera(0, 10, 50);
@@ -35,10 +36,12 @@ export default defineComponent({
       const physics = new Physics(collidables, camera);
       const gameInput = new GameInput();
       const playerController = new PlayerController(playerObject, gameInput, physics);
+      const clock = new Clock();
 
       function update() {
-        sceneController.changeTheme(themeStore.theme);
-        playerController.applyMovement();
+        const dt = clock.getDelta();
+        sceneController.updateTheme(themeStore.theme);
+        playerController.applyMovement(dt);
       };
       rendererController.setAnimation(update, scene, camera);
 
