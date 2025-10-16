@@ -1,3 +1,3 @@
-My Personal Website
+My Personal Webpage Source Code
 
-website: https://peterchanpc.github.io/my-site/
+Check out how it looks at https://peterchanpc.github.io/my-site/
