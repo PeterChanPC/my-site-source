@@ -1,21 +1,38 @@
 import * as THREE from 'three';
 import texture from '@/assets/img/texture.webp';
 import { SupportedTheme } from "@/stores/d";
+import { ICameraController, CameraController } from './CameraController';
+import GameInput from './GameInput';
+import PlayerController from './PlayerController';
+import RendererController from './RendererController';
+import Physics from './Physics';
 
 interface ISceneController {
-  createScene(): void;
-  getScene: THREE.Scene;
-  getPlayer: THREE.Object3D;
-  updateScene(elapsedTime: number): void;
-  updateTheme(theme: SupportedTheme): void;
+  startScene(): void;
+  endScene(): void;
+  setTheme(theme: SupportedTheme): void;
 };
 
 export class HomepageScene implements ISceneController {
   private scene: THREE.Scene = new THREE.Scene();
-  private theme?: SupportedTheme = 'light';
+  private theme: SupportedTheme = 'light';
 
-  constructor(theme?: SupportedTheme) {
-    this.theme = theme;
+  private rendererController: RendererController;
+  private cameraController: ICameraController;
+  private gameInput: GameInput;
+  private physics: Physics;
+  private playerController: PlayerController;
+  private clock: THREE.Clock;
+
+  constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
+    if (theme) this.theme = theme;
+
+    this.rendererController = new RendererController(canvas);
+    this.cameraController = new CameraController('orthographic', 5);
+    this.gameInput = new GameInput();
+    this.physics = new Physics(this.cameraController.getCamera);
+    this.playerController = new PlayerController(this.player, this.gameInput, this.physics);
+    this.clock = new THREE.Clock();
   };
 
   // Texture
@@ -73,6 +90,8 @@ export class HomepageScene implements ISceneController {
     this.floor.position.set(0, -1, 0);
     this.floor.rotation.set(-Math.PI / 2, 0, 0);
 
+    this.cameraController.setCamera(0, 10, 50);
+
     this.theme === 'light' ?
       this.spotlightPrimary.position.set(50, 50, 50) :
       this.spotlightPrimary.position.set(-50, 50, 50);
@@ -111,19 +130,16 @@ export class HomepageScene implements ISceneController {
   };
 
   // Scene Setup
-  public createScene = (): void => {
+  private createScene = (): void => {
     this.setTextures();
     this.setPositions();
     this.setLightings();
     this.scene.add(this.player, this.floor, this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
+    const collidables = this.scene.children.filter(obj => obj !== this.player);
+    this.physics.setCollidables(collidables);
   };
 
-  public updateScene(elapsedTime: number): void {
-
-  };
-
-  public updateTheme = (theme: SupportedTheme): void => {
-    if (this.theme !== theme) this.theme = theme;
+  private updateTheme = (): void => {
     if (this.theme === 'light') {
       if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
       if (this.spotlightPrimary.angle < 0.1) this.spotlightPrimary.angle += 0.005;
@@ -137,12 +153,28 @@ export class HomepageScene implements ISceneController {
     };
   };
 
-  get getScene(): THREE.Scene {
-    return this.scene;
+  private update = (): void => {
+    const dt = this.clock.getDelta();
+    this.updateTheme();
+    this.playerController.applyMovement(dt);
   };
 
-  get getPlayer(): THREE.Object3D {
-    return this.player;
+  public startScene = (): void => {
+    this.createScene();
+    this.gameInput.addInputListener();
+    this.rendererController.addResizeListener();
+    this.cameraController.addResizeListener();
+    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.getCamera);
+  };
+
+  public endScene = (): void => {
+    this.gameInput.removeInputListener();
+    this.rendererController.removeResizeListener();
+    this.cameraController.removeResizeListener();
+  };
+
+  public setTheme(theme: SupportedTheme) {
+    this.theme = theme;
   };
 };
 
@@ -150,8 +182,20 @@ export class ProjectScene implements ISceneController {
   private scene: THREE.Scene = new THREE.Scene();
   private theme?: SupportedTheme = 'light';
 
-  constructor(theme?: SupportedTheme) {
-    this.theme = theme;
+  private rendererController: RendererController;
+  private cameraController: ICameraController;
+  private physics: Physics;
+  private gameInput: GameInput;
+  private playerController: PlayerController;
+
+  constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
+    if (theme) this.theme = theme;
+
+    this.rendererController = new RendererController(canvas);
+    this.cameraController = new CameraController('orthographic', 5);
+    this.gameInput = new GameInput();
+    this.physics = new Physics(this.cameraController.getCamera);
+    this.playerController = new PlayerController(this.player, this.gameInput, this.physics);
   };
 
   // Materials
@@ -202,14 +246,27 @@ export class ProjectScene implements ISceneController {
   };
 
   // Scene Setup
-  public createScene = (): void => {
+  private createScene = (): void => {
     this.setPositions();
     this.setLightings();
     this.player.attach(this.playerLight);
     this.scene.add(this.ambientLight, this.pointLight, this.wall, this.player);
+    const collidables = this.scene.children.filter(obj => obj !== this.player);
+    this.physics.setCollidables(collidables);
   };
 
-  public updateScene = (elapsedTime: number): void => {
+  private updateTheme = (): void => {
+    if (this.theme === 'light') {
+      if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
+    } else {
+      if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
+    };
+  };
+
+  private update = (): void => {
+    this.updateTheme();
+    const clock = new THREE.Clock();
+    const time = clock.getElapsedTime();
     this.widthCount = window.innerWidth / 20;
     this.heightCount = window.innerHeight / 20;
     this.wall.count = this.widthCount * this.heightCount;
@@ -221,7 +278,7 @@ export class ProjectScene implements ISceneController {
       for (let j = -halfHeight; j < halfHeight; j++) {
         this.dummy.position.x = i * (1 + gap);
         this.dummy.position.y = j * (1 + gap);
-        this.dummy.position.z = Math.sin(elapsedTime * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
+        this.dummy.position.z = Math.sin(time * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
         this.dummy.updateMatrix();
         this.wall.setMatrixAt(count, this.dummy.matrix);
         count++;
@@ -230,48 +287,43 @@ export class ProjectScene implements ISceneController {
     this.wall.instanceMatrix.needsUpdate = true;
   };
 
-  public updateTheme = (theme: SupportedTheme): void => {
-    if (this.theme !== theme) this.theme = theme;
-    if (this.theme === 'light') {
-      if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
-    } else {
-      if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
-    };
+  public startScene = (): void => {
+    this.createScene();
+    this.gameInput.addInputListener();
+    this.rendererController.addResizeListener();
+    this.cameraController.addResizeListener();
+    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.getCamera);
   };
 
-  get getScene() {
-    return this.scene;
-  }
+  public endScene = (): void => {
+    this.gameInput.removeInputListener();
+    this.rendererController.removeResizeListener();
+    this.cameraController.removeResizeListener();
+  };
 
-  get getPlayer() {
-    return this.player;
+  public setTheme = (theme: SupportedTheme) => {
+    this.theme = theme;
   };
 };
 
 export class SceneController implements ISceneController {
   private controller: ISceneController;
 
-  constructor(scene: 'homepage' | 'project') {
+  constructor(canvas: HTMLCanvasElement, scene: 'homepage' | 'project', theme: SupportedTheme = 'light') {
     if (scene === 'homepage') {
-      this.controller = new HomepageScene();
+      this.controller = new HomepageScene(canvas, theme);
     } else if (scene === 'project') {
-      this.controller = new ProjectScene();
+      this.controller = new ProjectScene(canvas, theme);
     } else {
       throw new Error('Invalid Scene');
     };
   };
 
-  public createScene = (): void => this.controller.createScene();
+  public startScene = (): void => this.controller.startScene();
 
-  public updateScene = (elapsedTime: number): void => this.controller.updateScene(elapsedTime);
+  public endScene = (): void => this.controller.endScene();
 
-  public updateTheme = (theme: SupportedTheme): void => this.controller.updateTheme(theme);
-
-  get getPlayer(): THREE.Object3D {
-    return this.controller.getPlayer;
-  };
-
-  get getScene(): THREE.Scene {
-    return this.controller.getScene;
+  public setTheme(theme: SupportedTheme) {
+    this.controller.setTheme(theme);
   };
 };

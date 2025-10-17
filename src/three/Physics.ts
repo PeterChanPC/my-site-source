@@ -12,16 +12,18 @@ export default class Physics {
   private angle: number = Math.PI / 2;
   private axis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
   private temp: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private dir: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
-  constructor(collidables: THREE.Object3D[], camera?: THREE.Camera) {
+  constructor(camera?: THREE.Camera) {
     if (camera) {
+      this.camera = camera;
       this.cameraRaycaster = new THREE.Raycaster();
       this.screenPos = new THREE.Vector2(0, 0);
       this.worldPoint = new THREE.Vector3(0, 0, 0);
     };
+  };
+
+  public setCollidables(collidables: THREE.Object3D[]) {
     this.collidables = collidables;
-    this.camera = camera;
   };
 
   // casting a ray from a Origin with Direction and Max Distance
@@ -49,11 +51,11 @@ export default class Physics {
   ): THREE.Intersection[] => {
     const hit = this.getRaycastHit(origin, direction, maxDistance);
 
-    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth));
+    this.temp.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth);
     this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
       hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
-    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, -this.angle).normalize().multiplyScalar(rightWidth));
+    this.temp.copy(direction).applyAxisAngle(this.axis, -this.angle).add(origin).normalize().multiplyScalar(rightWidth);
     this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
       hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
@@ -80,7 +82,7 @@ export default class Physics {
     const hit = this.getLinecastHit(origin, direction, maxDistance, leftWidth, rightWidth);
     return hit.length === 0;
   };
-  
+
   // project mouse position to world position
   public getRaycastHitFromScreen = (x: number, y: number): THREE.Intersection[] | undefined => {
     if (!this.cameraRaycaster || !this.camera || !this.screenPos) return;

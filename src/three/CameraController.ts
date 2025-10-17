@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-interface ICameraController {
+export interface ICameraController {
   setCamera(x: number, y: number, z: number): void;
   getCamera: THREE.Camera;
   addResizeListener(): void;

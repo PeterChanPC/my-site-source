@@ -3,15 +3,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, useTemplateRef } from 'vue';
+import { defineComponent, onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
-import { Clock } from 'three';
 import { SceneController } from '@/three/SceneController';
-import { CameraController } from '@/three/CameraController';
-import RendererController from '@/three/RendererController';
-import Physics from '@/three/Physics';
-import GameInput from '@/three/GameInput';
-import PlayerController from '@/three/PlayerController';
 
 export default defineComponent({
   name: 'homepage-background',
@@ -21,38 +15,14 @@ export default defineComponent({
 
     onMounted(() => {
       if (!canvas.value) return;
-      const rendererController = new RendererController(canvas.value);
-      const sceneController = new SceneController('homepage');
-      const cameraController = new CameraController('orthographic', 5);
+      const sceneController = new SceneController(canvas.value, 'homepage', themeStore.theme);
 
-      const scene = sceneController.getScene;
-      const playerObject = sceneController.getPlayer;
-      const camera = cameraController.getCamera;
+      sceneController.startScene();
 
-      cameraController.setCamera(0, 10, 50);
-      sceneController.createScene();
-
-      const collidables = scene.children.filter(obj => obj !== playerObject);
-      const physics = new Physics(collidables, camera);
-      const gameInput = new GameInput();
-      const playerController = new PlayerController(playerObject, gameInput, physics);
-      const clock = new Clock();
-
-      function update() {
-        const dt = clock.getDelta();
-        sceneController.updateTheme(themeStore.theme);
-        playerController.applyMovement(dt);
-      };
-      rendererController.setAnimation(update, scene, camera);
-
-      gameInput.addInputListener();
-      rendererController.addResizeListener();
-      cameraController.addResizeListener();
+      watch(themeStore, () => sceneController.setTheme(themeStore.theme));
 
       onUnmounted(() => {
-        gameInput.removeInputListener();
-        rendererController.removeResizeListener();
-        cameraController.removeResizeListener();
+        sceneController.endScene();
       });
     });
 
