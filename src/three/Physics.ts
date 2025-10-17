@@ -12,6 +12,7 @@ export default class Physics {
   private angle: number = Math.PI / 2;
   private axis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
   private temp: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private dir: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
   constructor(camera?: THREE.Camera) {
     if (camera) {
@@ -51,11 +52,11 @@ export default class Physics {
   ): THREE.Intersection[] => {
     const hit = this.getRaycastHit(origin, direction, maxDistance);
 
-    this.temp.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth);
+    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, this.angle).normalize().multiplyScalar(leftWidth));
     this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
       hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
-    this.temp.copy(direction).applyAxisAngle(this.axis, -this.angle).add(origin).normalize().multiplyScalar(rightWidth);
+    this.temp.copy(origin).add(this.dir.copy(direction).applyAxisAngle(this.axis, -this.angle).normalize().multiplyScalar(rightWidth));
     this.getRaycastHit(this.temp, direction, maxDistance).forEach(obj => {
       hit.indexOf(obj) === -1 ? hit.push(obj) : {};
     });
