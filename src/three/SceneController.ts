@@ -6,6 +6,7 @@ import GameInput from './GameInput';
 import PlayerController from './PlayerController';
 import RendererController from './RendererController';
 import Physics from './Physics';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 interface ISceneController {
   startScene(): void;
@@ -185,7 +186,7 @@ export class ProjectScene implements ISceneController {
   // General
   private scene: THREE.Scene = new THREE.Scene();
   private gameInput: GameInput = new GameInput();
-  private cameraController: CameraController = new CameraController('orthographic', 5);
+  private cameraController: CameraController = new CameraController('perspective', 30);
   private physics: Physics = new Physics(this.cameraController.getCamera);
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();
@@ -195,6 +196,7 @@ export class ProjectScene implements ISceneController {
     if (theme) this.theme = theme;
     this.rendererController = new RendererController(canvas);
   };
+  
   // Positions Setup
   private setPositions = (): void => {
     for (let i = 0; i < this.maxCount; i++) {
@@ -203,6 +205,7 @@ export class ProjectScene implements ISceneController {
       this.amplitudes[i] = Math.random() / 2 + 1;
     };
 
+    this.cameraController.setCamera(0, 0, -15);
     this.player.position.set(0, 0, -5);
     this.pointLight.position.set(0, 0, -5);
   };
@@ -239,11 +242,11 @@ export class ProjectScene implements ISceneController {
   private updateWall = (time: number): void => {
     const widthCount = window.innerWidth / 20;
     const heightCount = window.innerHeight / 20;
-    this.wall.count = widthCount * heightCount;
     const halfWidth = widthCount / 2;
     const halfHeight = heightCount / 2;
     let count = 0;
     const gap = 0.02;
+    this.wall.count = widthCount * heightCount;
     for (let i = -halfWidth; i < halfWidth; i++) {
       for (let j = -halfHeight; j < halfHeight; j++) {
         this.dummy.position.x = i * (1 + gap);
@@ -258,9 +261,9 @@ export class ProjectScene implements ISceneController {
   };
 
   private update = (): void => {
-    this.updateTheme();
     const time = this.clock.getElapsedTime();
     this.updateWall(time);
+    this.updateTheme();
   };
 
   public startScene = (): void => {
