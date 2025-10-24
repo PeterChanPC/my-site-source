@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
 import { useThemeStore } from '@/stores/theme.store';
-import { SceneController } from '@/three/SceneController';
+import { SceneController } from '@/three/Scene/SceneController';
 
 export default defineComponent({
   name: 'homepage-background',

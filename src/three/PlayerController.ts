@@ -1,8 +1,6 @@
-import * as THREE from 'three';
-import GameInput from './GameInput';
-import Physics from './Physics';
+import { THREE, Physics, GameInput } from "./three";
 
-export default class PlayerController {
+export class PlayerController {
   private moveVec: THREE.Vector2 = new THREE.Vector2(0, 0);
   private displacement: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);

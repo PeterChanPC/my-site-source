@@ -1,6 +1,6 @@
-import * as THREE from 'three';
+import { THREE } from "./three";
 
-export default class RendererController {
+export class RendererController {
   private renderer: THREE.WebGLRenderer;
 
   constructor(canvas: HTMLCanvasElement) {

@@ -10,7 +10,7 @@
 import { useThemeStore } from '@/stores/theme.store';
 import { onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { SceneController } from '@/three/SceneController';
+import { SceneController } from '@/three/Scene/SceneController';
 
 const { t } = useI18n();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');

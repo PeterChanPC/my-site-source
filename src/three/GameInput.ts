@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { THREE } from "./three";
 
 enum Direction {
   Up = 0,
@@ -7,7 +7,7 @@ enum Direction {
   Right = 3
 };
 
-export default class GameInput {
+export class GameInput {
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
   private mousePos: THREE.Vector2 = new THREE.Vector2(0, 0);

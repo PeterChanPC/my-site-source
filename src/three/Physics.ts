@@ -1,6 +1,6 @@
-import * as THREE from 'three';
+import { THREE } from "./three";
 
-export default class Physics {
+export class Physics {
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private collidables: THREE.Object3D[] = [];
 
