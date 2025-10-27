@@ -76,30 +76,20 @@ export class GameInput {
     this.mousePos.set(0, 0);
   };
 
-  private boundHandleKeyDown = (event: KeyboardEvent): void => this.handleKeyDown(event);
-
-  private boundHandleKeyUp = (event: KeyboardEvent): void => this.handleKeyUp(event);
-
-  private boundHandleMouseDown = (event: MouseEvent): void => this.handleMouseDown(event);
-
-  private boundHandleMouseMove = (event: MouseEvent): void => this.handleMouseMove(event);
-
-  private boundHandleMouseUp = (): void => this.handleMouseUp();
-
   public addInputListener = (): void => {
-    window.addEventListener('keydown', this.boundHandleKeyDown);
-    window.addEventListener('keyup', this.boundHandleKeyUp);
-    window.addEventListener('mousedown', this.boundHandleMouseDown);
-    window.addEventListener('mousemove', this.boundHandleMouseMove);
-    window.addEventListener('mouseup', this.boundHandleMouseUp);
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
+    window.addEventListener('mousedown', this.handleMouseDown);
+    window.addEventListener('mousemove', this.handleMouseMove);
+    window.addEventListener('mouseup', this.handleMouseUp);
   };
 
   public removeInputListener = (): void => {
-    window.removeEventListener('keydown', this.boundHandleKeyDown);
-    window.removeEventListener('keyup', this.boundHandleKeyUp);
-    window.removeEventListener('mousedown', this.boundHandleMouseDown);
-    window.removeEventListener('mousemove', this.boundHandleMouseMove);
-    window.removeEventListener('mouseup', this.boundHandleMouseUp);
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
+    window.removeEventListener('mousedown', this.handleMouseDown);
+    window.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('mouseup', this.handleMouseUp);
   };
 
   get getIsMouse(): boolean {
