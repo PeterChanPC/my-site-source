@@ -10,12 +10,8 @@ enum Direction {
 export class GameInput {
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-  private mousePos: THREE.Vector2 = new THREE.Vector2(0, 0);
-  private isMouse: boolean = false;
-
-  private isKeyboard = (): boolean => {
-    return this.directions.includes(1);
-  };
+  private _mousePos: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private _isMouse: boolean = false;
 
   private handleMovementVector = (): void => {
     this.moveDir.x = this.directions[Direction.Right] - this.directions[Direction.Left];
@@ -23,7 +19,7 @@ export class GameInput {
   };
 
   private handleKeyDown = (event: KeyboardEvent): void => {
-    if (this.isMouse) return;
+    if (this._isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
         this.directions[Direction.Up] = 1;
@@ -42,7 +38,7 @@ export class GameInput {
   };
 
   private handleKeyUp = (event: KeyboardEvent): void => {
-    if (this.isMouse) return;
+    if (this._isMouse) return;
     switch (event.key) {
       case 'ArrowUp':
         this.directions[Direction.Up] = 0;
@@ -61,19 +57,19 @@ export class GameInput {
   };
 
   private handleMouseDown = (event: MouseEvent): void => {
-    if (this.isKeyboard()) return;
-    this.isMouse = true;
-    this.mousePos.set(event.clientX, event.clientY);
+    if (this.isKeyboard) return;
+    this._isMouse = true;
+    this._mousePos.set(event.clientX, event.clientY);
   };
 
   private handleMouseMove = (event: MouseEvent): void => {
-    this.mousePos.set(event.clientX, event.clientY);
+    this._mousePos.set(event.clientX, event.clientY);
   };
 
   private handleMouseUp = (): void => {
-    if (this.isKeyboard()) return;
-    this.isMouse = false;
-    this.mousePos.set(0, 0);
+    if (this.isKeyboard) return;
+    this._isMouse = false;
+    this._mousePos.set(0, 0);
   };
 
   public addInputListener = (): void => {
@@ -92,19 +88,19 @@ export class GameInput {
     window.removeEventListener('mouseup', this.handleMouseUp);
   };
 
-  get getIsMouse(): boolean {
-    return this.isMouse;
-  };
-
-  get getIsKeyboard(): boolean {
-    return this.isKeyboard();
-  };
-
-  get getMousePos(): THREE.Vector2 {
-    return this.mousePos;
-  };
-
-  get getMovementVectorNormalized(): THREE.Vector2 {
+  public getMovementVectorNormalized(): THREE.Vector2 {
     return this.moveDir.normalize();
+  };
+
+  public get isMouse(): boolean {
+    return this._isMouse;
+  };
+
+  public get isKeyboard(): boolean {
+    return this.directions.includes(1);
+  };
+
+  public get mousePos(): THREE.Vector2 {
+    return this._mousePos;
   };
 };

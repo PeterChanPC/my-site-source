@@ -1,12 +1,9 @@
-import { THREE, ISceneController, RendererController, CameraController, PlayerController, Physics, GameInput } from "../three";
+import { THREE, ISceneController, RendererController, CameraController, Player, Physics, GameInput } from "../three";
 import { SupportedTheme } from "@/stores/d";
 import texture from '@/assets/img/texture.webp';
 
 export class HomepageSceneController implements ISceneController {
-  // Texture
-  private playerTexture = new THREE.TextureLoader().load(texture);
   // Materials
-  private playerMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: this.playerTexture });
   private wallMaterial_1 = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
   private wallMaterial_2 = new THREE.MeshBasicMaterial({ opacity: 0, transparent: true });
   private floorMaterial = this.wallMaterial_1;
@@ -14,9 +11,6 @@ export class HomepageSceneController implements ISceneController {
   private playerGeometry = new THREE.SphereGeometry(1, 32, 32);
   private wallGeometry = new THREE.PlaneGeometry(20, 20);
   private floorGeometry = new THREE.PlaneGeometry(20, 100);
-  // Player (Sphere)
-  private playerMesh = new THREE.Mesh(this.playerGeometry, this.playerMaterial);
-  private player = new THREE.Object3D().attach(this.playerMesh);
   // Objects
   private wall_1 = new THREE.Mesh(this.wallGeometry, this.wallMaterial_1);
   private wall_2 = new THREE.Mesh(this.wallGeometry, this.wallMaterial_2);
@@ -32,12 +26,17 @@ export class HomepageSceneController implements ISceneController {
   // General
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();
+  private rendererController: RendererController;
+  private cameraController: CameraController = new CameraController('orthographic', 5);
   private scene: THREE.Scene = new THREE.Scene();
   private gameInput: GameInput = new GameInput();
-  private cameraController: CameraController = new CameraController('orthographic', 5);
   private physics: Physics = new Physics(this.cameraController.getCamera);
-  private playerController: PlayerController = new PlayerController(this.player, this.gameInput, this.physics);
-  private rendererController: RendererController;
+  // Player (Sphere)
+  private playerTexture = new THREE.TextureLoader().load(texture);
+  private playerMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: this.playerTexture });
+  private playerMesh = new THREE.Mesh(this.playerGeometry, this.playerMaterial);
+  private playerObject = new THREE.Object3D().attach(this.playerMesh);
+  private player: Player = new Player(this.playerObject, this.gameInput, this.physics);
 
   constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
     if (theme) this.theme = theme;
@@ -53,7 +52,9 @@ export class HomepageSceneController implements ISceneController {
 
   // Positions Setup
   private setPositions = (): void => {
-    this.player.position.set(3, 0, -2);
+    this.cameraController.setCameraPos(0, 10, 50);
+
+    this.playerObject.position.set(3, 0, -2);
 
     this.wall_1.position.set(0, 0, -10);
     this.wall_2.position.set(-5, 0, 0);
@@ -65,13 +66,13 @@ export class HomepageSceneController implements ISceneController {
     this.wall_4.rotation.set(0, Math.PI, 0);
 
     this.floor.position.set(0, -1, 0);
-    this.floor.rotation.set(-Math.PI / 2, 0, 0);
 
-    this.cameraController.setCameraPos(0, 10, 50);
+    this.floor.rotation.set(-Math.PI / 2, 0, 0);
 
     this.theme === 'light' ?
       this.spotlightPrimary.position.set(50, 50, 50) :
       this.spotlightPrimary.position.set(-50, 50, 50);
+
     this.spotlightSecondary.position.set(-50, 50, 50);
   };
 
@@ -111,8 +112,18 @@ export class HomepageSceneController implements ISceneController {
     this.setTextures();
     this.setPositions();
     this.setLightings();
-    this.scene.add(this.player, this.floor, this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
-    const collidables = this.scene.children.filter(obj => obj !== this.player);
+    this.scene.add(
+      this.playerObject,
+      this.floor,
+      this.wall_1,
+      this.wall_2,
+      this.wall_3,
+      this.wall_4,
+      this.ambientLight,
+      this.spotlightPrimary,
+      this.spotlightSecondary
+    );
+    const collidables = this.scene.children.filter(obj => obj !== this.playerObject);
     this.physics.setCollidables(collidables);
   };
 
@@ -134,7 +145,7 @@ export class HomepageSceneController implements ISceneController {
   private update = (): void => {
     this.updateTheme();
     const dt = this.clock.getDelta();
-    this.playerController.applyMovement(dt);
+    this.player.applyMovement(dt);
   };
 
   public startScene = (): void => {
