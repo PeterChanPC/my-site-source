@@ -17,4 +17,4 @@ export { SceneController } from './Scene/SceneController';
 export { HomepageSceneController } from './Scene/HomepageSceneController';
 export { ProjectSceneController } from './Scene/ProjectSceneController';
 
-export { PlayerController } from './PlayerController';
+export { PlayerController } from './Player/PlayerController';

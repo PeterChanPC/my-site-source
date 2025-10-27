@@ -117,22 +117,23 @@ export class HomepageSceneController implements ISceneController {
   };
 
   private updateTheme = (): void => {
+    const alpha = 0.1;
     if (this.theme === 'light') {
-      if (this.ambientLight.intensity < 1) this.ambientLight.intensity += 0.05;
-      if (this.spotlightPrimary.angle < 0.1) this.spotlightPrimary.angle += 0.005;
-      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, 0.1);
+      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, 1, alpha);
+      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, 0.1, alpha);
+      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, alpha);
       this.spotlightSecondary.power = 0;
     } else {
-      if (this.ambientLight.intensity > 0) this.ambientLight.intensity -= 0.05;
-      if (this.spotlightPrimary.angle > 0.03) this.spotlightPrimary.angle -= 0.005;
-      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, 0.1);
+      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, 0, alpha);
+      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, 0.03, alpha);
+      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, alpha);
       this.spotlightSecondary.power = 5000;
     };
   };
 
   private update = (): void => {
-    const dt = this.clock.getDelta();
     this.updateTheme();
+    const dt = this.clock.getDelta();
     this.playerController.applyMovement(dt);
   };
 

@@ -1,4 +1,4 @@
-import { THREE, Physics, GameInput } from "./three";
+import { THREE, Physics, GameInput } from "../three";
 
 export class PlayerController {
   private moveVec: THREE.Vector2 = new THREE.Vector2(0, 0);
