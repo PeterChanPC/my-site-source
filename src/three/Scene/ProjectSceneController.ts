@@ -21,7 +21,7 @@ export class ProjectSceneController implements ISceneController {
   private pointLight = new THREE.PointLight(0xffffff);
   // General
   private scene: THREE.Scene = new THREE.Scene();
-  private cameraController: CameraController = new CameraController('perspective', 30);
+  private cameraController: CameraController = new CameraController('perspective', { fov: 60, near: 1, far: 1000 });
   private physics: Physics = new Physics();
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();
@@ -41,7 +41,10 @@ export class ProjectSceneController implements ISceneController {
     };
 
     this.cameraController.setCameraPos(0, 0, -15);
+    this.cameraController.setCameraLookAt(0, 0, 0);
+
     this.player.position.set(0, 0, -5);
+
     this.pointLight.position.set(0, 0, -5);
   };
 
@@ -105,7 +108,7 @@ export class ProjectSceneController implements ISceneController {
     this.createScene();
     this.rendererController.addResizeListener();
     this.cameraController.addResizeListener();
-    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.getCamera);
+    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.camera);
   };
 
   public endScene = (): void => {

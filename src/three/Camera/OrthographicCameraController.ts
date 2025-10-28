@@ -1,46 +1,82 @@
-import { THREE, ICameraController } from '../three';
+import { THREE, ICameraController, OrthographicCameraProperty } from '../three';
 
 export class OrthographicCameraController implements ICameraController {
+  private readonly _camera: THREE.OrthographicCamera = new THREE.OrthographicCamera();
   private aspect: number = 0;
-  private camera: THREE.OrthographicCamera = new THREE.OrthographicCamera();
-  private radius: number;
+  private size: number = 1;
 
-  constructor(radius: number = 1) {
-    this.radius = radius;
+  constructor(prop: OrthographicCameraProperty) {
+    this.updateAspect();
+
+    if (prop.size) this.setCameraSize(prop.size);
+    if (prop.near && !prop.far) this.setCameraNear(prop.near);
+    if (prop.far && !prop.near) this.setCameraFar(prop.far);
+    if (prop.near && prop.far) this.setCameraRange(prop.near, prop.far);
+
+    // fall back to default three.js values
+    this.updateCameraSize();
   };
 
-  private updateAspect = (): void => {
+  private updateAspect(): void {
     this.aspect = window.innerWidth / window.innerHeight;
   };
 
-  private updateCamera = (): void => {
+  public setCameraSize(size: number): void {
+    if (size >= 0) {
+      this.size = size;
+    } else {
+      throw new Error('size cannot be less than 0')
+    };
+  };
+
+  public setCameraNear(near: number): void {
+    if (near < this._camera.far) {
+      this._camera.near = near;
+    } else {
+      throw new Error('Value of near must be smaller than far');
+    };
+  };
+
+  public setCameraFar(far: number): void {
+    if (far > this._camera.near) {
+      this._camera.far = far;
+    } else {
+      throw new Error('Value of far must be greater than near');
+    };
+  };
+
+  public setCameraRange(near: number, far: number): void {
+    if (near > far) throw new Error('Value of far must be greater than near');
+    this._camera.near = near;
+    this._camera.far = far;
+  };
+
+  public setCameraPos(x: number, y: number, z: number): void {
+    this._camera.position.set(x, y, z);
+  };
+
+  public setCameraLookAt(x: number, y: number, z: number): void {
+    this._camera.lookAt(x, y, z);
+  };
+
+  private updateCameraSize = (): void => {
     this.updateAspect();
-    this.camera.top = this.radius / this.aspect;
-    this.camera.right = this.radius;
-    this.camera.bottom = -this.radius / this.aspect;
-    this.camera.left = -this.radius;
-    this.camera.near = -100;
-    this.camera.far = 1000;
-    this.camera.updateProjectionMatrix();
+    this._camera.top = this.size / this.aspect;
+    this._camera.bottom = -this.size / this.aspect;
+    this._camera.right = this.size;
+    this._camera.left = -this.size;
+    this._camera.updateProjectionMatrix();
   };
 
-  private boundUpdateCamera = (): void => this.updateCamera();
-
-  public addResizeListener = (): void => {
-    window.addEventListener('resize', this.boundUpdateCamera);
+  public addResizeListener(): void {
+    window.addEventListener('resize', this.updateCameraSize);
   };
 
-  public removeResizeListener = (): void => {
-    window.removeEventListener('resize', this.boundUpdateCamera);
+  public removeResizeListener(): void {
+    window.removeEventListener('resize', this.updateCameraSize);
   };
 
-  public setCameraPos = (x: number, y: number, z: number): void => {
-    this.camera.position.set(x, y, z);
-    this.camera.lookAt(0, 0, 0);
-    this.updateCamera();
-  };
-
-  get getCamera(): THREE.OrthographicCamera {
-    return this.camera;
+  public get camera(): THREE.OrthographicCamera {
+    return this._camera;
   };
 };

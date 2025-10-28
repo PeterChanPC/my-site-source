@@ -27,10 +27,10 @@ export class HomepageSceneController implements ISceneController {
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();
   private rendererController: RendererController;
-  private cameraController: CameraController = new CameraController('orthographic', 5);
+  private cameraController: CameraController = new CameraController('orthographic', { size: 5, near: -100, far: 1000 });
   private scene: THREE.Scene = new THREE.Scene();
   private gameInput: GameInput = new GameInput();
-  private physics: Physics = new Physics(this.cameraController.getCamera);
+  private physics: Physics = new Physics(this.cameraController.camera);
   // Player (Sphere)
   private playerTexture = new THREE.TextureLoader().load(texture);
   private playerMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: this.playerTexture });
@@ -53,6 +53,7 @@ export class HomepageSceneController implements ISceneController {
   // Positions Setup
   private setPositions = (): void => {
     this.cameraController.setCameraPos(0, 10, 50);
+    this.cameraController.setCameraLookAt(0, 0, 0);
 
     this.playerObject.position.set(3, 0, -2);
 
@@ -68,6 +69,7 @@ export class HomepageSceneController implements ISceneController {
     this.floor.position.set(0, -1, 0);
 
     this.floor.rotation.set(-Math.PI / 2, 0, 0);
+
 
     this.theme === 'light' ?
       this.spotlightPrimary.position.set(50, 50, 50) :
@@ -153,7 +155,7 @@ export class HomepageSceneController implements ISceneController {
     this.gameInput.addInputListener();
     this.rendererController.addResizeListener();
     this.cameraController.addResizeListener();
-    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.getCamera);
+    this.rendererController.setAnimation(this.update, this.scene, this.cameraController.camera);
   };
 
   public endScene = (): void => {

@@ -1,32 +1,49 @@
-import { THREE, OrthographicCameraController, PerspectiveCameraController } from '../three';
+import { THREE, ICameraController, SupportedCameraType, CameraProperty, OrthographicCameraProperty, PerspectiveCameraProperty, OrthographicCameraController, PerspectiveCameraController } from '../three';
 
-export interface ICameraController {
-  setCameraPos(x: number, y: number, z: number): void;
-  addResizeListener(): void;
-  removeResizeListener(): void;
-  getCamera: THREE.Camera;
-};
+const SUPPORTED_CAMERA_TYPES: SupportedCameraType[] = ['orthographic', 'perspective'];
 
 export class CameraController implements ICameraController {
-  private controller: ICameraController;
+  private readonly controller: ICameraController;
 
-  constructor(cameraType: 'orthographic' | 'perspective', radius: number = 1) {
-    if (cameraType === 'orthographic') {
-      this.controller = new OrthographicCameraController(radius);
-    } else if (cameraType === 'perspective') {
-      this.controller = new PerspectiveCameraController();
+  constructor(cameraType: SupportedCameraType, prop: CameraProperty) {
+    if (cameraType === SUPPORTED_CAMERA_TYPES[0]) {
+      this.controller = new OrthographicCameraController(prop as OrthographicCameraProperty);
+    } else if (cameraType === SUPPORTED_CAMERA_TYPES[1]) {
+      this.controller = new PerspectiveCameraController(prop as PerspectiveCameraProperty);
     } else {
       throw new Error('Invalid camera type');
     };
   };
 
-  public setCameraPos = (x: number, y: number, z: number): void => this.controller.setCameraPos(x, y, z);
+  public setCameraNear(near: number): void {
+    this.controller.setCameraNear(near);
+  };
 
-  public addResizeListener = (): void => this.controller.addResizeListener();
+  public setCameraFar(far: number): void {
+    this.controller.setCameraFar(far);
+  };
 
-  public removeResizeListener = (): void => this.controller.removeResizeListener();
+  public setCameraRange(near: number, far: number): void {
+    this.controller.setCameraRange(near, far);
+  };
 
-  get getCamera(): THREE.Camera {
-    return this.controller.getCamera;
+  public setCameraPos(x: number, y: number, z: number): void {
+    this.controller.setCameraPos(x, y, z);
+  };
+
+  public setCameraLookAt(x: number, y: number, z: number): void {
+    this.controller.setCameraLookAt(x, y, z);
+  };
+
+  public addResizeListener(): void {
+    this.controller.addResizeListener();
+  };
+
+  public removeResizeListener(): void {
+    this.controller.removeResizeListener();
+  };
+
+  public get camera(): THREE.Camera {
+    return this.controller.camera;
   };
 };
