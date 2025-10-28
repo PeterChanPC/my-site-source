@@ -1,74 +1,28 @@
 import { THREE } from '../three';
-import { ICameraController, PerspectiveCameraProperty } from "./d";
+import { PerspectiveCameraProperty, BaseCameraController } from "./d";
 
-export class PerspectiveCameraController implements ICameraController {
-  private readonly _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();;
-  private aspect: number = 0;
+export class PerspectiveCameraController extends BaseCameraController {
+  protected readonly _camera: THREE.PerspectiveCamera;
 
   constructor(prop: PerspectiveCameraProperty) {
-    this.updateAspect();
-    if (prop.fov) this.setCameraFOV(prop.fov);
-    if (prop.near && !prop.far) this.setCameraNear(prop.near);
-    if (prop.far && !prop.near) this.setCameraFar(prop.far);
-    if (prop.near && prop.far) this.setCameraRange(prop.near, prop.far);
-    // fall back to default three.js values
-    this.updateCameraSize();
-  };
-
-
-  private updateAspect(): void {
-    this.aspect = window.innerWidth / window.innerHeight;
+    super();
+    this._camera = new THREE.PerspectiveCamera();
+    this.setCameraFOV(prop.fov ?? this._camera.fov);
+    this.setCameraRange(prop.near ?? this._camera.near, prop.far ?? this._camera.far);
+    this.updateProjection();
   };
 
   public setCameraFOV(fov: number): void {
-    if (fov >= 0) {
+    if (fov > 0 && fov < 180) {
       this._camera.fov = fov;
+      this._camera.updateProjectionMatrix();
     } else {
-      throw new Error('FOV cannot be less than 0')
+      throw new Error('FOV cannot be less than or equal to 0 / larger than or equal to 180');
     };
   };
 
-  public setCameraNear(near: number): void {
-    if (near < this._camera.far) {
-      this._camera.near = near;
-    } else {
-      throw new Error('Value of near must be smaller than far');
-    };
-  };
-
-  public setCameraFar(far: number): void {
-    if (far > this._camera.near) {
-      this._camera.far = far;
-    } else {
-      throw new Error('Value of far must be greater than near');
-    };
-  };
-
-  public setCameraRange(near: number, far: number): void {
-    if (near > far) throw new Error('Value of far must be greater than near');
-    this._camera.near = near;
-    this._camera.far = far;
-  };
-
-  public setCameraPos(x: number, y: number, z: number): void {
-    this._camera.position.set(x, y, z);
-  };
-
-  public setCameraLookAt(x: number, y: number, z: number): void {
-    this._camera.lookAt(x, y, z);
-  };
-
-  private updateCameraSize = (): void => {
-    this.updateAspect();
+  protected updateProjection(): void {
     this._camera.aspect = this.aspect;
     this._camera.updateProjectionMatrix();
-  };
-
-  public addResizeListener = (): void => window.addEventListener('resize', this.updateCameraSize);
-
-  public removeResizeListener = (): void => window.removeEventListener('resize', this.updateCameraSize);
-
-  get camera(): THREE.PerspectiveCamera {
-    return this._camera;
   };
 };

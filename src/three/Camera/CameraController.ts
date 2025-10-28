@@ -14,6 +14,22 @@ export class CameraController implements ICameraController {
     };
   };
 
+  public setCameraSize(size: number): void {
+    if (this.controller.setCameraSize) {
+      this.controller.setCameraSize(size);
+    } else {
+      throw new Error('setCameraSize is only available for orthographic camera, use setCameraFOV instead');
+    };
+  };
+
+  public setCameraFOV(fov: number): void {
+    if (this.controller.setCameraFOV) {
+      this.controller.setCameraFOV(fov);
+    } else {
+      throw new Error('setCameraFOV is only available for perspective camera, use setCameraSize instead');
+    };
+  };
+
   public setCameraNear(near: number): void {
     this.controller.setCameraNear(near);
   };
