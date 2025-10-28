@@ -2,7 +2,7 @@ import { THREE } from '../three';
 import { ICameraController, PerspectiveCameraProperty } from "./d";
 
 export class PerspectiveCameraController implements ICameraController {
-  private _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();;
+  private readonly _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();;
   private aspect: number = 0;
 
   constructor(prop: PerspectiveCameraProperty) {
