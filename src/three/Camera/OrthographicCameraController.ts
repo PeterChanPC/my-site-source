@@ -1,4 +1,5 @@
-import { THREE, ICameraController, OrthographicCameraProperty } from '../three';
+import { THREE } from '../three';
+import { ICameraController, OrthographicCameraProperty } from './d';
 
 export class OrthographicCameraController implements ICameraController {
   private readonly _camera: THREE.OrthographicCamera = new THREE.OrthographicCamera();

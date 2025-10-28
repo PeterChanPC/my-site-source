@@ -12,7 +12,7 @@ export { RendererController } from './RendererController';
 
 export { CameraController } from './Camera/CameraController';
 export { OrthographicCameraController } from './Camera/OrthographicCameraController';
-export { PerspectiveCameraController } from './Camera/PerspecticeCameraController';
+export { PerspectiveCameraController } from './Camera/PerspectiveCameraController';
 
 export { GameInput } from './GameInput';
 

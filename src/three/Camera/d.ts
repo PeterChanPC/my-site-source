@@ -1,6 +1,11 @@
 import { THREE } from "../three";
 
 export type SupportedCameraType = 'orthographic' | 'perspective';
+export const SUPPORTED_CAMERA_TYPES: SupportedCameraType[] = ['orthographic', 'perspective'];
+export enum CameraType {
+  Orthographic = 0,
+  Perspective = 1
+};
 
 export type CameraProperty = OrthographicCameraProperty | PerspectiveCameraProperty;
 
@@ -27,3 +32,6 @@ export interface ICameraController {
   removeResizeListener(): void;
   camera: THREE.Camera;
 };
+
+export { OrthographicCameraController } from './OrthographicCameraController';
+export { PerspectiveCameraController } from './PerspectiveCameraController';
