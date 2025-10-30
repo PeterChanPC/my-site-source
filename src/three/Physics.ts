@@ -73,7 +73,7 @@ export class Physics {
     return hit.length === 0;
   };
 
-  public Linecast = (
+  public linecast = (
     origin: THREE.Vector3,
     direction: THREE.Vector3,
     maxDistance: number,

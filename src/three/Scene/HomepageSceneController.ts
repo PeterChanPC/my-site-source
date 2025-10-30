@@ -18,8 +18,14 @@ export class HomepageSceneController implements ISceneController {
   private wall_4 = new THREE.Mesh(this.wallGeometry, this.wallMaterial_2);
   private floor = new THREE.Mesh(this.floorGeometry, this.floorMaterial);
   // Lightings
+  private ambientLightIntensityLight = 1;
+  private ambientLightIntensityDark = 0;
   private spotlightPrimaryPosLight = new THREE.Vector3(50, 50, 50);
   private spotlightPrimaryPosDark = new THREE.Vector3(-50, 50, 50);
+  private spotlightPrimaryAngleLight = 0.1;
+  private spotlightPrimaryAngleDark = 0.03;
+  private spotlightSecondaryPowLight = 0;
+  private spotlightSecondaryPowDark = 5000;
   private ambientLight = new THREE.AmbientLight(0xcccccc);
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
@@ -86,26 +92,22 @@ export class HomepageSceneController implements ISceneController {
 
     this.spotlightPrimary.power = 50000;
     this.spotlightPrimary.penumbra = 0.8;
-    this.spotlightPrimary.castShadow = true;
     this.spotlightPrimary.shadow.intensity = 0.8;
-    this.spotlightPrimary.shadow.mapSize.width = 512;
-    this.spotlightPrimary.shadow.mapSize.height = 512;
+    this.spotlightPrimary.castShadow = true;
 
     this.spotlightSecondary.angle = 0.08;
     this.spotlightSecondary.penumbra = 0.8;
-    this.spotlightSecondary.castShadow = true;
     this.spotlightSecondary.shadow.intensity = 0.8;
-    this.spotlightSecondary.shadow.mapSize.width = 512;
-    this.spotlightSecondary.shadow.mapSize.height = 512;
+    this.spotlightSecondary.castShadow = true;
 
     if (this.theme === 'light') {
-      this.ambientLight.intensity = 1;
-      this.spotlightPrimary.angle = 0.1;
-      this.spotlightSecondary.power = 0;
+      this.ambientLight.intensity = this.ambientLightIntensityLight;
+      this.spotlightPrimary.angle = this.spotlightPrimaryAngleLight;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
     } else {
-      this.ambientLight.intensity = 0;
-      this.spotlightPrimary.angle = 0.03;
-      this.spotlightSecondary.power = 5000;
+      this.ambientLight.intensity = this.ambientLightIntensityDark;
+      this.spotlightPrimary.angle = this.spotlightPrimaryAngleDark;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
     };
   };
 
@@ -132,21 +134,21 @@ export class HomepageSceneController implements ISceneController {
   private updateTheme = (): void => {
     const alpha = 0.1;
     if (this.theme === 'light') {
-      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, 1, alpha);
-      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, 0.1, alpha);
+      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, alpha);
+      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleLight, alpha);
       this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, alpha);
-      this.spotlightSecondary.power = 0;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
     } else {
-      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, 0, alpha);
-      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, 0.03, alpha);
+      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityDark, alpha);
+      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleDark, alpha);
       this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, alpha);
-      this.spotlightSecondary.power = 5000;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
     };
   };
 
   private update = (): void => {
     this.updateTheme();
-    const dt = this.clock.getDelta();
+    const dt = Math.min(this.clock.getDelta(), 1 / 60);
     this.player.applyMovement(dt);
   };
 
