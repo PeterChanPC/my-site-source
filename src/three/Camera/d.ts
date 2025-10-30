@@ -1,21 +1,23 @@
 import { THREE } from "../three";
 
-export type SupportedCameraType = 'orthographic' | 'perspective';
-export const SUPPORTED_CAMERA_TYPES: SupportedCameraType[] = ['orthographic', 'perspective'];
 export enum CameraType {
-  Orthographic = 0,
-  Perspective = 1
+  Orthographic = 'orthographic',
+  Perspective = 'perspective'
 };
 
-export type CameraProperty = OrthographicCameraProperty | PerspectiveCameraProperty;
+export type CameraProperty =
+  | OrthographicCameraProperty
+  | PerspectiveCameraProperty;
 export interface BaseCameraProperty {
   near?: number;
   far?: number;
 };
 export interface OrthographicCameraProperty extends BaseCameraProperty {
+  type: 'orthographic';
   size?: number;
 };
 export interface PerspectiveCameraProperty extends BaseCameraProperty {
+  type: 'perspective';
   fov?: number;
 };
 

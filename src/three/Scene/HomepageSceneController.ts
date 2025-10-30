@@ -27,7 +27,7 @@ export class HomepageSceneController implements ISceneController {
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();
   private rendererController: RendererController;
-  private cameraController: CameraController = new CameraController('orthographic', { size: 5, near: -100, far: 1000 });
+  private cameraController: CameraController = new CameraController({ type: 'orthographic', size: 5, near: -100, far: 1000 });
   private scene: THREE.Scene = new THREE.Scene();
   private gameInput: GameInput = new GameInput();
   private physics: Physics = new Physics(this.cameraController.camera);

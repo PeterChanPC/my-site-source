@@ -21,7 +21,7 @@ export class ProjectSceneController implements ISceneController {
   private pointLight = new THREE.PointLight(0xffffff);
   // General
   private scene: THREE.Scene = new THREE.Scene();
-  private cameraController: CameraController = new CameraController('perspective', { fov: 60, near: 1, far: 1000 });
+  private cameraController: CameraController = new CameraController({ type: 'perspective', fov: 60, near: 1, far: 1000 });
   private physics: Physics = new Physics();
   private theme: SupportedTheme = 'light';
   private clock: THREE.Clock = new THREE.Clock();

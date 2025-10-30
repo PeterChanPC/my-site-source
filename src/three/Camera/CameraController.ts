@@ -1,16 +1,24 @@
 import { THREE } from '../three';
-import { ICameraController, SupportedCameraType, SUPPORTED_CAMERA_TYPES, CameraType, CameraProperty, OrthographicCameraProperty, PerspectiveCameraProperty, OrthographicCameraController, PerspectiveCameraController } from './d';
+import { ICameraController, CameraType, CameraProperty, OrthographicCameraProperty, PerspectiveCameraProperty, OrthographicCameraController, PerspectiveCameraController } from './d';
+
+function isOrthographic(prop: CameraProperty): prop is OrthographicCameraProperty {
+  return prop.type === CameraType.Orthographic;
+};
+
+function isPerspective(prop: CameraProperty): prop is PerspectiveCameraProperty {
+  return prop.type === CameraType.Perspective;
+};
 
 export class CameraController implements ICameraController {
   private readonly controller: ICameraController;
 
-  constructor(cameraType: SupportedCameraType, prop: CameraProperty) {
-    if (cameraType === SUPPORTED_CAMERA_TYPES[CameraType.Orthographic]) {
-      this.controller = new OrthographicCameraController(prop as OrthographicCameraProperty);
-    } else if (cameraType === SUPPORTED_CAMERA_TYPES[CameraType.Perspective]) {
-      this.controller = new PerspectiveCameraController(prop as PerspectiveCameraProperty);
+  constructor(prop: CameraProperty) {
+    if (isOrthographic(prop)) {
+      this.controller = new OrthographicCameraController(prop);
+    } else if (isPerspective(prop)) {
+      this.controller = new PerspectiveCameraController(prop);
     } else {
-      throw new Error('Invalid camera type');
+      throw new Error('Invalid camera type or property');
     };
   };
 
