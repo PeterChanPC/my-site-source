@@ -1,23 +1,15 @@
-import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { THREE, ISceneController, RendererController, CameraController, Physics } from "../three";
+import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput } from "../three";
 import { SupportedTheme } from "@/stores/d";
+import { Cubes } from "../Objects/Cubes";
 
 export class ProjectSceneController implements ISceneController {
   // Materials
   private material = new THREE.MeshLambertMaterial({ color: 0xffffff });
   // Geometry
-  private boxGeometry = new THREE.BoxGeometry(1, 1, 2);
-  private wallGeometry = new THREE.PlaneGeometry(100, 100);
-  // Player
-  private player = new THREE.Object3D()
-  private playerLight = new THREE.PointLight(0xffffff);
+  private wallGeometry = new THREE.PlaneGeometry(80, 40);
+  private boxGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   // Objects
-  private maxCount = 10000;
-  private speeds: number[] = [];
-  private phases: number[] = [];
-  private amplitudes: number[] = [];
-  private dummy = new THREE.Object3D();
-  private cubes = new THREE.InstancedMesh(this.boxGeometry, this.material, this.maxCount);
+  private cubes = new Cubes(this.boxGeometry, this.material);
   private wall = new THREE.Mesh(this.wallGeometry, this.material);
   // Lightings
   private ambientLightIntensityLight = 0.5;
@@ -31,34 +23,30 @@ export class ProjectSceneController implements ISceneController {
   private cameraController: CameraController = new CameraController({ type: 'perspective', fov: 60, near: 1, far: 1000 });
   private scene: THREE.Scene = new THREE.Scene();
   private physics: Physics = new Physics(this.cameraController.camera);
+  private gameInput = new GameInput();
 
   constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
     if (theme) this.theme = theme;
     this.rendererController = new RendererController(canvas);
-    // const control = new OrbitControls(this.cameraController.camera, canvas);
   };
 
   // Positions Setup
   private setPositions = (): void => {
-    this.cameraController.setCameraPos(0, 0, -15);
-    this.cameraController.setCameraLookAt(0, 0, 0);
+    const centerX = -this.cubes.width / 2;
+    const centerY = -this.cubes.height / 2;
+    this.cameraController.setCameraPos(centerX, centerY, -15);
+    this.cameraController.setCameraLookAt(centerX, centerY, 0);
 
-    for (let i = 0; i < this.maxCount; i++) {
-      this.speeds[i] = Math.random() / 2;
-      this.phases[i] = Math.random() * Math.PI * 2;
-      this.amplitudes[i] = Math.random() / 2 + 1;
-    };
-    this.wall.position.set(0, 0, -0);
+    this.pointLight.position.set(centerX, centerY, -10);
+
+    this.wall.position.set(-40, -20, 0);
     this.wall.rotation.set(0, Math.PI, 0);
 
-    this.player.position.set(0, 0, -5);
-
-    this.pointLight.position.set(0, 0, -5);
   };
 
   // Lighting Setup
   private setLightings = (): void => {
-    this.pointLight.intensity = 20;
+    this.pointLight.intensity = 50;
 
     if (this.theme === 'light') {
       this.ambientLight.intensity = this.ambientLightIntensityLight;
@@ -71,10 +59,8 @@ export class ProjectSceneController implements ISceneController {
   private createScene = (): void => {
     this.setPositions();
     this.setLightings();
-    this.player.attach(this.playerLight);
-    this.scene.add(this.ambientLight, this.pointLight, this.cubes, this.wall, this.player);
-    const collidables = this.scene.children.filter(obj => obj !== this.player);
-    this.physics.setCollidables(collidables);
+    this.scene.add(this.ambientLight, this.cubes.mesh, this.wall, this.pointLight);
+    this.physics.setCollidables(this.scene.children);
   };
 
   private updateTheme = (): void => {
@@ -86,30 +72,11 @@ export class ProjectSceneController implements ISceneController {
     };
   };
 
-  private updateWall = (time: number): void => {
-    const widthCount = window.innerWidth / 20;
-    const heightCount = window.innerHeight / 20;
-    const halfWidth = widthCount / 2;
-    const halfHeight = heightCount / 2;
-    let count = 0;
-    const gap = 0.02;
-    this.cubes.count = widthCount * heightCount;
-    for (let i = -halfWidth; i < halfWidth; i++) {
-      for (let j = -halfHeight; j < halfHeight; j++) {
-        this.dummy.position.x = i * (1 + gap);
-        this.dummy.position.y = j * (1 + gap);
-        this.dummy.position.z = Math.sin(time * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
-        this.dummy.updateMatrix();
-        this.cubes.setMatrixAt(count, this.dummy.matrix);
-        count++;
-      };
-    };
-    this.cubes.instanceMatrix.needsUpdate = true;
-  };
-
   private update = (): void => {
     const time = this.clock.getElapsedTime();
-    this.updateWall(time);
+    const mousePos = this.gameInput.mousePos;
+    const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y)
+    if (mouseWorldPos) this.cubes.update(time, mouseWorldPos);
     this.updateTheme();
   };
 
@@ -117,12 +84,14 @@ export class ProjectSceneController implements ISceneController {
     this.createScene();
     this.rendererController.addResizeListener();
     this.cameraController.addResizeListener();
+    this.gameInput.addInputListener();
     this.rendererController.setAnimation(this.update, this.scene, this.cameraController.camera);
   };
 
   public endScene = (): void => {
     this.rendererController.removeResizeListener();
     this.cameraController.removeResizeListener();
+    this.gameInput.removeInputListener();
   };
 
   public setTheme = (theme: SupportedTheme) => this.theme = theme;

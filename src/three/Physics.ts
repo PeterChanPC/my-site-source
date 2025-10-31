@@ -88,8 +88,8 @@ export class Physics {
   public getRaycastHitFromScreen = (x: number, y: number): THREE.Intersection[] | undefined => {
     if (!this.cameraRaycaster || !this.camera || !this.screenPos) return;
 
-    let screenPosX = (x / window.innerWidth) * 2 - 1;
-    let screenPosY = (y / window.innerHeight) * 2 - 1;
+    const screenPosX = (x / window.innerWidth) * 2 - 1;
+    const screenPosY = -(y / window.innerHeight) * 2 + 1;
     this.screenPos.set(screenPosX, screenPosY);
 
     this.cameraRaycaster.setFromCamera(this.screenPos, this.camera);
@@ -100,9 +100,8 @@ export class Physics {
 
   public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
     const hit = this.getRaycastHitFromScreen(x, y);
-    if (!hit || !this.worldPoint) return;
-    this.worldPoint.set(hit[0].point.x, hit[0].point.y, -hit[0].point.z);
-
+    if (!hit || !hit[0] || !this.worldPoint) return;
+    this.worldPoint.set(hit[0].point.x, hit[0].point.y, hit[0].point.z);
     return this.worldPoint;
   };
 };

@@ -8,6 +8,7 @@ export class Player {
   private readonly DRAG_COE: number = 3;
   private readonly gameInput: GameInput;
   private readonly physics: Physics;
+  private readonly mousePosYOffset: number = 100;
   private moveVec: THREE.Vector2 = new THREE.Vector2(0, 0);
   private displacement: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private _velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
@@ -29,7 +30,7 @@ export class Player {
       this.moveVec = this.gameInput.getMovementVectorNormalized();
     } else if (this.gameInput.isMouse) {
       const mousePos = this.gameInput.mousePos;
-      const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y);
+      const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y + this.mousePosYOffset);
       if (mouseWorldPos) {
         const moveDir = mouseWorldPos.sub(this.player.position).normalize();
         if (moveDir) this.moveVec.set(moveDir.x, moveDir.z);
