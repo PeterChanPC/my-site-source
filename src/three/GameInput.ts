@@ -69,7 +69,7 @@ export class GameInput {
   private handleMouseUp = (): void => {
     if (this.isKeyboard) return;
     this._isMouse = false;
-    this._mousePos.set(0, 0);
+    this._mousePos.set(this.mousePos.x, this.mousePos.y);
   };
 
   public addInputListener = (): void => {
