@@ -31,24 +31,24 @@ export default defineComponent({
     },
   },
   setup(props, { expose }) {
+    // process chars
     const chars = computed(() => {
       const text = props.text.split('');
-      // Capitalize
+      // Capitalize, check for white space and 'I'
       text[0] = text[0].toUpperCase();
       for (let i = 0; i < props.text.length; i++) {
-        if (text[i + 1] === ' ' || text[i - 1] === ' ' && text[i] === 'i') {
+        if (text[i + 1] === ' '
+          || text[i + 1] === "'"
+          || text[i - 1] === ''
+          && text[i] === 'i') {
           text[i] = text[i].toUpperCase();
         };
       };
       return text;
     });
+
+    // process charRefs from ref + v-for
     const charRefs = ref<(HTMLElement | null)[]>([]);
-
-    watch(chars, () => {
-      charRefs.value = [];
-      animate();
-    });
-
     function setCharRef(el: Element | ComponentPublicInstance | null, i: number) {
       if (el instanceof HTMLElement) {
         charRefs.value[i] = el;
@@ -57,6 +57,7 @@ export default defineComponent({
       };
     };
 
+    // fade in animation
     function animate() {
       setTimeout(() => {
         charRefs.value.forEach((el, i) => {
@@ -75,7 +76,14 @@ export default defineComponent({
       }, props.delay);
     };
 
+    // animate on load
     onMounted(() => animate());
+
+    // animate on update (e.g. language change)
+    watch(chars, () => {
+      charRefs.value = [];
+      animate();
+    });
 
     expose();
     return { chars, setCharRef };
