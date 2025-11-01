@@ -8,9 +8,9 @@
     <AHoverable to="blogs" :imgSrc="icons.list" :text="t('blog')" shape="pill" />
 
     <div class="relative flex row j-around nly w-160 h-50 pt-24 mt-32 mr-10 ml-10 top-line">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
+      <SwitchBtn :onSwitch="themeStore.switchTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
         :imgSrcR="icons.moonStars" />
-      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
+      <SwitchBtn :onSwitch="langStore.switchLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </div>
   </aside>
   <!-- background -->
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import AHoverable from '@/components/a-hoverable.vue';
-import Switch from '@/components/switch.vue';
+import SwitchBtn from '@/components/switch-btn.vue';
 import * as icons from '@/assets/img/icons';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
@@ -32,7 +32,7 @@ export default defineComponent({
   name: 'global-sidebar',
   components: {
     AHoverable,
-    Switch,
+    SwitchBtn,
   },
   props: {
     toggled: {

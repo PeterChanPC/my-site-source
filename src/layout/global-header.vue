@@ -8,9 +8,9 @@
     </nav>
 
     <aside class="flex row a-center j-around w-116 pr-16 sm:none">
-      <Switch :change="themeStore.changeTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
+      <SwitchBtn :onSwitch="themeStore.switchTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
         :imgSrcR="icons.moonStars" />
-      <Switch :change="langStore.changeLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
+      <SwitchBtn :onSwitch="langStore.switchLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </aside>
 
     <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto" @click="toggleSidebar">
@@ -25,7 +25,7 @@
 <script lang="ts">
 import GlobalSidebar from '@/layout/global-sidebar.vue';
 import AHoverable from '@/components/a-hoverable.vue';
-import Switch from '@/components/switch.vue';
+import SwitchBtn from '@/components/switch-btn.vue';
 import * as icons from '@/assets/img/icons';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
@@ -36,7 +36,7 @@ export default defineComponent({
   name: 'global-header',
   components: {
     AHoverable,
-    Switch,
+    SwitchBtn,
     GlobalSidebar,
   },
   setup() {
@@ -45,7 +45,7 @@ export default defineComponent({
     const { t } = useI18n();
 
     const toggled = ref<boolean>(false);
-    const toggleSidebar = (): void => {
+    function toggleSidebar(): void {
       toggled.value = !toggled.value;
     };
 

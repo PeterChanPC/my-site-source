@@ -12,7 +12,7 @@
 
 <script setup>
 import TodoItem from './TodoItem.vue'
-import { useTodoStore } from '@/stores/todos.store'
+import { useTodoStore } from '@/deprecated/#todo-list/#todos.store'
 import { ref, watchEffect } from 'vue'
 
 const props = defineProps({

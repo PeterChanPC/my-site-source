@@ -9,10 +9,7 @@ import { watchEffect } from 'vue';
 import { useThemeStore } from './stores/theme.store';
 
 const themeStore = useThemeStore();
-
-watchEffect(() => {
-  document.body.style.setProperty('--theme', themeStore.theme);
-});
+watchEffect(() => document.body.style.setProperty('--theme', themeStore.theme));
 </script>
 
 <style lang="scss">

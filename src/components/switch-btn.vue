@@ -1,6 +1,6 @@
 <template>
   <button class="flex row a-center j-center border-none bg-none w-32 h-32 font-size-16 pointer user-select-none"
-    @click="change">
+    @click="onSwitch">
     <div :class="['tr-100', { 'w-full o-1': !isActive }, { 'w-0 o-0': isActive }]">
       <div class="relative" v-if="imgSrcL">
         <img :src="imgSrcL">
@@ -26,8 +26,8 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    change: {
-      type: Function as PropType<(event: MouseEvent) => void>,
+    onSwitch: {
+      type: Function as PropType<() => void>,
       default: () => { },
     },
     imgSrcL: {

@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useUserStore } from '@/stores/user.store';
+import { useUserStore } from '@/deprecated/#auth/#user.store';
 
 const username = ref<string>('emilys');
 const password = ref<string>('emilyspass');

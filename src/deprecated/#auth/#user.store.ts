@@ -1,4 +1,4 @@
-import authApi from '@/api/authApi.service';
+import authApi from '@/deprecated/#api/authApi.service';
 import router from '@/router';
 import { defineStore } from "pinia";
 import { ref } from 'vue';

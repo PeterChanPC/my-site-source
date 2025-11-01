@@ -1,37 +1,33 @@
 import { defineStore } from "pinia";
 import { ref, computed, watchEffect } from "vue";
-import { SupportedTheme } from "./d";
+import { Themes } from "./d";
 
-const SUPPORTED_THEMES: SupportedTheme[] = ['light', 'dark'];
+function checkTheme(theme: string | null): theme is Themes {
+  return theme !== null;
+};
 
 export const useThemeStore = defineStore('theme', () => {
-  // get local stored theme setting
-  const storedTheme = localStorage.getItem('theme');
+  const theme = ref<Themes>(Themes.Light);
 
-  // fallback to light theme if no local stored setting
-  const theme = ref<SupportedTheme>(SUPPORTED_THEMES.includes(storedTheme as SupportedTheme)
-    ? (storedTheme as SupportedTheme)
-    : 'light');
+  const storedTheme = localStorage.getItem('theme'); // get locally stored theme setting
+  if (checkTheme(storedTheme)) theme.value = storedTheme;
 
-  // store local setting
-  watchEffect(() => {
-    localStorage.setItem('theme', theme.value);
-  });
+  watchEffect(() => localStorage.setItem('theme', theme.value));
 
-  const isDark = computed((): boolean => {
-    return theme.value === 'dark';
-  });
-
-  const changeTheme = (): void => {
+  function switchTheme(): void {
+    console.log(theme.value)
     switch (theme.value) {
-      case 'light':
-        theme.value = 'dark';
+      case Themes.Light:
+        theme.value = Themes.Dark;
         break;
-      case 'dark':
-        theme.value = 'light';
+      case Themes.Dark:
+        theme.value = Themes.Light;
         break;
     };
   };
 
-  return { theme, isDark, changeTheme };
+  const isDark = computed((): boolean => theme.value === Themes.Dark);
+  const isLight = computed((): boolean => theme.value === Themes.Light);
+
+  return { theme, switchTheme, isDark, isLight };
 });

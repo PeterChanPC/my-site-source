@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { useTodoStore } from '@/stores/todos.store'
+import { useTodoStore } from '@/deprecated/#todo-list/#todos.store'
 import { ref } from 'vue'
 
 const props = defineProps({

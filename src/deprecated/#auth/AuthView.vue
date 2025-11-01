@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
-import { useUserStore } from '@/stores/user.store';
+import { useUserStore } from '@/deprecated/#auth/#user.store';
 
 const userStore = useUserStore();
 const status = ref<String>('');

@@ -1,2 +1,9 @@
-export type SupportedTheme = 'light' | 'dark';
-export type SupportedLang = 'en-US' | 'zh-TW';
+export enum Themes {
+  Light = 'light',
+  Dark = 'dark'
+};
+
+export enum Languages {
+  EnUS = 'en-US',
+  ZhTW = 'zh-TW'
+};

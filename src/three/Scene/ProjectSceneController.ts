@@ -1,5 +1,5 @@
 import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput } from "../three";
-import { SupportedTheme } from "@/stores/d";
+import { Themes } from "@/stores/d";
 import { Cubes } from "../Objects/Cubes";
 
 export class ProjectSceneController implements ISceneController {
@@ -17,7 +17,7 @@ export class ProjectSceneController implements ISceneController {
   private ambientLight = new THREE.AmbientLight(0xffffff);
   private pointLight = new THREE.PointLight(0xffffff);
   // General
-  private theme: SupportedTheme = 'light';
+  private theme: Themes = Themes.Light;
   private clock: THREE.Clock = new THREE.Clock();
   private rendererController: RendererController;
   private cameraController: CameraController = new CameraController({ type: 'perspective', fov: 60, near: 1, far: 1000 });
@@ -25,7 +25,7 @@ export class ProjectSceneController implements ISceneController {
   private physics: Physics = new Physics(this.cameraController.camera);
   private gameInput = new GameInput();
 
-  constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
+  constructor(canvas: HTMLCanvasElement, theme?: Themes) {
     if (theme) this.theme = theme;
     this.rendererController = new RendererController(canvas);
   };
@@ -94,5 +94,5 @@ export class ProjectSceneController implements ISceneController {
     this.gameInput.removeInputListener();
   };
 
-  public setTheme = (theme: SupportedTheme) => this.theme = theme;
+  public setTheme = (theme: Themes) => this.theme = theme;
 };

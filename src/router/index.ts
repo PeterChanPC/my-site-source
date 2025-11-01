@@ -1,13 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/homepage/homepage.vue';
-import ProjectView from '@/views/projects/projects.vue';
-import TodoView from '@/views/projects/todo-list/todos.vue';
-import AuthView from '@/views/projects/auth/AuthView.vue';
-import LoginView from '@/views/projects/auth/LoginView.vue';
-import AuthContentView from '@/views/projects/auth/AuthContentView.vue';
-import BlogView from '@/views/blogs/blog.vue';
+import HomeView from '@/views/homepage.vue';
+import ProjectView from '@/views/projects.vue';
+import BlogView from '@/views/blog.vue';
 import TestView from '@/views/test.vue';
-import { useUserStore } from '@/stores/user.store';
 
 const routes = [
   {
@@ -26,28 +21,6 @@ const routes = [
     component: BlogView,
   },
   {
-    path: '/todos',
-    name: 'todos',
-    component: TodoView,
-  },
-  {
-    path: '/authentication',
-    name: 'authentication',
-    component: AuthView,
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginView,
-    meta: { requireGuest: true },
-  },
-  {
-    path: '/auth-content',
-    name: 'auth-content',
-    component: AuthContentView,
-    meta: { requireAuth: true },
-  },
-  {
     path: '/test',
     name: 'test',
     component: TestView,
@@ -62,8 +35,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore();
+router.beforeEach((to, from, next) => {
   const path = sessionStorage.redirect;
 
   // handle github pages 404 redirect
@@ -77,27 +49,28 @@ router.beforeEach(async (to, from, next) => {
     next(); // redirect to homepage if path doesnt exist
 
     // handle path require authentication
-  } else if (to.meta.requireAuth) {
-    const isAuth = await userStore.handleAuth();
-    if (isAuth) {
-      next(); // if auth, go to path
-    } else { // if not auth, go to login
-      next({
-        name: 'login',
-        query: { redirect: to.fullPath }
-      });
-    };
+    // } 
+    // else if (to.meta.requireAuth) {
+    //   const isAuth = await userStore.handleAuth();
+    //   if (isAuth) {
+    //     next(); // if auth, go to path
+    //   } else { // if not auth, go to login
+    //     next({
+    //       name: 'login',
+    //       query: { redirect: to.fullPath }
+    //     });
+    //   };
 
-    // handle login page
-  } else if (to.meta.requireGuest) {
-    const isAuth = await userStore.handleAuth();
-    if (isAuth) { // if login, go to auth
-      next({ name: 'authentication' });
-    } else { // if not login, go to path
-      next();
-    }
+    //   // handle login page
+    // } else if (to.meta.requireGuest) {
+    //   const isAuth = await userStore.handleAuth();
+    //   if (isAuth) { // if login, go to auth
+    //     next({ name: 'authentication' });
+    //   } else { // if not login, go to path
+    //     next();
+    //   }
 
-    // handle normal routing
+    //   // handle normal routing
   } else {
     next();
   };

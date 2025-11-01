@@ -1,40 +1,34 @@
 import { defineStore } from "pinia";
 import { useI18n } from 'vue-i18n';
 import { computed, watchEffect } from "vue";
-import { SupportedLang } from "./d";
+import { Languages } from "./d";
 
-const SUPPORTED_LANGS: SupportedLang[] = ["en-US", "zh-TW"];
+function checkLang(lang: string | null): lang is Languages {
+  return lang !== null;
+};
 
 export const useLangStore = defineStore('lang', () => {
   const { locale } = useI18n({ useScope: 'global' });
-  // get local stored lang setting
-  const storedLang = localStorage.getItem("lang");
 
-  // fallback to en-US if no local stored setting
-  locale.value = SUPPORTED_LANGS.includes(storedLang as SupportedLang)
-    ? (storedLang as SupportedLang)
-    : 'en-US';
+  const storedLang = localStorage.getItem('lang'); // get locally stored lang setting
+  if (checkLang(storedLang)) locale.value = storedLang;
 
-  // store lang setting
-  watchEffect(() => {
-    localStorage.setItem('lang', locale.value);
-  });
+  // runtime store lang setting in local storage
+  watchEffect(() => localStorage.setItem('lang', locale.value));
 
-  const isEnUS = computed((): boolean => {
-    return locale.value === 'en-US';
-  });
-
-  // only supports 2 lang now
-  const changeLang = (): void => {
+  const switchLang = (): void => {
     switch (locale.value) {
-      case 'en-US':
-        locale.value = 'zh-TW';
+      case Languages.EnUS:
+        locale.value = Languages.ZhTW;
         break;
-      case 'zh-TW':
-        locale.value = 'en-US';
+      case Languages.ZhTW:
+        locale.value = Languages.EnUS;
         break;
     };
   };
 
-  return { locale, isEnUS, changeLang };
+  const isEnUS = computed((): boolean => locale.value === Languages.EnUS);
+  const isZhTW = computed((): boolean => locale.value === Languages.ZhTW);
+
+  return { locale, switchLang, isEnUS, isZhTW };
 });
