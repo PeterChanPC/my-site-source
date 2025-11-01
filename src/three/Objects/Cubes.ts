@@ -28,7 +28,7 @@ export class Cubes {
       this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.5, 1)
       this.phases[i] = this.phaseCoe * Math.random(); // range(0, 2 * Math.PI)
     };
-    this.update(0, new THREE.Vector3(999, 999, 999)); // initialize
+    this.update(0, new THREE.Vector3(0, 0, 0)); // initialize
   };
 
   public update(time: number, mouseWorldPos: THREE.Vector3): void {

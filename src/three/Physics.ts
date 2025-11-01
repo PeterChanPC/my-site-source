@@ -6,8 +6,8 @@ export class Physics {
 
   private camera?: THREE.Camera;
   private cameraRaycaster?: THREE.Raycaster;
-  private screenPos?: THREE.Vector2;
-  private worldPoint?: THREE.Vector3;
+  private screenPoint?: THREE.Vector2;
+  private screenWorldPos?: THREE.Vector3;
 
   private angle: number = Math.PI / 2;
   private axis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
@@ -18,8 +18,8 @@ export class Physics {
     if (camera) {
       this.camera = camera;
       this.cameraRaycaster = new THREE.Raycaster();
-      this.screenPos = new THREE.Vector2(0, 0);
-      this.worldPoint = new THREE.Vector3(0, 0, 0);
+      this.screenPoint = new THREE.Vector2(0, 0);
+      this.screenWorldPos = new THREE.Vector3(0, 0, 0);
     };
   };
 
@@ -86,13 +86,13 @@ export class Physics {
 
   // project mouse position to world position
   public getRaycastHitFromScreen = (x: number, y: number): THREE.Intersection[] | undefined => {
-    if (!this.cameraRaycaster || !this.camera || !this.screenPos) return;
+    if (!this.cameraRaycaster || !this.camera || !this.screenPoint) return;
 
     const screenPosX = (x / window.innerWidth) * 2 - 1;
     const screenPosY = -(y / window.innerHeight) * 2 + 1;
-    this.screenPos.set(screenPosX, screenPosY);
+    this.screenPoint.set(screenPosX, screenPosY);
 
-    this.cameraRaycaster.setFromCamera(this.screenPos, this.camera);
+    this.cameraRaycaster.setFromCamera(this.screenPoint, this.camera);
     this.cameraRaycaster.far = 100;
     const hit = this.cameraRaycaster.intersectObjects(this.collidables);
     return hit;
@@ -100,8 +100,8 @@ export class Physics {
 
   public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
     const hit = this.getRaycastHitFromScreen(x, y);
-    if (!hit || !hit[0] || !this.worldPoint) return;
-    this.worldPoint.set(hit[0].point.x, hit[0].point.y, hit[0].point.z);
-    return this.worldPoint;
+    if (!hit || !hit[0] || !this.screenWorldPos) return;
+    this.screenWorldPos.set(hit[0].point.x, hit[0].point.y, hit[0].point.z);
+    return this.screenWorldPos;
   };
 };

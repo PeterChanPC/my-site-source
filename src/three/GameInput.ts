@@ -10,7 +10,7 @@ enum Direction {
 export class GameInput {
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-  private _mousePos: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
   private _isMouse: boolean = false;
 
   private handleMovementVector = (): void => {
