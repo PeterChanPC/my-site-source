@@ -34,10 +34,9 @@ export class Cubes {
         const y = -j * (1 + this.gap);
         this.dummy.position.x = x;
         this.dummy.position.y = y;
-        const z = Math.sin(time * this.speeds[count] * this.phases[count] * this.amplitudes[count]) / 2;
-        const effectZ = Math.min(this.EFFECT_COE / Math.sqrt((mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2), this.EFFECT_THRESHOLD);
-        // if (count === 800) console.log(mouseWorldPos)
-        this.dummy.position.z = z - effectZ;
+        const z = Math.sin(time * this.speeds[count] * this.phases[count] + 30) * this.amplitudes[count] / 2;
+        const mouseFollowEffect = Math.min(this.EFFECT_COE / Math.sqrt((mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2), this.EFFECT_THRESHOLD);
+        this.dummy.position.z = z - mouseFollowEffect;
         this.dummy.updateMatrix();
         this.cubes.setMatrixAt(count, this.dummy.matrix);
         count++;
