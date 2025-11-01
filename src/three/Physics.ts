@@ -98,9 +98,9 @@ export class Physics {
     return hit;
   };
 
-  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
+  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | null => {
     const hit = this.getRaycastHitFromScreen(x, y);
-    if (!hit || !hit[0] || !this.screenWorldPos) return;
+    if (!hit || !hit[0] || !this.screenWorldPos) return null;
     this.screenWorldPos.set(hit[0].point.x, hit[0].point.y, hit[0].point.z);
     return this.screenWorldPos;
   };

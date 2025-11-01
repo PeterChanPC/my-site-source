@@ -9,6 +9,7 @@ export class ProjectSceneController implements ISceneController {
   private wallGeometry = new THREE.PlaneGeometry(80, 40);
   private boxGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   // Objects
+  private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(999, 999, 999);
   private cubes = new Cubes(this.boxGeometry, this.material);
   private wall = new THREE.Mesh(this.wallGeometry, this.material);
   // Lightings
@@ -75,8 +76,9 @@ export class ProjectSceneController implements ISceneController {
   private update = (): void => {
     const time = this.clock.getElapsedTime();
     const mousePos = this.gameInput.mousePos;
-    const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y)
-    if (mouseWorldPos) this.cubes.update(time, mouseWorldPos);
+    const worldPoint = this.physics.screenPointToWorld(mousePos.x, mousePos.y);
+    if (worldPoint) this.mouseWorldPos.set(worldPoint.x, worldPoint.y, worldPoint.z);
+    this.cubes.update(time, this.mouseWorldPos);
     this.updateTheme();
   };
 
