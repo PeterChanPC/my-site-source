@@ -1,11 +1,11 @@
 import { THREE, Physics, GameInput } from "../three";
 
 export class Player {
-  private readonly VELOCITY_THRESHOLD: number = 0.5;
-  private readonly FORCE_THRESHOLD: number = 100;
-  private readonly BOUNCINESS: number = 1;
-  private readonly FORCE_COE: number = 30;
-  private readonly DRAG_COE: number = 3;
+  private readonly velocityGrounding: number = 0.5;
+  private readonly maxForce: number = 100;
+  private readonly bounciness: number = 1;
+  private readonly forceCoe: number = 30;
+  private readonly dragCoe: number = 3;
   private readonly gameInput: GameInput;
   private readonly physics: Physics;
   private readonly mousePosYOffset: number = 100;
@@ -41,20 +41,20 @@ export class Player {
   };
 
   private updateForce(strength: number): void {
-    if (strength > this.FORCE_THRESHOLD) throw new Error('Large force may result in object tunneling in this physics engine');
+    if (strength > this.maxForce) throw new Error('Large force may result in object tunneling in this physics engine');
     this._force.set(this.moveVec.x, 0, this.moveVec.y).multiplyScalar(strength);
     this._force.z *= 2; // forward/backward compensation for user experience
   };
 
   private updateDrag(strength: number): void {
-    if (strength > this.FORCE_THRESHOLD) throw new Error('Large force may result in object tunneling in this physics engine');
+    if (strength > this.maxForce) throw new Error('Large force may result in object tunneling in this physics engine');
     this._drag.copy(this._velocity).multiplyScalar(-strength);
   };
 
   private updateVelocity(dt: number): void {
     let dv = this._force.add(this._drag).multiplyScalar(dt);
     // remove fluctuation due to decimal places
-    if (this._velocity.length() < this.VELOCITY_THRESHOLD && this._force.length() === 0) {
+    if (this._velocity.length() < this.velocityGrounding && this._force.length() === 0) {
       this._velocity.set(0, 0, 0);
       dv.set(0, 0, 0);
     };
@@ -77,12 +77,12 @@ export class Player {
         if (canMove) { // if Z can also move
           this._velocity.set(this.velocityX.x, 0, this.velocityZ.z); // move along X and Z
         } else { // if Z cannot move
-          this._velocity.set(this.velocityX.x, 0, -this.velocityZ.z * this.BOUNCINESS); // move along X and bounce back along Z
+          this._velocity.set(this.velocityX.x, 0, -this.velocityZ.z * this.bounciness); // move along X and bounce back along Z
         };
       } else { // if X cannot move
         canMove = this.safeLinecast(this.player.position, this.velocityZ); // check Z
         if (canMove) { // if Z can move
-          this._velocity.set(-this.velocityX.x * this.BOUNCINESS, 0, this.velocityZ.z); // move along Z and bounce back along X
+          this._velocity.set(-this.velocityX.x * this.bounciness, 0, this.velocityZ.z); // move along Z and bounce back along X
         } else { // if both X and Z cannot move
           this._velocity.set(0, 0, 0); // do not move at all
         };
@@ -92,8 +92,8 @@ export class Player {
 
   public applyMovement(dt: number): void {
     this.updateMoveVec();
-    this.updateForce(this.FORCE_COE);
-    this.updateDrag(this.DRAG_COE);
+    this.updateForce(this.forceCoe);
+    this.updateDrag(this.dragCoe);
     this.updateVelocity(dt);
     this.checkCollision();
     this.displacement.copy(this._velocity).multiplyScalar(dt)

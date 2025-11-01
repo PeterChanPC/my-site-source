@@ -1,18 +1,20 @@
 import { THREE } from "../three";
 
 export class Cubes {
-  private readonly color: THREE.Color = new THREE.Color(0xff0000);
   private readonly _width: number = 80;
   private readonly _height: number = 46;
   private readonly maxCount: number = this._width * this._height;
   private readonly gap: number = 0.02;
-  private readonly MIN_AMPLITUDE = 0.5;
-  private readonly AMPLITUDE_COE = 0.5;
-  private readonly MIN_SPEED = 0.5;
-  private readonly SPEED_COE = 0.5;
-  private readonly PHASE_COE = 2 * Math.PI;
-  private readonly MAX_EFFECT = 3.5;
-  private readonly EFFECT_COE = 5;
+  private readonly maxAmp: number = 0.7;
+  private readonly minAmp: number = 0.3;
+  private readonly ampCoe: number = this.maxAmp - this.minAmp;
+  private readonly maxSpeed: number = 1;
+  private readonly minSpeed: number = 0.3;
+  private readonly speedCoe: number = this.maxSpeed - this.minSpeed;
+  private readonly phaseCoe: number = 2 * Math.PI;
+  private readonly maxMouseEffect: number = 3.5;
+  private readonly mouseEffectCoe: number = 5;
+  private readonly color: THREE.Color = new THREE.Color(0xff0000);
   private amplitudes: number[] = [];
   private speeds: number[] = [];
   private phases: number[] = [];
@@ -22,9 +24,9 @@ export class Cubes {
   constructor(geometry: THREE.BufferGeometry, material: THREE.Material) {
     this.cubes = new THREE.InstancedMesh(geometry, material, this.maxCount);
     for (let i = 0; i < this.maxCount; i++) {
-      this.amplitudes[i] = Math.random() * this.AMPLITUDE_COE + this.MIN_AMPLITUDE; // range(0.5, 1)
-      this.speeds[i] = Math.random() * this.SPEED_COE + this.MIN_SPEED; // range(0.5, 1)
-      this.phases[i] = this.PHASE_COE * Math.random(); // range(0, 2 * Math.PI)
+      this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.5, 1)
+      this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.5, 1)
+      this.phases[i] = this.phaseCoe * Math.random(); // range(0, 2 * Math.PI)
     };
     this.update(0, new THREE.Vector3(999, 999, 999)); // initialize
   };
@@ -37,10 +39,10 @@ export class Cubes {
         const y = -j * (1 + this.gap);
         const z = this.amplitudes[count] * Math.sin(time * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)
         const distance = Math.sqrt((mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2); // distance between cube and mouse
-        const mouseFollowEffect = Math.min(this.EFFECT_COE / distance, this.MAX_EFFECT); // scale with 1 / distance
+        const mouseEffect = Math.min(this.mouseEffectCoe / distance, this.maxMouseEffect); // scale with 1 / distance
         this.dummy.position.x = x;
         this.dummy.position.y = y;
-        this.dummy.position.z = z - mouseFollowEffect;
+        this.dummy.position.z = z - mouseEffect;
         this.dummy.updateMatrix();
         this.cubes.setMatrixAt(count, this.dummy.matrix);
         count++;
