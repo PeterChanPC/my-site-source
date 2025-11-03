@@ -6,7 +6,7 @@ export class ProjectSceneController implements ISceneController {
   // Materials
   private material = new THREE.MeshLambertMaterial({ color: 0xffffff });
   // Geometry
-  private wallGeometry = new THREE.PlaneGeometry(80, 40);
+  private wallGeometry = new THREE.PlaneGeometry(80, 46);
   private boxGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   // Objects
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(999, 999, 999);
@@ -40,9 +40,10 @@ export class ProjectSceneController implements ISceneController {
 
     this.pointLight.position.set(centerX, centerY, -10);
 
-    this.wall.position.set(-40, -20, 0);
+    this.wall.position.set(centerX, centerY, 0);
     this.wall.rotation.set(0, Math.PI, 0);
 
+    this.mouseWorldPos.set(centerX, centerY, 0);
   };
 
   // Lighting Setup
@@ -60,6 +61,7 @@ export class ProjectSceneController implements ISceneController {
   private createScene = (): void => {
     this.setPositions();
     this.setLightings();
+    this.updateMouse();
     this.scene.add(this.ambientLight, this.cubes.mesh, this.wall, this.pointLight);
     this.physics.setCollidables(this.scene.children);
   };
@@ -73,13 +75,23 @@ export class ProjectSceneController implements ISceneController {
     };
   };
 
-  private update = (): void => {
-    const time = this.clock.getElapsedTime();
+  private updateMouse = (): void => {
     const mousePos = this.gameInput.mousePos;
     const worldPoint = this.physics.screenPointToWorld(mousePos.x, mousePos.y);
-    if (worldPoint) this.mouseWorldPos.set(worldPoint.x, worldPoint.y, worldPoint.z);
-    this.cubes.update(time, this.mouseWorldPos);
+    if (worldPoint) this.mouseWorldPos.copy(worldPoint);
+  };
+
+  private update = (): void => {
     this.updateTheme();
+    this.updateMouse();
+    const time = this.clock.getElapsedTime();
+    this.pointLight.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, -10);
+    this.cubes.update(time, this.mouseWorldPos);
+    if (this.gameInput.isMouse && this.gameInput.mouseDir.length() !== 0) {
+      this.cameraController.camera.position.x += this.gameInput.mouseDir.x / 30;
+      this.cameraController.camera.position.y += this.gameInput.mouseDir.y / 30;
+      this.gameInput.mouseDir.set(0, 0);
+    };
   };
 
   public startScene = (): void => {

@@ -11,6 +11,7 @@ export class GameInput {
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
   private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
+  private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
   private _isMouse: boolean = false;
 
   private handleMovementVector = (): void => {
@@ -56,33 +57,43 @@ export class GameInput {
     this.handleMovementVector();
   };
 
-  private handleMouseDown = (event: MouseEvent): void => {
-    if (this.isKeyboard) return;
-    this._isMouse = true;
+  private handleMouseClick = (event: MouseEvent): void => {
     this._mousePos.set(event.clientX, event.clientY);
   };
 
-  private handleMouseMove = (event: MouseEvent): void => {
+  private handleMouseDown = (event: MouseEvent): void => {
+    if (this.isKeyboard) return;
+    this._mouseDir.set(0, 0);
     this._mousePos.set(event.clientX, event.clientY);
+    this._isMouse = true;
+  };
+
+  private handleMouseMove = (event: MouseEvent): void => {
+    const x = event.clientX;
+    const y = event.clientY;
+    this._mouseDir.set(x - this._mousePos.x, y - this.mousePos.y);
+    this._mousePos.set(x, y);
   };
 
   private handleMouseUp = (): void => {
     if (this.isKeyboard) return;
+    this._mouseDir.set(0, 0);
     this._isMouse = false;
-    this._mousePos.set(this.mousePos.x, this.mousePos.y);
   };
 
-  public addInputListener = (): void => {
+  public addInputListener(): void {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
+    window.addEventListener('click', this.handleMouseClick);
     window.addEventListener('mousedown', this.handleMouseDown);
     window.addEventListener('mousemove', this.handleMouseMove);
     window.addEventListener('mouseup', this.handleMouseUp);
   };
 
-  public removeInputListener = (): void => {
+  public removeInputListener(): void {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
+    window.removeEventListener('click', this.handleMouseClick);
     window.removeEventListener('mousedown', this.handleMouseDown);
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('mouseup', this.handleMouseUp);
@@ -92,15 +103,19 @@ export class GameInput {
     return this.moveDir.normalize();
   };
 
+  public get mousePos(): THREE.Vector2 {
+    return this._mousePos;
+  };
+
+  public get mouseDir(): THREE.Vector2 {
+    return this._mouseDir;
+  };
+
   public get isMouse(): boolean {
     return this._isMouse;
   };
 
   public get isKeyboard(): boolean {
     return this.directions.includes(1);
-  };
-
-  public get mousePos(): THREE.Vector2 {
-    return this._mousePos;
   };
 };

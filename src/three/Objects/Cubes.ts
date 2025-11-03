@@ -1,4 +1,4 @@
-import { THREE } from "../three";
+import { GameInput, THREE } from "../three";
 
 export class Cubes {
   private readonly _width: number = 80;
@@ -28,15 +28,19 @@ export class Cubes {
       this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.5, 1)
       this.phases[i] = this.phaseCoe * Math.random(); // range(0, 2 * Math.PI)
     };
-    this.update(0, new THREE.Vector3(999, 999, 999)); // init
+    this.update(0, new THREE.Vector3(0, 0, 0)); // init
+  };
+
+  public setPos(x: number, y: number, z: number): void {
+    this.cubes.position.set(x, y, z);
   };
 
   public update(time: number, mouseWorldPos: THREE.Vector3): void {
     let count = 0;
     for (let i = 0; i < this._width; i++) {
       for (let j = 0; j < this._height; j++) {
-        const x = -i * (1 + this.gap);
-        const y = -j * (1 + this.gap);
+        const x = this.cubes.position.x + -i * (1 + this.gap);
+        const y = this.cubes.position.y + -j * (1 + this.gap);
         const z = this.amplitudes[count] * Math.sin(time * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)
         const distance = Math.sqrt((mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2); // distance between cube and mouse
         const mouseEffect = Math.min(this.mouseEffectCoe / distance, this.maxMouseEffect); // scale with 1 / distance
