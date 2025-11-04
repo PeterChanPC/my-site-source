@@ -13,10 +13,17 @@ export class GameInput {
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
 
   // Mouse Controls
+  private _mouseXSpeed: number;
+  private _mouseYSpeed: number;
+  private _isMouse: boolean = false;
+  private _isMouseMovingTimer: ReturnType<typeof setTimeout> = 0;
   private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
   private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-  private _isMouseMovingTimer: ReturnType<typeof setTimeout> = 0;
-  private _isMouse: boolean = false;
+
+  constructor(mouseXSpeed: number = 11000, mouseYSpeed: number = 9500) {
+    this._mouseXSpeed = mouseXSpeed;
+    this._mouseYSpeed = mouseYSpeed;
+  };
 
   private handleMovementVector = (): void => {
     this.moveDir.x = this.directions[Direction.Right] - this.directions[Direction.Left];
@@ -75,7 +82,9 @@ export class GameInput {
   private handleMouseMove = (event: MouseEvent): void => {
     const x = event.clientX;
     const y = event.clientY;
-    this._mouseDir.set(x - this._mousePos.x, y - this.mousePos.y);
+    const dx = (x - this.mousePos.x) * this._mouseXSpeed / window.innerWidth / window.innerHeight;
+    const dy = (y - this.mousePos.y) * this._mouseYSpeed / window.innerWidth / window.innerHeight;
+    this._mouseDir.set(dx, dy);
     this._mousePos.set(x, y);
     clearTimeout(this._isMouseMovingTimer);
     this._isMouseMovingTimer = setTimeout(() => {
@@ -125,5 +134,13 @@ export class GameInput {
 
   public get isKeyboard(): boolean {
     return this.directions.includes(1);
+  };
+
+  public set mouseHorizontalSpeed(speed: number) {
+    this._mouseXSpeed = speed;
+  };
+
+  public set mouseVerticalSpeed(speed: number) {
+    this._mouseYSpeed = speed;
   };
 };
