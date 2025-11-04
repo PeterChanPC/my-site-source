@@ -87,9 +87,11 @@ export class ProjectSceneController implements ISceneController {
     const time = this.clock.getElapsedTime();
     this.pointLight.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, -10);
     this.cubes.update(time, this.mouseWorldPos);
-    if (this.gameInput.isMouse && this.gameInput.mouseDir.length() !== 0) {
-      this.cameraController.camera.position.x += this.gameInput.mouseDir.x / 30;
-      this.cameraController.camera.position.y += this.gameInput.mouseDir.y / 30;
+
+    const mouseDir = this.gameInput.mouseDir;
+    const mouseSpeed = 1 / 100;
+    if (this.gameInput.isMouse && mouseDir.length() !== 0) {
+      this.cameraController.moveCamera(mouseDir.x, mouseDir.y, 0, mouseSpeed);
     };
   };
 

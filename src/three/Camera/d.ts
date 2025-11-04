@@ -27,6 +27,7 @@ export interface ICameraController {
   setCameraNear(near: number): void;
   setCameraFar(far: number): void;
   setCameraRange(near: number, far: number): void;
+  moveCamera(x: number, y: number, z: number, speed?: number): void;
   setCameraPos(x: number, y: number, z: number): void;
   setCameraLookAt(x: number, y: number, z: number): void;
   addResizeListener(): void;

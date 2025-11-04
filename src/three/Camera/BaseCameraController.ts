@@ -35,6 +35,12 @@ export abstract class BaseCameraController implements ICameraController {
     this._camera.updateProjectionMatrix();
   };
 
+  public moveCamera(x: number, y: number, z: number, speed: number = 1): void {
+    this._camera.position.x += x * speed;
+    this._camera.position.y += y * speed;
+    this._camera.position.z += z * speed;
+  };
+
   public setCameraPos(x: number, y: number, z: number): void {
     this._camera.position.set(x, y, z);
   };

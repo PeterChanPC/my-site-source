@@ -22,7 +22,7 @@ export class CameraController implements ICameraController {
     };
   };
 
-  public setCameraSize(size: number): void {
+  public setCameraSize?(size: number): void {
     if (this.controller.setCameraSize) {
       this.controller.setCameraSize(size);
     } else {
@@ -30,7 +30,7 @@ export class CameraController implements ICameraController {
     };
   };
 
-  public setCameraFOV(fov: number): void {
+  public setCameraFOV?(fov: number): void {
     if (this.controller.setCameraFOV) {
       this.controller.setCameraFOV(fov);
     } else {
@@ -48,6 +48,10 @@ export class CameraController implements ICameraController {
 
   public setCameraRange(near: number, far: number): void {
     this.controller.setCameraRange(near, far);
+  };
+
+  public moveCamera(x: number, y: number, z: number, speed?: number): void {
+    this.controller.moveCamera(x, y, z, speed);
   };
 
   public setCameraPos(x: number, y: number, z: number): void {
