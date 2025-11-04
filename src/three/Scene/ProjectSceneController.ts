@@ -1,6 +1,5 @@
-import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput } from "../three";
+import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput, Cubes } from "../three";
 import { Themes } from "@/stores/d";
-import { Cubes } from "../Objects/Cubes";
 
 export class ProjectSceneController implements ISceneController {
   // Materials
