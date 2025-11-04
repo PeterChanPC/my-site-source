@@ -90,7 +90,6 @@ export class ProjectSceneController implements ISceneController {
     if (this.gameInput.isMouse && this.gameInput.mouseDir.length() !== 0) {
       this.cameraController.camera.position.x += this.gameInput.mouseDir.x / 30;
       this.cameraController.camera.position.y += this.gameInput.mouseDir.y / 30;
-      this.gameInput.mouseDir.set(0, 0);
     };
   };
 

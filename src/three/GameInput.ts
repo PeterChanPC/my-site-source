@@ -8,10 +8,14 @@ enum Direction {
 };
 
 export class GameInput {
+  // Keyboard Controls
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
+
+  // Mouse Controls
   private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
   private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private _isMouseMovingTimer: ReturnType<typeof setTimeout> = 0;
   private _isMouse: boolean = false;
 
   private handleMovementVector = (): void => {
@@ -73,6 +77,10 @@ export class GameInput {
     const y = event.clientY;
     this._mouseDir.set(x - this._mousePos.x, y - this.mousePos.y);
     this._mousePos.set(x, y);
+    clearTimeout(this._isMouseMovingTimer);
+    this._isMouseMovingTimer = setTimeout(() => {
+      this._mouseDir.set(0, 0);
+    }, 50);
   };
 
   private handleMouseUp = (): void => {
