@@ -1,9 +1,8 @@
 import { GameInput, THREE } from "../three";
 
 export class Cubes {
-  private readonly _width: number = 80;
-  private readonly _height: number = 46;
-  private readonly maxCount: number = this._width * this._height;
+  private readonly _width: number;
+  private readonly _height: number;
   private readonly gap: number = 0.02;
   private readonly maxAmp: number = 0.7;
   private readonly minAmp: number = 0.3;
@@ -21,13 +20,18 @@ export class Cubes {
   private dummy: THREE.Object3D = new THREE.Object3D();
   private cubes: THREE.InstancedMesh;
 
-  constructor(geometry: THREE.BufferGeometry, material: THREE.Material) {
-    this.cubes = new THREE.InstancedMesh(geometry, material, this.maxCount);
-    for (let i = 0; i < this.maxCount; i++) {
-      this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.5, 1)
-      this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.5, 1)
+  constructor(geometry: THREE.BufferGeometry, material: THREE.Material, width: number = 0, height: number = 0) {
+    this._width = width;
+    this._height = height;
+    const count = width * height;
+    this.cubes = new THREE.InstancedMesh(geometry, material, count);
+
+    for (let i = 0; i < count; i++) {
+      this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.3, 0.7)
+      this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.3, 1)
       this.phases[i] = this.phaseCoe * Math.random(); // range(0, 2 * Math.PI)
     };
+
     this.update(0, new THREE.Vector3(0, 0, 0)); // init
   };
 
@@ -36,9 +40,11 @@ export class Cubes {
   };
 
   public update(time: number, mouseWorldPos: THREE.Vector3): void {
+    const halfWidth = Math.floor(this._width / 2);
+    const halfHeight = Math.floor(this._height / 2);
     let count = 0;
-    for (let i = 0; i < this._width; i++) {
-      for (let j = 0; j < this._height; j++) {
+    for (let i = -halfWidth; i < halfWidth; i++) {
+      for (let j = -halfHeight; j < halfHeight; j++) {
         const x = this.cubes.position.x + -i * (1 + this.gap);
         const y = this.cubes.position.y + -j * (1 + this.gap);
         const z = this.amplitudes[count] * Math.sin(time * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)

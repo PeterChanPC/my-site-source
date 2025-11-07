@@ -5,11 +5,11 @@ export class ProjectSceneController implements ISceneController {
   // Materials
   private material = new THREE.MeshLambertMaterial({ color: 0xffffff });
   // Geometry
-  private wallGeometry = new THREE.PlaneGeometry(80, 46);
+  private wallGeometry = new THREE.PlaneGeometry(40, 30);
   private boxGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   // Objects
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(999, 999, 999);
-  private cubes = new Cubes(this.boxGeometry, this.material);
+  private cubes = new Cubes(this.boxGeometry, this.material, 40, 40);
   private wall = new THREE.Mesh(this.wallGeometry, this.material);
   // Lightings
   private ambientLightIntensityLight = 0.5;
@@ -32,8 +32,8 @@ export class ProjectSceneController implements ISceneController {
 
   // Positions Setup
   private setPositions = (): void => {
-    const centerX = -this.cubes.width / 2;
-    const centerY = -this.cubes.height / 2;
+    const centerX = -this.cubes.mesh.position.x;
+    const centerY = -this.cubes.mesh.position.y;
     this.cameraController.setCameraPos(centerX, centerY, -15);
     this.cameraController.setCameraLookAt(centerX, centerY, 0);
 
