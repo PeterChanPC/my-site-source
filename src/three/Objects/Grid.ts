@@ -1,8 +1,7 @@
 import { GameInput, THREE } from "../three";
 
-export class Cubes {
-  private readonly _width: number;
-  private readonly _height: number;
+export class Grid {
+  private readonly _size: number;
   private readonly gap: number = 0.02;
   private readonly maxAmp: number = 0.7;
   private readonly minAmp: number = 0.3;
@@ -12,19 +11,21 @@ export class Cubes {
   private readonly speedCoe: number = this.maxSpeed - this.minSpeed;
   private readonly phaseCoe: number = 2 * Math.PI;
   private readonly maxMouseEffect: number = 3.5;
-  private readonly mouseEffectCoe: number = 5;
+  private readonly mouseEffectSigma: number = 8;
   private readonly color: THREE.Color = new THREE.Color(0xff0000);
   private amplitudes: number[] = [];
   private speeds: number[] = [];
   private phases: number[] = [];
   private dummy: THREE.Object3D = new THREE.Object3D();
-  private cubes: THREE.InstancedMesh;
+  private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
+  private material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  private _mesh: THREE.InstancedMesh;
 
-  constructor(geometry: THREE.BufferGeometry, material: THREE.Material, width: number = 0, height: number = 0) {
-    this._width = width;
-    this._height = height;
-    const count = width * height;
-    this.cubes = new THREE.InstancedMesh(geometry, material, count);
+  constructor(size: number = 0) {
+    this._size = size;
+    const count = size ** 2;
+    this._mesh = new THREE.InstancedMesh(this.geometry, this.material, count);
+    this._mesh.setColorAt(Math.floor(Math.random() * count), this.color);
 
     for (let i = 0; i < count; i++) {
       this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.3, 0.7)
@@ -36,40 +37,35 @@ export class Cubes {
   };
 
   public setPos(x: number, y: number, z: number): void {
-    this.cubes.position.set(x, y, z);
+    this._mesh.position.set(x, y, z);
   };
 
   public update(time: number, mouseWorldPos: THREE.Vector3): void {
-    const halfWidth = Math.floor(this._width / 2);
-    const halfHeight = Math.floor(this._height / 2);
     let count = 0;
-    for (let i = -halfWidth; i < halfWidth; i++) {
-      for (let j = -halfHeight; j < halfHeight; j++) {
-        const x = this.cubes.position.x + -i * (1 + this.gap);
-        const y = this.cubes.position.y + -j * (1 + this.gap);
+    for (let i = 0; i < this._size; i++) {
+      for (let j = 0; j < this._size; j++) {
+        const x = this._mesh.position.x + i * (1 + this.gap);
+        const y = this._mesh.position.y + j * (1 + this.gap);
         const z = this.amplitudes[count] * Math.sin(time * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)
-        const distance = Math.sqrt((mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2); // distance between cube and mouse
-        const mouseEffect = Math.min(this.mouseEffectCoe / distance, this.maxMouseEffect); // scale with 1 / distance
+        const distance = (mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2; // distance between cube and mouse
+        const mouseEffect = this.maxMouseEffect * Math.exp(-distance / this.mouseEffectSigma) // gaussian peak
         this.dummy.position.x = x;
         this.dummy.position.y = y;
         this.dummy.position.z = z - mouseEffect;
         this.dummy.updateMatrix();
-        this.cubes.setMatrixAt(count, this.dummy.matrix);
+        this._mesh.setMatrixAt(count, this.dummy.matrix);
         count++;
       };
     };
-    this.cubes.instanceMatrix.needsUpdate = true;
-  };
-
-  public get height(): number {
-    return this._height;
-  };
-
-  public get width(): number {
-    return this._width;
+    this._mesh.instanceMatrix.needsUpdate = true;
   };
 
   public get mesh(): THREE.InstancedMesh {
-    return this.cubes;
+    return this._mesh;
+  };
+
+  public dispose(): void {
+    this.geometry.dispose();
+    this.material.dispose();
   };
 };

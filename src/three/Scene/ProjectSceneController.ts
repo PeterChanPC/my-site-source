@@ -1,4 +1,4 @@
-import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput, Cubes } from "../three";
+import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput, ChunkLoader } from "../three";
 import { Themes } from "@/stores/d";
 
 export class ProjectSceneController implements ISceneController {
@@ -6,10 +6,8 @@ export class ProjectSceneController implements ISceneController {
   private material = new THREE.MeshLambertMaterial({ color: 0xffffff });
   // Geometry
   private wallGeometry = new THREE.PlaneGeometry(40, 30);
-  private boxGeometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   // Objects
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(999, 999, 999);
-  private cubes = new Cubes(this.boxGeometry, this.material, 40, 40);
   private wall = new THREE.Mesh(this.wallGeometry, this.material);
   // Lightings
   private ambientLightIntensityLight = 0.5;
@@ -25,6 +23,8 @@ export class ProjectSceneController implements ISceneController {
   private physics: Physics = new Physics(this.cameraController.camera);
   private gameInput = new GameInput();
 
+  private chunkLoader = new ChunkLoader(10);
+
   constructor(canvas: HTMLCanvasElement, theme?: Themes) {
     if (theme) this.theme = theme;
     this.rendererController = new RendererController(canvas);
@@ -32,17 +32,15 @@ export class ProjectSceneController implements ISceneController {
 
   // Positions Setup
   private setPositions = (): void => {
-    const centerX = -this.cubes.mesh.position.x;
-    const centerY = -this.cubes.mesh.position.y;
-    this.cameraController.setCameraPos(centerX, centerY, -15);
-    this.cameraController.setCameraLookAt(centerX, centerY, 0);
+    this.cameraController.setCameraPos(0, 0, -15);
+    this.cameraController.setCameraLookAt(0, 0, 0);
 
-    this.pointLight.position.set(centerX, centerY, -10);
+    this.pointLight.position.set(0, 0, -10);
 
-    this.wall.position.set(centerX, centerY, 0);
+    this.wall.position.set(0, 0, 0);
     this.wall.rotation.set(0, Math.PI, 0);
 
-    this.mouseWorldPos.set(centerX, centerY, 0);
+    this.mouseWorldPos.set(0, 0, 0);
   };
 
   // Lighting Setup
@@ -61,7 +59,7 @@ export class ProjectSceneController implements ISceneController {
     this.setPositions();
     this.setLightings();
     this.updateMouse();
-    this.scene.add(this.ambientLight, this.cubes.mesh, this.wall, this.pointLight);
+    this.scene.add(this.ambientLight, this.wall, this.pointLight);
     this.physics.setCollidables(this.scene.children);
   };
 
@@ -84,12 +82,13 @@ export class ProjectSceneController implements ISceneController {
     this.updateTheme();
     this.updateMouse();
     const time = this.clock.getElapsedTime();
+
     this.pointLight.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, -10);
-    this.cubes.update(time, this.mouseWorldPos);
+    this.chunkLoader.update(this.scene, this.cameraController.camera.position, this.mouseWorldPos, time);
 
     const mouseDir = this.gameInput.mouseDir;
     if (this.gameInput.isMouse && mouseDir.length() !== 0) {
-      this.cameraController.moveCamera(mouseDir.x, mouseDir.y, 0);
+      this.cameraController.moveCamera(mouseDir.x, mouseDir.y, 0, 2);
     };
   };
 

@@ -21,5 +21,5 @@ export { GameInput } from './GameInput';
 export { Physics } from './Physics';
 export { Player } from './Player/Player';
 
-export { Cubes } from './Objects/Cubes';
-export { CubeGenerator } from './Objects/CubeGenerator';
+export { Grid } from './Objects/Grid';
+export { ChunkLoader } from './Objects/ChunkLoader';
