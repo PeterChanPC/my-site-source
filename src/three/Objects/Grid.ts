@@ -17,14 +17,12 @@ export class Grid {
   private speeds: number[] = [];
   private phases: number[] = [];
   private dummy: THREE.Object3D = new THREE.Object3D();
-  private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
-  private material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
   private _mesh: THREE.InstancedMesh;
 
-  constructor(size: number = 0) {
+  constructor(geometry: THREE.BufferGeometry, material: THREE.Material, size: number = 0) {
     this._size = size;
     const count = size ** 2;
-    this._mesh = new THREE.InstancedMesh(this.geometry, this.material, count);
+    this._mesh = new THREE.InstancedMesh(geometry, material, count);
     this._mesh.setColorAt(Math.floor(Math.random() * count), this.color);
 
     for (let i = 0; i < count; i++) {
@@ -44,10 +42,10 @@ export class Grid {
     let count = 0;
     for (let i = 0; i < this._size; i++) {
       for (let j = 0; j < this._size; j++) {
-        const x = this._mesh.position.x + i * (1 + this.gap);
-        const y = this._mesh.position.y + j * (1 + this.gap);
+        const x = i * (1 + this.gap);
+        const y = j * (1 + this.gap);
         const z = this.amplitudes[count] * Math.sin(time * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)
-        const distance = (mouseWorldPos.x - x) ** 2 + (mouseWorldPos.y - y) ** 2; // distance between cube and mouse
+        const distance = (mouseWorldPos.x - x - this._mesh.position.x) ** 2 + (mouseWorldPos.y - y - this._mesh.position.y) ** 2; // distance between cube and mouse (squared)
         const mouseEffect = this.maxMouseEffect * Math.exp(-distance / this.mouseEffectSigma) // gaussian peak
         this.dummy.position.x = x;
         this.dummy.position.y = y;
@@ -62,10 +60,5 @@ export class Grid {
 
   public get mesh(): THREE.InstancedMesh {
     return this._mesh;
-  };
-
-  public dispose(): void {
-    this.geometry.dispose();
-    this.material.dispose();
   };
 };

@@ -2,12 +2,15 @@ import { THREE, Grid } from "../three";
 
 export class ChunkLoader {
   private readonly _size: number;
-  private readonly renderDist: number = 1;
+  private readonly _renderDist: number;
   private loadedChunks: Map<string, Grid> = new Map();
   private center: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
+  private material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
 
-  constructor(size: number) {
+  constructor(size: number, _renderDist: number) {
     this._size = size;
+    this._renderDist = _renderDist;
   };
 
   private getCurrentGridFromWorld(playerWorldPos: THREE.Vector3): void {
@@ -20,16 +23,16 @@ export class ChunkLoader {
   private updateChunks(scene: THREE.Scene): void {
     const neededChunks = new Set();
 
-    for (let i = -this.renderDist; i <= this.renderDist; i++) {
-      for (let j = -this.renderDist; j <= this.renderDist; j++) {
+    for (let i = -this._renderDist; i <= this._renderDist; i++) {
+      for (let j = -this._renderDist; j <= this._renderDist; j++) {
         const x = this.center.x + i;
         const y = this.center.y + j;
-        const key = `${x}, ${y}`;
+        const key = `${x},${y}`;
         neededChunks.add(key);
         if (!this.loadedChunks.has(key)) {
-          const chunk = new Grid(this._size);
-          const chunkX = x * this._size * (1 + 0.02) / 2;
-          const chunkY = y * this._size * (1 + 0.02) / 2;
+          const chunk = new Grid(this.geometry, this.material, this._size);
+          const chunkX = x * this._size;
+          const chunkY = y * this._size;
           chunk.setPos(chunkX, chunkY, 0);
           scene.add(chunk.mesh);
           this.loadedChunks.set(key, chunk);
@@ -42,7 +45,6 @@ export class ChunkLoader {
         const chunk = this.loadedChunks.get(key);
         if (chunk) {
           scene.remove(chunk.mesh);
-          chunk.dispose();
         };
         this.loadedChunks.delete(key);
       };

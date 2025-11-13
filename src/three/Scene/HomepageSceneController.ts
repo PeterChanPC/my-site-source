@@ -1,5 +1,5 @@
 import { THREE, ISceneController, RendererController, CameraController, Player, Physics, GameInput } from "../three";
-import { SupportedTheme } from "@/stores/d";
+import { Themes } from "@/stores/d";
 import texture from '@/assets/img/texture.webp';
 
 export class HomepageSceneController implements ISceneController {
@@ -30,7 +30,7 @@ export class HomepageSceneController implements ISceneController {
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
   // General
-  private theme: SupportedTheme = 'light';
+  private theme: Themes = Themes.Light;
   private clock: THREE.Clock = new THREE.Clock();
   private rendererController: RendererController;
   private cameraController: CameraController = new CameraController({ type: 'orthographic', size: 5, near: -100, far: 1000 });
@@ -44,7 +44,7 @@ export class HomepageSceneController implements ISceneController {
   private playerObject = new THREE.Object3D().attach(this.playerMesh);
   private player: Player = new Player(this.playerObject, this.gameInput, this.physics);
 
-  constructor(canvas: HTMLCanvasElement, theme?: SupportedTheme) {
+  constructor(canvas: HTMLCanvasElement, theme?: Themes) {
     if (theme) this.theme = theme;
     this.rendererController = new RendererController(canvas);
   };
@@ -166,5 +166,5 @@ export class HomepageSceneController implements ISceneController {
     this.cameraController.removeResizeListener();
   };
 
-  public setTheme = (theme: SupportedTheme) => this.theme = theme;
+  public setTheme = (theme: Themes) => this.theme = theme;
 };

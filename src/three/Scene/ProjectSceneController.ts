@@ -23,7 +23,7 @@ export class ProjectSceneController implements ISceneController {
   private physics: Physics = new Physics(this.cameraController.camera);
   private gameInput = new GameInput();
 
-  private chunkLoader = new ChunkLoader(10);
+  private chunkLoader = new ChunkLoader(8, 2);
 
   constructor(canvas: HTMLCanvasElement, theme?: Themes) {
     if (theme) this.theme = theme;
