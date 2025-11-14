@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { useThemeStore } from '@/stores/theme.store';
-import { onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
+import { onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { SceneController } from '@/three/Scene/SceneController';
 
