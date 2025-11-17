@@ -1,4 +1,4 @@
-import { THREE } from "../three";
+import { THREE } from "@/three/d";
 
 export enum CameraType {
   Orthographic = 'orthographic',

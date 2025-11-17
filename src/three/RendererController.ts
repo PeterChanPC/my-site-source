@@ -1,6 +1,6 @@
-import { THREE } from "./three";
+import { MonoBehavior, THREE } from "./d";
 
-export class RendererController {
+export class RendererController implements MonoBehavior {
   private _renderer: THREE.WebGLRenderer;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -9,32 +9,14 @@ export class RendererController {
       antialias: true,
       alpha: true,
     });
-    this._renderer.shadowMap.enabled = true;
-    this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this._renderer.setClearColor(0x000000, 0);
-    this.resizeRenderer();
   };
 
-  private resizeRenderer = (): void => {
+  private handleResize = (): void => {
     this._renderer.setPixelRatio(window.devicePixelRatio || 1);
     this._renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
-  private boundResizeRenderer = (): void => this.resizeRenderer();
-
-  public addResizeListener = (): void => {
-    window.addEventListener('resize', this.boundResizeRenderer);
-  };
-
-  public removeResizeListener = (): void => {
-    window.removeEventListener('resize', this.boundResizeRenderer);
-  };
-
-  public setAnimation = (
-    animate: Function,
-    scene: THREE.Scene,
-    camera: THREE.Camera
-  ): void => {
+  public startAnimation(animate: Function, scene: THREE.Scene, camera: THREE.Camera): void {
     const renderAnimation = () => {
       animate();
       this._renderer.render(scene, camera);
@@ -42,7 +24,20 @@ export class RendererController {
     this._renderer.setAnimationLoop(renderAnimation);
   };
 
-  public get renderer() {
-    return this._renderer;
+  public start(): void {
+    window.addEventListener('resize', this.handleResize);
+
+    this._renderer.shadowMap.enabled = true;
+    this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this._renderer.setClearColor(0x000000, 0);
+    this.handleResize();
+  };
+
+  public update(): void {
+
+  };
+
+  public end(): void {
+    window.removeEventListener('resize', this.handleResize);
   };
 };

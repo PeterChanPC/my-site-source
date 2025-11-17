@@ -1,4 +1,4 @@
-import { THREE } from '../three';
+import { THREE } from '@/three/d';
 import { OrthographicCameraProperty, BaseCameraController } from './d';
 
 export class OrthographicCameraController extends BaseCameraController {

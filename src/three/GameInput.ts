@@ -1,4 +1,4 @@
-import { THREE } from "./three";
+import { MonoBehavior, THREE } from "./d";
 
 enum Direction {
   Up = 0,
@@ -7,7 +7,7 @@ enum Direction {
   Right = 3
 };
 
-export class GameInput {
+export class GameInput implements MonoBehavior {
   // Keyboard Controls
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
@@ -113,7 +113,7 @@ export class GameInput {
     this._isMouse = false;
   };
 
-  public addInputListener(): void {
+  public start(): void {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('click', this.handleMouseClick);
@@ -125,7 +125,11 @@ export class GameInput {
     window.addEventListener('touchend', this.handleEnd, { passive: false });
   };
 
-  public removeInputListener(): void {
+  public update(): void {
+
+  };
+
+  public end(): void {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
     window.removeEventListener('click', this.handleMouseClick);

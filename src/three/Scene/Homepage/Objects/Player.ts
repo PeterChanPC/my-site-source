@@ -1,6 +1,8 @@
-import { THREE, Physics, GameInput } from "../three";
+import { THREE, Physics, GameInput, MonoBehavior } from "@/three/d";
+import texture from '@/assets/img/texture.webp';
 
-export class Player {
+export class Player implements MonoBehavior {
+  // movements
   private readonly velocityGrounding: number = 0.5;
   private readonly maxForce: number = 100;
   private readonly bounciness: number = 1;
@@ -16,11 +18,15 @@ export class Player {
   private velocityZ: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private _force: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private _drag: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private playerRadius: number = 1;
-  private player: THREE.Object3D;
 
-  constructor(player: THREE.Object3D, gameInput: GameInput, physics: Physics) {
-    this.player = player;
+  // player object
+  private playerRadius: number = 1;
+  private playerGeometry = new THREE.SphereGeometry(this.playerRadius, 32, 32);
+  private playerTexture = new THREE.TextureLoader().load(texture);
+  private playerMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: this.playerTexture });
+  private player = new THREE.Mesh(this.playerGeometry, this.playerMaterial);
+
+  constructor(gameInput: GameInput, physics: Physics) {
     this.gameInput = gameInput;
     this.physics = physics;
   };
@@ -90,7 +96,7 @@ export class Player {
     };
   };
 
-  public applyMovement(dt: number): void {
+  private applyMovement(dt: number): void {
     this.updateMoveVec();
     this.updateForce(this.forceCoe);
     this.updateDrag(this.dragCoe);
@@ -98,6 +104,32 @@ export class Player {
     this.checkCollision();
     this.displacement.copy(this._velocity).multiplyScalar(dt)
     this.player.position.add(this.displacement);
+  };
+
+  public start(scene: THREE.Scene): void {
+    this.playerTexture.wrapS = THREE.RepeatWrapping;
+    this.playerTexture.wrapT = THREE.RepeatWrapping;
+    this.playerTexture.repeat.set(3, 3);
+
+    this.player.position.set(3, 0, -2);
+    this.player.castShadow = true;
+
+    scene.add(this.player);
+  };
+
+  public update(clock: THREE.Clock): void {
+    const dt = clock.getDelta();
+    this.applyMovement(dt);
+  };
+
+  public end(): void {
+    this.playerMaterial.dispose();
+    this.playerTexture.dispose();
+    this.playerGeometry.dispose();
+  };
+
+  public get obj(): THREE.Mesh {
+    return this.player;
   };
 
   public get force(): THREE.Vector3 {

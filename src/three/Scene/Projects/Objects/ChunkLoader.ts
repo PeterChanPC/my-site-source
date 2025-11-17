@@ -1,4 +1,4 @@
-import { THREE, Grid } from "../three";
+import { THREE, Grid } from "../../../d";
 
 export class ChunkLoader {
   private readonly _size: number;

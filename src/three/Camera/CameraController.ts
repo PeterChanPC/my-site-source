@@ -1,4 +1,4 @@
-import { THREE } from '../three';
+import { THREE } from '@/three/d';
 import { ICameraController, CameraType, CameraProperty, OrthographicCameraProperty, PerspectiveCameraProperty, OrthographicCameraController, PerspectiveCameraController } from './d';
 
 function isOrthographic(prop: CameraProperty): prop is OrthographicCameraProperty {

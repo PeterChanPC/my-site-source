@@ -1,4 +1,4 @@
-import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput, ChunkLoader } from "../three";
+import { THREE, ISceneController, RendererController, CameraController, Physics, GameInput, ChunkLoader } from "../../d";
 import { Themes } from "@/stores/d";
 
 export class ProjectSceneController implements ISceneController {

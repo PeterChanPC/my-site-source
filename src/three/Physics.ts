@@ -1,26 +1,21 @@
-import { THREE } from "./three";
+import { MonoBehavior, THREE } from "./d";
 
 export class Physics {
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
   private collidables: THREE.Object3D[] = [];
 
-  private camera?: THREE.Camera;
-  private cameraRaycaster?: THREE.Raycaster;
-  private screenPoint?: THREE.Vector2;
-  private screenWorldPos?: THREE.Vector3;
+  private camera: THREE.Camera;
+  private cameraRaycaster: THREE.Raycaster = new THREE.Raycaster();
+  private screenPoint: THREE.Vector2 = new THREE.Vector2(0, 0);
+  private screenWorldPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
   private angle: number = Math.PI / 2;
   private axis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
   private temp: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private dir: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
-  constructor(camera?: THREE.Camera) {
-    if (camera) {
-      this.camera = camera;
-      this.cameraRaycaster = new THREE.Raycaster();
-      this.screenPoint = new THREE.Vector2(0, 0);
-      this.screenWorldPos = new THREE.Vector3(0, 0, 0);
-    };
+  constructor(camera: THREE.Camera) {
+    this.camera = camera;
   };
 
   public setCollidables(collidables: THREE.Object3D[]) {
@@ -98,9 +93,9 @@ export class Physics {
     return hit;
   };
 
-  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | null => {
+  public screenPointToWorld = (x: number, y: number): THREE.Vector3 | undefined => {
     const hit = this.getRaycastHitFromScreen(x, y);
-    if (!hit || !hit[0] || !this.screenWorldPos) return null;
+    if (!hit || !hit[0] || !this.screenWorldPos) return undefined;
     this.screenWorldPos.set(hit[0].point.x, hit[0].point.y, hit[0].point.z);
     return this.screenWorldPos;
   };

@@ -1,4 +1,4 @@
-import { THREE } from '../three';
+import { THREE } from '@/three/d';
 import { PerspectiveCameraProperty, BaseCameraController } from "./d";
 
 export class PerspectiveCameraController extends BaseCameraController {

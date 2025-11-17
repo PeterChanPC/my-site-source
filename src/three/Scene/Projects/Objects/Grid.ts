@@ -1,4 +1,4 @@
-import { GameInput, THREE } from "../three";
+import { GameInput, THREE } from "../../../d";
 
 export class Grid {
   // animation variables

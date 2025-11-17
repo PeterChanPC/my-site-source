@@ -12,16 +12,13 @@ export { CameraController } from './Camera/d';
 export { OrthographicCameraController } from './Camera/d';
 export { PerspectiveCameraController } from './Camera/d';
 
-export type { ISceneController } from './Scene/SceneController';
-export { SceneController } from './Scene/SceneController';
-export { HomepageSceneController } from './Scene/HomepageSceneController';
-export { ProjectSceneController } from './Scene/ProjectSceneController';
+export { HomepageGame } from './Scene/Homepage/HomepageGame';
+// export { ProjectSceneController } from './Scene/Projects/ProjectSceneController';
 
 export { RendererController } from './RendererController';
 
 export { GameInput } from './GameInput';
 export { Physics } from './Physics';
-export { Player } from './Player/Player';
 
-export { Grid } from './Objects/Grid';
-export { ChunkLoader } from './Objects/ChunkLoader';
+export { Grid } from './Scene/Projects/Objects/Grid';
+export { ChunkLoader } from './Scene/Projects/Objects/ChunkLoader';

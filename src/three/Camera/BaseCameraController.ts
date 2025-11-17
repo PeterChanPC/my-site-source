@@ -1,4 +1,4 @@
-import { THREE } from '../three';
+import { THREE } from '@/three/d';
 import { ICameraController } from './d';
 
 export abstract class BaseCameraController implements ICameraController {

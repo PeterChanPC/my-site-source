@@ -1,4 +1,7 @@
+import { THREE } from "./d";
+
 export abstract class MonoBehavior {
-  protected abstract start(): void;
-  protected abstract update(): void;
+  public abstract start(scene?: THREE.Scene): void;
+  public abstract update(clock?: THREE.Clock): void;
+  public abstract end(): void;
 };

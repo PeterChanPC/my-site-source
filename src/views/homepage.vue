@@ -16,9 +16,9 @@
 <script setup lang="ts">
 import AnimatedTxt from '@/components/animated-txt.vue';
 import { onMounted, onUnmounted, useTemplateRef, watch } from 'vue';
-import { useThemeStore } from '@/stores/theme.store';
 import { useI18n } from 'vue-i18n';
-import { SceneController } from '@/three/Scene/SceneController';
+import { useThemeStore } from '@/stores/theme.store';
+import { HomepageGame } from '@/three/d';
 
 const { t } = useI18n();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
@@ -26,13 +26,11 @@ const themeStore = useThemeStore();
 
 onMounted(() => {
   if (!canvas.value) return;
+  const game = new HomepageGame(canvas.value, themeStore.theme);
+  watch(themeStore, () => game.setTheme(themeStore.theme));
+  game.start();
 
-  const sceneController = new SceneController(canvas.value, 'homepage', themeStore.theme);
-  sceneController.startScene();
-
-  watch(themeStore, () => sceneController.setTheme(themeStore.theme));
-
-  onUnmounted(() => sceneController.endScene());
+  onUnmounted(() => game.end());
 });
 </script>
 
