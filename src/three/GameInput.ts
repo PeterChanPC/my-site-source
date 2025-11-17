@@ -11,12 +11,11 @@ export class GameInput {
   // Keyboard Controls
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-
-  // Mouse Controls
+  // Mouse Controls (Touch Controls will use the same properties here)
   private _mouseXSpeed: number;
   private _mouseYSpeed: number;
   private _isMouse: boolean = false;
-  private _isMouseMovingTimer: ReturnType<typeof setTimeout> = 0;
+  private _isMouseMovingTimer: ReturnType<typeof setTimeout> = setTimeout(() => { });
   private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
   private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
 
@@ -72,16 +71,32 @@ export class GameInput {
     this._mousePos.set(event.clientX, event.clientY);
   };
 
-  private handleMouseDown = (event: MouseEvent): void => {
+  private handleStart = (event: MouseEvent | TouchEvent): void => {
     if (this.isKeyboard) return;
     this._mouseDir.set(0, 0);
-    this._mousePos.set(event.clientX, event.clientY);
+    if (event.type === 'mousedown') {
+      const mouseEvent = event as MouseEvent;
+      this._mousePos.set(mouseEvent.clientX, mouseEvent.clientY);
+    } else if (event.type === 'touchstart') {
+      const touchEvent = event as TouchEvent;
+      this._mousePos.set(touchEvent.touches[0].clientX, touchEvent.touches[0].clientY);
+    };
     this._isMouse = true;
   };
 
-  private handleMouseMove = (event: MouseEvent): void => {
-    const x = event.clientX;
-    const y = event.clientY;
+  private handleMove = (event: MouseEvent | TouchEvent): void => {
+    let x = 0;
+    let y = 0;
+    if (event.type === 'mousemove') {
+      const mouseEvent = event as MouseEvent;
+      x = mouseEvent.clientX;
+      y = mouseEvent.clientY;
+    } else if (event.type === 'touchmove') {
+      const touchEvent = event as TouchEvent
+      x = touchEvent.touches[0].clientX;
+      y = touchEvent.touches[0].clientY;
+    };
+
     const dx = (x - this.mousePos.x) * this._mouseXSpeed / window.innerWidth / window.innerHeight;
     const dy = (y - this.mousePos.y) * this._mouseYSpeed / window.innerWidth / window.innerHeight;
     this._mouseDir.set(dx, dy);
@@ -92,7 +107,7 @@ export class GameInput {
     }, 50);
   };
 
-  private handleMouseUp = (): void => {
+  private handleEnd = (): void => {
     if (this.isKeyboard) return;
     this._mouseDir.set(0, 0);
     this._isMouse = false;
@@ -102,18 +117,24 @@ export class GameInput {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
     window.addEventListener('click', this.handleMouseClick);
-    window.addEventListener('mousedown', this.handleMouseDown);
-    window.addEventListener('mousemove', this.handleMouseMove);
-    window.addEventListener('mouseup', this.handleMouseUp);
+    window.addEventListener('mousedown', this.handleStart);
+    window.addEventListener('mousemove', this.handleMove);
+    window.addEventListener('mouseup', this.handleEnd);
+    window.addEventListener('touchstart', this.handleStart, { passive: false });
+    window.addEventListener('touchmove', this.handleMove, { passive: false });
+    window.addEventListener('touchend', this.handleEnd, { passive: false });
   };
 
   public removeInputListener(): void {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
     window.removeEventListener('click', this.handleMouseClick);
-    window.removeEventListener('mousedown', this.handleMouseDown);
-    window.removeEventListener('mousemove', this.handleMouseMove);
-    window.removeEventListener('mouseup', this.handleMouseUp);
+    window.removeEventListener('mousedown', this.handleStart);
+    window.removeEventListener('mousemove', this.handleMove);
+    window.removeEventListener('mouseup', this.handleEnd);
+    window.removeEventListener('touchstart', this.handleStart);
+    window.removeEventListener('touchmove', this.handleMove);
+    window.removeEventListener('touchend', this.handleEnd);
   };
 
   public getMovementVectorNormalized(): THREE.Vector2 {

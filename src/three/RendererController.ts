@@ -1,23 +1,23 @@
 import { THREE } from "./three";
 
 export class RendererController {
-  private renderer: THREE.WebGLRenderer;
+  private _renderer: THREE.WebGLRenderer;
 
   constructor(canvas: HTMLCanvasElement) {
-    this.renderer = new THREE.WebGLRenderer({
+    this._renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
       alpha: true,
     });
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.renderer.setClearColor(0x000000, 0);
+    this._renderer.shadowMap.enabled = true;
+    this._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this._renderer.setClearColor(0x000000, 0);
     this.resizeRenderer();
   };
 
   private resizeRenderer = (): void => {
-    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this._renderer.setPixelRatio(window.devicePixelRatio || 1);
+    this._renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
   private boundResizeRenderer = (): void => this.resizeRenderer();
@@ -37,8 +37,12 @@ export class RendererController {
   ): void => {
     const renderAnimation = () => {
       animate();
-      this.renderer.render(scene, camera);
+      this._renderer.render(scene, camera);
     };
-    this.renderer.setAnimationLoop(renderAnimation);
+    this._renderer.setAnimationLoop(renderAnimation);
+  };
+
+  public get renderer() {
+    return this._renderer;
   };
 };

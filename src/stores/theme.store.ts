@@ -15,7 +15,6 @@ export const useThemeStore = defineStore('theme', () => {
   watchEffect(() => localStorage.setItem('theme', theme.value));
 
   function switchTheme(): void {
-    console.log(theme.value)
     switch (theme.value) {
       case Themes.Light:
         theme.value = Themes.Dark;

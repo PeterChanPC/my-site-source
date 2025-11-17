@@ -18,6 +18,7 @@ watchEffect(() => document.body.style.setProperty('--theme', themeStore.theme));
 
 body {
   margin: 0;
+  touch-action: none;
 }
 
 @container style(--theme: light) {
