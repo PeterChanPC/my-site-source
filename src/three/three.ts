@@ -1,5 +1,7 @@
 export * as THREE from 'three';
 
+export type { MonoBehavior } from './MonoBehavior';
+
 export type { CameraType } from './Camera/d';
 export type { CameraProperty } from './Camera/d';
 export type { BaseCameraProperty } from './Camera/d';

@@ -8,12 +8,12 @@ export class OrthographicCameraController extends BaseCameraController {
   constructor(prop: OrthographicCameraProperty) {
     super();
     this._camera = new THREE.OrthographicCamera();
-    this.setCameraSize(prop.size ?? this.size);
-    this.setCameraRange(prop.near ?? this._camera.near, prop.far ?? this._camera.far);
+    this.setSize(prop.size ?? this.size);
+    this.setRange(prop.near ?? this._camera.near, prop.far ?? this._camera.far);
     this.updateProjection();
   };
 
-  public setCameraSize(size: number): void {
+  public setSize(size: number): void {
     if (size > 0) {
       this.size = size;
       this.updateProjection();

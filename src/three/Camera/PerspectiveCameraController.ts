@@ -7,12 +7,12 @@ export class PerspectiveCameraController extends BaseCameraController {
   constructor(prop: PerspectiveCameraProperty) {
     super();
     this._camera = new THREE.PerspectiveCamera();
-    this.setCameraFOV(prop.fov ?? this._camera.fov);
-    this.setCameraRange(prop.near ?? this._camera.near, prop.far ?? this._camera.far);
+    this.setFOV(prop.fov ?? this._camera.fov);
+    this.setRange(prop.near ?? this._camera.near, prop.far ?? this._camera.far);
     this.updateProjection();
   };
 
-  public setCameraFOV(fov: number): void {
+  public setFOV(fov: number): void {
     if (fov > 0 && fov < 180) {
       this._camera.fov = fov;
       this._camera.updateProjectionMatrix();

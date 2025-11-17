@@ -10,7 +10,7 @@ export abstract class BaseCameraController implements ICameraController {
     this.updateAspect();
   };
 
-  public setCameraNear(near: number): void {
+  public setNear(near: number): void {
     if (near < this._camera.far) {
       this._camera.near = near;
       this._camera.updateProjectionMatrix();
@@ -19,7 +19,7 @@ export abstract class BaseCameraController implements ICameraController {
     };
   };
 
-  public setCameraFar(far: number): void {
+  public setFar(far: number): void {
     if (far > this._camera.near) {
       this._camera.far = far;
       this._camera.updateProjectionMatrix();
@@ -28,30 +28,32 @@ export abstract class BaseCameraController implements ICameraController {
     };
   };
 
-  public setCameraRange(near: number, far: number): void {
+  public setRange(near: number, far: number): void {
     if (near > far) throw new Error('Value of far must be greater than near');
     this._camera.near = near;
     this._camera.far = far;
     this._camera.updateProjectionMatrix();
   };
 
-  public moveCamera(x: number, y: number, z: number, speed: number = 1): void {
-    this._camera.position.x += x * speed;
-    this._camera.position.y += y * speed;
-    this._camera.position.z += z * speed;
+  public move(dx: number, dy: number, dz: number, speed: number = 1): void {
+    this._camera.position.x += dx * speed;
+    this._camera.position.y += dy * speed;
+    this._camera.position.z += dz * speed;
   };
 
-  public setCameraPos(x: number, y: number, z: number): void {
+  public setPos(x: number, y: number, z: number): void {
     this._camera.position.set(x, y, z);
   };
 
-  public setCameraLookAt(x: number, y: number, z: number): void {
+  public setLookAt(x: number, y: number, z: number): void {
     this._camera.lookAt(x, y, z);
   };
 
   protected updateAspect(): void {
     this.aspect = window.innerWidth / window.innerHeight;
   };
+
+  protected abstract updateProjection(): void;
 
   private handleResize = (): void => {
     this.updateAspect();
@@ -73,6 +75,4 @@ export abstract class BaseCameraController implements ICameraController {
   public get camera(): THREE.OrthographicCamera | THREE.PerspectiveCamera {
     return this._camera;
   };
-
-  protected abstract updateProjection(): void;
 };

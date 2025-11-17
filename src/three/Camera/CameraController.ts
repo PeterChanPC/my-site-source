@@ -22,44 +22,44 @@ export class CameraController implements ICameraController {
     };
   };
 
-  public setCameraSize?(size: number): void {
-    if (this.controller.setCameraSize) {
-      this.controller.setCameraSize(size);
+  public setSize?(size: number): void {
+    if (this.controller.setSize) {
+      this.controller.setSize(size);
     } else {
       throw new Error('setCameraSize is only available for orthographic camera, use setCameraFOV instead');
     };
   };
 
-  public setCameraFOV?(fov: number): void {
-    if (this.controller.setCameraFOV) {
-      this.controller.setCameraFOV(fov);
+  public setFOV?(fov: number): void {
+    if (this.controller.setFOV) {
+      this.controller.setFOV(fov);
     } else {
       throw new Error('setCameraFOV is only available for perspective camera, use setCameraSize instead');
     };
   };
 
-  public setCameraNear(near: number): void {
-    this.controller.setCameraNear(near);
+  public setNear(near: number): void {
+    this.controller.setNear(near);
   };
 
-  public setCameraFar(far: number): void {
-    this.controller.setCameraFar(far);
+  public setFar(far: number): void {
+    this.controller.setFar(far);
   };
 
-  public setCameraRange(near: number, far: number): void {
-    this.controller.setCameraRange(near, far);
+  public setRange(near: number, far: number): void {
+    this.controller.setRange(near, far);
   };
 
-  public moveCamera(x: number, y: number, z: number, speed?: number): void {
-    this.controller.moveCamera(x, y, z, speed);
+  public move(x: number, y: number, z: number, speed?: number): void {
+    this.controller.move(x, y, z, speed);
   };
 
-  public setCameraPos(x: number, y: number, z: number): void {
-    this.controller.setCameraPos(x, y, z);
+  public setPos(x: number, y: number, z: number): void {
+    this.controller.setPos(x, y, z);
   };
 
-  public setCameraLookAt(x: number, y: number, z: number): void {
-    this.controller.setCameraLookAt(x, y, z);
+  public setLookAt(x: number, y: number, z: number): void {
+    this.controller.setLookAt(x, y, z);
   };
 
   public addResizeListener(): void {
