@@ -16,6 +16,7 @@ export class Grid implements MonoBehavior {
   // interactive variables 
   private readonly maxMouseEffect: number = 3.5;
   private readonly mouseEffectSigma: number = 8;
+  private readonly tailEffect: number[] = [];
   // general
   private readonly size: number;
   private readonly gap: number = 0.02;
@@ -31,6 +32,7 @@ export class Grid implements MonoBehavior {
       this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.3, 0.7)
       this.speeds[i] = Math.random() * this.speedCoe + this.minSpeed; // range(0.3, 1)
       this.phases[i] = this.phaseCoe * Math.random(); // range(0, 2 * Math.PI)
+      this.tailEffect.push(0);
     };
   };
 
@@ -55,10 +57,13 @@ export class Grid implements MonoBehavior {
         let distance = 999;
         if (mouseWorldPos) distance = (mouseWorldPos.x - x - this.mesh.position.x) ** 2 + (mouseWorldPos.y - y - this.mesh.position.y) ** 2; // distance between cube and mouse (squared)
         const mouseEffect = this.maxMouseEffect * Math.exp(-distance / this.mouseEffectSigma) // gaussian peak
+        let t = 0.5;
+        if (mouseEffect < this.tailEffect[count]) t = 0.2;
+        this.tailEffect[count] = THREE.MathUtils.lerp(this.tailEffect[count], mouseEffect, t);
 
         this.dummy.position.x = x;
         this.dummy.position.y = y;
-        this.dummy.position.z = z + mouseEffect;
+        this.dummy.position.z = z + this.tailEffect[count];
         this.dummy.updateMatrix();
         this.mesh.setMatrixAt(count, this.dummy.matrix);
         count++;
