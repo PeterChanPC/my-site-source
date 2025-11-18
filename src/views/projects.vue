@@ -7,26 +7,20 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from '@/stores/theme.store';
-import { onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
+import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ProjectGame } from '@/three/d';
 
 const { t } = useI18n();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
-const themeStore = useThemeStore();
 
-// onMounted(() => {
-//   if (!canvas.value) return;
-//   const sceneController = new SceneController(canvas.value, 'project', themeStore.theme);
+onMounted(() => {
+  if (!canvas.value) return;
+  const game = new ProjectGame(canvas.value);
 
-//   sceneController.startScene();
-
-//   watch(themeStore, () => sceneController.setTheme(themeStore.theme));
-
-//   onUnmounted(() => {
-//     sceneController.endScene();
-//   });
-// });
+  game.start();
+  onUnmounted(() => game.end());
+});
 </script>
 
 <style scoped lang="scss"></style>

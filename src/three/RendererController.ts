@@ -39,5 +39,6 @@ export class RendererController implements MonoBehavior {
 
   public end(): void {
     window.removeEventListener('resize', this.handleResize);
+    this._renderer.dispose();
   };
 };

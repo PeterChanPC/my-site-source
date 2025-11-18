@@ -5,20 +5,19 @@ export class Camera implements MonoBehavior {
 
   public start(): void {
     this.cameraController.addResizeListener();
-    
     this.cameraController.setPos(0, 10, 50);
     this.cameraController.setLookAt(0, 0, 0);
   };
 
   public update(): void {
-    
+
   };
 
   public end(): void {
     this.cameraController.removeResizeListener();
   };
 
-  public get obj(): THREE.Camera {
+  public get camera(): THREE.Camera {
     return this.cameraController.camera;
   };
 };

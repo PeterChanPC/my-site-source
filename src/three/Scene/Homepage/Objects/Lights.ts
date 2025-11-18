@@ -1,5 +1,6 @@
-import { Themes } from "@/stores/d";
-import { THREE, MonoBehavior } from "@/three/d";
+import { THREE, MonoBehavior, Themes } from "@/three/d";
+import { homepageScene } from "../d";
+import { useThemeStore } from "@/stores/theme.store";
 
 export class Lights implements MonoBehavior {
   private ambientLightIntensityLight = 1;
@@ -13,18 +14,10 @@ export class Lights implements MonoBehavior {
   private ambientLight = new THREE.AmbientLight(0xcccccc);
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
-  private theme: Themes = Themes.Light;
   private alpha: number = 0.1;
+  private themeStore = useThemeStore();
 
-  constructor(theme: Themes) {
-    if (theme) this.theme = theme;
-  };
-
-  public setTheme(theme: Themes) {
-    this.theme = theme;
-  };
-
-  public start(scene: THREE.Scene): void {
+  public start(): void {
     this.spotlightPrimary.power = 50000;
     this.spotlightPrimary.penumbra = 0.8;
     this.spotlightPrimary.shadow.intensity = 0.8;
@@ -35,13 +28,13 @@ export class Lights implements MonoBehavior {
     this.spotlightSecondary.shadow.intensity = 0.8;
     this.spotlightSecondary.castShadow = true;
 
-    if (this.theme === Themes.Light) {
+    if (this.themeStore.theme === Themes.Light) {
       this.spotlightPrimary.position.set(50, 50, 50);
 
       this.ambientLight.intensity = this.ambientLightIntensityLight;
       this.spotlightPrimary.angle = this.spotlightPrimaryAngleLight;
       this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
-    } else if (this.theme === Themes.Dark) {
+    } else if (this.themeStore.theme === Themes.Dark) {
       this.spotlightPrimary.position.set(-50, 50, 50);
 
       this.ambientLight.intensity = this.ambientLightIntensityDark;
@@ -51,11 +44,11 @@ export class Lights implements MonoBehavior {
 
     this.spotlightSecondary.position.set(-50, 50, 50);
 
-    scene.add(this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
+    homepageScene.add(this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
   };
 
   public update(): void {
-    if (this.theme === 'light') {
+    if (this.themeStore.theme === 'light') {
       this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
       this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleLight, this.alpha);
       this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, this.alpha);
@@ -69,6 +62,7 @@ export class Lights implements MonoBehavior {
   };
 
   public end(): void {
+    homepageScene.remove(this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
     this.ambientLight.dispose();
     this.spotlightPrimary.dispose();
     this.spotlightSecondary.dispose();

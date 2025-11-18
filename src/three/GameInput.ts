@@ -1,4 +1,4 @@
-import { MonoBehavior, THREE } from "./d";
+import { THREE, MonoBehavior } from "./d";
 
 enum Direction {
   Up = 0,

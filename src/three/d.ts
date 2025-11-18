@@ -1,4 +1,5 @@
-export * as THREE from 'three';
+import * as THREE from 'three';
+export { THREE };
 
 export type { MonoBehavior } from './MonoBehavior';
 
@@ -12,13 +13,14 @@ export { CameraController } from './Camera/d';
 export { OrthographicCameraController } from './Camera/d';
 export { PerspectiveCameraController } from './Camera/d';
 
-export { HomepageGame } from './Scene/Homepage/HomepageGame';
-// export { ProjectSceneController } from './Scene/Projects/ProjectSceneController';
-
 export { RendererController } from './RendererController';
+import { GameInput } from './GameInput';
+import { Physics } from './Physics';
+export { Themes } from '@/stores/d';
 
-export { GameInput } from './GameInput';
-export { Physics } from './Physics';
+export const gameInput = new GameInput();
+export const physics = new Physics();
+export const clock = new THREE.Clock();
 
-export { Grid } from './Scene/Projects/Objects/Grid';
-export { ChunkLoader } from './Scene/Projects/Objects/ChunkLoader';
+export { HomepageGame } from './Scene/Homepage/HomepageGame';
+export { ProjectGame } from './Scene/Projects/ProjectGame';

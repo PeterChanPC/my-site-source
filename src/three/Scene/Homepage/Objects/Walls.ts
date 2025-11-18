@@ -1,4 +1,5 @@
 import { THREE, MonoBehavior } from "@/three/d";
+import { homepageScene } from "../d";
 
 export class Walls implements MonoBehavior {
   private wallMaterial_1 = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
@@ -13,7 +14,7 @@ export class Walls implements MonoBehavior {
   private wall_4 = new THREE.Mesh(this.wallGeometry, this.wallMaterial_2);
   private floor = new THREE.Mesh(this.floorGeometry, this.floorMaterial);
 
-  public start(scene: THREE.Scene): void {
+  public start(): void {
     this.wall_1.position.set(0, 0, -10);
     this.wall_2.position.set(-5, 0, 0);
     this.wall_2.rotation.set(0, Math.PI / 2, 0);
@@ -27,7 +28,7 @@ export class Walls implements MonoBehavior {
     this.wall_1.receiveShadow = true;
     this.floor.receiveShadow = true;
 
-    scene.add(this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.floor);
+    homepageScene.add(this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.floor);
   };
 
   public update(): void {
@@ -35,6 +36,7 @@ export class Walls implements MonoBehavior {
   };
 
   public end(): void {
+    homepageScene.remove(this.wall_1, this.wall_2, this.wall_3, this.wall_4, this.floor);
     this.wallMaterial_1.dispose();
     this.wallMaterial_2.dispose();
     this.floorMaterial.dispose();

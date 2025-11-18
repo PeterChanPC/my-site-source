@@ -1,4 +1,5 @@
-import { THREE, Physics, GameInput, MonoBehavior } from "@/three/d";
+import { THREE, MonoBehavior, physics, gameInput, clock } from "@/three/d";
+import { homepageScene, homepageCamera } from "../d";
 import texture from '@/assets/img/texture.webp';
 
 export class Player implements MonoBehavior {
@@ -8,8 +9,6 @@ export class Player implements MonoBehavior {
   private readonly bounciness: number = 1;
   private readonly forceCoe: number = 30;
   private readonly dragCoe: number = 3;
-  private readonly gameInput: GameInput;
-  private readonly physics: Physics;
   private readonly mousePosYOffset: number = 100;
   private moveVec: THREE.Vector2 = new THREE.Vector2(0, 0);
   private displacement: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
@@ -26,17 +25,12 @@ export class Player implements MonoBehavior {
   private playerMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, map: this.playerTexture });
   private player = new THREE.Mesh(this.playerGeometry, this.playerMaterial);
 
-  constructor(gameInput: GameInput, physics: Physics) {
-    this.gameInput = gameInput;
-    this.physics = physics;
-  };
-
   private updateMoveVec(): void {
-    if (this.gameInput.isKeyboard) {
-      this.moveVec = this.gameInput.getMovementVectorNormalized();
-    } else if (this.gameInput.isMouse) {
-      const mousePos = this.gameInput.mousePos;
-      const mouseWorldPos = this.physics.screenPointToWorld(mousePos.x, mousePos.y + this.mousePosYOffset);
+    if (gameInput.isKeyboard) {
+      this.moveVec = gameInput.getMovementVectorNormalized();
+    } else if (gameInput.isMouse) {
+      const mousePos = gameInput.mousePos;
+      const mouseWorldPos = physics.screenPointToWorld(homepageCamera.camera, mousePos.x, mousePos.y + this.mousePosYOffset);
       if (mouseWorldPos) {
         const moveDir = mouseWorldPos.sub(this.player.position).normalize();
         if (moveDir) this.moveVec.set(moveDir.x, moveDir.z);
@@ -67,26 +61,26 @@ export class Player implements MonoBehavior {
     this._velocity.add(dv);
   };
 
-  private safeLinecast(origin: THREE.Vector3, dir: THREE.Vector3): boolean {
-    return this.physics.linecast(origin, dir, this.playerRadius, this.playerRadius, this.playerRadius);
+  private safeLinecast(dir: THREE.Vector3): boolean {
+    return physics.linecast(this.player.position, dir, this.playerRadius, this.playerRadius);
   };
 
   private checkCollision(): void {
-    let canMove = this.safeLinecast(this.player.position, this._velocity) && this.safeLinecast(this.player.position, this._force); // check move direction
+    let canMove = this.safeLinecast(this._velocity) && this.safeLinecast(this._force); // check move direction
 
     if (!canMove) { // if move direction is blocked
       this.velocityX.set(this._velocity.x, 0, 0);
       this.velocityZ.set(0, 0, this._velocity.z);
-      canMove = this.safeLinecast(this.player.position, this.velocityX); // check X
+      canMove = this.safeLinecast(this.velocityX); // check X
       if (canMove) { // if X can move
-        canMove = this.safeLinecast(this.player.position, this.velocityZ); // check Z
+        canMove = this.safeLinecast(this.velocityZ); // check Z
         if (canMove) { // if Z can also move
           this._velocity.set(this.velocityX.x, 0, this.velocityZ.z); // move along X and Z
         } else { // if Z cannot move
           this._velocity.set(this.velocityX.x, 0, -this.velocityZ.z * this.bounciness); // move along X and bounce back along Z
         };
       } else { // if X cannot move
-        canMove = this.safeLinecast(this.player.position, this.velocityZ); // check Z
+        canMove = this.safeLinecast(this.velocityZ); // check Z
         if (canMove) { // if Z can move
           this._velocity.set(-this.velocityX.x * this.bounciness, 0, this.velocityZ.z); // move along Z and bounce back along X
         } else { // if both X and Z cannot move
@@ -96,17 +90,18 @@ export class Player implements MonoBehavior {
     };
   };
 
-  private applyMovement(dt: number): void {
+  private applyMovement(): void {
+    const dt = clock.getDelta();
     this.updateMoveVec();
     this.updateForce(this.forceCoe);
     this.updateDrag(this.dragCoe);
     this.updateVelocity(dt);
     this.checkCollision();
-    this.displacement.copy(this._velocity).multiplyScalar(dt)
+    this.displacement.copy(this._velocity).multiplyScalar(dt);
     this.player.position.add(this.displacement);
   };
 
-  public start(scene: THREE.Scene): void {
+  public start(): void {
     this.playerTexture.wrapS = THREE.RepeatWrapping;
     this.playerTexture.wrapT = THREE.RepeatWrapping;
     this.playerTexture.repeat.set(3, 3);
@@ -114,15 +109,15 @@ export class Player implements MonoBehavior {
     this.player.position.set(3, 0, -2);
     this.player.castShadow = true;
 
-    scene.add(this.player);
+    homepageScene.add(this.player);
   };
 
-  public update(clock: THREE.Clock): void {
-    const dt = clock.getDelta();
-    this.applyMovement(dt);
+  public update(): void {
+    this.applyMovement();
   };
 
   public end(): void {
+    homepageScene.remove(this.player);
     this.playerMaterial.dispose();
     this.playerTexture.dispose();
     this.playerGeometry.dispose();
@@ -130,17 +125,5 @@ export class Player implements MonoBehavior {
 
   public get obj(): THREE.Mesh {
     return this.player;
-  };
-
-  public get force(): THREE.Vector3 {
-    return this._force;
-  };
-
-  public get drag(): THREE.Vector3 {
-    return this._drag;
-  };
-
-  public get velocity(): THREE.Vector3 {
-    return this._velocity;
   };
 };
