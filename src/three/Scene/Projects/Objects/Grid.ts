@@ -16,7 +16,7 @@ export class Grid implements MonoBehavior {
   // interactive variables 
   private readonly maxMouseEffect: number = 3.5;
   private readonly mouseEffectSigma: number = 8;
-  private readonly tailEffect: number[] = [];
+  private tailEffect: number[] = [];
   // general
   private readonly size: number;
   private readonly gap: number = 0.02;

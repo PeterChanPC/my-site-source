@@ -16,7 +16,7 @@ export class GameInput implements MonoBehavior {
   private _mouseYSpeed: number;
   private _isMouse: boolean = false;
   private _isMouseMovingTimer: ReturnType<typeof setTimeout> = setTimeout(() => { });
-  private _mousePos: THREE.Vector2 = new THREE.Vector2(9999, 9999);
+  private _mousePos: THREE.Vector2 = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
   private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
 
   constructor(mouseXSpeed: number = 11000, mouseYSpeed: number = 9500) {
@@ -89,12 +89,12 @@ export class GameInput implements MonoBehavior {
     let y = 0;
     if (event.type === 'mousemove') {
       const mouseEvent = event as MouseEvent;
-      x = mouseEvent.clientX;
-      y = mouseEvent.clientY;
+      x = THREE.MathUtils.lerp(this.mousePos.x, mouseEvent.clientX, 0.5);
+      y = THREE.MathUtils.lerp(this.mousePos.y, mouseEvent.clientY, 0.5);
     } else if (event.type === 'touchmove') {
       const touchEvent = event as TouchEvent
-      x = touchEvent.touches[0].clientX;
-      y = touchEvent.touches[0].clientY;
+      x = THREE.MathUtils.lerp(this.mousePos.x, touchEvent.touches[0].clientX, 0.5);
+      y = THREE.MathUtils.lerp(this.mousePos.y, touchEvent.touches[0].clientY, 0.5);
     };
 
     const dx = (x - this.mousePos.x) * this._mouseXSpeed / window.innerWidth / window.innerHeight;
