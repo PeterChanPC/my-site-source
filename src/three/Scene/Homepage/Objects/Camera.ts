@@ -1,12 +1,27 @@
-import { THREE, MonoBehavior, CameraController } from "@/three/d";
+import { THREE, MonoBehavior } from "@/three/d";
 
 export class Camera implements MonoBehavior {
-  private cameraController: CameraController = new CameraController({ type: 'orthographic', size: 5, near: -100, far: 1000 });
+  private _camera: THREE.OrthographicCamera = new THREE.OrthographicCamera();
+  private size: number = 5;
+  private isListenerAdded = false;
+
+  private updateProjection = (): void => {
+    const aspect = window.innerWidth / window.innerHeight;
+    this._camera.top = this.size / aspect;
+    this._camera.bottom = -this.size / aspect;
+    this._camera.right = this.size;
+    this._camera.left = -this.size;
+    this._camera.updateProjectionMatrix();
+  };
 
   public start(): void {
-    this.cameraController.addResizeListener();
-    this.cameraController.setPos(0, 10, 50);
-    this.cameraController.setLookAt(0, 0, 0);
+    this.updateProjection();
+    this._camera.position.set(0, 10, 50);
+    this._camera.lookAt(0, 0, 0);
+
+    if (this.isListenerAdded) return;
+    window.addEventListener('resize', this.updateProjection);
+    this.isListenerAdded = true;
   };
 
   public update(): void {
@@ -14,10 +29,11 @@ export class Camera implements MonoBehavior {
   };
 
   public end(): void {
-    this.cameraController.removeResizeListener();
+    window.removeEventListener('resize', this.updateProjection);
+    this.isListenerAdded = false;
   };
 
-  public get camera(): THREE.Camera {
-    return this.cameraController.camera;
+  public get camera(): THREE.OrthographicCamera {
+    return this._camera;
   };
 };
