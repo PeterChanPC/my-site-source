@@ -32,8 +32,8 @@ export class ChunkLoader implements MonoBehavior {
         neededChunks.add(key);
         if (!this.loadedChunks.has(key)) {
           const chunk = new Grid(this.geometry, this.material, this._size);
-          const chunkX = x * this._size * 1.02;
-          const chunkY = y * this._size * 1.02;
+          const chunkX = x * this._size;
+          const chunkY = y * this._size;
           chunk.setPos(chunkX, chunkY, 0);
           chunk.start();
           this.loadedChunks.set(key, chunk);

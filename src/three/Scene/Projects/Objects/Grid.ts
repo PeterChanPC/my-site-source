@@ -19,7 +19,6 @@ export class Grid implements MonoBehavior {
   private tailEffect: number[] = [];
   // general
   private readonly size: number;
-  private readonly gap: number = 0.02;
   private readonly dummy: THREE.Object3D = new THREE.Object3D();
   private readonly mesh: THREE.InstancedMesh;
 
@@ -27,6 +26,9 @@ export class Grid implements MonoBehavior {
     this.size = size;
     const count = size ** 2;
     this.mesh = new THREE.InstancedMesh(geometry, material, count);
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
+    
 
     for (let i = 0; i < count; i++) {
       this.amplitudes[i] = Math.random() * this.ampCoe + this.minAmp; // range(0.3, 0.7)
@@ -50,8 +52,8 @@ export class Grid implements MonoBehavior {
     const mouseWorldPos = physics.screenPointToWorld(projectCamera.camera, gameInput.mousePos.x, gameInput.mousePos.y);
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        const x = i * (1 + this.gap);
-        const y = j * (1 + this.gap);
+        const x = i;
+        const y = j;
         const z = this.amplitudes[count] * Math.sin(clock.getElapsedTime() * this.speeds[count] + this.phases[count]); // z = A * sin(wt + theta)
 
         let distance = 999;
