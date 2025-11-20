@@ -7,7 +7,11 @@ export class ChunkLoader implements MonoBehavior {
   private loadedChunks: Map<string, Grid> = new Map();
   private center: THREE.Vector2 = new THREE.Vector2(0, 0);
   private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
-  private material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  private material: THREE.MeshStandardMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.5,
+    metalness: 0.1,
+  });
 
   constructor(size: number, _renderDist: number) {
     this._size = size;
