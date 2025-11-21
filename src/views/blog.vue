@@ -6,8 +6,13 @@
 </template>
 
 <script setup lang="ts">
+import { useLoadingStore } from '@/stores/loading.store';
+import { onMounted } from 'vue';
+const loadingStore = useLoadingStore();
 
+onMounted(() => {
+  loadingStore.done();
+});
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

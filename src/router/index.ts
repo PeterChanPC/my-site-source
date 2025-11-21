@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useLoadingStore } from '@/stores/loading.store';
 import HomeView from '@/views/homepage.vue';
 import ProjectView from '@/views/projects.vue';
 import BlogView from '@/views/blog.vue';
@@ -36,6 +37,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const loadingStore = useLoadingStore()
+  loadingStore.load();
   const path = sessionStorage.redirect;
 
   // handle github pages 404 redirect

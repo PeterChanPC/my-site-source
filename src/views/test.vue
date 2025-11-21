@@ -1,9 +1,10 @@
 <template>
-  <projectOverlay></projectOverlay>
 </template>
 
 <script setup lang="ts">
-import projectOverlay from '@/components/project-overlay.vue';
+import { useLoadingStore } from '@/stores/loading.store';
+const loadingStore = useLoadingStore();
+loadingStore.load();
 </script>
 
 <style lang="scss" scoped>

@@ -1,9 +1,11 @@
 <template>
+  <Loading />
   <GlobalHeader />
   <router-view />
 </template>
 
 <script setup lang="ts">
+import Loading from './layout/loading.vue';
 import GlobalHeader from '@/layout/global-header.vue';
 import { watchEffect } from 'vue';
 import { useThemeStore } from './stores/theme.store';

@@ -17,15 +17,18 @@
 import AnimatedTxt from '@/components/animated-txt.vue';
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useLoadingStore } from '@/stores/loading.store';
 import { HomepageGame } from '@/three/d';
 
 const { t } = useI18n();
+const loadingStore = useLoadingStore();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 
 onMounted(() => {
   if (!canvas.value) return;
   const game = new HomepageGame(canvas.value);
   game.start();
+  loadingStore.done();
 
   onUnmounted(() => game.end());
 });

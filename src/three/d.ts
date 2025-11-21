@@ -1,13 +1,13 @@
 import * as THREE from 'three';
+import { GameInput } from './GameInput';
+import { Physics } from './Physics';
+
 export { THREE };
 
 export type { MonoBehavior } from './MonoBehavior';
 
 export { RendererController } from './RendererController';
-import { GameInput } from './GameInput';
-import { Physics } from './Physics';
 export { Themes } from '@/stores/d';
-
 export const gameInput = new GameInput();
 export const physics = new Physics();
 export const clock = new THREE.Clock();
