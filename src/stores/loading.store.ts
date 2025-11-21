@@ -4,7 +4,7 @@ import { ref } from "vue";
 export const useLoadingStore = defineStore('loading', () => {
   const isLoading = ref<boolean>(true);
   const isVisible = ref<boolean>(true);
-  const interval: number = 5000;
+  const interval: number = 1000;
 
   const load = (): void => {
     isLoading.value = true;

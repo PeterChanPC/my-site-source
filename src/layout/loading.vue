@@ -1,7 +1,9 @@
 <template>
   <div v-if="loadingStore.isVisible" :class="['absolute flex row a-center j-center w-full h-full z-100']">
-    <div ref="rect1" class="absolute w-full t-0 r-0.100 h-0.50 bg-primary">1</div>
-    <div ref="rect2" class="absolute w-full b-0 l-0.100 h-0.50 bg-primary">2</div>
+    <div ref="rect1" class="absolute w-0.25 h-full t-0.100 l-0 bg-primary"></div>
+    <div ref="rect2" class="absolute w-0.25 h-full t-0.100 l-0.25 bg-primary"></div>
+    <div ref="rect3" class="absolute w-0.25 h-full t-0.100 l-0.50 bg-primary"></div>
+    <div ref="rect4" class="absolute w-0.25 h-full t-0.100 l-0.75 bg-primary"></div>
   </div>
 </template>
 
@@ -13,27 +15,85 @@ export default defineComponent({
   name: 'loading',
   setup() {
     const loadingStore = useLoadingStore();
+    const duration = loadingStore.interval * 0.25;
 
     const rect1 = useTemplateRef<HTMLDivElement>('rect1');
     const rect2 = useTemplateRef<HTMLDivElement>('rect2');
+    const rect3 = useTemplateRef<HTMLDivElement>('rect3');
+    const rect4 = useTemplateRef<HTMLDivElement>('rect4');
     const keyframes1: Keyframe[] = [
-      { right: '100%' },
-      { right: '0' },
+      { top: '100%' },
+      { top: '0' },
     ];
     const keyframes2: Keyframe[] = [
-      { left: '100%' },
-      { left: '0' },
+      { top: '0' },
+      { top: '100%' },
     ];
-    const options: KeyframeAnimationOptions = {
-      duration: loadingStore.interval,
-      easing: 'ease-out',
-      fill: 'both',
+
+    function load(): void {
+      rect1.value?.animate(keyframes1, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: 0,
+      });
+      rect2.value?.animate(keyframes1, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration,
+      });
+      rect3.value?.animate(keyframes1, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration * 2,
+      });
+      rect4.value?.animate(keyframes1, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration * 3,
+      });
+    };
+
+    function done(): void {
+      rect1.value?.animate(keyframes2, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: 0,
+      });
+      rect2.value?.animate(keyframes2, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration,
+      });
+      rect3.value?.animate(keyframes2, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration * 2,
+      });
+      rect4.value?.animate(keyframes2, {
+        duration: duration,
+        easing: 'ease',
+        fill: 'both',
+        delay: duration * 3,
+      });
     };
 
     function animate() {
-      rect1.value?.animate(keyframes1, options);
-      rect2.value?.animate(keyframes2, options);
-    }
+      if (loadingStore.isLoading) {
+        load();
+      } else {
+        load();
+        setTimeout(() => {
+          done();
+        }, duration * 4);
+      };
+    };
 
     watch(loadingStore, () => animate());
 
