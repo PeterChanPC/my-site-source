@@ -63,12 +63,11 @@ export class ChunkLoader implements MonoBehavior {
   public update(): void {
     this.getCurrentGridFromWorld();
     this.updateChunks();
-    this.loadedChunks.forEach(chunk => {
-      chunk.update();
-    });
+    this.loadedChunks.forEach(chunk => chunk.update());
   };
 
   public end(): void {
+    this.loadedChunks.forEach(chunk => chunk.end());
     this.geometry.dispose();
     this.material.dispose();
   };

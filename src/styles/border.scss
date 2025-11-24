@@ -6,6 +6,10 @@
   }
 }
 
+.border-round {
+  border-radius: 50%;
+}
+
 @for $i from 0 through 50 {
   .border-radius-#{$i} {
     border-radius: $i + px;

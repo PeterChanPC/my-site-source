@@ -11,12 +11,20 @@
 // transition
 @for $i from 100 through 200 {
   .tr-#{$i} {
-    transition: all $i + ms;
+    transition: all ease $i + ms;
   }
 }
 
 .tr-1000 {
-  transition: all 1000ms;
+  transition: all ease 1000ms;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 // router-link

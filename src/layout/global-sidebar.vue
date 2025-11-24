@@ -1,6 +1,6 @@
 <template>
   <aside :class="[
-    'absolute r--200 flex flex-col t-0 w-180 h-full pt-50 pr-10 pl-10 bg-glassy tr-100 z-98',
+    'absolute r--200 flex flex-col t-0 w-180 h-full pt-50 pr-10 pl-10 bg-glassy tr-100 z-99',
     { 'sm:r-0': toggled },
   ]">
     <AHoverable to="home" :imgSrc="icons.home" :text="t('home')" shape="pill" />
@@ -14,7 +14,7 @@
     </div>
   </aside>
   <!-- background -->
-  <div :class="['bg-dark fixed t-0 l-0 w-dvw h-dvh o-0 z--0 tr-100', { 'sm:o-1 sm:z-97': toggled }]"
+  <div :class="['bg-dark fixed t-0 l-0 w-dvw h-dvh o-0 z--0 tr-100', { 'sm:o-1 sm:z-98': toggled }]"
     @click="toggleSidebar()">
   </div>
 </template>

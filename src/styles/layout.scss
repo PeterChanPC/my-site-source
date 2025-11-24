@@ -32,7 +32,7 @@
 
   @for $i from 0 through 100 {
     .#{$dir-label}-0\.#{$i} {
-      #{$dir}: $i * 1%;
+      #{$dir}: $i * 1% !important;
     }
   }
 }

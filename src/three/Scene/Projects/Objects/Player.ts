@@ -36,6 +36,7 @@ export class Player implements MonoBehavior {
   };
 
   public end(): void {
+    projectScene.remove(this.player, this.intersectPlane);
     this.player.dispose();
     this.geometry.dispose();
     this.material.dispose();

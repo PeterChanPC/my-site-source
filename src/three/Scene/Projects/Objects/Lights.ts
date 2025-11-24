@@ -28,6 +28,7 @@ export class Lights implements MonoBehavior {
   };
 
   public end(): void {
+    projectScene.remove(this.ambientLight);
     this.ambientLight.dispose();
   };
 };
