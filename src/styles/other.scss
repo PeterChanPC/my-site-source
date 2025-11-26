@@ -27,6 +27,10 @@
   visibility: hidden;
 }
 
+.cover {
+  object-fit: cover;
+}
+
 // router-link
 .router-link-exact-active span::after {
   content: "";

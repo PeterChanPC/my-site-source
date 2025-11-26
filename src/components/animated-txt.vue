@@ -37,9 +37,9 @@ export default defineComponent({
       // Capitalize, check for white space and 'I'
       text[0] = text[0].toUpperCase();
       for (let i = 0; i < props.text.length; i++) {
-        if (text[i + 1] === ' '
+        if (text[i - 1] === ' '
           || text[i + 1] === "'"
-          || text[i - 1] === ''
+          || text[i - 1] === ' '
           && text[i] === 'i') {
           text[i] = text[i].toUpperCase();
         };

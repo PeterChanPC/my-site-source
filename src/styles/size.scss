@@ -47,12 +47,28 @@
   }
 }
 
-@for $i from 0 through 100 {
+@for $i from 1 through 99 {
   .w-0\.#{$i} {
     width: $i * 1% !important;
   }
 
   .h-0\.#{$i} {
     height: $i * 1% !important;
+  }
+
+  .w-#{$i}dvw {
+    width: $i + dvw !important;
+  }
+
+  .w-#{$i}dvh {
+    width: $i + dvh !important;
+  }
+
+  .h-#{$i}dvw {
+    height: $i + dvw !important;
+  }
+
+  .h-#{$i}dvh {
+    height: $i + dvh !important;
   }
 }

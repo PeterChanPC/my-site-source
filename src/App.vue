@@ -32,7 +32,8 @@ body {
     --border-color-secondary: #{map.get(style.$border-colors, "light-secondary")};
     --txt-color: #{map.get(style.$txt-colors, "light")};
     --shadow-color: #{map.get(style.$shadow-colors, "light")};
-    --img-filter: #{map.get(style.$img-colors, "light")};
+    --img-filter: #{map.get(style.$img-filter, "light")};
+    --mix-blend-mode: #{map.get(style.$mix-blend, "light")};
   }
 }
 
@@ -45,7 +46,8 @@ body {
     --border-color-secondary: #{map.get(style.$border-colors, "dark-secondary")};
     --txt-color: #{map.get(style.$txt-colors, "dark")};
     --shadow-color: #{map.get(style.$shadow-colors, "dark")};
-    --img-filter: #{map.get(style.$img-colors, "dark")};
+    --img-filter: #{map.get(style.$img-filter, "dark")};
+    --mix-blend-mode: #{map.get(style.$mix-blend, "dark")};
   }
 }
 

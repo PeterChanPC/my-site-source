@@ -13,7 +13,8 @@ $modifiers: (
   "center": center,
   "around": space-around,
   "between": space-between,
-  "evenly": space-evenly
+  "evenly": space-evenly,
+  "end": end
 );
 
 $dirs: (
@@ -49,8 +50,8 @@ $bg-opague-colors: (
 );
 
 $border-colors: (
-  "light-primary":rgb(240, 240, 240),
-  "light-secondary":rgb(230, 230, 230),
+  "light-primary": rgb(240, 240, 240),
+  "light-secondary": rgb(230, 230, 230),
   "dark-primary": #444,
   "dark-secondary": #555
 );
@@ -65,7 +66,12 @@ $shadow-colors: (
   "dark": rgba(200, 200, 200, 0.5)
 );
 
-$img-colors: (
+$img-filter: (
   "light": invert(0%),
   "dark": invert(100%)
+);
+
+$mix-blend: (
+  "light": darken,
+  "dark": lighten
 );

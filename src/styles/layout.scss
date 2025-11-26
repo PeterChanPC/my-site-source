@@ -30,9 +30,17 @@
     }
   }
 
-  @for $i from 0 through 100 {
+  @for $i from 1 through 99 {
     .#{$dir-label}-0\.#{$i} {
       #{$dir}: $i * 1% !important;
+    }
+
+    .#{$dir-label}-#{$i}dvw {
+      #{$dir}: $i + dvw !important;
+    }
+
+    .#{$dir-label}-#{$i}dvh {
+      #{$dir}: $i + dvh !important;
     }
   }
 }
@@ -53,6 +61,12 @@
 
   .j-#{$modifier-label} {
     justify-content: $modifier;
+  }
+}
+
+@for $i from 1 through 50 {
+  .gap-#{$i} {
+    gap: $i + px;
   }
 }
 
