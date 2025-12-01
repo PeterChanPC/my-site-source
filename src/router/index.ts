@@ -38,7 +38,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const loadingStore = useLoadingStore()
-  loadingStore.load();
+  loadingStore.load(to.path);
   const path = sessionStorage.redirect;
 
   // handle github pages 404 redirect
@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     };
-  }, loadingStore.interval); // loading screen delay
+  }, loadingStore.interval); // delay call next()
 });
 
 export default router;
