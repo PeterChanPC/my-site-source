@@ -38,18 +38,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const loadingStore = useLoadingStore()
-  loadingStore.load(to.path);
+  loadingStore.load();
   const path = sessionStorage.redirect;
 
-  // handle github pages 404 redirect
   setTimeout(() => {
-    if (path && routes.find(route => route.path === path)) {
+    if (path && routes.find(route => route.path === path)) { // handle github pages 404 redirect
       sessionStorage.removeItem('redirect');
       next(path);
     } else {
       next();
     };
-  }, loadingStore.interval); // delay call next()
+  }, loadingStore.duration); // delay call next()
 });
 
 export default router;

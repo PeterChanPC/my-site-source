@@ -18,12 +18,6 @@ watchEffect(() => document.body.style.setProperty('--theme', themeStore.theme));
 @use "@/styles/style" as style;
 @use "sass:map";
 
-body {
-  margin: 0;
-  box-sizing: border-box;
-  touch-action: none;
-}
-
 @container style(--theme: light) {
   #app {
     --bg-color-primary: #{map.get(style.$bg-colors, "light-primary")};
@@ -50,6 +44,13 @@ body {
     --img-filter: #{map.get(style.$img-filter, "dark")};
     --mix-blend-mode: #{map.get(style.$mix-blend, "dark")};
   }
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  touch-action: none;
+  background: var(--bg-color-primary);
 }
 
 #app {

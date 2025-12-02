@@ -30,12 +30,16 @@
   text-wrap: nowrap;
 }
 
-@for $i from 0 through 10 {
+@for $i from 0 through 9 {
   .ls-#{$i} {
     letter-spacing: $i + px;
   }
 
   .ls-0\.#{$i} {
     letter-spacing: $i * 0.1em;
+  }
+
+  .lh-1\.#{$i}em {
+    line-height: calc(1em + $i * 0.1em) !important;
   }
 }

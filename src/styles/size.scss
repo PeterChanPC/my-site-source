@@ -34,6 +34,10 @@
     width: calc(100% - $i * 1px);
   }
 
+  .h--#{$i} {
+    height: calc(100% - $i * 1px);
+  }
+
   .w-#{$i} {
     width: $i + px;
   }

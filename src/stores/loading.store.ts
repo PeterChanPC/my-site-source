@@ -4,37 +4,20 @@ import { ref } from "vue";
 export const useLoadingStore = defineStore('loading', () => {
   const isFirstLoad = ref<boolean>(true);
   const isLoading = ref<boolean>(false);
-  const isVisible = ref<boolean>(false);
-  // delay of the showing the target page
-  // + the duration of the loading screen animation
-  const onMountTimeout = 0;
-  const firstLoadTimeout = 28000; // 28000
-  const timeout = 2100; // 2100
-  const interval = ref<number>(firstLoadTimeout);
-  const to = ref<string>('');
+  const duration = ref<number>(0);
 
-  const load = (toPath: string): void => { // called in route guard
-    if (isLoading.value) return;
-    if (isFirstLoad.value) {
-      interval.value = onMountTimeout; // for immediate show loading view
-      setTimeout(() => { // delaying for first load animation
-        isFirstLoad.value = false;
-        isVisible.value = false;
-      }, firstLoadTimeout);
-    } else {
-      interval.value = timeout;
-      setTimeout(() => {
-        isVisible.value = false;
-      }, interval.value);
-    };
+  const load = (): void => { // called in route guard
+    if (!isFirstLoad) duration.value = 1000;
     isLoading.value = true;
-    isVisible.value = true;
-    to.value = toPath;
+    console.log('store load')
   };
 
-  const done = (): void => { // called in views onMounted()
+  const done = (): void => { // called in onMounted
+    duration.value = 1000;
     isLoading.value = false;
+    isFirstLoad.value = false;
+    console.log('store done')
   };
 
-  return { isFirstLoad, isLoading, isVisible, interval, to, load, done };
+  return { isFirstLoad, isLoading, duration, load, done };
 });

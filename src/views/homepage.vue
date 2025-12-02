@@ -22,13 +22,13 @@ import { HomepageGame } from '@/three/d';
 
 const { t } = useI18n();
 const loadingStore = useLoadingStore();
+loadingStore.done();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 
 onMounted(() => {
   if (!canvas.value) return;
   const game = new HomepageGame(canvas.value);
   game.start();
-  loadingStore.done();
 
   onUnmounted(() => game.end());
 });
