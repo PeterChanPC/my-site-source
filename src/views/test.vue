@@ -2,9 +2,7 @@
 </template>
 
 <script setup lang="ts">
-import { useLoadingStore } from '@/stores/loading.store';
-const loadingStore = useLoadingStore();
-loadingStore.load();
+
 </script>
 
 <style lang="scss" scoped>

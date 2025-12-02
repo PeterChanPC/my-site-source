@@ -37,7 +37,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loadingStore = useLoadingStore()
+  const loadingStore = useLoadingStore();
   loadingStore.load();
   const path = sessionStorage.redirect;
 
@@ -49,6 +49,11 @@ router.beforeEach((to, from, next) => {
       next();
     };
   }, loadingStore.duration); // delay call next()
+});
+
+router.afterEach((to, from, next) => {
+  const loadingStore = useLoadingStore();
+  loadingStore.done();
 });
 
 export default router;
