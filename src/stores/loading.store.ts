@@ -8,7 +8,7 @@ export const useLoadingStore = defineStore('loading', () => {
   // delay of the showing the target page
   // + the duration of the loading screen animation
   const onMountTimeout = 0;
-  const firstLoadTimeout = 26000; // 26000
+  const firstLoadTimeout = 28000; // 28000
   const timeout = 2100; // 2100
   const interval = ref<number>(firstLoadTimeout);
   const to = ref<string>('');

@@ -54,6 +54,10 @@
   flex-direction: column;
 }
 
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
+
 @each $modifier-label, $modifier in var.$modifiers {
   .a-#{$modifier-label} {
     align-items: $modifier;

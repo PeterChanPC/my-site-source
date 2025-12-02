@@ -1,5 +1,11 @@
 @use "./variable" as var;
 
+@for $i from 0 through 50 {
+  .p-#{$i} {
+    padding: $i + px;
+  }
+}
+
 @each $dir-label, $dir in var.$dirs {
   .p#{$dir-label}-auto {
     padding-#{$dir}: auto;

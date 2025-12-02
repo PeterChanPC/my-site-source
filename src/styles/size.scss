@@ -30,6 +30,10 @@
 }
 
 @for $i from 0 through 500 {
+  .w--#{$i} {
+    width: calc(100% - $i * 1px);
+  }
+
   .w-#{$i} {
     width: $i + px;
   }

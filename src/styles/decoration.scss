@@ -6,3 +6,7 @@
   height: 1px;
   background-color: var(--txt-color);
 }
+
+.fading-top {
+  mask-image: linear-gradient(to top, var(--bg-color-primary), var(--bg-color-primary) 70%, transparent 100%);
+}
