@@ -4,11 +4,12 @@
       <canvas ref="canvas"></canvas>
     </div>
     <div class="grid grid-cols-2 a-start w-auto pl-0.10 z-1">
-      <AnimatedTxt class="col-span-2 hem-1 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50" />
+      <AnimatedTxt class="col-span-2 hem-1 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50"
+        :delay="getDelay()" />
       <AnimatedTxt class="sm:col-span-2 hem-1 font-size-4xl ls-0.5 txt-shadow uppercase" text="peter" :duration="1000"
-        :stagger="100" />
-      <AnimatedTxt class="hem-1 font-size-4xl ls-0.5 txt-shadow uppercase" text="chan" :duration="1000" :delay="500"
-        :stagger="100" />
+        :stagger="100" :delay="getDelay()" />
+      <AnimatedTxt class="hem-1 font-size-4xl ls-0.5 txt-shadow uppercase" text="chan" :duration="1000"
+        :delay="500 + getDelay()" :stagger="100" />
     </div>
   </div>
 </template>
@@ -17,10 +18,17 @@
 import AnimatedTxt from '@/components/animated-txt.vue';
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useLoadingStore } from '@/stores/loading.store';
 import { HomepageGame } from '@/three/d';
 
 const { t } = useI18n();
+const loadingStore = useLoadingStore();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
+
+function getDelay(): number { // add delay for loading animation
+  if (loadingStore.is1stLoad) return loadingStore.duration + 500;
+  return 0;
+};
 
 onMounted(() => {
   if (!canvas.value) return;

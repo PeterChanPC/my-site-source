@@ -48,13 +48,12 @@ watchEffect(() => document.body.style.setProperty('--theme', themeStore.theme));
 
 body {
   margin: 0;
-  box-sizing: border-box;
   touch-action: none;
-  background: var(--bg-color-primary);
 }
 
 #app {
   container-type: normal;
+  box-sizing: border-box;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
