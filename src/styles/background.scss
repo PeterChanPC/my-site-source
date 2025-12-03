@@ -13,8 +13,7 @@
   background-color: var(--bg-color-secondary) !important;
 }
 
-.bg-invert {
-  background-color: var(--bg-color-primary) !important;
+.invert {
   filter: invert(100%);
 }
 

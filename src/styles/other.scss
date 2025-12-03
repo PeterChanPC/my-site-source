@@ -13,7 +13,7 @@
 }
 
 // transition
-@for $i from 1 through 20 {
+@for $i from 0 through 20 {
   @for $j from 0 through 20 {
     .tr-#{$i}-#{$j} {
       transition-property: all;

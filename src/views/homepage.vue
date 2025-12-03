@@ -26,8 +26,9 @@ const loadingStore = useLoadingStore();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 
 function getDelay(): number { // add delay for loading animation
-  if (loadingStore.is1stLoad) return loadingStore.duration + 500;
-  return 0;
+  // fast forward for blending the animations tgt
+  if (loadingStore.is1stLoad) return loadingStore.firstLoadDuration - 300;
+  return loadingStore.normalDuration - 200;
 };
 
 onMounted(() => {

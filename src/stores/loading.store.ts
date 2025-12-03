@@ -5,21 +5,23 @@ export const useLoadingStore = defineStore('loading', () => {
   const is1stLoad = ref<boolean>(true);
   const isLoading = ref<boolean>(false);
   const duration = ref<number>(0);
+  const firstLoadDuration = 3000;
+  const normalDuration = 500;
 
   const load = (): void => { // called in beforeEach
     isLoading.value = true;
   };
 
   const done = (): void => { // called in afterEach
-    duration.value = 500; // duration after first load
+    duration.value = normalDuration; // set up duration for externals after first load
 
     setTimeout(() => {
       isLoading.value = false;
-    }, duration.value);
+    }, normalDuration);
 
     setTimeout(() => {
       is1stLoad.value = false;
-    }, 2500)
+    }, firstLoadDuration)
   };
 
   const block = (e: MouseEvent): void => {
@@ -33,5 +35,5 @@ export const useLoadingStore = defineStore('loading', () => {
   onMounted(() => window.addEventListener('click', block, true));
   onUnmounted(() => window.removeEventListener('click', block, true));
 
-  return { is1stLoad, isLoading, duration, load, done };
+  return { is1stLoad, isLoading, duration, normalDuration, firstLoadDuration, load, done };
 });
