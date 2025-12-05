@@ -6,11 +6,11 @@
     { 'ts-3-0': !loadingStore.is1stLoad },
     { 'z-97 ts-10-15': loadingStore.is1stLoad }
   ]">
-    <AnimatedTxt v-if="loadingStore.is1stLoad" text="use computer for the best experience" :duration="800" :stagger="20"
-      :delay="500" animation="fadeOut" />
+    <AnimatedTxt v-if="loadingStore.is1stLoad" :text="t('computer')" :duration="800" :stagger="20"
+      :delay="loadingStore.normalDuration" animation="fadeOut" />
     <div v-if="!loadingStore.is1stLoad"
       class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
-      <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary invert">
+      <div ref="ball1" class="absolute w-70 h-70 border-round bg-secondary invert">
       </div>
       <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey">
       </div>
@@ -22,6 +22,7 @@
 import AnimatedTxt from "@/components/animated-txt.vue";
 import { useLoadingStore } from "@/stores/loading.store";
 import { defineComponent, useTemplateRef, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: 'loading',
@@ -30,8 +31,10 @@ export default defineComponent({
   },
   setup() {
     const loadingStore = useLoadingStore();
+    const { t } = useI18n();
     const ball1 = useTemplateRef<HTMLDivElement>('ball1');
     const ball2 = useTemplateRef<HTMLDivElement>('ball2');
+
     const keyframes1: Keyframe[] = [
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(5px) scaleX(1) scaleY(1.04)', offset: 0.05 },
@@ -61,7 +64,6 @@ export default defineComponent({
       { transform: 'translateY(1px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
-
     const keyframes2: Keyframe[] = [
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(6.9px) scaleX(1) scaleY(1.04)', offset: 0.05 },
@@ -108,7 +110,7 @@ export default defineComponent({
     };
     watch(loadingStore, () => requestAnimationFrame(animate));
 
-    return { loadingStore };
+    return { loadingStore, t };
   },
 });
 </script>

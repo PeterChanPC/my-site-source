@@ -1,7 +1,7 @@
 <template>
   <div>
-    <span :class="[{ 'o-0': animation === 'fadeIn' }]" v-for="(char, i) in chars" :key="i"
-      :ref="el => setCharRef(el, i)">
+    <span :class="[{ 'o-0': animation === 'fadeIn' }, { 'o-1': animation === 'fadeOut' }]" v-for="(char, i) in chars"
+      :key="char + i" :ref="el => setCharRef(el, i)">
       {{ char }}
     </span>
   </div>
@@ -63,21 +63,17 @@ export default defineComponent({
     };
 
     // fade in animation
-    const fadeIn: Keyframe[] = [
+    const keyframes: Keyframe[] = [
       { opacity: 0 },
       { opacity: 1 },
-    ];
-    const fadeOut: Keyframe[] = [
-      { opacity: 1 },
-      { opacity: 0 },
     ];
 
     function animate() {
-      let keyframes: Keyframe[];
+      let direction: PlaybackDirection;
       if (props.animation === 'fadeIn') {
-        keyframes = fadeIn;
+        direction = 'normal';
       } else if (props.animation === 'fadeOut') {
-        keyframes = fadeOut;
+        direction = 'reverse';
       };
 
       setTimeout(() => {
@@ -87,6 +83,8 @@ export default defineComponent({
               duration: props.duration,
               delay: i * props.stagger,
               fill: 'both',
+              direction: direction,
+              iterations: 1
             },
           );
         });
