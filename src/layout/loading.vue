@@ -8,11 +8,12 @@
   ]">
     <AnimatedTxt v-if="loadingStore.is1stLoad" :text="t('computer')" :duration="800" :stagger="20"
       :delay="loadingStore.normalDuration" animation="fadeOut" />
+
     <div v-if="!loadingStore.is1stLoad"
       class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
-      <div ref="ball1" class="absolute w-70 h-70 border-round bg-secondary invert">
-      </div>
-      <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey">
+      <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>
+      <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey"></div>
+      <div ref="shadow" class="absolute w-70 h-10 border-round bg-primary glooey-invert">
       </div>
     </div>
   </div>
@@ -34,6 +35,7 @@ export default defineComponent({
     const { t } = useI18n();
     const ball1 = useTemplateRef<HTMLDivElement>('ball1');
     const ball2 = useTemplateRef<HTMLDivElement>('ball2');
+    const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
     const keyframes1: Keyframe[] = [
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 0 },
@@ -93,20 +95,23 @@ export default defineComponent({
       { transform: 'translateY(1.4px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
+    const keyframes3: Keyframe[] = [
+      { transform: 'scaleX(1) translateY(140px)', offset: 0 },
+      { transform: 'scaleX(1.2) translateY(140px)', offset: 0.48 },
+      { transform: 'scaleX(1.2) translateY(140px)', offset: 0.49 },
+      { transform: 'scaleX(1) translateY(140px)' },
+    ];
+    const options: KeyframeAnimationOptions = {
+      duration: 1000,
+      easing: 'linear',
+      iterations: 1,
+      fill: 'both'
+    };
 
     function animate(): void {
-      ball1.value?.animate(keyframes1, {
-        duration: 1000,
-        easing: 'linear',
-        iterations: 1,
-        fill: 'both'
-      });
-      ball2.value?.animate(keyframes2, {
-        duration: 1000,
-        easing: 'linear',
-        iterations: 1,
-        fill: 'both'
-      });
+      ball1.value?.animate(keyframes1, options);
+      ball2.value?.animate(keyframes2, options);
+      shadow.value?.animate(keyframes3, options);
     };
     watch(loadingStore, () => requestAnimationFrame(animate));
 

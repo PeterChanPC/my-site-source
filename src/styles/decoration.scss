@@ -12,5 +12,9 @@
 }
 
 .glooey {
-  filter: blur(5px) contrast(30);
+  filter: blur(5px) contrast(15);
+}
+
+.glooey-invert {
+  filter: invert(1) blur(5px) contrast(15);
 }
