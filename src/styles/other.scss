@@ -15,7 +15,7 @@
 // transition
 @for $i from 0 through 20 {
   @for $j from 0 through 20 {
-    .tr-#{$i}-#{$j} {
+    .ts-#{$i}-#{$j} {
       transition-property: all;
       transition-timing-function: linear;
       transition-duration: $i * 100ms;

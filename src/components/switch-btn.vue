@@ -1,13 +1,13 @@
 <template>
   <button class="flex row a-center j-center border-none bg-none w-32 h-32 font-size-16 pointer user-select-none"
     @click="onSwitch">
-    <div :class="['tr-100', { 'w-full o-1': !isActive }, { 'w-0 o-0': isActive }]">
+    <div :class="['ts-1-0', { 'w-full o-1': !isActive }, { 'w-0 o-0': isActive }]">
       <div class="relative" v-if="imgSrcL">
         <img :src="imgSrcL">
       </div>
       <span v-if="textL">{{ textL }}</span>
     </div>
-    <div :class="['tr-100', { 'w-full o-1': isActive }, { 'w-0 o-0': !isActive }]">
+    <div :class="['ts-1-0', { 'w-full o-1': isActive }, { 'w-0 o-0': !isActive }]">
       <div class="relative" v-if="imgSrcR">
         <img :src="imgSrcR">
       </div>

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <span class="o-0" v-for="(char, i) in chars" :key="i" :ref="el => setCharRef(el, i)">
+    <span :class="[{ 'o-0': animation === 'fadeIn' }]" v-for="(char, i) in chars" :key="i"
+      :ref="el => setCharRef(el, i)">
       {{ char }}
     </span>
   </div>
@@ -28,6 +29,10 @@ export default defineComponent({
     stagger: {
       type: Number,
       default: 0,
+    },
+    animation: {
+      type: String,
+      default: 'fadeIn',
     },
   },
   setup(props, { expose }) {
@@ -58,14 +63,26 @@ export default defineComponent({
     };
 
     // fade in animation
+    const fadeIn: Keyframe[] = [
+      { opacity: 0 },
+      { opacity: 1 },
+    ];
+    const fadeOut: Keyframe[] = [
+      { opacity: 1 },
+      { opacity: 0 },
+    ];
+
     function animate() {
+      let keyframes: Keyframe[];
+      if (props.animation === 'fadeIn') {
+        keyframes = fadeIn;
+      } else if (props.animation === 'fadeOut') {
+        keyframes = fadeOut;
+      };
+
       setTimeout(() => {
         charRefs.value.forEach((el, i) => {
-          el?.animate(
-            [
-              { opacity: 0 },
-              { opacity: 1 },
-            ],
+          el?.animate(keyframes,
             {
               duration: props.duration,
               delay: i * props.stagger,

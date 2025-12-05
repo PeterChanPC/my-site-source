@@ -17,6 +17,10 @@
   filter: invert(100%);
 }
 
+.mix {
+  mix-blend-mode: var(--mix-blend-mode);
+}
+
 .bg-glassy {
   backdrop-filter: blur(10px);
   box-shadow: inset 0 0 5px var(--bg-opague-color);

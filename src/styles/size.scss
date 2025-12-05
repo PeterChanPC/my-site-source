@@ -31,11 +31,11 @@
 
 @for $i from 0 through 500 {
   .w--#{$i} {
-    width: calc(100% - $i * 1px);
+    width: calc(100dvw - $i * 1px);
   }
 
   .h--#{$i} {
-    height: calc(100% - $i * 1px);
+    height: calc(100dvh - $i * 1px);
   }
 
   .w-#{$i} {
