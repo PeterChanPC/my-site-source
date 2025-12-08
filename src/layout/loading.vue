@@ -1,11 +1,5 @@
 <template>
-  <div ref="loading" :class="['fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary font-size-xl',
-    { 'o-0': !loadingStore.isLoading },
-    { 'o-1 z-97': loadingStore.isLoading },
-    { 'z--100': !loadingStore.isLoading && !loadingStore.is1stLoad },
-    { 'ts-3-0': !loadingStore.is1stLoad },
-    { 'z-97 ts-10-15': loadingStore.is1stLoad }
-  ]">
+  <div ref="loading" class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary o-1 font-size-xl z-97">
     <AnimatedTxt v-if="loadingStore.is1stLoad" :text="t('computer')" :duration="800" :stagger="20"
       :delay="loadingStore.normalDuration" animation="fadeOut" />
 
@@ -31,13 +25,18 @@ export default defineComponent({
     AnimatedTxt,
   },
   setup() {
-    const loadingStore = useLoadingStore();
     const { t } = useI18n();
+    const loadingStore = useLoadingStore();
+    const loading = useTemplateRef<HTMLDivElement>('loading');
     const ball1 = useTemplateRef<HTMLDivElement>('ball1');
     const ball2 = useTemplateRef<HTMLDivElement>('ball2');
     const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
-    const keyframes1: Keyframe[] = [
+    const keyframes1stLoad: Keyframe[] = [
+      { opacity: 0 },
+      { opacity: 1 }
+    ];
+    const keyframesBall1: Keyframe[] = [
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(5px) scaleX(1) scaleY(1.04)', offset: 0.05 },
       { transform: 'translateY(12px) scaleX(1) scaleY(1.06)', offset: 0.10 },
@@ -66,7 +65,7 @@ export default defineComponent({
       { transform: 'translateY(1px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
-    const keyframes2: Keyframe[] = [
+    const keyframesBall2: Keyframe[] = [
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(6.9px) scaleX(1) scaleY(1.04)', offset: 0.05 },
       { transform: 'translateY(16.5px) scaleX(1) scaleY(1.06)', offset: 0.10 },
@@ -95,12 +94,13 @@ export default defineComponent({
       { transform: 'translateY(1.4px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
-    const keyframes3: Keyframe[] = [
+    const keyframesShadow: Keyframe[] = [
       { transform: 'scaleX(1) translateY(140px)', offset: 0 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.48 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.49 },
       { transform: 'scaleX(1) translateY(140px)' },
     ];
+
     const options: KeyframeAnimationOptions = {
       duration: 1000,
       easing: 'linear',
@@ -108,10 +108,45 @@ export default defineComponent({
       fill: 'both'
     };
 
+    let loadStarted = false; // for removing ball animation on 1st launch
+    // loadingStore states during launch
+    // is1stLoad = true, isLoading = true
+    // is1stLoad = true, isLoading = true
+    // is1stLoad = true, isLoading = false (loadingStore.normalDuration)
+    // is1stLoad = false, isLoaing = false (loadingStore.1stLoadDuration)
     function animate(): void {
-      ball1.value?.animate(keyframes1, options);
-      ball2.value?.animate(keyframes2, options);
-      shadow.value?.animate(keyframes3, options);
+      ball1.value?.animate(keyframesBall1, options);
+      ball2.value?.animate(keyframesBall2, options);
+      shadow.value?.animate(keyframesShadow, options);
+
+      if (loadingStore.isLoading) {
+        if (loadingStore.is1stLoad) return;
+        loading.value?.animate(keyframes1stLoad, {
+          duration: 500,
+          fill: 'forwards'
+        });
+        loadStarted = true;
+      } else {
+        if (loadingStore.is1stLoad) {
+          loading.value?.animate(keyframes1stLoad, {
+            direction: 'reverse',
+            delay: 1000,
+            duration: 1000,
+            fill: 'forwards'
+          });
+          loadStarted = false;
+          return;
+        };
+
+        if (loadStarted) {
+          loading.value?.animate(keyframes1stLoad, {
+            direction: 'reverse',
+            duration: 500,
+            fill: 'forwards'
+          });
+          loadStarted = false;
+        };
+      };
     };
     watch(loadingStore, () => requestAnimationFrame(animate));
 
