@@ -1,6 +1,6 @@
 <template>
   <div ref="loading" class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary o-1 font-size-xl z-97">
-    <AnimatedTxt v-if="loadingStore.is1stLoad" :text="t('computer')" :duration="800" :stagger="20"
+    <AnimatedTxt class="flex font-size-xl sm:font-size-md" v-if="loadingStore.is1stLoad" :text="t('computer')" :duration="800" :stagger="20"
       :delay="loadingStore.normalDuration" animation="fadeOut" />
 
     <div v-if="!loadingStore.is1stLoad"
@@ -32,7 +32,7 @@ export default defineComponent({
     const ball2 = useTemplateRef<HTMLDivElement>('ball2');
     const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
-    const keyframes1stLoad: Keyframe[] = [
+    const fadeIn: Keyframe[] = [
       { opacity: 0 },
       { opacity: 1 }
     ];
@@ -109,7 +109,7 @@ export default defineComponent({
     };
 
     let loadStarted = false; // for removing ball animation on 1st launch
-    // loadingStore states during launch
+    // loadingStore states during launch:
     // is1stLoad = true, isLoading = true
     // is1stLoad = true, isLoading = true
     // is1stLoad = true, isLoading = false (loadingStore.normalDuration)
@@ -121,32 +121,30 @@ export default defineComponent({
 
       if (loadingStore.isLoading) {
         if (loadingStore.is1stLoad) return;
-        loading.value?.animate(keyframes1stLoad, {
+        loading.value?.animate(fadeIn, {
           duration: 500,
           fill: 'forwards'
         });
         loadStarted = true;
-      } else {
-        if (loadingStore.is1stLoad) {
-          loading.value?.animate(keyframes1stLoad, {
-            direction: 'reverse',
-            delay: 1000,
-            duration: 1000,
-            fill: 'forwards'
-          });
-          loadStarted = false;
-          return;
-        };
-
-        if (loadStarted) {
-          loading.value?.animate(keyframes1stLoad, {
-            direction: 'reverse',
-            duration: 500,
-            fill: 'forwards'
-          });
-          loadStarted = false;
-        };
+        return;
       };
+      if (loadingStore.is1stLoad) {
+        loading.value?.animate(fadeIn, {
+          direction: 'reverse',
+          delay: 1000,
+          duration: 1000,
+          fill: 'forwards'
+        });
+        loadStarted = false;
+        return;
+      };
+      if (!loadStarted) return;
+      loading.value?.animate(fadeIn, {
+        direction: 'reverse',
+        duration: 500,
+        fill: 'forwards'
+      });
+      loadStarted = false;
     };
     watch(loadingStore, () => requestAnimationFrame(animate));
 

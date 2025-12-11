@@ -21,16 +21,16 @@
 }
 
 @each $break-label, $break-pt in var.$break-pts {
-  @media (max-width: #{$break-pt}) {
+  @media (max-width: #{$break-pt}px) {
     @each $font-label, $size in var.$font-sizes {
       .#{$break-label}\:font-size-#{$font-label} {
-        font-size: $size;
+        font-size: $size !important;
       }
     }
 
     @for $i from 1 through 48 {
       .#{$break-label}\:font-size-#{$i} {
-        font-size: $i + px;
+        font-size: $i + px !important;
       }
     }
   }

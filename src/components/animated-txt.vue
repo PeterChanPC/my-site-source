@@ -2,13 +2,13 @@
   <div>
     <span :class="[{ 'o-0': animation === 'fadeIn' }, { 'o-1': animation === 'fadeOut' }]" v-for="(char, i) in chars"
       :key="char + i" :ref="el => setCharRef(el, i)">
-      {{ char }}
+      {{ char }}<span v-if="char === ' '">&nbsp;</span>
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, watch, onMounted, defineComponent } from 'vue';
+import { ref, computed, watch, onMounted, defineComponent, capitalize } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 
 export default defineComponent({
@@ -36,16 +36,11 @@ export default defineComponent({
     },
   },
   setup(props, { expose }) {
-    // process chars
-    const chars = computed(() => {
+    const chars = computed(() => { // process chars
       const text = props.text.split('');
-      // Capitalize, check for white space and 'I'
-      text[0] = text[0].toUpperCase();
-      for (let i = 0; i < props.text.length; i++) {
-        if (text[i - 1] === ' '
-          || text[i + 1] === "'"
-          || text[i - 1] === ' '
-          && text[i] === 'i') {
+      text[0] = text[0].toUpperCase(); // Capitalize
+      for (let i = 0; i < props.text.length; i++) {  // check for white spaces and 'I'
+        if (text[i - 1] === ' ' || text[i + 1] === "'" || text[i - 1] === ' ' && text[i] === 'i') {
           text[i] = text[i].toUpperCase();
         };
       };
@@ -53,7 +48,7 @@ export default defineComponent({
     });
 
     // process charRefs from ref + v-for
-    const charRefs = ref<(HTMLElement | null)[]>([]);
+    const charRefs = ref<(HTMLElement | null)[]>([]); // charRefs for animations
     function setCharRef(el: Element | ComponentPublicInstance | null, i: number) {
       if (el instanceof HTMLElement) {
         charRefs.value[i] = el;
