@@ -9,10 +9,12 @@ export const useLoadingStore = defineStore('loading', () => {
   const normalDuration = 500;
 
   const load = (): void => { // called in beforeEach
+    if (isLoading.value) return; // prevent spamming
     isLoading.value = true;
   };
 
   const done = (): void => { // called in afterEach
+    if (!isLoading.value) return;
     duration.value = normalDuration; // set up duration for externals after first load
 
     setTimeout(() => {

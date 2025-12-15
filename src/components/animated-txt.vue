@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch, onMounted, defineComponent, capitalize } from 'vue';
+import { ref, computed, watch, onMounted, defineComponent } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 
 export default defineComponent({
