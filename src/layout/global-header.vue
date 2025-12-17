@@ -13,7 +13,7 @@
       <SwitchBtn :onSwitch="langStore.switchLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
     </aside>
 
-    <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto" @click="toggleSidebar">
+    <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto user-select-none" @click="toggleSidebar">
       <img :src="icons.menuBurger" alt="menu" v-if="!toggled" />
       <img :src="icons.crossSmall" alt="close" v-if="toggled" />
     </button>
