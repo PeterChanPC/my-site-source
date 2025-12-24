@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteLocationNormalizedGeneric } from 'vue-router';
 import { useLoadingStore } from '@/stores/loading.store';
 import HomeView from '@/views/homepage.vue';
 import ProjectView from '@/views/projects.vue';
@@ -36,23 +36,30 @@ const router = createRouter({
   routes,
 });
 
+let des: RouteLocationNormalizedGeneric | undefined;
+let count: number = 0;
 router.beforeEach((to, from, next) => {
+  count++;
+  if (count < 1) des = to;
   const loadingStore = useLoadingStore();
   loadingStore.load();
-  const path = sessionStorage.redirect;
 
+  const path = sessionStorage.redirect;
   setTimeout(() => {
     if (path && routes.find(route => route.path === path)) { // handle github pages 404 redirect
       sessionStorage.removeItem('redirect');
-      next(path);
+      return next(path);
+    } else if (count > 1 && des) {
+      return next(des);
     } else {
-      next();
+      return next();
     };
   }, loadingStore.duration); // delay call next()
 });
 
-router.afterEach((to, from, next) => {
+router.afterEach((to, from, failure) => {
   const loadingStore = useLoadingStore();
+  if (failure) return;
   loadingStore.done();
 });
 

@@ -1,41 +1,28 @@
 import { defineStore } from "pinia";
-import { onMounted, onUnmounted, ref } from "vue";
+import { ref } from "vue";
 
 export const useLoadingStore = defineStore('loading', () => {
   const is1stLoad = ref<boolean>(true);
   const isLoading = ref<boolean>(false);
+  const loadStarted = ref<boolean>(false);
   const duration = ref<number>(0);
   const firstLoadDuration = 3000;
-  const normalDuration = 500;
+  const normalLoadDuration = 500;
+  let animationDuration = 0;
 
-  const load = (): void => { // called in beforeEach
-    if (isLoading.value) return; // prevent spamming
+  function load(): void { // called in beforeEach
     isLoading.value = true;
+    loadStarted.value = true;
   };
 
-  const done = (): void => { // called in afterEach
-    if (!isLoading.value) return;
-    duration.value = normalDuration; // set up duration for externals after first load
-
-    setTimeout(() => {
-      isLoading.value = false;
-    }, normalDuration);
-
-    setTimeout(() => {
-      is1stLoad.value = false;
-    }, firstLoadDuration)
+  function done(): void { // called in afterEach
+    duration.value = normalLoadDuration; // set up duration for externals after 1st load
+    animationDuration = normalLoadDuration * 2;
+    if (is1stLoad.value) animationDuration = firstLoadDuration;
+    setTimeout(() => is1stLoad.value = false, firstLoadDuration);  // enable ball animation, disable 1stLoad animations
+    setTimeout(() => isLoading.value = false, normalLoadDuration); // trigger endLoad animation
+    setTimeout(() => loadStarted.value = false, animationDuration); // enable navigation
   };
 
-  const block = (e: MouseEvent): void => {
-    if (isLoading.value || is1stLoad.value) {
-      e.preventDefault();
-      e.stopPropagation();
-      return;
-    };
-  };
-
-  onMounted(() => window.addEventListener('click', block, true));
-  onUnmounted(() => window.removeEventListener('click', block, true));
-
-  return { is1stLoad, isLoading, duration, normalDuration, firstLoadDuration, load, done };
+  return { is1stLoad, isLoading, loadStarted, duration, normalLoadDuration, firstLoadDuration, load, done };
 });

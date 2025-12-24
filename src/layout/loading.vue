@@ -2,7 +2,7 @@
   <div ref="loading" class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary o-1 font-size-xl"
     :style="`z-index: ${zIndex};`">
     <AnimatedTxt class="flex font-size-xl sm:font-size-md" v-if="loadingStore.is1stLoad" :text="t('computer')"
-      :duration="800" :stagger="20" :delay="loadingStore.normalDuration" animation="fadeOut" />
+      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
 
     <div v-if="!loadingStore.is1stLoad"
       class="absolute flex flex-col a-center j-center w-full h-full bg-primary z-1 glooey mix">
@@ -104,60 +104,52 @@ export default defineComponent({
     const ballOptions: KeyframeAnimationOptions = {
       duration: 1000,
       easing: 'linear',
-      iterations: 1,
+      iterations: Infinity,
       fill: 'both'
     };
-
-    function start1stLoad(): void {
-      loading.value?.animate(fadeIn, { // fade out for 1st launch
-        direction: 'reverse',
-        delay: 1000,
-        duration: 1000,
-        fill: 'forwards'
-      });
-      setTimeout(() => zIndex.value = -100, 3000); // hide loading
+    const loadingOption: KeyframeAnimationOptions = {
+      direction: 'reverse',
+      duration: 1000,
+      delay: 1000,
+      fill: 'forwards'
     };
 
-    function startLoad(): void {
-      loading.value?.animate(fadeIn, {
-        duration: 500,
-        fill: 'forwards'
-      });
-      ball1.value?.animate(keyframesBall1, ballOptions);
-      ball2.value?.animate(keyframesBall2, ballOptions);
-      shadow.value?.animate(keyframesShadow, ballOptions);
-      loadStarted = true; // enable endLoad
-    };
-
-    function endLoad(): void {
-      if (!loadStarted) return;
-      loading.value?.animate(fadeIn, {
-        direction: 'reverse',
-        duration: 500,
-        fill: 'forwards'
-      });
-      setTimeout(() => zIndex.value = -100, 500); // hide loading
-      loadStarted = false;
-    };
-
-    let loadStarted = false; // for removing ball fade out animation on 1st launch
     function animate(): void {
-      if (!loading.value) return;
-      zIndex.value = 97;
-      // loadingStore states during launch:
-      // is1stLoad = true, isLoading = true, dom is not fully rendered yet
-      // is1stLoad = true, isLoading = true, homepage dom is rendered
-      // is1stLoad = true, isLoading = false, start1stLoad
-      // is1stLoad = false, isLoading = false, hide loading
-      // loadingStore states during nav:
-      // is1stLoad = false, isLoading = true, startLoad
-      // is1stLoad = false, isLoading = false, endLoad + hide loading
-      if (loadingStore.is1stLoad && !loadingStore.isLoading) { start1stLoad(); return; };
-      if (loadingStore.isLoading && !loadingStore.is1stLoad) { startLoad(); return; };
-      endLoad();
+      if (!loadingStore.is1stLoad) {
+        ball1.value?.animate(keyframesBall1, ballOptions);
+        ball2.value?.animate(keyframesBall2, ballOptions);
+        shadow.value?.animate(keyframesShadow, ballOptions);
+      };
+      loading.value?.animate(fadeIn, loadingOption);
     };
 
-    watch(loadingStore, () => requestAnimationFrame(animate));
+    // loadingStore states during launch:
+    // is1stLoad = true, isLoading = true, dom is not fully rendered yet
+    // is1stLoad = true, isLoading = true, homepage dom is rendered
+    // is1stLoad = true, isLoading = false, start1stLoad
+    // is1stLoad = false, isLoading = false, hide loading
+    // loadingStore states during nav:
+    // is1stLoad = false, isLoading = true, startLoad
+    // is1stLoad = false, isLoading = false, endLoad + hide loading
+    let loadStarted = false;
+    watch(loadingStore, () => {
+      if (!loading.value) return;
+      if (loadingStore.is1stLoad && loadingStore.isLoading) return;
+      zIndex.value = 97;
+      if (loadingStore.is1stLoad && !loadingStore.isLoading) {
+        setTimeout(() => zIndex.value = -100, loadingStore.firstLoadDuration);
+      } else if (!loadingStore.is1stLoad && loadingStore.isLoading && !loadStarted) {
+        loadingOption.direction = 'normal';
+        loadingOption.duration = 500;
+        loadingOption.delay = 0;
+        loadStarted = true; // enable endLoad
+      } else if (loadStarted) {
+        setTimeout(() => zIndex.value = -100, loadingStore.normalLoadDuration);
+        loadingOption.direction = 'reverse';
+        loadStarted = false;
+      };
+      requestAnimationFrame(animate);
+    });
 
     return { loadingStore, t, zIndex };
   },
