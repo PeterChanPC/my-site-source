@@ -1,7 +1,7 @@
 <template>
   <component :is="isExternal ? 'a' : 'router-link'" :class="['flex row a-center h-50 user-select-none pointer', {
     'j-start': shape === 'pill'
-  }, { 'j-center': shape === 'round' }, effect,]" :to="!isExternal ? { name: to } : undefined"
+  }, { 'j-center': shape === 'round' }, effect,]" :to="isExternal ? undefined : { name: to }"
     :href="isExternal ? to : undefined" :target="target">
     <div class="relative w-50 h-50" v-if="imgSrc">
       <img :src="imgSrc" :alt="to">

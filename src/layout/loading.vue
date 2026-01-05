@@ -1,23 +1,25 @@
 <template>
-  <div ref="loading" class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary o-1 font-size-xl"
-    :style="`z-index: ${zIndex};`">
-    <AnimatedTxt class="flex font-size-xl sm:font-size-md" v-if="loadingStore.is1stLoad" :text="t('computer')"
-      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
+  <Transition :name="transitionName">
+    <div v-if="loadingStore.isLoading"
+      class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary font-size-xl z-97">
+      <AnimatedTxt v-if="loadingStore.isFirstLoad" class="flex font-size-xl sm:font-size-md" :text="t('computer')"
+        :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
 
-    <div v-if="!loadingStore.is1stLoad"
-      class="absolute flex flex-col a-center j-center w-full h-full bg-primary z-1 glooey mix">
-      <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>
-      <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey"></div>
-      <div ref="shadow" class="absolute w-70 h-10 border-round bg-primary glooey-invert"></div>
+      <div v-if="!loadingStore.isFirstLoad"
+        class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
+        <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>
+        <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey"></div>
+        <div ref="shadow" class="absolute w-70 h-10 border-round bg-primary glooey-invert"></div>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script lang="ts">
 import AnimatedTxt from "@/components/animated-txt.vue";
-import { useLoadingStore } from "@/stores/loading.store";
-import { defineComponent, ref, useTemplateRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useLoadingStore } from "@/stores/loading.store";
+import { computed, defineComponent, useTemplateRef, watch } from "vue";
 
 export default defineComponent({
   name: 'loading',
@@ -26,17 +28,11 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const zIndex = ref(97);
     const loadingStore = useLoadingStore();
-    const loading = useTemplateRef<HTMLDivElement>('loading');
     const ball1 = useTemplateRef<HTMLDivElement>('ball1');
     const ball2 = useTemplateRef<HTMLDivElement>('ball2');
     const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
-    const fadeIn: Keyframe[] = [
-      { opacity: 0 },
-      { opacity: 1 }
-    ];
     const keyframesBall1: Keyframe[] = [
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(5px) scaleX(1) scaleY(1.04)', offset: 0.05 },
@@ -66,6 +62,7 @@ export default defineComponent({
       { transform: 'translateY(1px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
+
     const keyframesBall2: Keyframe[] = [
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(6.9px) scaleX(1) scaleY(1.04)', offset: 0.05 },
@@ -95,65 +92,34 @@ export default defineComponent({
       { transform: 'translateY(1.4px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 1 }
     ];
+
     const keyframesShadow: Keyframe[] = [
       { transform: 'scaleX(1) translateY(140px)', offset: 0 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.48 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.49 },
       { transform: 'scaleX(1) translateY(140px)' },
     ];
+
     const ballOptions: KeyframeAnimationOptions = {
-      duration: 1000,
+      duration: loadingStore.duration * 2, // load + done
       easing: 'linear',
       iterations: Infinity,
       fill: 'both'
     };
-    const loadingOption: KeyframeAnimationOptions = {
-      direction: 'reverse',
-      duration: 1000,
-      delay: 1000,
-      fill: 'forwards'
-    };
 
     function animate(): void {
-      if (!loadingStore.is1stLoad) {
-        ball1.value?.animate(keyframesBall1, ballOptions);
-        ball2.value?.animate(keyframesBall2, ballOptions);
-        shadow.value?.animate(keyframesShadow, ballOptions);
-      };
-      loading.value?.animate(fadeIn, loadingOption);
+      ball1.value?.animate(keyframesBall1, ballOptions);
+      ball2.value?.animate(keyframesBall2, ballOptions);
+      shadow.value?.animate(keyframesShadow, ballOptions);
     };
 
-    // loadingStore states during launch:
-    // is1stLoad = true, isLoading = true, dom is not fully rendered yet
-    // is1stLoad = true, isLoading = true, homepage dom is rendered
-    // is1stLoad = true, isLoading = false, start1stLoad
-    // is1stLoad = false, isLoading = false, hide loading
-    // loadingStore states during nav:
-    // is1stLoad = false, isLoading = true, startLoad
-    // is1stLoad = false, isLoading = false, endLoad + hide loading
-    let loadStarted = false;
-    watch(loadingStore, () => {
-      if (!loading.value) return;
-      if (loadingStore.is1stLoad && loadingStore.isLoading) return;
-      zIndex.value = 97;
-      if (loadingStore.is1stLoad && !loadingStore.isLoading) {
-        setTimeout(() => zIndex.value = -100, loadingStore.firstLoadDuration);
-      } else if (!loadingStore.is1stLoad && loadingStore.isLoading && !loadStarted) {
-        loadingOption.direction = 'normal';
-        loadingOption.duration = 500;
-        loadingOption.delay = 0;
-        loadStarted = true; // enable endLoad
-      } else if (loadStarted) {
-        setTimeout(() => zIndex.value = -100, loadingStore.normalLoadDuration);
-        loadingOption.direction = 'reverse';
-        loadStarted = false;
-      };
-      requestAnimationFrame(animate);
-    });
+    watch(loadingStore, () => requestAnimationFrame(animate));
 
-    return { loadingStore, t, zIndex };
+    const transitionName = computed(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
+
+    return { loadingStore, transitionName, t };
   },
 });
 </script>
 
-<style lang="scss"></style>
+<style scoped lang="scss"></style>

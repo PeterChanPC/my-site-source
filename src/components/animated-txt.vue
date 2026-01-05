@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, watch, onMounted, defineComponent } from 'vue';
+import { ref, computed, onMounted, defineComponent, onUpdated } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
 
 export default defineComponent({
@@ -33,7 +33,7 @@ export default defineComponent({
     animation: {
       type: String,
       default: 'fadeIn',
-    },
+    }
   },
   setup(props, { expose }) {
     const chars = computed(() => { // process chars
@@ -72,8 +72,9 @@ export default defineComponent({
       };
 
       setTimeout(() => {
-        charRefs.value.forEach((el, i) => {
-          el?.animate(keyframes,
+        for (const [i, el] of charRefs.value.entries()) {
+          if (!el) continue;
+          el.animate(keyframes,
             {
               duration: props.duration,
               delay: i * props.stagger,
@@ -82,18 +83,13 @@ export default defineComponent({
               iterations: 1
             },
           );
-        });
+        };
       }, props.delay);
     };
 
     // animate on load
     onMounted(() => animate());
-
-    // animate on update (e.g. language change)
-    watch(chars, () => {
-      charRefs.value = [];
-      animate();
-    });
+    onUpdated(() => animate());
 
     expose();
     return { chars, setCharRef };

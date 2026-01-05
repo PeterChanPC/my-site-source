@@ -36,30 +36,24 @@ const router = createRouter({
   routes,
 });
 
-let des: RouteLocationNormalizedGeneric | undefined;
-let count: number = 0;
-router.beforeEach((to, from, next) => {
-  count++;
-  if (count < 1) des = to;
+router.beforeEach(async (to, from, next) => {
   const loadingStore = useLoadingStore();
   loadingStore.load();
 
+  const duration = loadingStore.isFirstLoad ? 0 : loadingStore.duration; // 0ms for first load page rendering
+  await new Promise(r => setTimeout(r, duration));
+
   const path = sessionStorage.redirect;
-  setTimeout(() => {
-    if (path && routes.find(route => route.path === path)) { // handle github pages 404 redirect
-      sessionStorage.removeItem('redirect');
-      return next(path);
-    } else if (count > 1 && des) {
-      return next(des);
-    } else {
-      return next();
-    };
-  }, loadingStore.duration); // delay call next()
+  if (path && routes.find(route => route.path === path)) { // handle github pages 404 redirect
+    sessionStorage.removeItem('redirect');
+    return next(path);
+  };
+
+  return next();
 });
 
-router.afterEach((to, from, failure) => {
+router.afterEach((to, from, err) => {
   const loadingStore = useLoadingStore();
-  if (failure) return;
   loadingStore.done();
 });
 
