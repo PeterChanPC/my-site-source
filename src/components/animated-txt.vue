@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'ml-auto mr-auto']"
+    <span :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'user-select-none']"
       v-for="(char, i) in chars" :key="char + i" :ref="el => setCharRef(el, i)">
       {{ char }}
     </span>
