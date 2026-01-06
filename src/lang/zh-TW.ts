@@ -19,6 +19,7 @@ const zhTW: {
     blog: '博客',
     test: '測試',
     computer: '使用電腦體驗最佳',
+    click: '按下開始',
   },
   dateTimeFormats: {
     short: {

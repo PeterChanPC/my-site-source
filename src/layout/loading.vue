@@ -1,7 +1,7 @@
 <template>
   <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
-    <AnimatedTxt v-if="loadingStore.isFirstLoad" class="flex font-size-xl sm:font-size-md" :text="t('computer')"
-      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
+    <AnimatedTxt v-if="loadingStore.isFirstLoad" class="hem-1 pl-0.10 pr-0.10 font-size-xl sm:font-size-md ls-0.2 txt-a-center"
+      :text="t('computer')" :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
   </div>
   <Transition :name="transitionName">
     <div v-if="loadingStore.isLoading"

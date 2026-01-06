@@ -19,6 +19,7 @@ const enUS: {
     blog: 'blog',
     test: 'test',
     computer: 'use computer for the best experience',
+    click: 'click to start',
   },
   dateTimeFormats: {
     short: {

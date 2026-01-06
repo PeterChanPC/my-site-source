@@ -1,15 +1,16 @@
 <template>
   <div>
-    <span :class="[{ 'o-0': animation === 'fadeIn' }, { 'o-1': animation === 'fadeOut' }]" v-for="(char, i) in chars"
-      :key="char + i" :ref="el => setCharRef(el, i)">
-      {{ char }}<span v-if="char === ' '">&nbsp;</span>
+    <span :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'ml-auto mr-auto']"
+      v-for="(char, i) in chars" :key="char + i" :ref="el => setCharRef(el, i)">
+      {{ char }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, computed, onMounted, defineComponent, onUpdated } from 'vue';
-import type { ComponentPublicInstance } from 'vue';
+import type { ComponentPublicInstance, PropType } from 'vue';
+import { Mode, SupportedMode, Animation, SupportedAnimation } from './d'
 
 export default defineComponent({
   name: 'animated-txt',
@@ -31,9 +32,13 @@ export default defineComponent({
       default: 0,
     },
     animation: {
-      type: String,
-      default: 'fadeIn',
-    }
+      type: String as PropType<SupportedAnimation>,
+      default: Animation.FadeIn,
+    },
+    mode: {
+      type: String as PropType<SupportedMode>,
+      default: Mode.Auto,
+    },
   },
   setup(props, { expose }) {
     const chars = computed(() => { // process chars
@@ -57,18 +62,31 @@ export default defineComponent({
       };
     };
 
-    // fade in animation
-    const keyframes: Keyframe[] = [
+    // fade animation
+    const fadeKeyframes: Keyframe[] = [
       { opacity: 0 },
       { opacity: 1 },
     ];
 
-    function animate() {
+    const fadeLoopKeyframes: Keyframe[] = [
+      { opacity: 0.6 },
+      { opacity: 1 },
+      { opacity: 0.6 },
+    ];
+
+    function startAnimation() {
       let direction: PlaybackDirection;
-      if (props.animation === 'fadeIn') {
+      let keyframes: Keyframe[];
+      let iterations: number = 1;
+      if (props.animation === Animation.FadeIn) {
+        keyframes = fadeKeyframes;
         direction = 'normal';
-      } else if (props.animation === 'fadeOut') {
+      } else if (props.animation === Animation.FadeOut) {
+        keyframes = fadeKeyframes;
         direction = 'reverse';
+      } else if (props.animation === Animation.FadeLoop) {
+        keyframes = fadeLoopKeyframes;
+        iterations = Infinity;
       };
 
       setTimeout(() => {
@@ -80,7 +98,8 @@ export default defineComponent({
               delay: i * props.stagger,
               fill: 'both',
               direction: direction,
-              iterations: 1
+              easing: 'linear',
+              iterations: iterations
             },
           );
         };
@@ -88,11 +107,11 @@ export default defineComponent({
     };
 
     // animate on load
-    onMounted(() => animate());
-    onUpdated(() => animate());
+    onMounted(() => { if (props.mode === Mode.Auto) startAnimation() });
+    onUpdated(() => { if (props.mode === Mode.Auto) startAnimation() });
 
-    expose();
-    return { chars, setCharRef };
+    expose({ startAnimation });
+    return { Animation, chars, setCharRef };
   },
 });
 </script>
