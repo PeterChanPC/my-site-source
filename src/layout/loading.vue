@@ -1,10 +1,11 @@
 <template>
+  <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
+    <AnimatedTxt v-if="loadingStore.isFirstLoad" class="flex font-size-xl sm:font-size-md" :text="t('computer')"
+      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
+  </div>
   <Transition :name="transitionName">
     <div v-if="loadingStore.isLoading"
-      class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary font-size-xl z-97">
-      <AnimatedTxt v-if="loadingStore.isFirstLoad" class="flex font-size-xl sm:font-size-md" :text="t('computer')"
-        :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
-
+      class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary font-size-xl z-96">
       <div v-if="!loadingStore.isFirstLoad"
         class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
         <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>

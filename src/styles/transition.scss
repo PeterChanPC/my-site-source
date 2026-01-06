@@ -32,7 +32,7 @@
 .first-load-enter-active,
 .first-load-leave-active {
   // loadingStore 3000ms first load duration
-  transition: opacity 2000ms 1000ms ease;
+  transition: opacity 1500ms 1500ms ease;
 }
 
 .first-load-leave-to {
