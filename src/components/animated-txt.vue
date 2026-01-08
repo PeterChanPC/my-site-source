@@ -1,6 +1,7 @@
 <template>
   <div>
-    <span :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'user-select-none']"
+    <span
+      :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'user-select-none']"
       v-for="(char, i) in chars" :key="char + i" :ref="el => setCharRef(el, i)">
       {{ char }}
     </span>
@@ -15,26 +16,72 @@ import { Mode, SupportedMode, Animation, SupportedAnimation } from './d'
 export default defineComponent({
   name: 'animated-txt',
   props: {
+    /**
+     * The main text content of the component.
+     * @type {String}
+     * @default ''
+     */
     text: {
       type: String,
       default: '',
     },
+
+    /**
+     * THe duration of each fading animation per character.
+     * @type {Number}
+     * @default 0
+     */
     duration: {
       type: Number,
       default: 0,
     },
+
+    /**
+     * The delay before the start of the first animation.
+     * @type {Number}
+     * @default 0
+     */
     delay: {
       type: Number,
       default: 0,
     },
+
+    /**
+     * The stagger between the start of each animation per character.
+     * @type {Number}
+     * @default 0
+     */
     stagger: {
       type: Number,
       default: 0,
     },
+
+    /**
+     * The type of the animation.
+     * 
+     * Values:
+     * - `'fadeIn'`: a fade in animation.
+     * - `'fadeOut'`: a fade out animation.
+     * - `'fadeLoop'`: a loop animation of fade in and out.
+     * 
+     * @type {SupportedAnimation}
+     * @default Animation.FadeIn (`'fadeIn'`)
+     */
     animation: {
       type: String as PropType<SupportedAnimation>,
       default: Animation.FadeIn,
     },
+
+    /**
+     * The trigger mode of the animation.
+     * 
+     * Values:
+     * - `'auto'`: automatically start the animations by onMounted and onUpdated.
+     * - `'manual'`: users have to manually to start the animations, the `startAnimation()` method is exposed to parent and can be called via a component ref.
+     * 
+     * @type {SupportedMode}
+     * @default Mode.Auto (`'auto'`)
+     */
     mode: {
       type: String as PropType<SupportedMode>,
       default: Mode.Auto,
@@ -62,7 +109,7 @@ export default defineComponent({
       };
     };
 
-    // fade animation
+    // fade animations
     const fadeKeyframes: Keyframe[] = [
       { opacity: 0 },
       { opacity: 1 },
@@ -74,6 +121,14 @@ export default defineComponent({
       { opacity: 0.6 },
     ];
 
+    /**
+     * Start the animation.
+     * 
+     * This function starts playing the animation.
+     * 
+     * @example
+     * // In parent: childRef.value.startAnimation(); // start animation
+     */
     function startAnimation() {
       let direction: PlaybackDirection;
       let keyframes: Keyframe[];
@@ -106,11 +161,11 @@ export default defineComponent({
       }, props.delay);
     };
 
-    // animate on load
+    expose({ startAnimation });
+
+    // Start the animation if (props.mode === Mode.Auto (`'auto'`))
     onMounted(() => { if (props.mode === Mode.Auto) startAnimation() });
     onUpdated(() => { if (props.mode === Mode.Auto) startAnimation() });
-
-    expose({ startAnimation });
     return { Animation, chars, setCharRef };
   },
 });
