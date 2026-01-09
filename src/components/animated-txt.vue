@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
+  import type { ComponentPublicInstance, PropType } from 'vue';
 import { ref, computed, onMounted, defineComponent, onUpdated } from 'vue';
-import type { ComponentPublicInstance, PropType } from 'vue';
 import { Mode, SupportedMode, Animation, SupportedAnimation } from './d'
 
 export default defineComponent({

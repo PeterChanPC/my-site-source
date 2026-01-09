@@ -1,7 +1,10 @@
+<!-- <AnimatedTxt> cannot be put inside <Transition> due to conflict in Opacity transition -->
+
 <template>
   <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
-    <AnimatedTxt v-if="loadingStore.isFirstLoad" class="hem-1 pl-0.10 pr-0.10 font-size-xl sm:font-size-md ls-0.2 txt-a-center"
-      :text="t('computer')" :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
+    <AnimatedTxt v-if="loadingStore.isFirstLoad"
+      class="hem-1 pl-0.10 pr-0.10 font-size-xl sm:font-size-md ls-0.2 txt-a-center" :text="t('computer')"
+      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
   </div>
   <Transition :name="transitionName">
     <div v-if="loadingStore.isLoading"
@@ -22,6 +25,12 @@ import { useI18n } from "vue-i18n";
 import { useLoadingStore } from "@/stores/loading.store";
 import { computed, defineComponent, useTemplateRef, watch } from "vue";
 
+enum Keyframes {
+  OuterBall = 0,
+  InnerBall = 1,
+  Shadow = 2
+};
+
 export default defineComponent({
   name: 'loading',
   components: {
@@ -30,11 +39,13 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const loadingStore = useLoadingStore();
-    const ball1 = useTemplateRef<HTMLDivElement>('ball1');
-    const ball2 = useTemplateRef<HTMLDivElement>('ball2');
+    const transitionName = computed(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
+
+    const outerBall = useTemplateRef<HTMLDivElement>('ball1');
+    const innerBall = useTemplateRef<HTMLDivElement>('ball2');
     const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
-    const keyframesBall1: Keyframe[] = [
+    const keyframes: Array<Keyframe[]> = [[
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(5px) scaleX(1) scaleY(1.04)', offset: 0.05 },
       { transform: 'translateY(12px) scaleX(1) scaleY(1.06)', offset: 0.10 },
@@ -62,9 +73,7 @@ export default defineComponent({
       { transform: 'translateY(3px) scaleX(1) scaleY(1.02)', offset: 0.96 },
       { transform: 'translateY(1px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0px) scaleX(1) scaleY(1)', offset: 1 }
-    ];
-
-    const keyframesBall2: Keyframe[] = [
+    ], [
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 0 },
       { transform: 'translateY(6.9px) scaleX(1) scaleY(1.04)', offset: 0.05 },
       { transform: 'translateY(16.5px) scaleX(1) scaleY(1.06)', offset: 0.10 },
@@ -92,16 +101,15 @@ export default defineComponent({
       { transform: 'translateY(4.1px) scaleX(1) scaleY(1.02)', offset: 0.96 },
       { transform: 'translateY(1.4px) scaleX(1) scaleY(1)', offset: 0.99 },
       { transform: 'translateY(0.0px) scaleX(1) scaleY(1)', offset: 1 }
-    ];
-
-    const keyframesShadow: Keyframe[] = [
+    ], [
       { transform: 'scaleX(1) translateY(140px)', offset: 0 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.48 },
       { transform: 'scaleX(1.2) translateY(140px)', offset: 0.49 },
       { transform: 'scaleX(1) translateY(140px)' },
+    ],
     ];
 
-    const ballOptions: KeyframeAnimationOptions = {
+    const options: KeyframeAnimationOptions = {
       duration: loadingStore.duration * 2, // load + done
       easing: 'linear',
       iterations: Infinity,
@@ -109,14 +117,12 @@ export default defineComponent({
     };
 
     function animate(): void {
-      ball1.value?.animate(keyframesBall1, ballOptions);
-      ball2.value?.animate(keyframesBall2, ballOptions);
-      shadow.value?.animate(keyframesShadow, ballOptions);
+      outerBall.value?.animate(keyframes[Keyframes.OuterBall], options);
+      innerBall.value?.animate(keyframes[Keyframes.InnerBall], options);
+      shadow.value?.animate(keyframes[Keyframes.Shadow], options);
     };
 
     watch(loadingStore, () => requestAnimationFrame(animate));
-
-    const transitionName = computed(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
 
     return { loadingStore, transitionName, t };
   },
