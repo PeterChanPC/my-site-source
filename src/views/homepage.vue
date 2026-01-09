@@ -7,7 +7,7 @@
       class="hem-10 pl-1/10 pr-1/10 font-size-xl lsem-0.5 txt-center txt-shadow z-1" :text="t('click')" :duration="3000"
       animation="fadeLoop" />
     <div v-if="isStarted" class="grid grid-cols-2 pl-1/10 pr-1/10 z-1">
-      <AnimatedTxt class="col-span-2 hem-10 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50" />
+      <AnimatedTxt class="col-span-2 hem-10 pb-10 font-size-md lsem-0.1" :text="t('hello')" :duration="500" :stagger="50" />
       <AnimatedTxt class="sm:col-span-2 hem-10 font-size-4xl lsem-0.5 txt-shadow uppercase" text="peter" :duration="1000"
         :stagger="100" />
       <AnimatedTxt class="sm:col-span-2 hem-10 font-size-4xl lsem-0.5 txt-shadow uppercase" text="chan" :duration="1000" :delay="500"
