@@ -3,7 +3,7 @@
 <template>
   <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
     <AnimatedTxt v-if="loadingStore.isFirstLoad"
-      class="hem-1 pl-1/10 pr-1/10 font-size-xl sm:font-size-md lsem-2/10 txt-a-center" :text="t('computer')"
+      class="hem-1 pl-1/10 pr-1/10 font-size-xl sm:font-size-md lsem-2/10 txt-center" :text="t('computer')"
       :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
   </div>
   <Transition :name="transitionName">

@@ -4,7 +4,7 @@
       <canvas ref="canvas"></canvas>
     </div>
     <AnimatedTxt v-if="!isStarted && !loadingStore.isLoading"
-      class="hem-10 pl-1/10 pr-1/10 font-size-xl lsem-0.5 txt-shadow z-1" :text="t('click')" :duration="3000"
+      class="hem-10 pl-1/10 pr-1/10 font-size-xl lsem-0.5 txt-center txt-shadow z-1" :text="t('click')" :duration="3000"
       animation="fadeLoop" />
     <div v-if="isStarted" class="grid grid-cols-2 pl-1/10 pr-1/10 z-1">
       <AnimatedTxt class="col-span-2 hem-10 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50" />
