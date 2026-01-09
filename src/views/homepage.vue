@@ -1,16 +1,16 @@
 <template>
-  <div class="page flex row a-center j-start" @click="hideIntro()">
-    <div class="absolute t-0 l-0 w-full h-full">
+  <div class="page flex a-center j-start" @click="hideIntro()">
+    <div class="absolute t-0 w-dvw h-dvh">
       <canvas ref="canvas"></canvas>
     </div>
     <AnimatedTxt v-if="!isStarted && !loadingStore.isLoading"
-      class="hem-1 pl-0.10 pr-0.10 font-size-xl ls-0.5 txt-shadow z-1" :text="t('click')" :duration="3000"
+      class="hem-10 pl-1/10 pr-1/10 font-size-xl lsem-0.5 txt-shadow z-1" :text="t('click')" :duration="3000"
       animation="fadeLoop" />
-    <div v-if="isStarted" class="grid grid-cols-2 pl-0.10 pr-0.10 z-1">
-      <AnimatedTxt class="col-span-2 hem-1 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50" />
-      <AnimatedTxt class="sm:col-span-2 hem-1 font-size-4xl ls-0.5 txt-shadow uppercase" text="peter" :duration="1000"
+    <div v-if="isStarted" class="grid grid-cols-2 pl-1/10 pr-1/10 z-1">
+      <AnimatedTxt class="col-span-2 hem-10 pb-10 font-size-md" :text="t('hello')" :duration="500" :stagger="50" />
+      <AnimatedTxt class="sm:col-span-2 hem-10 font-size-4xl lsem-0.5 txt-shadow uppercase" text="peter" :duration="1000"
         :stagger="100" />
-      <AnimatedTxt class="hem-1 font-size-4xl ls-0.5 txt-shadow uppercase" text="chan" :duration="1000" :delay="500"
+      <AnimatedTxt class="sm:col-span-2 hem-10 font-size-4xl lsem-0.5 txt-shadow uppercase" text="chan" :duration="1000" :delay="500"
         :stagger="100" />
     </div>
   </div>

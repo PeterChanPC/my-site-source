@@ -1,4 +1,4 @@
-@use "./variable" as var;
+@use "../variable" as var;
 
 .italic {
   font-style: italic;
@@ -14,9 +14,9 @@
   }
 }
 
-@for $i from 1 through 48 {
-  .font-size-#{$i} {
-    font-size: $i + px;
+@for $i from 1 through 12 {
+  .font-size-#{$i * 4} {
+    font-size: $i * 4px;
   }
 }
 
@@ -24,13 +24,13 @@
   @media (max-width: #{$break-pt}px) {
     @each $font-label, $size in var.$font-sizes {
       .#{$break-label}\:font-size-#{$font-label} {
-        font-size: $size !important;
+        font-size: $size;
       }
     }
 
-    @for $i from 1 through 48 {
-      .#{$break-label}\:font-size-#{$i} {
-        font-size: $i + px !important;
+    @for $i from 1 through 12 {
+      .#{$break-label}\:font-size-#{$i * 4} {
+        font-size: $i * 4px;
       }
     }
   }

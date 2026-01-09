@@ -1,0 +1,66 @@
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms ease !important;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0 !important;
+}
+
+.slide-from-right-enter-active,
+.slide-from-right-leave-active {
+  transition: right 200ms ease !important;
+}
+
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
+  right: -200px !important;
+}
+
+.slide-from-top-enter-active,
+.slide-from-top-leave-active {
+  transition: top 500ms ease !important;
+  pointer-events: none !important;
+}
+
+.slide-from-top-enter-from,
+.slide-from-top-leave-to {
+  top: -50px !important;
+}
+
+.first-load-enter-active,
+.first-load-leave-active {
+  // loadingStore 3000ms first load duration
+  transition: opacity 1500ms 1500ms ease !important;
+}
+
+.first-load-leave-to {
+  opacity: 0 !important;
+}
+
+.loading-enter-active,
+.loading-leave-active {
+  // loadingStore 500ms normal load duration
+  transition: opacity 500ms ease !important;
+}
+
+.loading-enter-from,
+.loading-leave-to {
+  opacity: 0 !important;
+}
+
+.switch-enter-active,
+.switch-leave-active {
+  transition: all 200ms ease !important;
+}
+
+.switch-enter-from {
+  opacity: 1 !important;
+  transform: translateX(16px) !important;
+}
+
+.switch-leave-to {
+  opacity: 0 !important;
+  transform: translateX(-16px) !important;
+}

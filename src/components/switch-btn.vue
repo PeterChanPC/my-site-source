@@ -1,18 +1,20 @@
 <template>
   <button class="flex row a-center j-center border-none bg-none w-32 h-32 font-size-16 pointer user-select-none"
     @click="onSwitch">
-    <div :class="['ts-1-0', { 'w-full o-1': !isActive }, { 'w-0 o-0': isActive }]">
-      <div class="relative" v-if="imgSrcL">
-        <img :src="imgSrcL">
+    <Transition name="switch" mode="out-in">
+      <div v-if="isActive">
+        <div class="relative" v-if="imgSrcR">
+          <img :src="imgSrcR">
+        </div>
+        <span v-if="textR">{{ textR }}</span>
       </div>
-      <span v-if="textL">{{ textL }}</span>
-    </div>
-    <div :class="['ts-1-0', { 'w-full o-1': isActive }, { 'w-0 o-0': !isActive }]">
-      <div class="relative" v-if="imgSrcR">
-        <img :src="imgSrcR">
+      <div v-else>
+        <div class="relative" v-if="imgSrcL">
+          <img :src="imgSrcL">
+        </div>
+        <span v-if="textL">{{ textL }}</span>
       </div>
-      <span v-if="textR">{{ textR }}</span>
-    </div>
+    </Transition>
   </button>
 </template>
 

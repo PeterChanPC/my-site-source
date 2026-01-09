@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="absolute t-0 l-0 w-full h-full">
+    <div class="absolute t-0 w-dvw h-dvh">
       <canvas ref="canvas"></canvas>
     </div>
   </div>

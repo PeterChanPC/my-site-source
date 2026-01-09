@@ -1,0 +1,57 @@
+// router-link
+.router-link-exact-active span::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: 2px;
+  background-color: var(--txt-color);
+  transition: all 100ms;
+}
+
+// opacity
+.o-0 {
+  opacity: 0;
+}
+
+.o-1 {
+  opacity: 1;
+}
+
+// overflow
+.overflow-h {
+  overflow: hidden;
+}
+
+.overflow-s {
+  overflow: scroll;
+}
+
+// visibility
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+// object fit
+.cover {
+  object-fit: cover;
+}
+
+// user-select
+.user-select-none {
+  user-select: none;
+}
+
+// cursor
+.pointer {
+  cursor: pointer;
+}
+
+.pointer-none {
+  pointer-events: none;
+}

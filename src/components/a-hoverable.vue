@@ -1,7 +1,7 @@
 <template>
-  <component :is="isExternal ? 'a' : 'router-link'" :class="['flex row a-center h-50 user-select-none pointer', {
-    'j-start': shape === 'pill'
-  }, { 'j-center': shape === 'round' }, effect,]" :to="isExternal ? undefined : { name: to }"
+  <component :is="isExternal ? 'a' : 'router-link'" :class="['flex a-center h-50 user-select-none pointer', {
+    'j-start': shape === Shape.Pill
+  }, { 'j-center': shape === Shape.Round }, effect,]" :to="isExternal ? undefined : { name: to }"
     :href="isExternal ? to : undefined" :target="target">
     <div class="relative w-50 h-50" v-if="imgSrc">
       <img :src="imgSrc" :alt="to">
@@ -12,10 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-
-type Target = '_self' | '_blank';
-type Shape = 'pill' | 'round';
-type Effect = 'underline-l' | 'underline-m';
+import { Shape, SupportedHoverEffect, SupportedShape, SupportedTarget, Target } from './d';
 
 export default defineComponent({
   name: 'a-hoverable',
@@ -29,25 +26,28 @@ export default defineComponent({
       default: '',
     },
     target: {
-      type: String as PropType<Target>,
-      default: '_self',
+      type: String as PropType<SupportedTarget>,
+      default: Target.Self,
+    },
+    shape: {
+      type: String as PropType<SupportedShape>,
+      default: Shape.Pill,
+    },
+    effect: {
+      type: String as PropType<SupportedHoverEffect>,
+      default: '',
     },
     imgSrc: {
       type: String,
-      default: '',
-    },
-    shape: {
-      type: String as PropType<Shape>,
-      default: 'pill',
-    },
-    effect: {
-      type: String as PropType<Effect>,
       default: '',
     },
     text: {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { Shape };
   },
 });
 </script>

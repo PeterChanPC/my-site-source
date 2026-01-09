@@ -3,12 +3,12 @@
 <template>
   <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
     <AnimatedTxt v-if="loadingStore.isFirstLoad"
-      class="hem-1 pl-0.10 pr-0.10 font-size-xl sm:font-size-md ls-0.2 txt-a-center" :text="t('computer')"
+      class="hem-1 pl-1/10 pr-1/10 font-size-xl sm:font-size-md lsem-2/10 txt-a-center" :text="t('computer')"
       :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
   </div>
   <Transition :name="transitionName">
     <div v-if="loadingStore.isLoading"
-      class="fixed flex flex-col a-center j-center w--100 h--100 p-50 bg-primary font-size-xl z-96">
+      class="fixed flex flex-col a-center j-center w-full h-full bg-primary font-size-xl z-96">
       <div v-if="!loadingStore.isFirstLoad"
         class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
         <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>

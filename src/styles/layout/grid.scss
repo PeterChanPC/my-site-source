@@ -1,0 +1,41 @@
+@use "../variable" as var;
+
+@for $i from 0 through 5 {
+  .grid-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(0, 1fr));
+  }
+
+  .col-span-#{$i} {
+    grid-column: span $i;
+  }
+
+  .grid-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(0, 1fr));
+  }
+
+  .row-span-#{$i} {
+    grid-row: span $i;
+  }
+}
+
+@each $break-label, $break-pt in var.$break-pts {
+  @media (max-width: #{$break-pt}px) {
+    @for $i from 0 through 5 {
+      .#{$break-label}\:grid-cols-#{$i} {
+        grid-template-columns: repeat($i, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:col-span-#{$i} {
+        grid-column: span $i;
+      }
+
+      .#{$break-label}\:grid-rows-#{$i} {
+        grid-template-rows: repeat($i, minmax(0, 1fr));
+      }
+
+      .#{$break-label}\:row-span-#{$i} {
+        grid-row: span $i;
+      }
+    }
+  }
+}

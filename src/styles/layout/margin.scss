@@ -1,4 +1,4 @@
-@use "./variable" as var;
+@use "../variable" as var;
 
 @each $dir-label, $dir in var.$dirs {
   .m#{$dir-label}-auto {
@@ -7,7 +7,7 @@
 
   @for $i from 0 through 100 {
     .m#{$dir-label}-#{$i} {
-      margin-#{$dir}: $i + px;
+      margin-#{$dir}: $i * 1px;
     }
   }
 }
@@ -21,7 +21,7 @@
 
       @for $i from 0 through 100 {
         .#{$break-label}\:m#{$dir-label}-#{$i} {
-          margin-#{$dir}: $i + px;
+          margin-#{$dir}: $i * 1px;
         }
       }
     }

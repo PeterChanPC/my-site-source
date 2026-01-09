@@ -1,10 +1,12 @@
 @use "sass:map";
 
+// general
 $break-pts: (
   "sm": 640,
   "lg": 1024
 );
 
+// layout
 $positions: relative, fixed, absolute;
 $displays: block, inline-block, none, flex, grid;
 
@@ -24,6 +26,7 @@ $dirs: (
   "l": left
 );
 
+// text
 $font-sizes: (
   "xs": clamp(0.75rem, 1vw, 0.875rem),
   "sm": clamp(0.875rem, 1.2vw, 1rem),
@@ -35,6 +38,7 @@ $font-sizes: (
   "giant": clamp(2rem, 5vw + 2rem, 7rem)
 );
 
+// effect
 $bg-colors: (
   "light-primary": #fff,
   "light-secondary": rgb(250, 250, 250),

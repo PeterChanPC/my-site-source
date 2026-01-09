@@ -1,16 +1,16 @@
 @use "sass:map";
-@use "./variable" as var;
+@use "../variable" as var;
 
 .bg-none {
   background: none;
 }
 
 .bg-primary {
-  background-color: var(--bg-color-primary) !important;
+  background-color: var(--bg-color-primary);
 }
 
 .bg-secondary {
-  background-color: var(--bg-color-secondary) !important;
+  background-color: var(--bg-color-secondary);
 }
 
 .invert {

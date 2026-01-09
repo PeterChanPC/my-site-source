@@ -10,16 +10,12 @@
   text-transform: lowercase;
 }
 
-.txt-a-center {
+.txt-center {
   text-align: center;
 }
 
-.txt-a-start {
+.txt-start {
   text-align: start;
-}
-
-.txt-shadow {
-  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
 }
 
 .txt-wrap {
@@ -30,16 +26,16 @@
   text-wrap: nowrap;
 }
 
-@for $i from 0 through 9 {
-  .ls-#{$i} {
-    letter-spacing: $i + px;
-  }
+.txt-shadow {
+  text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+}
 
-  .ls-0\.#{$i} {
+@for $i from 0 through 9 {
+  .lsem-0\.#{$i} {
     letter-spacing: $i * 0.1em;
   }
 
-  .lh-1\.#{$i}em {
-    line-height: calc(1em + $i * 0.1em) !important;
+  .lhem-1\.#{$i} {
+    line-height: calc(1em + $i * 0.1em);
   }
 }

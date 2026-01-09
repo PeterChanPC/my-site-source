@@ -1,8 +1,8 @@
 <template>
   <Transition name="slide-from-top">
     <header v-if="!loadingStore.isLoading && !loadingStore.isFirstLoad"
-      class="fixed flex row a-center j-between t-0 l-0 w-dvw h-50 font-size-16 z-100">
-      <h1 class="absolute l-0 w-38 ml-16 mr-16 mt-auto mb-auto font-size-36 italic user-select-none">Pc</h1>
+      class="fixed flex a-center j-between t-0 w-dvw h-50 z-100">
+      <h1 class="absolute w-38 ml-16 mr-16 mt-auto mb-auto font-size-36 italic user-select-none">Pc</h1>
       <nav class="flex row j-around w-400 ml-70 sm:none">
         <AHoverable to="home" effect="underline-m" :text="t('home')" />
         <AHoverable to="works" effect="underline-m" :text="t('work')" />
