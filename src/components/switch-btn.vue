@@ -3,16 +3,16 @@
     @click="onSwitch">
     <Transition name="switch" mode="out-in">
       <div v-if="isActive">
-        <div class="relative" v-if="imgSrcR">
-          <img :src="imgSrcR">
+        <div class="relative" v-if="imgRight">
+          <img :src="imgRight">
         </div>
-        <span v-if="textR">{{ textR }}</span>
+        <span v-if="textRight">{{ textRight }}</span>
       </div>
       <div v-else>
-        <div class="relative" v-if="imgSrcL">
-          <img :src="imgSrcL">
+        <div class="relative" v-if="imgLeft">
+          <img :src="imgLeft">
         </div>
-        <span v-if="textL">{{ textL }}</span>
+        <span v-if="textLeft">{{ textLeft }}</span>
       </div>
     </Transition>
   </button>
@@ -32,19 +32,19 @@ export default defineComponent({
       type: Function as PropType<() => void>,
       default: () => { },
     },
-    imgSrcL: {
+    imgLeft: {
       type: String,
       default: '',
     },
-    imgSrcR: {
+    imgRight: {
       type: String,
       default: '',
     },
-    textL: {
+    textLeft: {
       type: String,
       default: '',
     },
-    textR: {
+    textRight: {
       type: String,
       default: '',
     },

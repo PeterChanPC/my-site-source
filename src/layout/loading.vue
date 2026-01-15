@@ -4,15 +4,15 @@
   <div v-if="loadingStore.isFirstLoad" class="fixed flex a-center j-center w-full h-full z-97">
     <AnimatedTxt v-if="loadingStore.isFirstLoad"
       class="hem-1 pl-1/10 pr-1/10 font-size-xl sm:font-size-md lsem-2/10 txt-center" :text="t('computer')"
-      :duration="800" :stagger="20" :delay="500" animation="fadeOut" />
+      :duration="800" :stagger-out="20" :pause="500" animation="fadeInOut" />
   </div>
-  <Transition :name="transitionName">
+  <Transition :name="transitionName" mode="out-in">
     <div v-if="loadingStore.isLoading"
       class="fixed flex flex-col a-center j-center w-full h-full bg-primary font-size-xl z-96">
       <div v-if="!loadingStore.isFirstLoad"
         class="absolute flex flex-col a-center j-center w-full h-full bg-primary glooey mix">
-        <div ref="ball1" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>
-        <div ref="ball2" class="absolute w-25 h-25 border-round bg-primary glooey"></div>
+        <div ref="outerBall" class="absolute w-70 h-70 border-round bg-primary glooey-invert"></div>
+        <div ref="innerBall" class="absolute w-25 h-25 border-round bg-primary glooey"></div>
         <div ref="shadow" class="absolute w-70 h-10 border-round bg-primary glooey-invert"></div>
       </div>
     </div>
@@ -41,8 +41,8 @@ export default defineComponent({
     const loadingStore = useLoadingStore();
     const transitionName = computed(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
 
-    const outerBall = useTemplateRef<HTMLDivElement>('ball1');
-    const innerBall = useTemplateRef<HTMLDivElement>('ball2');
+    const outerBall = useTemplateRef<HTMLDivElement>('outerBall');
+    const innerBall = useTemplateRef<HTMLDivElement>('innerBall');
     const shadow = useTemplateRef<HTMLDivElement>('shadow');
 
     const keyframes: Array<Keyframe[]> = [[

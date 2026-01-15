@@ -2,9 +2,12 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useLoadingStore = defineStore('loading', () => {
+  /**
+   * if duration is changed, transition.scss file also needs to be adjusted
+   */
   const isFirstLoad = ref<boolean>(true);
   const isLoading = ref<boolean>(false);
-  const firstLoadDuration = 3000;
+  const firstLoadDuration = 4500;
   const duration = 500;
 
   function load(): void { // called in beforeEach

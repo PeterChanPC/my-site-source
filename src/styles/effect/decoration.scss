@@ -11,6 +11,10 @@
   mask-image: linear-gradient(to top, var(--bg-color-primary), var(--bg-color-primary) 70%, transparent 100%);
 }
 
+.fading-out {
+  background: radial-gradient(var(--bg-color-secondary), transparent 50%, transparent 100%)
+}
+
 .glooey {
   filter: blur(5px) contrast(15);
 }

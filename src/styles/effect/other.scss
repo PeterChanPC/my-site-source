@@ -52,6 +52,14 @@
   cursor: pointer;
 }
 
+.grab {
+  cursor: grab;
+}
+
+.grabbing {
+  cursor: grabbing;
+}
+
 .pointer-none {
   pointer-events: none;
 }

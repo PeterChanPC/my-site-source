@@ -1,7 +1,7 @@
 <template>
   <div>
     <span
-      :class="[{ 'o-0': animation === Animation.FadeIn }, { 'o-1': animation === Animation.FadeOut }, 'user-select-none']"
+      :class="[{ 'o-0': animation === Animation.FadeIn || animation === Animation.FadeInOut }, { 'o-1': animation === Animation.FadeOut }, 'user-select-none']"
       v-for="(char, i) in chars" :key="char + i" :ref="el => setCharRef(el, i)">
       {{ char }}
     </span>
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-  import type { ComponentPublicInstance, PropType } from 'vue';
+import type { ComponentPublicInstance, PropType } from 'vue';
 import { ref, computed, onMounted, defineComponent, onUpdated } from 'vue';
 import { Mode, SupportedMode, Animation, SupportedAnimation } from './d'
 
@@ -51,7 +51,31 @@ export default defineComponent({
      * @type {Number}
      * @default 0
      */
-    stagger: {
+    staggerIn: {
+      type: Number,
+      default: 0,
+    },
+
+    /**
+     * This property is only used in Animation.FadeInOut for the stagger in its second animation.
+     * 
+     * The stagger between the start of each animation per character.
+     * @type {Number}
+     * @default 0
+     */
+    staggerOut: {
+      type: Number,
+      default: 0,
+    },
+
+    /**
+     * This property is only used in Animation.FadeInOut for the delay between the first and second animation.
+     * 
+     * The stagger between the start of each animation per character.
+     * @type {Number}
+     * @default 0
+     */
+    pause: {
       type: Number,
       default: 0,
     },
@@ -62,6 +86,7 @@ export default defineComponent({
      * Values:
      * - `'fadeIn'`: a fade in animation.
      * - `'fadeOut'`: a fade out animation.
+     * - `'fadeInOut'`: start by a fade in animation, ends with a fade out animation, stagger in fade out animation is fixed to 20ms.
      * - `'fadeLoop'`: a loop animation of fade in and out.
      * 
      * @type {SupportedAnimation}
@@ -121,6 +146,24 @@ export default defineComponent({
       { opacity: 0.6 },
     ];
 
+    function wrapAnimate(keyframes: Keyframe[], duration: number, stagger: number, direction: PlaybackDirection, iterations: number, delay: number): void {
+      setTimeout(() => {
+        for (const [i, el] of charRefs.value.entries()) {
+          if (!el) continue;
+          el.animate(keyframes,
+            {
+              duration: duration,
+              delay: i * stagger,
+              fill: 'forwards',
+              direction: direction,
+              easing: 'linear',
+              iterations: iterations
+            },
+          );
+        };
+      }, delay);
+    };
+
     /**
      * Start the animation.
      * 
@@ -130,35 +173,27 @@ export default defineComponent({
      * // In parent: childRef.value.startAnimation(); // start animation
      */
     function startAnimation() {
-      let direction: PlaybackDirection;
-      let keyframes: Keyframe[];
+      let animation: SupportedAnimation = props.animation;
+      let keyframes: Keyframe[] = fadeKeyframes;
+      let duration: number = props.duration;
+      let stagger: number = props.staggerIn;
+      let direction: PlaybackDirection = 'normal';
       let iterations: number = 1;
-      if (props.animation === Animation.FadeIn) {
-        keyframes = fadeKeyframes;
-        direction = 'normal';
-      } else if (props.animation === Animation.FadeOut) {
-        keyframes = fadeKeyframes;
+      let delay: number = props.delay;
+
+      if (animation === Animation.FadeOut) {
         direction = 'reverse';
-      } else if (props.animation === Animation.FadeLoop) {
+      } else if (animation === Animation.FadeLoop) {
         keyframes = fadeLoopKeyframes;
         iterations = Infinity;
       };
+      wrapAnimate(keyframes, duration, stagger, direction, iterations, delay);
 
-      setTimeout(() => {
-        for (const [i, el] of charRefs.value.entries()) {
-          if (!el) continue;
-          el.animate(keyframes,
-            {
-              duration: props.duration,
-              delay: i * props.stagger,
-              fill: 'both',
-              direction: direction,
-              easing: 'linear',
-              iterations: iterations
-            },
-          );
-        };
-      }, props.delay);
+      if (animation !== Animation.FadeInOut) return; // play fadeOut after fadeIn for fadeInOut
+      stagger = props.staggerOut;
+      direction = 'reverse';
+      delay += stagger * props.text.length + props.pause;
+      wrapAnimate(keyframes, duration, stagger, direction, iterations, delay);
     };
 
     expose({ startAnimation });

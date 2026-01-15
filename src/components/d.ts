@@ -7,9 +7,10 @@ export type SupportedMode = 'auto' | 'manual';
 export enum Animation {
   FadeIn = 'fadeIn',
   FadeOut = 'fadeOut',
+  FadeInOut = 'fadeInOut',
   FadeLoop = 'fadeLoop',
 };
-export type SupportedAnimation = 'fadeIn' | 'fadeOut' | 'fadeLoop';
+export type SupportedAnimation = 'fadeIn' | 'fadeOut' | 'fadeInOut' | 'fadeLoop';
 
 export enum Target {
   Self = '_self',

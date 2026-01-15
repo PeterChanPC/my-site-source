@@ -10,9 +10,9 @@
       </nav>
 
       <aside class="flex row a-center j-around w-116 pr-16 sm:none">
-        <SwitchBtn :onSwitch="themeStore.switchTheme" :isActive="themeStore.isDark" :imgSrcL="icons.sun"
-          :imgSrcR="icons.moonStars" />
-        <SwitchBtn :onSwitch="langStore.switchLang" :isActive="langStore.isEnUS" textL="中" textR="Eng" />
+        <SwitchBtn :on-switch="themeStore.switchTheme" :is-active="themeStore.isDark" :img-left="icons.sun"
+          :img-right="icons.moonStars" />
+        <SwitchBtn :on-switch="langStore.switchLang" :is-active="langStore.isEnUS" text-left="中" text-right="Eng" />
       </aside>
 
       <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto user-select-none"

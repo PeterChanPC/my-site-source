@@ -3,8 +3,8 @@
     'j-start': shape === Shape.Pill
   }, { 'j-center': shape === Shape.Round }, effect,]" :to="isExternal ? undefined : { name: to }"
     :href="isExternal ? to : undefined" :target="target">
-    <div class="relative w-50 h-50" v-if="imgSrc">
-      <img :src="imgSrc" :alt="to">
+    <div class="relative w-50 h-50" v-if="img">
+      <img :src="img" :alt="to">
     </div>
     <span class="font-size-16 capitalize" v-if="text">{{ text }}</span>
   </component>
@@ -37,7 +37,7 @@ export default defineComponent({
       type: String as PropType<SupportedHoverEffect>,
       default: '',
     },
-    imgSrc: {
+    img: {
       type: String,
       default: '',
     },
