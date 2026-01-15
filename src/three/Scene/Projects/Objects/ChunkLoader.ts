@@ -1,5 +1,5 @@
 import { THREE, MonoBehavior } from "@/three/d";
-import { projectCamera, Grid } from "../d";
+import { projectCamera, Grid, Text } from "../d";
 
 export class ChunkLoader implements MonoBehavior {
   private readonly _size: number;
@@ -12,6 +12,7 @@ export class ChunkLoader implements MonoBehavior {
     roughness: 0.5,
     metalness: 0.1,
   });
+  private text = new Text('my work 1');
 
   constructor(size: number, _renderDist: number) {
     this._size = size;
@@ -57,16 +58,18 @@ export class ChunkLoader implements MonoBehavior {
   };
 
   public start(): void {
-
+    this.text.start();
   };
 
   public update(): void {
+    this.text.update();
     this.getCurrentGridFromWorld();
     this.updateChunks();
     this.loadedChunks.forEach(chunk => chunk.update());
   };
 
   public end(): void {
+    this.text.end();
     this.loadedChunks.forEach(chunk => chunk.end());
     this.geometry.dispose();
     this.material.dispose();

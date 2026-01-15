@@ -1,44 +1,51 @@
-import { THREE, MonoBehavior, gameInput, physics, clock, Themes } from "@/three/d";
+import { THREE, MonoBehavior, Themes } from "@/three/d";
 import { projectScene, projectCamera } from "../d";
-import { Font, FontLoader } from "three/examples/jsm/Addons.js";
+import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { useThemeStore } from "@/stores/theme.store";
 
 export class Text implements MonoBehavior {
-  private text: string;
   private theme: Themes = Themes.Light;
-  private loader: FontLoader = new FontLoader();
-  private url: string = 'src/assets/font/helvetiker_regular.typeface.json';
-  private material: THREE.LineBasicMaterial = new THREE.LineBasicMaterial();
-  private _object: THREE.Mesh = new THREE.Mesh();
+  private _object: THREE.Mesh | null = null;
 
   constructor(text: string) {
-    this.text = text;
-    this.loader.load(this.url, (font) => this.onLoad(font));
+    this.createMesh(text);
+  };
+
+  private async createMesh(text: string): Promise<void> {
+    const loader = new FontLoader();
+    const url = 'src/assets/font/helvetiker_regular.typeface.json';
+    const font = await loader.loadAsync(url);
+
+    const geometry = new TextGeometry(text, {
+      font,
+      size: 0.5,
+      depth: 0.2,
+      curveSegments: 8,
+    });
+    geometry.center();
+
+    const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+
+    this._object = new THREE.Mesh(geometry, material);
+    this.updateColor();
+    this.start();
   };
 
   private updateColor(): void {
     const themeStore = useThemeStore();
-    if (this.theme === themeStore.theme) return;
+    if (this.theme === themeStore.theme || !this._object) return;
     this.theme = themeStore.theme;
     if (themeStore.theme === Themes.Light) {
-      this.material.color.set(0x000000);
+      this._object.material.color.set(0x000000);
     } else if (themeStore.theme === Themes.Dark) {
-      this.material.color.set(0xffffff);
+      this._object.material.color.set(0xffffff);
     };
   };
 
   private updateDirection(): void {
-    this._object.lookAt(projectCamera.camera.position);
+    this._object?.lookAt(projectCamera.camera.position);
   };
 
-  private onLoad(font: Font) {
-    const shapes = font.generateShapes(this.text, 1);
-    const geometry = new THREE.ShapeGeometry(shapes);
-    const object = new THREE.Mesh(geometry, this.material);
-    this.updateColor();
-    this._object = object;
-    console.log(this._object)
-  };
 
   public start(): void {
     if (!this._object) return;
@@ -50,10 +57,10 @@ export class Text implements MonoBehavior {
   public update(): void {
     this.updateColor();
     this.updateDirection();
-    // console.log(this._object.position.z)
   };
 
   public end(): void {
-
+    if (!this._object) return;
+    projectScene.remove(this._object);
   };
 };

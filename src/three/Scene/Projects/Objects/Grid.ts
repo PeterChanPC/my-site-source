@@ -1,8 +1,6 @@
 import { THREE, MonoBehavior, gameInput, physics, clock } from "@/three/d";
 import { projectScene, projectCamera } from "../d";
 
-import { Text } from "./Text";
-
 export class Grid implements MonoBehavior {
   // animation variables
   private readonly maxAmp: number = 0.7;
@@ -23,8 +21,6 @@ export class Grid implements MonoBehavior {
   private readonly size: number;
   private readonly dummy: THREE.Object3D = new THREE.Object3D();
   private readonly mesh: THREE.InstancedMesh;
-
-  private text = new Text('my work 1');
 
   constructor(geometry: THREE.BufferGeometry, material: THREE.Material, size: number = 0) {
     this.size = size;
@@ -48,7 +44,6 @@ export class Grid implements MonoBehavior {
 
   public start(): void {
     this.update();
-    this.text.start();
     projectScene.add(this.mesh);
   };
 
@@ -77,12 +72,10 @@ export class Grid implements MonoBehavior {
       };
     };
     this.mesh.instanceMatrix.needsUpdate = true;
-    this.text.update();
   };
 
   public end(): void {
     projectScene.remove(this.mesh);
     this.mesh.dispose();
-    this.text.end();
   };
 };
