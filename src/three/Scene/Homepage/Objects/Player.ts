@@ -4,12 +4,12 @@ import texture from '@/assets/img/texture.webp';
 
 export class Player implements MonoBehavior {
   // movements
-  private readonly velocityGrounding: number = 0.5;
-  private readonly maxForce: number = 100;
-  private readonly bounciness: number = 1;
-  private readonly forceCoe: number = 30;
-  private readonly dragCoe: number = 3;
-  private readonly mousePosYOffset: number = 100;
+  private velocityGrounding: number = 0.5;
+  private maxForce: number = 100;
+  private bounciness: number = 1;
+  private forceCoe: number = 30;
+  private dragCoe: number = 3;
+  private mousePosYOffset: number = 100;
   private moveVec: THREE.Vector2 = new THREE.Vector2(0, 0);
   private displacement: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private _velocity: THREE.Vector3 = new THREE.Vector3(0, 0, 0);

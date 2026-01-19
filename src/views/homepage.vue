@@ -29,14 +29,17 @@ const loadingStore = useLoadingStore();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 const isStarted = ref<boolean>(false);
 
-function hideIntro(): void {
-  isStarted.value = true;
-};
+let hideIntro = (): void => { };
 
 onMounted(() => {
   if (!canvas.value) return;
   const game = new HomepageGame(canvas.value);
   game.start();
+
+  hideIntro = (): void => {
+    isStarted.value = true;
+    game.enableGameInput();
+  };
 
   onUnmounted(() => game.end());
 });

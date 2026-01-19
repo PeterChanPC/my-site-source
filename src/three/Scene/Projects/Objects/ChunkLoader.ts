@@ -2,9 +2,10 @@ import { THREE, MonoBehavior } from "@/three/d";
 import { projectCamera, Grid, Text } from "../d";
 
 export class ChunkLoader implements MonoBehavior {
-  private readonly _size: number;
-  private readonly _renderDist: number;
+  private _size: number;
+  private _renderDist: number;
   private loadedChunks: Map<string, Grid> = new Map();
+  private loadedTexts: Map<string, Text> = new Map();
   private center: THREE.Vector2 = new THREE.Vector2(0, 0);
   private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   private material: THREE.MeshStandardMaterial = new THREE.MeshStandardMaterial({
@@ -12,7 +13,6 @@ export class ChunkLoader implements MonoBehavior {
     roughness: 0.5,
     metalness: 0.1,
   });
-  private text = new Text('my work 1');
 
   constructor(size: number, _renderDist: number) {
     this._size = size;
@@ -36,13 +36,24 @@ export class ChunkLoader implements MonoBehavior {
         const key = `${x},${y}`;
         neededChunks.add(key);
         if (!this.loadedChunks.has(key)) {
-          const chunk = new Grid(this.geometry, this.material, this._size);
           const chunkX = x * this._size;
           const chunkY = y * this._size;
+
+          const chunk = new Grid(this.geometry, this.material, this._size);
           chunk.setPos(chunkX, chunkY, 0);
           chunk.start();
           this.loadedChunks.set(key, chunk);
         };
+
+        if (!this.loadedTexts.has(key)) {
+          const textX = x * this._size;
+          const textY = y * this._size;
+
+          const text = new Text('in progress');
+          text.start();
+          text.setPos(textX, textY, 5);
+          this.loadedTexts.set(key, text);
+        }
       };
     };
 
@@ -55,22 +66,32 @@ export class ChunkLoader implements MonoBehavior {
         this.loadedChunks.delete(key);
       };
     };
+
+    for (const key of this.loadedTexts.keys()) {
+      if (!neededChunks.has(key)) {
+        const text = this.loadedTexts.get(key);
+        if (text) {
+          text.end();
+        };
+        this.loadedTexts.delete(key);
+      };
+    };
   };
 
   public start(): void {
-    this.text.start();
+
   };
 
   public update(): void {
-    this.text.update();
     this.getCurrentGridFromWorld();
     this.updateChunks();
     this.loadedChunks.forEach(chunk => chunk.update());
+    this.loadedTexts.forEach(text => text.update());
   };
 
   public end(): void {
-    this.text.end();
     this.loadedChunks.forEach(chunk => chunk.end());
+    this.loadedTexts.forEach(text => text.end());
     this.geometry.dispose();
     this.material.dispose();
   };

@@ -11,6 +11,10 @@ export class HomepageGame implements MonoBehavior {
     this.rendererController = new RendererController(canvas);
   };
 
+  public enableGameInput(): void {
+    gameInput.start();
+  };
+
   public start(): void {
     this.player.start();
     this.walls.start();
@@ -19,7 +23,6 @@ export class HomepageGame implements MonoBehavior {
 
     const collidables = homepageScene.children.filter(obj => obj !== this.player.obj);
     physics.setCollidables(collidables);
-    gameInput.start();
     this.rendererController.start();
     this.rendererController.startAnimation(() => this.update(), homepageScene, homepageCamera.camera);
   };

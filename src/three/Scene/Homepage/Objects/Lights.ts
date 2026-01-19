@@ -1,8 +1,8 @@
-import { THREE, MonoBehavior, Themes } from "@/three/d";
+import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
 import { homepageScene } from "../d";
-import { useThemeStore } from "@/stores/theme.store";
 
 export class Lights implements MonoBehavior {
+  private theme: Themes | null = null;
   private ambientLightIntensityLight = 1;
   private ambientLightIntensityDark = 0;
   private spotlightPrimaryPosLight = new THREE.Vector3(50, 50, 50);
@@ -15,7 +15,41 @@ export class Lights implements MonoBehavior {
   private spotlightPrimary = new THREE.SpotLight(0xffffff);
   private spotlightSecondary = new THREE.SpotLight(0xdddddd);
   private alpha: number = 0.1;
-  private themeStore = useThemeStore();
+
+  private updateTheme(): void {
+    const themeStore = useThemeStore();
+
+    if (themeStore.theme === Themes.Light) {
+      if (this.theme) {
+        console.log('hi')
+        this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
+        this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleLight, this.alpha);
+        this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, this.alpha);
+        this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
+        return;
+      };
+
+      this.spotlightPrimary.position.set(50, 50, 50);
+      this.ambientLight.intensity = this.ambientLightIntensityLight;
+      this.spotlightPrimary.angle = this.spotlightPrimaryAngleLight;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
+    } else if (themeStore.theme === Themes.Dark) {
+      if (this.theme) {
+        this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityDark, this.alpha);
+        this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleDark, this.alpha);
+        this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, this.alpha);
+        this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
+        return;
+      };
+
+      this.spotlightPrimary.position.set(-50, 50, 50);
+      this.ambientLight.intensity = this.ambientLightIntensityDark;
+      this.spotlightPrimary.angle = this.spotlightPrimaryAngleDark;
+      this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
+    };
+
+    this.theme = themeStore.theme;
+  };
 
   public start(): void {
     this.spotlightPrimary.power = 50000;
@@ -28,37 +62,15 @@ export class Lights implements MonoBehavior {
     this.spotlightSecondary.shadow.intensity = 0.8;
     this.spotlightSecondary.castShadow = true;
 
-    if (this.themeStore.theme === Themes.Light) {
-      this.spotlightPrimary.position.set(50, 50, 50);
-
-      this.ambientLight.intensity = this.ambientLightIntensityLight;
-      this.spotlightPrimary.angle = this.spotlightPrimaryAngleLight;
-      this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
-    } else if (this.themeStore.theme === Themes.Dark) {
-      this.spotlightPrimary.position.set(-50, 50, 50);
-
-      this.ambientLight.intensity = this.ambientLightIntensityDark;
-      this.spotlightPrimary.angle = this.spotlightPrimaryAngleDark;
-      this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
-    };
-
     this.spotlightSecondary.position.set(-50, 50, 50);
+
+    this.updateTheme();
 
     homepageScene.add(this.ambientLight, this.spotlightPrimary, this.spotlightSecondary);
   };
 
   public update(): void {
-    if (this.themeStore.theme === 'light') {
-      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
-      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleLight, this.alpha);
-      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, this.alpha);
-      this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
-    } else {
-      this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityDark, this.alpha);
-      this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleDark, this.alpha);
-      this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosDark, this.alpha);
-      this.spotlightSecondary.power = this.spotlightSecondaryPowDark;
-    };
+    this.updateTheme();
   };
 
   public end(): void {

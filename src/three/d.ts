@@ -8,6 +8,7 @@ export type { MonoBehavior } from './MonoBehavior';
 
 export { RendererController } from './RendererController';
 export { Themes } from '@/stores/d';
+export { useThemeStore } from '@/stores/theme.store';
 export const gameInput = new GameInput();
 export const physics = new Physics();
 export const clock = new THREE.Clock();

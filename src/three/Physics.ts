@@ -1,4 +1,4 @@
-import { MonoBehavior, THREE } from "./d";
+import { THREE } from "./d";
 
 export class Physics {
   // general
