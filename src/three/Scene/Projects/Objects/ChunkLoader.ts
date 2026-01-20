@@ -46,12 +46,12 @@ export class ChunkLoader implements MonoBehavior {
         };
 
         if (!this.loadedTexts.has(key)) {
-          const textX = x * this._size;
-          const textY = y * this._size;
+          const textX = (x - Math.random()) * this._size;
+          const textY = (y - Math.random()) * this._size;
 
           const text = new Text('in progress');
-          text.start();
           text.setPos(textX, textY, 5);
+          text.start();
           this.loadedTexts.set(key, text);
         }
       };
@@ -60,26 +60,21 @@ export class ChunkLoader implements MonoBehavior {
     for (const key of this.loadedChunks.keys()) {
       if (!neededChunks.has(key)) {
         const chunk = this.loadedChunks.get(key);
+        const text = this.loadedTexts.get(key);
         if (chunk) {
           chunk.end();
         };
-        this.loadedChunks.delete(key);
-      };
-    };
-
-    for (const key of this.loadedTexts.keys()) {
-      if (!neededChunks.has(key)) {
-        const text = this.loadedTexts.get(key);
         if (text) {
           text.end();
         };
+        this.loadedChunks.delete(key);
         this.loadedTexts.delete(key);
       };
     };
   };
 
   public start(): void {
-
+    this.updateChunks();
   };
 
   public update(): void {

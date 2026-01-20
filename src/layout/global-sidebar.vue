@@ -20,7 +20,7 @@
 <script lang="ts">
 import AHoverable from '@/components/a-hoverable.vue';
 import SwitchBtn from '@/components/switch-btn.vue';
-import * as icons from '@/assets/img/icons';
+import * as icons from '@/assets/img/d';
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';

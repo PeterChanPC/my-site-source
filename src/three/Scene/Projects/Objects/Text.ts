@@ -1,21 +1,16 @@
 import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
-import { projectScene, projectCamera } from "../d";
+import { projectScene, projectCamera, Font } from "../d";
 
 export class Text implements MonoBehavior {
-  private material: THREE.MeshBasicMaterial | null = null;
-  private geometry: TextGeometry | null = null;
-  private _object: THREE.Mesh | null = null;
   private position: THREE.Vector3 = new THREE.Vector3();
+  private material: THREE.MeshBasicMaterial;
+  private geometry: TextGeometry;
+  private _object: THREE.Mesh;
 
   constructor(text: string) {
-    this.createMesh(text);
-  };
-
-  private async createMesh(text: string): Promise<void> {
     const loader = new FontLoader();
-    const url = 'src/assets/font/helvetiker_regular.typeface.json';
-    const font = await loader.loadAsync(url);
+    const font = loader.parse(Font);
 
     this.geometry = new TextGeometry(text, {
       font,
@@ -26,32 +21,28 @@ export class Text implements MonoBehavior {
     this.geometry.center();
     this.material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
     this._object = new THREE.Mesh(this.geometry, this.material);
-
-    this.start();
   };
 
   private updateTheme(): void {
     const themeStore = useThemeStore();
 
     if (themeStore.theme === Themes.Light) {
-      this.material?.color.set(0x000000);
+      this.material.color.set(0x000000);
     } else if (themeStore.theme === Themes.Dark) {
-      this.material?.color.set(0xffffff);
+      this.material.color.set(0xffffff);
     };
   };
 
   private updateLookAt(): void {
-    this._object?.lookAt(projectCamera.camera.position);
+    this._object.lookAt(projectCamera.camera.position);
   };
 
   public setPos(x: number, y: number, z: number): void { // position of object can only be changed after start
-    this.position.set(x, y, z);
+    this._object.position.set(x, y, z);
   };
 
-  public start(): void { // this is called within this module due to async nature, there is no need to call it in the parent
-    if (!this._object) return;
+  public start(): void {
     this.updateTheme();
-    this._object.position.copy(this.position);
 
     projectScene.add(this._object);
   };
@@ -62,9 +53,9 @@ export class Text implements MonoBehavior {
   };
 
   public end(): void {
-    if (this._object) projectScene.remove(this._object);
-    this.geometry?.dispose();
-    this.material?.dispose();
+    projectScene.remove(this._object);
+    this.geometry.dispose();
+    this.material.dispose();
   };
 
   get object(): THREE.Mesh | null {

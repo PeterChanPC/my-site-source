@@ -1,0 +1,1 @@
+export { default as Font } from '@/assets/font/helvetiker_regular.typeface.json';
