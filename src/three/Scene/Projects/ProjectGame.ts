@@ -4,7 +4,7 @@ import { projectScene, projectCamera, Lights, Player, ChunkLoader } from "./d";
 export class ProjectGame implements MonoBehavior {
   private lights: Lights = new Lights();
   private player: Player = new Player();
-  private chunkLoader: ChunkLoader = new ChunkLoader(8, 3);
+  private chunkLoader: ChunkLoader = new ChunkLoader();
   private rendererController: RendererController;
 
   constructor(canvas: HTMLCanvasElement) {

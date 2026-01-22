@@ -1,64 +1,77 @@
-import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
+import { THREE, MonoBehavior, Themes, useThemeStore, gameInput, physics } from "@/three/d";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { projectScene, projectCamera, Font } from "../d";
 
-export class Text implements MonoBehavior {
-  private position: THREE.Vector3 = new THREE.Vector3();
-  private material: THREE.MeshBasicMaterial;
-  private geometry: TextGeometry;
-  private _object: THREE.Mesh;
+const SupportedWork = ['Todos', 'Calender', 'Cool Styles', 'three.js', 'Calculator'];
 
-  constructor(text: string) {
+export class Text implements MonoBehavior {
+  private object: THREE.Object3D = new THREE.Object3D();
+  private boundingMaterial: THREE.MeshBasicMaterial;
+  private boundingGeometry: THREE.BoxGeometry;
+  private textMaterial: THREE.MeshBasicMaterial;
+  private textGeometry: TextGeometry;
+  private text: THREE.Mesh;
+  private boundingBox: THREE.Mesh;
+
+  constructor() {
     const loader = new FontLoader();
     const font = loader.parse(Font);
+    const text = SupportedWork[Math.floor(Math.random() * SupportedWork.length)];
 
-    this.geometry = new TextGeometry(text, {
+    this.textGeometry = new TextGeometry(text, {
       font,
       size: 0.5,
-      depth: 0.2,
+      depth: 0.1,
       curveSegments: 8,
     });
-    this.geometry.center();
-    this.material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
-    this._object = new THREE.Mesh(this.geometry, this.material);
+    this.textGeometry.center();
+    this.textMaterial = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+    this.text = new THREE.Mesh(this.textGeometry, this.textMaterial);
+
+    this.boundingMaterial = new THREE.MeshBasicMaterial({ visible: false });
+    this.boundingGeometry = new THREE.BoxGeometry(1, 1);
+    this.boundingBox = new THREE.Mesh(this.boundingGeometry, this.boundingMaterial);
+
+    this.object.add(this.text, this.boundingBox);
   };
 
   private updateTheme(): void {
     const themeStore = useThemeStore();
 
     if (themeStore.theme === Themes.Light) {
-      this.material.color.set(0x000000);
+      this.textMaterial.color.set(0x000000);
     } else if (themeStore.theme === Themes.Dark) {
-      this.material.color.set(0xffffff);
+      this.textMaterial.color.set(0xffffff);
     };
   };
 
-  private updateLookAt(): void {
-    this._object.lookAt(projectCamera.camera.position);
+  private hover() {
+    const mousePos = gameInput.mousePos;
+    const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, 1);
+    hits?.forEach(hit => {
+      hit.object.scale.setScalar(1.2)
+      console.log(hit.object)
+    });
   };
 
-  public setPos(x: number, y: number, z: number): void { // position of object can only be changed after start
-    this._object.position.set(x, y, z);
+  public setPos(x: number, y: number, z: number): void {
+    this.object.position.set(x, y, z);
   };
 
   public start(): void {
     this.updateTheme();
+    this.object.layers.enable(1);
 
-    projectScene.add(this._object);
+    projectScene.add(this.object);
   };
 
   public update(): void {
     this.updateTheme();
-    this.updateLookAt();
   };
 
   public end(): void {
-    projectScene.remove(this._object);
-    this.geometry.dispose();
-    this.material.dispose();
-  };
-
-  get object(): THREE.Mesh | null {
-    return this._object;
+    projectScene.remove(this.object);
+    this.textGeometry.dispose();
+    this.textMaterial.dispose();
   };
 };
