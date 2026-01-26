@@ -4,9 +4,9 @@ export class Camera implements MonoBehavior {
   private _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera();
   private isListenerAdded = false;
 
-  private move(dx: number, dy: number, speed: number): void {
-    this._camera.position.x += dx * speed;
-    this._camera.position.y += dy * speed;
+  private move(dx: number, dy: number, speedX: number, speedY: number): void {
+    this._camera.position.x += dx * speedX;
+    this._camera.position.y += dy * speedY;
   };
 
   private updateProjection = (): void => {
@@ -30,8 +30,10 @@ export class Camera implements MonoBehavior {
 
   public update(): void {
     const mouseDir = gameInput.mouseDir;
+    const speedX = Math.abs(5500 * mouseDir.x / window.innerWidth / window.innerHeight);
+    const speedY = Math.abs(4250 * mouseDir.y / window.innerWidth / window.innerHeight);
     if (gameInput.isMouse && mouseDir.length() !== 0) {
-      this.move(-mouseDir.x, mouseDir.y, 2);
+      this.move(-mouseDir.x, mouseDir.y, speedX, speedY);
     };
   };
 

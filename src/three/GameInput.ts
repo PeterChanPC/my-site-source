@@ -12,17 +12,10 @@ export class GameInput implements MonoBehavior {
   private directions: number[] = [0, 0, 0, 0];
   private moveDir: THREE.Vector2 = new THREE.Vector2(0, 0);
   // Mouse Controls (Touch Controls will use the same properties here)
-  private _mouseXSpeed: number;
-  private _mouseYSpeed: number;
   private _isMouse: boolean = false;
   private _isMouseMovingTimer: ReturnType<typeof setTimeout> = setTimeout(() => { });
   private _mousePos: THREE.Vector2 = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
   private _mouseDir: THREE.Vector2 = new THREE.Vector2(0, 0);
-
-  constructor(mouseXSpeed: number = 11000, mouseYSpeed: number = 9500) {
-    this._mouseXSpeed = mouseXSpeed;
-    this._mouseYSpeed = mouseYSpeed;
-  };
 
   private handleMovementVector = (): void => {
     this.moveDir.x = this.directions[Direction.Right] - this.directions[Direction.Left];
@@ -87,18 +80,19 @@ export class GameInput implements MonoBehavior {
   private handleMove = (event: MouseEvent | TouchEvent): void => {
     let x = 0;
     let y = 0;
+    const alpha = 0.5;
     if (event.type === 'mousemove') {
       const mouseEvent = event as MouseEvent;
-      x = THREE.MathUtils.lerp(this.mousePos.x, mouseEvent.clientX, 0.5);
-      y = THREE.MathUtils.lerp(this.mousePos.y, mouseEvent.clientY, 0.5);
+      x = THREE.MathUtils.lerp(this.mousePos.x, mouseEvent.clientX, alpha);
+      y = THREE.MathUtils.lerp(this.mousePos.y, mouseEvent.clientY, alpha);
     } else if (event.type === 'touchmove') {
       const touchEvent = event as TouchEvent
-      x = THREE.MathUtils.lerp(this.mousePos.x, touchEvent.touches[0].clientX, 0.5);
-      y = THREE.MathUtils.lerp(this.mousePos.y, touchEvent.touches[0].clientY, 0.5);
+      x = THREE.MathUtils.lerp(this.mousePos.x, touchEvent.touches[0].clientX, alpha);
+      y = THREE.MathUtils.lerp(this.mousePos.y, touchEvent.touches[0].clientY, alpha);
     };
 
-    const dx = (x - this.mousePos.x) * this._mouseXSpeed / window.innerWidth / window.innerHeight;
-    const dy = (y - this.mousePos.y) * this._mouseYSpeed / window.innerWidth / window.innerHeight;
+    const dx = x - this.mousePos.x;
+    const dy = y - this.mousePos.y;
     this._mouseDir.set(dx, dy);
     this._mousePos.set(x, y);
     clearTimeout(this._isMouseMovingTimer);
@@ -159,13 +153,5 @@ export class GameInput implements MonoBehavior {
 
   public get isKeyboard(): boolean {
     return this.directions.includes(1);
-  };
-
-  public set mouseHorizontalSpeed(speed: number) {
-    this._mouseXSpeed = speed;
-  };
-
-  public set mouseVerticalSpeed(speed: number) {
-    this._mouseYSpeed = speed;
   };
 };

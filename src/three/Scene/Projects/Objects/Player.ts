@@ -7,6 +7,7 @@ export class Player implements MonoBehavior {
   private material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ opacity: 0, transparent: true });
   private intersectPlane: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private scale: THREE.Vector3 = new THREE.Vector3(1.2, 1.2, 1);
 
   private updateMouseWorldPos() {
     const mousePos = gameInput.mousePos;
@@ -18,6 +19,16 @@ export class Player implements MonoBehavior {
     this.updateMouseWorldPos();
     this.player.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 10);
     this.intersectPlane.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 5);
+  };
+
+  private hover() {
+    document.body.style.cursor = 'auto';
+    const mousePos = gameInput.mousePos;
+    const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, projectScene.children, 1);
+
+    if (!hits || !hits[0]) return;
+    document.body.style.cursor = 'pointer';
+    hits[0]?.object.parent?.children.forEach(child => child.scale.lerp(this.scale, 0.1));
   };
 
   public start(): void {
@@ -33,6 +44,7 @@ export class Player implements MonoBehavior {
 
   public update(): void {
     this.applyMovement();
+    this.hover();
   };
 
   public end(): void {

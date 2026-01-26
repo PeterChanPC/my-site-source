@@ -1,11 +1,13 @@
 import { MonoBehavior, RendererController, physics, gameInput } from "@/three/d";
-import { projectScene, projectCamera, Lights, Player, ChunkLoader } from "./d";
+import { projectScene, projectCamera, Lights, Player, ChunkLoader, Text } from "./d";
 
 export class ProjectGame implements MonoBehavior {
   private lights: Lights = new Lights();
   private player: Player = new Player();
   private chunkLoader: ChunkLoader = new ChunkLoader();
   private rendererController: RendererController;
+
+  private text: Text = new Text();
 
   constructor(canvas: HTMLCanvasElement) {
     this.rendererController = new RendererController(canvas);
@@ -15,9 +17,12 @@ export class ProjectGame implements MonoBehavior {
     this.lights.start();
     this.player.start();
     this.chunkLoader.start();
+    this.text.start();
+    this.text.setPos(0, 0, 6);
     projectCamera.start();
 
-    physics.setCollidables([this.player.obj]);
+
+    physics.setCollidables(projectScene.children);
     gameInput.start();
     this.rendererController.start();
     this.rendererController.startAnimation(() => this.update(), projectScene, projectCamera.camera);
@@ -27,6 +32,7 @@ export class ProjectGame implements MonoBehavior {
     this.lights.update();
     this.player.update();
     this.chunkLoader.update();
+    this.text.update();
     projectCamera.update();
   };
 
@@ -36,5 +42,6 @@ export class ProjectGame implements MonoBehavior {
     this.lights.end();
     this.player.end();
     this.chunkLoader.end();
+    this.text.end();
   };
 };

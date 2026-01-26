@@ -1,5 +1,5 @@
 import { THREE, MonoBehavior, gameInput, physics, clock } from "@/three/d";
-import { projectScene, projectCamera, Text } from "../d";
+import { projectScene, projectCamera } from "../d";
 
 export class Grid implements MonoBehavior {
   // animation variables
