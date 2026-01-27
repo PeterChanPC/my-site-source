@@ -6,7 +6,8 @@ export const projectCamera = new Camera();
 
 export { Font } from '@/assets/font/d';
 export { Lights } from "./Objects/Lights";
-export { Text } from "./Objects/Text";
 export { Player } from "./Objects/Player";
-export { Grid } from "./Objects/Grid";
+export { Text } from "./Objects/Text";
+export { TextLoader } from "./Objects/TextLoader";
+export { Chunk } from "./Objects/Chunk";
 export { ChunkLoader } from "./Objects/ChunkLoader";

@@ -1,7 +1,7 @@
 import { THREE, MonoBehavior, gameInput, physics, clock } from "@/three/d";
 import { projectScene, projectCamera } from "../d";
 
-export class Grid implements MonoBehavior {
+export class Chunk implements MonoBehavior {
   // animation variables
   private maxAmp: number = 0.7;
   private minAmp: number = 0.3;

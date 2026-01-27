@@ -1,13 +1,9 @@
 <template>
+  <div class="page"></div>
 </template>
 
 <script setup lang="ts">
 
 </script>
 
-<style lang="scss" scoped>
-.test {
-  width: 100dvw;
-  height: 100dvh;
-}
-</style>
+<style lang="scss" scoped></style>

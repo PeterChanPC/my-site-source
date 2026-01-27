@@ -2,33 +2,46 @@ import { THREE, MonoBehavior, gameInput, physics } from "@/three/d";
 import { projectScene, projectCamera } from "../d";
 
 export class Player implements MonoBehavior {
+  // player
   private player: THREE.PointLight = new THREE.PointLight(0xffffff);
   private geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(100, 100);
   private material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ opacity: 0, transparent: true });
   private intersectPlane: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  private scale: THREE.Vector3 = new THREE.Vector3(1.2, 1.2, 1);
 
-  private updateMouseWorldPos() {
+  // navigation
+  private target: string | undefined = undefined;
+  private scale: THREE.Vector3 = new THREE.Vector3(1.2, 1.2, 1);
+  private isListenerAdded: boolean = false;
+
+  private updateMouseWorldPos(): void {
     const mousePos = gameInput.mousePos;
     const mouseWorldPos = physics.screenPointToWorld(projectCamera.camera, mousePos.x, mousePos.y);
     if (mouseWorldPos) this.mouseWorldPos = mouseWorldPos;
   };
 
-  private applyMovement() {
+  private applyMovement(): void {
     this.updateMouseWorldPos();
     this.player.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 10);
     this.intersectPlane.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 5);
   };
 
-  private hover() {
+  private hover(): void {
     document.body.style.cursor = 'auto';
     const mousePos = gameInput.mousePos;
-    const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, projectScene.children, 1);
+    const targetLayer = 1;
+    const alpha = 0.1;
+    const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, projectScene.children, targetLayer);
+    this.target = hits?.at(0)?.object.name;
 
     if (!hits || !hits[0]) return;
     document.body.style.cursor = 'pointer';
-    hits[0]?.object.parent?.children.forEach(child => child.scale.lerp(this.scale, 0.1));
+    hits[0]?.object.children.forEach(child => child.scale.lerp(this.scale, alpha));
+  };
+
+  private click = (): void => {
+    if (!this.target) return;
+    window.open(`/my-site${this.target}`, '_blank');
   };
 
   public start(): void {
@@ -40,6 +53,10 @@ export class Player implements MonoBehavior {
     this.player.shadow.radius = 2;
 
     projectScene.add(this.player, this.intersectPlane);
+
+    if (this.isListenerAdded) return;
+    window.addEventListener('click', this.click);
+    this.isListenerAdded = true;
   };
 
   public update(): void {
@@ -52,9 +69,8 @@ export class Player implements MonoBehavior {
     this.player.dispose();
     this.geometry.dispose();
     this.material.dispose();
-  };
 
-  public get obj(): THREE.Mesh {
-    return this.intersectPlane;
+    window.removeEventListener('click', this.click);
+    this.isListenerAdded = false;
   };
 };

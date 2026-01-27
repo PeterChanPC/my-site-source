@@ -2,22 +2,24 @@ import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { projectScene, Font } from "../d";
 
-const SupportedWork = ['Todos', 'Calender', 'Cool Styles', 'three.js', 'Calculator'];
+const SupportedWork = ['Home', 'Works', 'Blogs', 'Test'];
+const SupportedName = ['/', '/works', '/blogs', '/test'];
 
 export class Text implements MonoBehavior {
-  private object: THREE.Object3D = new THREE.Object3D();
   private originalScale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
   private boundingMaterial: THREE.MeshBasicMaterial;
   private boundingGeometry: THREE.BoxGeometry;
+  private boundingBox: THREE.Mesh;
   private textMaterial: THREE.MeshBasicMaterial;
   private textGeometry: TextGeometry;
   private text: THREE.Mesh;
-  private boundingBox: THREE.Mesh;
 
   constructor() {
     const loader = new FontLoader();
     const font = loader.parse(Font);
-    const text = SupportedWork[Math.floor(Math.random() * SupportedWork.length)];
+    const randInt = Math.floor(Math.random() * SupportedWork.length);
+    const text = SupportedWork[randInt];
+    const name = SupportedName[randInt];
 
     this.textGeometry = new TextGeometry(text, {
       font,
@@ -28,11 +30,12 @@ export class Text implements MonoBehavior {
     this.textGeometry.center();
     this.textMaterial = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
     this.text = new THREE.Mesh(this.textGeometry, this.textMaterial);
+
     this.boundingMaterial = new THREE.MeshBasicMaterial({ visible: false });
     this.boundingGeometry = new THREE.BoxGeometry(3.5, 1);
     this.boundingBox = new THREE.Mesh(this.boundingGeometry, this.boundingMaterial);
-
-    this.object.add(this.text, this.boundingBox);
+    this.boundingBox.name = name;
+    this.boundingBox.add(this.text);
   };
 
   private updateTheme(): void {
@@ -46,22 +49,21 @@ export class Text implements MonoBehavior {
   };
 
   private updateScale(): void {
-    this.object.children.forEach(child => {
-      child.scale.lerp(this.originalScale, 0.1);
-    });
+    const alpha = 0.1;
+    this.text.scale.lerp(this.originalScale, alpha);
+    this.boundingBox.scale.lerp(this.originalScale, alpha);
   };
 
   public setPos(x: number, y: number, z: number): void {
-    this.object.position.set(x, y, z);
+    this.boundingBox.position.set(x, y, z);
   };
 
   public start(): void {
     this.updateTheme();
-    this.object.layers.enable(1);
     this.text.layers.enable(1);
     this.boundingBox.layers.enable(1);
 
-    projectScene.add(this.object);
+    projectScene.add(this.boundingBox);
   };
 
   public update(): void {
@@ -70,7 +72,7 @@ export class Text implements MonoBehavior {
   };
 
   public end(): void {
-    projectScene.remove(this.object);
+    projectScene.remove(this.boundingBox);
     this.textGeometry.dispose();
     this.textMaterial.dispose();
     this.boundingGeometry.dispose();

@@ -5,7 +5,8 @@ export const useLoadingStore = defineStore('loading', () => {
   /**
    * if duration is changed, transition.scss file also needs to be adjusted
    */
-  const isFirstLoad = ref<boolean>(true);
+  const loadCount = parseInt(sessionStorage.loadCount);
+  const isFirstLoad = ref<boolean>(loadCount > 0 ? false : true);
   const isLoading = ref<boolean>(false);
   const firstLoadDuration = 4500;
   const duration = 500;
@@ -13,6 +14,9 @@ export const useLoadingStore = defineStore('loading', () => {
   function load(): void { // called in beforeEach
     if (isLoading.value) return;
     isLoading.value = true;
+    let loadCount = parseInt(sessionStorage.loadCount);
+    loadCount ? loadCount += 1 : loadCount = 1;
+    sessionStorage.loadCount = loadCount;
   };
 
   function done(): void { // called in afterEach

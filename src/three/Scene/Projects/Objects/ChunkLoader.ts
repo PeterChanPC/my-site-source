@@ -1,10 +1,10 @@
 import { THREE, MonoBehavior } from "@/three/d";
-import { projectCamera, Grid } from "../d";
+import { projectCamera, Chunk } from "../d";
 
 export class ChunkLoader implements MonoBehavior {
   private size: number = 12;
   private renderDist: number = 2;
-  private loadedChunks: Map<string, Grid> = new Map();
+  private loadedChunks: Map<string, Chunk> = new Map();
   private center: THREE.Vector2 = new THREE.Vector2(0, 0);
   private geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 3);
   private material: THREE.MeshStandardMaterial = new THREE.MeshStandardMaterial({
@@ -33,7 +33,7 @@ export class ChunkLoader implements MonoBehavior {
         if (!this.loadedChunks.has(key)) {
           const chunkX = x * this.size;
           const chunkY = y * this.size;
-          const chunk = new Grid(this.geometry, this.material, this.size);
+          const chunk = new Chunk(this.geometry, this.material, this.size);
           chunk.setPos(chunkX, chunkY, 0);
           chunk.start();
           this.loadedChunks.set(key, chunk);
