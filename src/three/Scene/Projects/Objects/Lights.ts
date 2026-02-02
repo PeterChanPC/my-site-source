@@ -1,8 +1,8 @@
-import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
+import { THREE, MonoBehavior, Theme, useThemeStore } from "@/three/d";
 import { projectScene } from "../d";
 
 export class Lights implements MonoBehavior {
-  private theme: Themes | null = null;
+  private theme: Theme | null = null;
   private alpha: number = 0.1;
   private ambientLightIntensityLight: number = 0.7;
   private ambientLightIntensityDark: number = 0.1;
@@ -11,14 +11,14 @@ export class Lights implements MonoBehavior {
   private updateTheme(): void {
     const themeStore = useThemeStore();
 
-    if (themeStore.theme === Themes.Light) {
+    if (themeStore.theme === Theme.Light) {
       if (this.theme) {
         this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
         return;
       };
 
       this.ambientLight.intensity = this.ambientLightIntensityLight;
-    } else if (themeStore.theme === Themes.Dark) {
+    } else if (themeStore.theme === Theme.Dark) {
       if (this.theme) {
         this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityDark, this.alpha);
         return;

@@ -2,12 +2,13 @@ import * as THREE from 'three';
 import { GameInput } from './GameInput';
 import { Physics } from './Physics';
 
+export { Theme } from '@/stores/d';
+
 export { THREE };
 
 export type { MonoBehavior } from './MonoBehavior';
 
 export { RendererController } from './RendererController';
-export { Themes } from '@/stores/d';
 export { useThemeStore } from '@/stores/theme.store';
 export const gameInput = new GameInput();
 export const physics = new Physics();

@@ -1,9 +1,11 @@
-export enum Themes {
-  Light = 'light',
-  Dark = 'dark'
+export const Theme = {
+  Light: 'light',
+  Dark: 'dark'
 };
+export type Theme = typeof Theme[keyof typeof Theme];
 
-export enum Languages {
-  EnUS = 'en-US',
-  ZhTW = 'zh-TW'
+export const Language = {
+  EnUS: 'en-US',
+  ZhTW: 'zh-TW'
 };
+export type Language = typeof Language[keyof typeof Language];

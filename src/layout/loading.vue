@@ -39,7 +39,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const loadingStore = useLoadingStore();
-    const transitionName = computed(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
+    const transitionName = computed<string>(() => loadingStore.isFirstLoad ? 'first-load' : 'loading');
 
     const outerBall = useTemplateRef<HTMLDivElement>('outerBall');
     const innerBall = useTemplateRef<HTMLDivElement>('innerBall');

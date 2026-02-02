@@ -1,8 +1,8 @@
-import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
+import { THREE, MonoBehavior, Theme, useThemeStore } from "@/three/d";
 import { homepageScene } from "../d";
 
 export class Lights implements MonoBehavior {
-  private theme: Themes | null = null;
+  private theme: Theme | null = null;
   private ambientLightIntensityLight = 1;
   private ambientLightIntensityDark = 0;
   private spotlightPrimaryPosLight = new THREE.Vector3(50, 50, 50);
@@ -19,7 +19,7 @@ export class Lights implements MonoBehavior {
   private updateTheme(): void {
     const themeStore = useThemeStore();
 
-    if (themeStore.theme === Themes.Light) {
+    if (themeStore.theme === Theme.Light) {
       if (this.theme) {
         console.log('hi')
         this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
@@ -33,7 +33,7 @@ export class Lights implements MonoBehavior {
       this.ambientLight.intensity = this.ambientLightIntensityLight;
       this.spotlightPrimary.angle = this.spotlightPrimaryAngleLight;
       this.spotlightSecondary.power = this.spotlightSecondaryPowLight;
-    } else if (themeStore.theme === Themes.Dark) {
+    } else if (themeStore.theme === Theme.Dark) {
       if (this.theme) {
         this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityDark, this.alpha);
         this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleDark, this.alpha);

@@ -8,3 +8,5 @@ export { default as moonStars } from './fi-rr-moon-stars.svg';
 export { default as question } from './fi-rr-question.svg';
 export { default as sun } from './fi-rr-sun.svg';
 export { default as user } from './fi-rr-user.svg';
+
+export { default as texture } from './texture.webp';

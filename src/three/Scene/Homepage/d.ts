@@ -1,7 +1,9 @@
 import { THREE } from "@/three/d";
-export const homepageScene = new THREE.Scene();
-
 import { Camera } from "./Objects/Camera";
+
+export { texture } from '@/assets/img/d';
+
+export const homepageScene = new THREE.Scene();
 export const homepageCamera = new Camera();
 
 export { Lights } from "./Objects/Lights";

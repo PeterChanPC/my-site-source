@@ -30,8 +30,8 @@ export class Camera implements MonoBehavior {
 
   public update(): void {
     const mouseDir = gameInput.mouseDir;
-    const speedX = Math.abs(5500 * mouseDir.x / window.innerWidth / window.innerHeight);
-    const speedY = Math.abs(4250 * mouseDir.y / window.innerWidth / window.innerHeight);
+    const speedX = Math.abs(500 * mouseDir.x / window.innerWidth / window.innerHeight);
+    const speedY = Math.abs(250 * mouseDir.y / window.innerWidth / window.innerHeight);
     if (gameInput.isMouse && mouseDir.length() !== 0) {
       this.move(-mouseDir.x, mouseDir.y, speedX, speedY);
     };

@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { ref, computed, watchEffect } from "vue";
-import { Themes } from "./d";
+import { Theme } from "./d";
 
-function checkTheme(theme: string | null): theme is Themes {
+function checkTheme(theme: string | null): theme is Theme {
   return theme !== null;
 };
 
 export const useThemeStore = defineStore('theme', () => {
-  const theme = ref<Themes>(Themes.Light);
+  const theme = ref<Theme>(Theme.Light);
 
   const storedTheme = localStorage.getItem('theme'); // get locally stored theme setting
   if (checkTheme(storedTheme)) theme.value = storedTheme;
@@ -16,17 +16,17 @@ export const useThemeStore = defineStore('theme', () => {
 
   function switchTheme(): void {
     switch (theme.value) {
-      case Themes.Light:
-        theme.value = Themes.Dark;
+      case Theme.Light:
+        theme.value = Theme.Dark;
         break;
-      case Themes.Dark:
-        theme.value = Themes.Light;
+      case Theme.Dark:
+        theme.value = Theme.Light;
         break;
     };
   };
 
-  const isDark = computed((): boolean => theme.value === Themes.Dark);
-  const isLight = computed((): boolean => theme.value === Themes.Light);
+  const isDark = computed<boolean>(() => theme.value === Theme.Dark);
+  const isLight = computed<boolean>(() => theme.value === Theme.Light);
 
   return { theme, switchTheme, isDark, isLight };
 });

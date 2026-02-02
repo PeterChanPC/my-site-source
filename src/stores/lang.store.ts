@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { useI18n } from 'vue-i18n';
 import { computed, watchEffect } from "vue";
-import { Languages } from "./d";
+import { Language } from "./d";
 
-function checkLang(lang: string | null): lang is Languages {
+function checkLang(lang: string | null): lang is Language {
   return lang !== null;
 };
 
@@ -18,17 +18,17 @@ export const useLangStore = defineStore('lang', () => {
 
   const switchLang = (): void => {
     switch (locale.value) {
-      case Languages.EnUS:
-        locale.value = Languages.ZhTW;
+      case Language.EnUS:
+        locale.value = Language.ZhTW;
         break;
-      case Languages.ZhTW:
-        locale.value = Languages.EnUS;
+      case Language.ZhTW:
+        locale.value = Language.EnUS;
         break;
     };
   };
 
-  const isEnUS = computed((): boolean => locale.value === Languages.EnUS);
-  const isZhTW = computed((): boolean => locale.value === Languages.ZhTW);
+  const isEnUS = computed<boolean>(() => locale.value === Language.EnUS);
+  const isZhTW = computed<boolean>(() => locale.value === Language.ZhTW);
 
   return { locale, switchLang, isEnUS, isZhTW };
 });

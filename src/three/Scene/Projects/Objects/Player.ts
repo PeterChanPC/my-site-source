@@ -32,11 +32,12 @@ export class Player implements MonoBehavior {
     const targetLayer = 1;
     const alpha = 0.1;
     const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, projectScene.children, targetLayer);
-    this.target = hits?.at(0)?.object.name;
+    this.target = undefined;
 
     if (!hits || !hits[0]) return;
     document.body.style.cursor = 'pointer';
     hits[0]?.object.children.forEach(child => child.scale.lerp(this.scale, alpha));
+    this.target = hits?.at(0)?.object.name;
   };
 
   private click = (): void => {
@@ -47,7 +48,6 @@ export class Player implements MonoBehavior {
   public start(): void {
     this.player.intensity = 50;
     this.player.castShadow = true;
-    this.player.shadow.camera.far = 10;
     this.player.shadow.intensity = 0.5;
     this.player.shadow.normalBias = 0.3;
     this.player.shadow.radius = 2;
@@ -56,6 +56,7 @@ export class Player implements MonoBehavior {
 
     if (this.isListenerAdded) return;
     window.addEventListener('click', this.click);
+    window.addEventListener('touchstart', this.click);
     this.isListenerAdded = true;
   };
 
@@ -70,7 +71,8 @@ export class Player implements MonoBehavior {
     this.geometry.dispose();
     this.material.dispose();
 
-    window.removeEventListener('click', this.click);
+    window.addEventListener('click', this.click);
+    window.removeEventListener('touchstart', this.click);
     this.isListenerAdded = false;
   };
 };

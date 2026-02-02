@@ -11,7 +11,7 @@
 <script lang="ts">
 import type { ComponentPublicInstance, PropType } from 'vue';
 import { ref, computed, onMounted, defineComponent, onUpdated } from 'vue';
-import { Mode, SupportedMode, Animation, SupportedAnimation } from './d'
+import { Mode, Animation } from './d'
 
 export default defineComponent({
   name: 'animated-txt',
@@ -89,11 +89,11 @@ export default defineComponent({
      * - `'fadeInOut'`: start by a fade in animation, ends with a fade out animation, stagger in fade out animation is fixed to 20ms.
      * - `'fadeLoop'`: a loop animation of fade in and out.
      * 
-     * @type {SupportedAnimation}
+     * @type {Animation}
      * @default Animation.FadeIn (`'fadeIn'`)
      */
     animation: {
-      type: String as PropType<SupportedAnimation>,
+      type: String as PropType<Animation>,
       default: Animation.FadeIn,
     },
 
@@ -104,16 +104,16 @@ export default defineComponent({
      * - `'auto'`: automatically start the animations by onMounted and onUpdated.
      * - `'manual'`: users have to manually to start the animations, the `startAnimation()` method is exposed to parent and can be called via a component ref.
      * 
-     * @type {SupportedMode}
+     * @type {Mode}
      * @default Mode.Auto (`'auto'`)
      */
     mode: {
-      type: String as PropType<SupportedMode>,
+      type: String as PropType<Mode>,
       default: Mode.Auto,
     },
   },
   setup(props, { expose }) {
-    const chars = computed(() => { // process chars
+    const chars = computed<string[]>(() => { // process chars
       const text = props.text.split('');
       text[0] = text[0].toUpperCase(); // Capitalize
       for (let i = 0; i < props.text.length; i++) {  // check for white spaces and 'I'
@@ -173,7 +173,7 @@ export default defineComponent({
      * // In parent: childRef.value.startAnimation(); // start animation
      */
     function startAnimation() {
-      let animation: SupportedAnimation = props.animation;
+      let animation: Animation = props.animation;
       let keyframes: Keyframe[] = fadeKeyframes;
       let duration: number = props.duration;
       let stagger: number = props.staggerIn;

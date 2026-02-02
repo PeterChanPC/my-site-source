@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { Shape, SupportedHoverEffect, SupportedShape, SupportedTarget, Target } from './d';
+import { Shape, HoverEffect, Target } from './d';
 
 export default defineComponent({
   name: 'a-hoverable',
@@ -26,15 +26,15 @@ export default defineComponent({
       default: '',
     },
     target: {
-      type: String as PropType<SupportedTarget>,
+      type: String as PropType<Target>,
       default: Target.Self,
     },
     shape: {
-      type: String as PropType<SupportedShape>,
+      type: String as PropType<Shape>,
       default: Shape.Pill,
     },
     effect: {
-      type: String as PropType<SupportedHoverEffect>,
+      type: String as PropType<HoverEffect>,
       default: '',
     },
     img: {

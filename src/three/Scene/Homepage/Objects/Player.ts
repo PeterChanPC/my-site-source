@@ -1,6 +1,5 @@
 import { THREE, MonoBehavior, physics, gameInput, clock } from "@/three/d";
-import { homepageScene, homepageCamera } from "../d";
-import texture from '@/assets/img/texture.webp';
+import { texture, homepageScene, homepageCamera } from "../d";
 
 export class Player implements MonoBehavior {
   // movements

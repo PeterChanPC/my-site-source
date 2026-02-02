@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteLocationNormalizedGeneric } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { useLoadingStore } from '@/stores/loading.store';
 import HomeView from '@/views/homepage.vue';
 import ProjectView from '@/views/projects.vue';

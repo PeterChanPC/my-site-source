@@ -8,10 +8,8 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, useTemplateRef } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { ProjectGame } from '@/three/d';
 
-const { t } = useI18n();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
 
 onMounted(() => {

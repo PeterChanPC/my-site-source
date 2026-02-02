@@ -1,31 +1,31 @@
-export enum Mode {
-  Auto = 'auto',
-  Manual = 'manual',
+export const Mode = {
+  Auto: 'auto',
+  Manual: 'manual',
 };
-export type SupportedMode = 'auto' | 'manual';
+export type Mode = typeof Mode[keyof typeof Mode];
 
-export enum Animation {
-  FadeIn = 'fadeIn',
-  FadeOut = 'fadeOut',
-  FadeInOut = 'fadeInOut',
-  FadeLoop = 'fadeLoop',
+export const Animation = {
+  FadeIn: 'fadeIn',
+  FadeOut: 'fadeOut',
+  FadeInOut: 'fadeInOut',
+  FadeLoop: 'fadeLoop',
 };
-export type SupportedAnimation = 'fadeIn' | 'fadeOut' | 'fadeInOut' | 'fadeLoop';
+export type Animation = typeof Animation[keyof typeof Animation];
 
-export enum Target {
-  Self = '_self',
-  Blank = '_blank',
-}
-export type SupportedTarget = '_self' | '_blank';
+export const Target = {
+  Self: '_self',
+  Blank: '_blank',
+};
+export type Target = typeof Target[keyof typeof Target];
 
-export enum Shape {
-  Pill = 'pill',
-  Round = 'round',
-}
-export type SupportedShape = 'pill' | 'round';
+export const Shape = {
+  Pill: 'pill',
+  Round: 'round',
+};
+export type Shape = typeof Shape[keyof typeof Shape];
 
-export enum HoverEffect {
-  UnderlineFromLeft = 'underline-l',
-  UnderlineFromMiddle = 'underline-m',
-}
-export type SupportedHoverEffect = 'underline-l' | 'underline-m';
+export const HoverEffect = {
+  UnderlineFromLeft: 'underline-l',
+  UnderlineFromMiddle: 'underline-m',
+};
+export type HoverEffect = typeof HoverEffect[keyof typeof HoverEffect];

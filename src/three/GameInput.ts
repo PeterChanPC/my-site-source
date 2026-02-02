@@ -80,7 +80,7 @@ export class GameInput implements MonoBehavior {
   private handleMove = (event: MouseEvent | TouchEvent): void => {
     let x = 0;
     let y = 0;
-    const alpha = 0.5;
+    const alpha = 0.3;
     if (event.type === 'mousemove') {
       const mouseEvent = event as MouseEvent;
       x = THREE.MathUtils.lerp(this.mousePos.x, mouseEvent.clientX, alpha);
@@ -114,9 +114,9 @@ export class GameInput implements MonoBehavior {
     window.addEventListener('mousedown', this.handleStart);
     window.addEventListener('mousemove', this.handleMove);
     window.addEventListener('mouseup', this.handleEnd);
-    window.addEventListener('touchstart', this.handleStart, { passive: false });
-    window.addEventListener('touchmove', this.handleMove, { passive: false });
-    window.addEventListener('touchend', this.handleEnd, { passive: false });
+    window.addEventListener('touchstart', this.handleStart);
+    window.addEventListener('touchmove', this.handleMove);
+    window.addEventListener('touchend', this.handleEnd);
   };
 
   public update(): void {

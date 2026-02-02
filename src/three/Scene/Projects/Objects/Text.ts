@@ -1,4 +1,4 @@
-import { THREE, MonoBehavior, Themes, useThemeStore } from "@/three/d";
+import { THREE, MonoBehavior, Theme, useThemeStore } from "@/three/d";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { projectScene, Font } from "../d";
 
@@ -20,11 +20,12 @@ export class Text implements MonoBehavior {
     const randInt = Math.floor(Math.random() * SupportedWork.length);
     const text = SupportedWork[randInt];
     const name = SupportedName[randInt];
+    const size = 0.5;
 
     this.textGeometry = new TextGeometry(text, {
       font,
-      size: 0.5,
-      depth: 0.1,
+      size: size,
+      depth: 0.2,
       curveSegments: 8,
     });
     this.textGeometry.center();
@@ -32,7 +33,7 @@ export class Text implements MonoBehavior {
     this.text = new THREE.Mesh(this.textGeometry, this.textMaterial);
 
     this.boundingMaterial = new THREE.MeshBasicMaterial({ visible: false });
-    this.boundingGeometry = new THREE.BoxGeometry(3.5, 1);
+    this.boundingGeometry = new THREE.BoxGeometry(size * text.length, 1);
     this.boundingBox = new THREE.Mesh(this.boundingGeometry, this.boundingMaterial);
     this.boundingBox.name = name;
     this.boundingBox.add(this.text);
@@ -41,9 +42,9 @@ export class Text implements MonoBehavior {
   private updateTheme(): void {
     const themeStore = useThemeStore();
 
-    if (themeStore.theme === Themes.Light) {
+    if (themeStore.theme === Theme.Light) {
       this.textMaterial.color.set(0x000000);
-    } else if (themeStore.theme === Themes.Dark) {
+    } else if (themeStore.theme === Theme.Dark) {
       this.textMaterial.color.set(0xffffff);
     };
   };
@@ -62,6 +63,7 @@ export class Text implements MonoBehavior {
     this.updateTheme();
     this.text.layers.enable(1);
     this.boundingBox.layers.enable(1);
+    this.text.castShadow = true;
 
     projectScene.add(this.boundingBox);
   };
