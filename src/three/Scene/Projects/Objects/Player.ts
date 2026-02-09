@@ -56,7 +56,7 @@ export class Player implements MonoBehavior {
 
     if (this.isListenerAdded) return;
     window.addEventListener('click', this.click);
-    window.addEventListener('touchstart', this.click);
+    window.addEventListener('touchend', this.click);
     this.isListenerAdded = true;
   };
 
@@ -72,7 +72,7 @@ export class Player implements MonoBehavior {
     this.material.dispose();
 
     window.addEventListener('click', this.click);
-    window.removeEventListener('touchstart', this.click);
+    window.removeEventListener('touchend', this.click);
     this.isListenerAdded = false;
   };
 };
