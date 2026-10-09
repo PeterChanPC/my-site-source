@@ -3,10 +3,10 @@
     <div class="absolute t-0 w-dvw h-dvh">
       <canvas ref="canvas"></canvas>
     </div>
-    <AnimatedTxt v-if="!isStarted && !loadingStore.isLoading"
+    <AnimatedTxt v-if="!isUserStarted && !loadingStore.isLoading"
       class="hem-10 pl-1/10 pr-1/10 font-size-xl lsem-0.5 txt-center txt-shadow z-1" :text="t('click')" :duration="3000"
       animation="fadeLoop" />
-    <div v-if="isStarted" class="grid grid-cols-2 pl-1/10 pr-1/10 z-1">
+    <div v-if="isUserStarted" class="grid grid-cols-2 pl-1/10 pr-1/10 z-1">
       <AnimatedTxt class="col-span-2 hem-10 pb-10 font-size-md lsem-0.1" :text="t('hello')" :duration="500"
         :stagger-in="50" />
       <AnimatedTxt class="sm:col-span-2 hem-10 font-size-4xl lsem-0.5 txt-shadow uppercase" text="peter"
@@ -27,7 +27,7 @@ import { HomepageGame } from '@/three/d';
 const { t } = useI18n();
 const loadingStore = useLoadingStore();
 const canvas = useTemplateRef<HTMLCanvasElement>('canvas');
-const isStarted = ref<boolean>(false);
+const isUserStarted = ref<boolean>(false);
 
 let hideIntro = (): void => { };
 
@@ -37,7 +37,7 @@ onMounted(() => {
   game.start();
 
   hideIntro = (): void => {
-    isStarted.value = true;
+    isUserStarted.value = true;
     game.enableGameInput();
   };
 
