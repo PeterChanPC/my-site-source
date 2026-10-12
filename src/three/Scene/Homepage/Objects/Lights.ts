@@ -21,7 +21,6 @@ export class Lights implements MonoBehavior {
 
     if (themeStore.theme === Theme.Light) {
       if (this.theme) {
-        console.log('hi')
         this.ambientLight.intensity = THREE.MathUtils.lerp(this.ambientLight.intensity, this.ambientLightIntensityLight, this.alpha);
         this.spotlightPrimary.angle = THREE.MathUtils.lerp(this.spotlightPrimary.angle, this.spotlightPrimaryAngleLight, this.alpha);
         this.spotlightPrimary.position.lerp(this.spotlightPrimaryPosLight, this.alpha);
