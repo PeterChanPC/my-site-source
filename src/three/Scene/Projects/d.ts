@@ -1,7 +1,7 @@
 import { THREE } from "@/three/d";
 import { Camera } from "./Objects/Camera";
 
-export { Font } from '@/assets/font/d';
+export { Font } from "@/assets/font/d";
 
 export const projectScene = new THREE.Scene();
 export const projectCamera = new Camera();
@@ -14,9 +14,6 @@ export { Text } from "./Objects/Text";
 export { TextLoader } from "./Objects/TextLoader";
 
 export const Work = {
-  Home: { name: 'Home', url: '/' },
-  Works: { name: 'Works', url: '/works' },
-  Blogs: { name: 'Blogs', url: '/blogs' },
-  Test: { name: 'Test', url: '/test' },
+  Fourier: { name: "Fourier Drawer", url: "/fourier-drawer" },
 };
-export type Work = typeof Work[keyof typeof Work];
+export type Work = (typeof Work)[keyof typeof Work];

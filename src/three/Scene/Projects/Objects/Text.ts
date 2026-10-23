@@ -2,8 +2,8 @@ import { THREE, MonoBehavior, Theme, useThemeStore } from "@/three/d";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 import { projectScene, Font } from "../d";
 
-const SupportedWork = ['Home', 'Works', 'Blogs', 'Test'];
-const SupportedName = ['/', '/works', '/blogs', '/test'];
+const SupportedWork = ["Fourier Drawer"];
+const SupportedName = ["/fourier-drawer"];
 
 export class Text implements MonoBehavior {
   private originalScale: THREE.Vector3 = new THREE.Vector3(1, 1, 1);
@@ -34,10 +34,13 @@ export class Text implements MonoBehavior {
 
     this.boundingMaterial = new THREE.MeshBasicMaterial({ visible: false });
     this.boundingGeometry = new THREE.BoxGeometry(size * text.length, 1);
-    this.boundingBox = new THREE.Mesh(this.boundingGeometry, this.boundingMaterial);
+    this.boundingBox = new THREE.Mesh(
+      this.boundingGeometry,
+      this.boundingMaterial,
+    );
     this.boundingBox.name = name;
     this.boundingBox.add(this.text);
-  };
+  }
 
   private updateTheme(): void {
     const themeStore = useThemeStore();
@@ -46,18 +49,18 @@ export class Text implements MonoBehavior {
       this.textMaterial.color.set(0x000000);
     } else if (themeStore.theme === Theme.Dark) {
       this.textMaterial.color.set(0xffffff);
-    };
-  };
+    }
+  }
 
   private updateScale(): void {
     const alpha = 0.1;
     this.text.scale.lerp(this.originalScale, alpha);
     this.boundingBox.scale.lerp(this.originalScale, alpha);
-  };
+  }
 
   public setPos(x: number, y: number, z: number): void {
     this.boundingBox.position.set(x, y, z);
-  };
+  }
 
   public start(): void {
     this.updateTheme();
@@ -66,12 +69,12 @@ export class Text implements MonoBehavior {
     this.text.castShadow = true;
 
     projectScene.add(this.boundingBox);
-  };
+  }
 
   public update(): void {
     this.updateTheme();
     this.updateScale();
-  };
+  }
 
   public end(): void {
     projectScene.remove(this.boundingBox);
@@ -79,5 +82,5 @@ export class Text implements MonoBehavior {
     this.textMaterial.dispose();
     this.boundingGeometry.dispose();
     this.boundingMaterial.dispose();
-  };
-};
+  }
+}

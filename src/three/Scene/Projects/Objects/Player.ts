@@ -5,8 +5,14 @@ export class Player implements MonoBehavior {
   // player
   private player: THREE.PointLight = new THREE.PointLight(0xffffff);
   private geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(100, 100);
-  private material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ opacity: 0, transparent: true });
-  private intersectPlane: THREE.Mesh = new THREE.Mesh(this.geometry, this.material);
+  private material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
+    opacity: 0,
+    transparent: true,
+  });
+  private intersectPlane: THREE.Mesh = new THREE.Mesh(
+    this.geometry,
+    this.material,
+  );
   private mouseWorldPos: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
 
   // navigation
@@ -16,33 +22,49 @@ export class Player implements MonoBehavior {
 
   private updateMouseWorldPos(): void {
     const mousePos = gameInput.mousePos;
-    const mouseWorldPos = physics.screenPointToWorld(projectCamera.camera, mousePos.x, mousePos.y);
+    const mouseWorldPos = physics.screenPointToWorld(
+      projectCamera.camera,
+      mousePos.x,
+      mousePos.y,
+    );
     if (mouseWorldPos) this.mouseWorldPos = mouseWorldPos;
-  };
+  }
 
   private applyMovement(): void {
     this.updateMouseWorldPos();
     this.player.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 10);
-    this.intersectPlane.position.set(this.mouseWorldPos.x, this.mouseWorldPos.y, 5);
-  };
+    this.intersectPlane.position.set(
+      this.mouseWorldPos.x,
+      this.mouseWorldPos.y,
+      5,
+    );
+  }
 
   private hover(): void {
-    document.body.style.cursor = 'auto';
+    document.body.style.cursor = "auto";
     const mousePos = gameInput.mousePos;
     const targetLayer = 1;
     const alpha = 0.1;
-    const hits = physics.getRaycastHitFromScreen(projectCamera.camera, mousePos.x, mousePos.y, projectScene.children, targetLayer);
+    const hits = physics.getRaycastHitFromScreen(
+      projectCamera.camera,
+      mousePos.x,
+      mousePos.y,
+      projectScene.children,
+      targetLayer,
+    );
     this.target = undefined;
 
     if (!hits || !hits[0]) return;
-    document.body.style.cursor = 'pointer';
-    hits[0]?.object.children.forEach(child => child.scale.lerp(this.scale, alpha));
+    document.body.style.cursor = "pointer";
+    hits[0]?.object.children.forEach((child) =>
+      child.scale.lerp(this.scale, alpha),
+    );
     this.target = hits?.at(0)?.object.name;
-  };
+  }
 
   private click = (): void => {
     if (!this.target) return;
-    window.open(`/my-site${this.target}`, '_blank');
+    window.open(`${this.target}`, "_blank");
   };
 
   public start(): void {
@@ -55,15 +77,15 @@ export class Player implements MonoBehavior {
     projectScene.add(this.player, this.intersectPlane);
 
     if (this.isListenerAdded) return;
-    window.addEventListener('click', this.click);
-    window.addEventListener('touchend', this.click);
+    window.addEventListener("click", this.click);
+    window.addEventListener("touchend", this.click);
     this.isListenerAdded = true;
-  };
+  }
 
   public update(): void {
     this.applyMovement();
     this.hover();
-  };
+  }
 
   public end(): void {
     projectScene.remove(this.player, this.intersectPlane);
@@ -71,8 +93,8 @@ export class Player implements MonoBehavior {
     this.geometry.dispose();
     this.material.dispose();
 
-    window.addEventListener('click', this.click);
-    window.removeEventListener('touchend', this.click);
+    window.addEventListener("click", this.click);
+    window.removeEventListener("touchend", this.click);
     this.isListenerAdded = false;
-  };
-};
+  }
+}
