@@ -8,7 +8,8 @@ export const useLangStore = defineStore("lang", () => {
   const { locale } = useI18n({ useScope: "global" });
 
   const storedLang = localStorage.getItem(STORAGE_KEY); // get locally stored lang setting
-  if (storedLang && storedLang in Language) locale.value = storedLang;
+  if (storedLang && Object.values(Language).includes(storedLang))
+    locale.value = storedLang;
 
   // runtime store lang setting in local storage
   watchEffect(() => localStorage.setItem(STORAGE_KEY, locale.value));
