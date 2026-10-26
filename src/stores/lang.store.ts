@@ -4,13 +4,14 @@ import { computed, watchEffect } from "vue";
 import { Language } from "./d";
 
 export const useLangStore = defineStore("lang", () => {
+  const STORAGE_KEY = "lang";
   const { locale } = useI18n({ useScope: "global" });
 
-  const storedLang = localStorage.getItem("lang"); // get locally stored lang setting
+  const storedLang = localStorage.getItem(STORAGE_KEY); // get locally stored lang setting
   if (storedLang && storedLang in Language) locale.value = storedLang;
 
   // runtime store lang setting in local storage
-  watchEffect(() => localStorage.setItem("lang", locale.value));
+  watchEffect(() => localStorage.setItem(STORAGE_KEY, locale.value));
 
   const switchLang = (): void => {
     switch (locale.value) {

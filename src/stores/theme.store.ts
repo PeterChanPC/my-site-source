@@ -3,12 +3,13 @@ import { ref, computed, watchEffect } from "vue";
 import { Theme } from "./d";
 
 export const useThemeStore = defineStore("theme", () => {
+  const STORAGE_KEY = "theme";
   const theme = ref<Theme>(Theme.Light);
 
-  const storedTheme = localStorage.getItem("theme"); // get locally stored theme setting
+  const storedTheme = localStorage.getItem(STORAGE_KEY); // get locally stored theme setting
   if (storedTheme && storedTheme in Theme) theme.value = storedTheme;
 
-  watchEffect(() => localStorage.setItem("theme", theme.value));
+  watchEffect(() => localStorage.setItem(STORAGE_KEY, theme.value));
 
   function switchTheme(): void {
     switch (theme.value) {

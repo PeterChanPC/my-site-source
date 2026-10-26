@@ -39,7 +39,7 @@
       #{$dir}: $i * 10dvw;
     }
 
-    .#{$dir-label}dwh-#{$i}\/10 {
+    .#{$dir-label}dvh-#{$i}\/10 {
       #{$dir}: $i * 10dvh;
     }
   }
