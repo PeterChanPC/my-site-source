@@ -9,7 +9,6 @@ export const useThemeStore = defineStore("theme", () => {
   const storedTheme = localStorage.getItem(STORAGE_KEY); // get locally stored theme setting
   if (storedTheme && Object.values(Theme).includes(storedTheme)) {
     theme.value = storedTheme;
-    console.log("test");
   }
 
   watchEffect(() => localStorage.setItem(STORAGE_KEY, theme.value));
