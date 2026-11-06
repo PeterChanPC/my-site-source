@@ -10,6 +10,15 @@
   }
 }
 
+.border-bottom {
+  border: none;
+  border-bottom: 1px solid var(--border-color-secondary) !important;
+
+  &:hover {
+    border-color: var(--border-color-primary);
+  }
+}
+
 .border-round {
   border-radius: 50%;
 }

@@ -1,4 +1,4 @@
-@use "../variable" as var;
+@use '../variable' as var;
 
 // positions
 @each $position in var.$positions {
@@ -76,6 +76,31 @@
   }
 }
 
+// others
+@each $modifier-label, $modifier in var.$modifiers {
+  .a-#{$modifier-label} {
+    align-items: $modifier;
+  }
+
+  .j-#{$modifier-label} {
+    justify-content: $modifier;
+  }
+}
+
+@for $i from 1 through 50 {
+  .gap-#{$i} {
+    gap: $i * 1px;
+  }
+}
+
+.a-content-center {
+  align-content: center;
+}
+
+.j-items-center {
+  justify-items: center;
+}
+
 @each $break-label, $break-pt in var.$break-pts {
   @media (max-width: #{$break-pt}px) {
     // positions
@@ -108,30 +133,16 @@
         }
       }
     }
+
+    // others
+    @each $modifier-label, $modifier in var.$modifiers {
+      .#{$break-label}\:a-#{$modifier-label} {
+        align-items: $modifier;
+      }
+
+      .#{$break-label}\:j-#{$modifier-label} {
+        justify-content: $modifier;
+      }
+    }
   }
-}
-
-// others
-@each $modifier-label, $modifier in var.$modifiers {
-  .a-#{$modifier-label} {
-    align-items: $modifier;
-  }
-
-  .j-#{$modifier-label} {
-    justify-content: $modifier;
-  }
-}
-
-@for $i from 1 through 50 {
-  .gap-#{$i} {
-    gap: $i * 1px;
-  }
-}
-
-.a-content-center {
-  align-content: center;
-}
-
-.j-items-center {
-  justify-items: center;
 }

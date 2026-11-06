@@ -83,6 +83,14 @@ body {
     cursor: pointer;
   }
 
+  input {
+    accent-color: var(--txt-color);
+    color: var(--txt-color);
+    border: none;
+    background: none;
+    outline: none;
+  }
+
   .page {
     position: relative;
     width: 100dvw;

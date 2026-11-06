@@ -21,7 +21,7 @@
 import AHoverable from '@/components/a-hoverable.vue';
 import SwitchBtn from '@/components/switch-btn.vue';
 import * as icons from '@/assets/img/d';
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
@@ -39,7 +39,7 @@ export default defineComponent({
       default: false,
     },
     closeSidebar: {
-      type: Function,
+      type: Function as PropType<() => void>,
       default: () => { },
     },
   },

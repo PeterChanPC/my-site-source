@@ -64,3 +64,14 @@
   opacity: 0 !important;
   transform: translateX(-16px) !important;
 }
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 200ms ease !important;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  opacity: 0 !important;
+  scale: 0 !important;
+}
