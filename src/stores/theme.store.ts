@@ -2,16 +2,32 @@ import { defineStore } from "pinia";
 import { ref, computed, watchEffect } from "vue";
 import { Theme } from "./d";
 
-export const useThemeStore = defineStore("theme", () => {
-  const STORAGE_KEY = "theme";
-  const theme = ref<Theme>(Theme.Light);
-
-  const storedTheme = localStorage.getItem(STORAGE_KEY); // get locally stored theme setting
-  if (storedTheme && Object.values(Theme).includes(storedTheme)) {
-    theme.value = storedTheme;
+function loadStoredTheme(storageKey: string): Theme {
+  const stored = localStorage.getItem(storageKey);
+  if (!stored) {
+    return Theme.Light;
   }
 
-  watchEffect(() => localStorage.setItem(STORAGE_KEY, theme.value));
+  try {
+    const parsed = JSON.parse(stored);
+    if (Object.values(Theme).includes(parsed)) {
+      return parsed;
+    }
+  } catch (error) {
+    console.log("Error parsing stored theme:", error, "\n-Fallback to Light Mode");
+  }
+
+  return Theme.Light;
+}
+
+function saveTheme(key: string, theme: Theme): void {
+  localStorage.setItem(key, JSON.stringify(theme));
+}
+
+export const useThemeStore = defineStore("theme", () => {
+  const STORAGE_KEY = "theme";
+  const theme = ref<Theme>(loadStoredTheme(STORAGE_KEY));
+  watchEffect(() => saveTheme(STORAGE_KEY, theme.value));
 
   function switchTheme(): void {
     switch (theme.value) {
