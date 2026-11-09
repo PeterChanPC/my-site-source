@@ -15,7 +15,7 @@ function loadStoredLang(storageKey: string): Language {
       return parsed;
     }
   } catch (error) {
-    console.log("Error parsing stored language:", error, "\n-Fallback to EnUS");
+    console.error("Error parsing stored language:", error, "\n- Falling back to default language");
   }
 
   return Language.EnUS;

@@ -14,7 +14,7 @@ function loadStoredTheme(storageKey: string): Theme {
       return parsed;
     }
   } catch (error) {
-    console.log("Error parsing stored theme:", error, "\n-Fallback to Light Mode");
+    console.error("Error parsing stored theme:", error, "\n- Falling back to default theme");
   }
 
   return Theme.Light;
