@@ -10,46 +10,40 @@
   </component>
 </template>
 
-<script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+<script setup lang="ts">
+import { type PropType } from 'vue';
 import { Shape, HoverEffect, Target } from './d';
 
-export default defineComponent({
-  name: 'a-hoverable',
-  props: {
-    isExternal: {
-      type: Boolean,
-      default: false,
-    },
-    to: {
-      type: String,
-      default: '',
-    },
-    target: {
-      type: String as PropType<Target>,
-      default: Target.Self,
-    },
-    shape: {
-      type: String as PropType<Shape>,
-      default: Shape.Pill,
-    },
-    effect: {
-      type: String as PropType<HoverEffect>,
-      default: '',
-    },
-    img: {
-      type: String,
-      default: '',
-    },
-    text: {
-      type: String,
-      default: '',
-    },
+defineProps({
+  isExternal: {
+    type: Boolean,
+    default: false,
   },
-  setup() {
-    return { Shape };
+  to: {
+    type: String,
+    default: '',
   },
-});
+  target: {
+    type: String as PropType<Target>,
+    default: Target.Self,
+  },
+  shape: {
+    type: String as PropType<Shape>,
+    default: Shape.Pill,
+  },
+  effect: {
+    type: String as PropType<HoverEffect>,
+    default: '',
+  },
+  img: {
+    type: String,
+    default: '',
+  },
+  text: {
+    type: String,
+    default: '',
+  },
+})
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="page flex a-center j-start" @click="hideIntro()">
+  <div class="page flex a-center j-start" @click="hideIntro">
     <div class="absolute t-0 w-dvw h-dvh">
       <canvas ref="canvas"></canvas>
     </div>

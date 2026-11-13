@@ -75,3 +75,14 @@
   opacity: 0 !important;
   scale: 0 !important;
 }
+
+.spin-fade-enter-active,
+.spin-fade-leave-active {
+  transition: all 200ms ease !important;
+}
+
+.spin-fade-enter-from,
+.spin-fade-leave-to {
+  rotate: 360deg !important;
+  opacity: 0 !important;
+}

@@ -3,29 +3,34 @@
     <header v-if="!loadingStore.isLoading && !loadingStore.isFirstLoad"
       class="fixed flex a-center j-between t-0 w-dvw h-50 z-100">
       <h1 class="absolute w-38 ml-16 mr-16 mt-auto mb-auto font-size-36 italic user-select-none">Pc</h1>
-      <nav class="flex row j-around w-400 ml-70 sm:none">
+      <nav class="flex j-around w-400 ml-70 sm:none">
         <AHoverable to="home" effect="underline-m" :text="t('home')" />
         <AHoverable to="works" effect="underline-m" :text="t('work')" />
         <AHoverable to="blogs" effect="underline-m" :text="t('blog')" />
       </nav>
 
-      <aside class="flex row a-center j-around w-116 pr-16 sm:none">
-        <SwitchBtn :on-switch="themeStore.switchTheme" :is-active="themeStore.isDark" :img-left="icons.sun"
-          :img-right="icons.moonStars" />
-        <SwitchBtn :on-switch="langStore.switchLang" :is-active="langStore.isEnUS" text-left="中" text-right="Eng" />
-      </aside>
+      <div class="flex a-center j-around w-116 pr-16 ml-auto user-select-none">
+        <div class="flex a-center j-around w-full sm:none">
+          <SwitchBtn @switch="themeStore.switchTheme" :is-active="themeStore.isDark" :img-left="icons.sun"
+            :img-right="icons.moonStars" />
+          <SwitchBtn @switch="langStore.switchLang" :is-active="langStore.isEnUS" text-left="中" text-right="Eng" />
+        </div>
 
-      <button class="none relative w-50 h-50 bg-none border-none pointer sm:block sm:ml-auto user-select-none"
-        @click="toggleSidebar">
-        <img :src="icons.menuBurger" alt="menu" v-if="!toggled" />
-        <img :src="icons.crossSmall" alt="close" v-if="toggled" />
-      </button>
+        <button class="none relative w-32 h-32 pointer sm:block sm:ml-auto" @click="toggleSidebar">
+          <Transition name="fade">
+            <img :src="icons.menuBurger" alt="menu" v-if="!toggled" />
+          </Transition>
+          <Transition name="spin-fade">
+            <img :src="icons.crossSmall" alt="close" v-if="toggled" class="transform-origin-top-left" />
+          </Transition>
+        </button>
+      </div>
     </header>
   </Transition>
-  <GlobalSidebar :toggled="toggled" :closeSidebar="closeSidebar" />
+  <GlobalSidebar ref="sidebar" />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import GlobalSidebar from '@/layout/global-sidebar.vue';
 import AHoverable from '@/components/a-hoverable.vue';
 import SwitchBtn from '@/components/switch-btn.vue';
@@ -34,39 +39,22 @@ import { useI18n } from 'vue-i18n';
 import { useThemeStore } from '@/stores/theme.store';
 import { useLangStore } from '@/stores/lang.store';
 import { useLoadingStore } from '@/stores/loading.store';
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 
-export default defineComponent({
-  name: 'global-header',
-  components: {
-    AHoverable,
-    SwitchBtn,
-    GlobalSidebar,
-  },
-  setup() {
-    const themeStore = useThemeStore();
-    const langStore = useLangStore();
-    const loadingStore = useLoadingStore();
-    const { t } = useI18n();
+const themeStore = useThemeStore();
+const langStore = useLangStore();
+const loadingStore = useLoadingStore();
+const { t } = useI18n();
+const sidebar = useTemplateRef<typeof GlobalSidebar>('sidebar')
 
-    const toggled = ref<boolean>(false);
-    function toggleSidebar(): void {
-      toggled.value = !toggled.value;
-    };
+const toggled = computed(() => {
+  if (!sidebar.value) return false
+  return sidebar.value.toggled
+})
 
-    function closeSidebar(): void {
-      toggled.value = false;
-    };
-
-    const closeSidebarOnBreakpt = (): void => {
-      if (window.innerWidth > 640) toggled.value = false;
-    };
-    onMounted(() => window.addEventListener('resize', closeSidebarOnBreakpt));
-    onUnmounted(() => window.removeEventListener('resize', closeSidebarOnBreakpt));
-
-    return { icons, themeStore, langStore, loadingStore, t, toggled, toggleSidebar, closeSidebar };
-  },
-});
+function toggleSidebar(): void {
+  if (sidebar.value) sidebar.value.toggle()
+};
 </script>
 
 <style scoped lang="scss"></style>
